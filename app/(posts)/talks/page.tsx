@@ -8,5 +8,5 @@ const featured = {
 };
 
 export default async function Page() {
-  return <PostsPage title="Projects" featured={featured} />;
+  return <PostsPage title="Talks" featured={featured} />;
 }

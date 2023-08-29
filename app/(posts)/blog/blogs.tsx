@@ -42,10 +42,10 @@ const Blogs = () => {
     data?.user.publication?.posts.map((post) => ({
       title: post.title,
       date: post.dateAdded,
-      url: "",
       brief: post.brief,
       coverImage: post.coverImage,
       slug: post.slug,
+      views: post.views,
       type: "blog",
     })) || [];
   return (

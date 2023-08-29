@@ -4,8 +4,10 @@ interface Post {
   brief: string;
   coverImage?: string;
   date: string;
-  content: string;
-  url: string;
+  content?: string;
+  url?: string;
+  type: "blog" | "projects" | "talks";
+  views?: number;
 }
 
 interface Repo {

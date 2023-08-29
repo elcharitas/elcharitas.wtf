@@ -51,6 +51,14 @@ export function PostsPage({
                 </span>
               </div>
 
+              <div className="absolute right-4 md:right-8 rounded-full overflow-hidden w-24 h-24 mx-auto mt-4">
+                <img
+                  src={featured.coverImage}
+                  alt={featured.title}
+                  className="object-cover w-full h-full"
+                />
+              </div>
+
               <h2
                 id="featured-post"
                 className="mt-4 text-3xl font-bold text-zinc-100 group-hover:text-white sm:text-4xl font-display"

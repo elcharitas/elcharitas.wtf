@@ -15,6 +15,7 @@ export default async function Page() {
     date: repo.created_at,
     url: repo.html_url,
     content: "",
+    coverImage: repo.owner.avatar_url,
   }));
 
   return <PostsPage title="Projects" featured={featured} sorted={projects} />;

@@ -53,7 +53,7 @@ export const Navigation: React.FC = () => {
             className="text-zinc-300 hover:text-zinc-100 flex items-center gap-4 font-display text-xl text-transparent duration-1000 bg-white text-edge-outline animate-title whitespace-nowrap bg-clip-text "
           >
             <ArrowLeft className="w-4 h-4 md:w-6 md:h-6 " />{" "}
-            <span className="hidden md:flex">elch🔥rit🔥s</span>
+            <span className="hidden md:flex tracking-wider">elch🔥rit🔥s</span>
           </Link>
         </div>
       </div>

@@ -60,8 +60,10 @@ export default function Home() {
         </h2>
         <div className="pt-8">
           <a
-            href="mailto:your-email@example.com"
-            className="px-4 py-2 text-sm text-white hover:text-black bg-zinc-700 border border-zinc-700 rounded hover:bg-zinc-300 duration-500"
+            href="/mods/connect"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2 text-sm text-white bg-zinc-700 border border-zinc-700 rounded hover:bg-zinc-600 duration-500"
           >
             Connect with me 🤝
           </a>

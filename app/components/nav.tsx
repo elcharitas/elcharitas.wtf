@@ -27,7 +27,7 @@ export const Navigation: React.FC = () => {
   }, []);
 
   return (
-    <header ref={ref}>
+    <header className="mb-8" ref={ref}>
       <div
         className={`fixed inset-x-0 top-0 z-50 backdrop-blur  duration-200 border-b  ${
           isIntersecting
@@ -41,7 +41,7 @@ export const Navigation: React.FC = () => {
               <Link
                 key={item.href}
                 href={item.href}
-                className="duration-200 text-zinc-400 hover:text-zinc-100"
+                className="duration-200 text-xs md:text-sm text-zinc-400 hover:text-zinc-100"
               >
                 {item.name}
               </Link>
@@ -52,7 +52,8 @@ export const Navigation: React.FC = () => {
             href="/"
             className="text-zinc-300 hover:text-zinc-100 flex items-center gap-4 font-display text-xl text-transparent duration-1000 bg-white text-edge-outline animate-title whitespace-nowrap bg-clip-text "
           >
-            <ArrowLeft className="w-6 h-6 " /> <span>elch🔥rit🔥s</span>
+            <ArrowLeft className="w-4 h-4 md:w-6 md:h-6 " />{" "}
+            <span className="hidden md:flex">elch🔥rit🔥s</span>
           </Link>
         </div>
       </div>

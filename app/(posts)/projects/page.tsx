@@ -32,7 +32,7 @@ export default async function Page() {
 
   return (
     <PostsPage
-      title="Projects"
+      title="👨🏽‍💻 Projects"
       description="These are some of the amazing projects I've worked or collaborated on. They're all on my github but require 1 star to show up here 😅."
       featured={[featured, top1, top2]}
       sorted={projects}

@@ -50,7 +50,8 @@ const Blogs = () => {
     })) || [];
   return (
     <PostsPage
-      title="Blogs"
+      title="✍🏼 Blogs"
+      description="I write about my experiences and thoughts on how to do software development, productivity, and life."
       featured={[featured, top1, top2]}
       sorted={sorted}
     />

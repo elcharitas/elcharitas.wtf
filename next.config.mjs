@@ -1,9 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  pageExtensions: ["js", "jsx", "ts", "tsx"],
+  pageExtensions: ["ts", "tsx"],
   experimental: {
     appDir: true,
-    mdxRs: true,
   },
 };
 

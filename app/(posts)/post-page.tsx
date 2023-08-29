@@ -28,7 +28,7 @@ export function PostsPage({
       <div className="w-full h-px bg-zinc-800" />
 
       {featured && (
-        <div className="grid grid-cols-1 gap-8 mx-auto lg:grid-cols-2 ">
+        <div className="grid grid-cols-1 gap-8 mx-auto lg:grid-cols-2 items-center">
           <Card>
             <Link href={featured.url ?? `/${featured.type}/${featured.slug}`}>
               <article className="relative w-full h-full p-4 md:p-8">
@@ -56,7 +56,7 @@ export function PostsPage({
                   </span>
                 </div>
 
-                <div className="absolute right-4 md:right-8 rounded-full overflow-hidden w-24 h-24 mx-auto mt-4">
+                <div className="rounded-lg overflow-hidden w-full h-48 mx-auto mt-2">
                   <img
                     src={featured.coverImage}
                     alt={featured.title}
@@ -70,7 +70,7 @@ export function PostsPage({
                 >
                   {featured.title}
                 </h2>
-                <p className="mt-4 leading-8 duration-150 text-zinc-400 group-hover:text-zinc-300">
+                <p className="mt-4 leading-8 duration-150 text-zinc-400 group-hover:text-zinc-300 mb-8">
                   {featured.brief}
                 </p>
                 <div className="absolute bottom-4 md:bottom-8">

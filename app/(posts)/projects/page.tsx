@@ -12,7 +12,9 @@ export default async function Page() {
   const data = await response.json();
 
   const filteredData: Repo[] =
-    data.filter?.((repo: Repo) => !repo.fork && repo.stargazers_count) ?? [];
+    data.filter?.(
+      (repo: Repo) => !repo.fork && repo.description && repo.stargazers_count
+    ) ?? [];
 
   const [featured, top1, top2, ...projects]: Post[] = filteredData
     .sort((a, b) => b.stargazers_count - a.stargazers_count)
@@ -31,7 +33,7 @@ export default async function Page() {
   return (
     <PostsPage
       title="Projects"
-      description="As a software engineer, I have worked on some amazing projects. This is a list of my favorite ones."
+      description="These are some of the amazing projects I've worked or collaborated on. They're all on my github but require 1 star to show up here 😅."
       featured={[featured, top1, top2]}
       sorted={projects}
     />

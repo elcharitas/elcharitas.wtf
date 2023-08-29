@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { Mdx } from "@/app/components/mdx";
 import { Header } from "../../header";
+import { getAllProjects } from "../util";
 import "../../mdx.css";
 
 export const revalidate = 60;
@@ -11,30 +12,38 @@ type Props = {
   };
 };
 
-const allProjects: any[] = [];
-
 export async function generateStaticParams(): Promise<Props["params"][]> {
-  return allProjects
-    .filter((p) => p.published)
-    .map((p) => ({
-      slug: p.slug,
-    }));
+  const allProjects = await getAllProjects();
+  return allProjects.map((p) => ({
+    slug: p.slug,
+  }));
 }
 
 export default async function PostPage({ params }: Props) {
-  const slug = params?.slug;
-  const project = allProjects.find((project) => project.slug === slug);
+  const allProjects = await getAllProjects();
+  const project = allProjects.find((project) => project.slug === params.slug);
 
   if (!project) {
     notFound();
   }
 
+  const response = await fetch(
+    `https://api.github.com/repos/${project.owner}/${project.slug}/readme`,
+    {
+      headers: {
+        Authorization: `token ${process.env.GITHUB_TOKEN}`,
+      },
+    }
+  );
+  const data = await response.json();
+  const readmeContent = atob(data.content);
+
   return (
-    <div className="bg-zinc-50 min-h-screen">
-      <Header project={project} views={0} />
+    <div className="bg-zinc-900 min-h-screen">
+      <Header post={project} />
 
       <article className="px-4 py-12 mx-auto prose prose-zinc prose-quoteless">
-        <Mdx code={project.body.code} />
+        <Mdx code={readmeContent} />
       </article>
     </div>
   );

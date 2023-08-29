@@ -8,6 +8,7 @@ interface Post {
   url?: string;
   type: "blog" | "projects" | "talks";
   views?: number;
+  owner?: string;
 }
 
 interface Repo {

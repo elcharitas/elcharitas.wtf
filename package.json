@@ -9,6 +9,7 @@
     "fmt": "yarn rome check . --apply-suggested && yarn rome format . --write"
   },
   "dependencies": {
+    "@vercel/edge-config": "0.2.1",
     "graphql-hooks": "6.3.0",
     "lucide-react": "^0.220.0",
     "markdown-wasm": "^1.2.0",

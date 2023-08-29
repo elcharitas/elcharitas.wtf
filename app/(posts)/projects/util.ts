@@ -10,8 +10,9 @@ export async function getAllProjects(): Promise<Post[]> {
   const data = await response.json();
 
   const filteredData: Repo[] =
-    data.filter?.((repo: Repo) => repo.description && repo.stargazers_count) ??
-    [];
+    data.filter?.(
+      (repo: Repo) => !repo.fork && repo.description && repo.stargazers_count
+    ) ?? [];
 
   return filteredData
     .sort((a, b) => b.stargazers_count - a.stargazers_count)

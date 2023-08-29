@@ -2,7 +2,7 @@ import { PostsPage } from "../post-page";
 
 export default async function Page() {
   const response = await fetch(
-    "https://api.github.com/user/repos?sort=stars&affiliation=owner,collaborator&per_page=150&direction=desc",
+    "https://api.github.com/user/repos?sort=stars&affiliation=owner,collaborator&per_page=350&direction=desc",
     {
       headers: {
         Authorization: `token ${process.env.GITHUB_TOKEN}`,
@@ -12,9 +12,8 @@ export default async function Page() {
   const data = await response.json();
 
   const filteredData: Repo[] =
-    data.filter?.(
-      (repo: Repo) => !repo.fork && repo.description && repo.stargazers_count
-    ) ?? [];
+    data.filter?.((repo: Repo) => repo.description && repo.stargazers_count) ??
+    [];
 
   const [featured, top1, top2, ...projects]: Post[] = filteredData
     .sort((a, b) => b.stargazers_count - a.stargazers_count)

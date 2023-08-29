@@ -4,30 +4,23 @@ import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 
 type Props = {
-  project: {
-    url?: string;
-    title: string;
-    description: string;
-    repository?: string;
-  };
-
-  views: number;
+  post: Post;
 };
-export const Header: React.FC<Props> = ({ project, views }) => {
+export const Header: React.FC<Props> = ({ post }) => {
   const ref = useRef<HTMLElement>(null);
   const [isIntersecting, setIntersecting] = useState(true);
 
   const links: { label: string; href: string }[] = [];
-  if (project.repository) {
+  if (post.owner) {
     links.push({
       label: "GitHub",
-      href: `https://github.com/${project.repository}`,
+      href: `https://github.com/${post.owner}/${post.slug}`,
     });
   }
-  if (project.url) {
+  if (post.url) {
     links.push({
       label: "Website",
-      href: project.url,
+      href: post.url,
     });
   }
   useEffect(() => {
@@ -66,7 +59,7 @@ export const Header: React.FC<Props> = ({ project, views }) => {
             >
               <Eye className="w-5 h-5" />{" "}
               {Intl.NumberFormat("en-US", { notation: "compact" }).format(
-                views
+                post.views ?? 0
               )}
             </span>
             <Link target="_blank" href="https://twitter.com/elcharitas_">
@@ -105,11 +98,9 @@ export const Header: React.FC<Props> = ({ project, views }) => {
         <div className="mx-auto max-w-7xl px-6 lg:px-8 text-center flex flex-col items-center">
           <div className="mx-auto max-w-2xl lg:mx-0">
             <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl font-display">
-              {project.title}
+              {post.title}
             </h1>
-            <p className="mt-6 text-lg leading-8 text-zinc-300">
-              {project.description}
-            </p>
+            <p className="mt-6 text-lg leading-8 text-zinc-300">{post.brief}</p>
           </div>
 
           <div className="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">

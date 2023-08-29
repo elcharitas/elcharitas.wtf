@@ -2,7 +2,7 @@ import { PostsPage } from "../post-page";
 
 export default async function Page() {
   const response = await fetch(
-    "https://api.github.com/user/repos?sort=stars&affiliation=owner,collaborator&per_page=100&direction=desc",
+    "https://api.github.com/user/repos?sort=stars&affiliation=owner,collaborator&per_page=200&direction=desc",
     {
       headers: {
         Authorization: `token ${process.env.GITHUB_TOKEN}`,
@@ -20,7 +20,7 @@ export default async function Page() {
       slug: repo.name,
       title: `${repo.owner.login}/${repo.name}`,
       brief: repo.description,
-      date: repo.created_at,
+      date: repo.pushed_at,
       url: repo.html_url,
       content: "",
       coverImage: repo.owner.avatar_url,

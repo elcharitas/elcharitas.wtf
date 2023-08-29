@@ -56,7 +56,7 @@ export default function Home() {
           >
             Chakra UI (svelte)
           </Link>{" "}
-          at night.
+          at night. 😇
         </h2>
         <div className="pt-8">
           <a

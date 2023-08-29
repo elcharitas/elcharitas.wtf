@@ -5,7 +5,7 @@ import { Github, Linkedin, Twitter, ExternalLink } from "lucide-react";
 const navigation = [
   { name: "Blog", href: "/blog" },
   { name: "Projects", href: "/projects" },
-  { name: "Resume", href: "/resume" },
+  { name: "Resume", href: "/mods/resume" },
   { name: "Talks", href: "/talks" },
 ];
 

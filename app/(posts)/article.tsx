@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Eye } from "lucide-react";
+import { Eye, Star } from "lucide-react";
 
 type Props = {
   post: Post;
@@ -22,7 +22,11 @@ export const Article: React.FC<Props> = ({ post }) => {
             )}
           </span>
           <span className="text-zinc-500 text-xs  flex items-center gap-1">
-            <Eye className="w-4 h-4" />{" "}
+            {post.type === "projects" ? (
+              <Star className="w-4 h-4" />
+            ) : (
+              <Eye className="w-4 h-4" />
+            )}{" "}
             {Intl.NumberFormat("en-US", { notation: "compact" }).format(
               post.views ?? 0
             )}

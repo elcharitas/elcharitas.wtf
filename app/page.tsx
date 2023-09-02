@@ -5,7 +5,7 @@ import { Github, Linkedin, Twitter, ExternalLink } from "lucide-react";
 const navigation = [
   { name: "Blog", href: "/blog" },
   { name: "Projects", href: "/projects" },
-  { name: "Resume", href: "/mods/resume" },
+  { name: "Resume", href: "/mods/resume", noLink: true },
   { name: "Talks", href: "/talks" },
 ];
 
@@ -14,15 +14,25 @@ export default function Home() {
     <div className="flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-tl from-black via-zinc-600/20 to-black">
       <nav className="my-16 animate-fade-in">
         <ul className="flex items-center justify-center gap-4">
-          {navigation.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-sm duration-500 text-zinc-500 hover:text-zinc-300"
-            >
-              {item.name}
-            </Link>
-          ))}
+          {navigation.map((item) =>
+            item.noLink ? (
+              <a
+                key={item.href}
+                href={item.href}
+                className="text-sm duration-500 text-zinc-500 hover:text-zinc-300"
+              >
+                {item.name}
+              </a>
+            ) : (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="text-sm duration-500 text-zinc-500 hover:text-zinc-300"
+              >
+                {item.name}
+              </Link>
+            )
+          )}
         </ul>
       </nav>
       <h1 className="z-10 text-4xl text-transparent duration-1000 bg-white cursor-default text-edge-outline animate-title font-display sm:text-6xl md:text-9xl whitespace-nowrap bg-clip-text ">
@@ -32,17 +42,16 @@ export default function Home() {
         <h2 className="text-sm text-zinc-500 ">
           Hi, my name is Jonathan, I'm currently building amazing crypto
           dashboards at{" "}
-          <Link
+          <a
             target="_blank"
             href="https://alphaday.com"
             className="underline duration-500 hover:text-zinc-300"
           >
             Alphaday
-          </Link>
+          </a>
           <br />
           and working on{" "}
           <Link
-            target="_blank"
             href="/projects/rustle-rs"
             className="underline duration-500 hover:text-zinc-300"
           >
@@ -50,7 +59,6 @@ export default function Home() {
           </Link>{" "}
           and{" "}
           <Link
-            target="_blank"
             href="/projects/chakra-ui-svelte"
             className="underline duration-500 hover:text-zinc-300"
           >

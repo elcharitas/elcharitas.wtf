@@ -1,7 +1,7 @@
 "use client";
-import { ArrowLeft, Eye, Github, Twitter } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
+import { ArrowLeft, Eye, Github, Twitter } from "lucide-react";
 
 type Props = {
   post: Post;

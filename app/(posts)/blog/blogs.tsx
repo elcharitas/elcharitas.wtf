@@ -2,11 +2,7 @@
 import { useMemo, useState } from "react";
 import { GraphQLClient, ClientContext, useQuery } from "graphql-hooks";
 import { PostsPage } from "../post-page";
-import {
-  publicationsQuery,
-  PublicationsQueryResponse,
-  transformBlog,
-} from "./utils";
+import { userDataQuery, UserQueryResponse, transformBlog } from "./utils";
 
 interface BlogProps {
   initialPosts: Post[];
@@ -17,8 +13,8 @@ const client = new GraphQLClient({
 });
 
 const updateData = (
-  prevData: PublicationsQueryResponse,
-  newData: PublicationsQueryResponse
+  prevData: UserQueryResponse,
+  newData: UserQueryResponse
 ) => {
   const posts = [
     ...prevData.user.publication.posts,
@@ -36,8 +32,8 @@ const updateData = (
 const BlogListing = ({ initialPosts }: BlogProps) => {
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { data } = useQuery<PublicationsQueryResponse>(
-    publicationsQuery.replace("$page", currentPage.toString()),
+  const { data } = useQuery<UserQueryResponse>(
+    userDataQuery.replace("$page", currentPage.toString()),
     {
       updateData,
     }

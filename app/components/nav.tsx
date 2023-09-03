@@ -6,8 +6,8 @@ import React, { useEffect, useRef, useState } from "react";
 const navigation = [
   { name: "Blog", href: "/blog" },
   { name: "Projects", href: "/projects" },
-  { name: "Resume", href: "/mods/resume" },
-  { name: "Talks", href: "/talks" },
+  { name: "Resume", href: "/mods/resume", noLink: true },
+  { name: "Adventures", href: "/adventures" },
 ];
 
 export const Navigation: React.FC = () => {
@@ -37,15 +37,25 @@ export const Navigation: React.FC = () => {
       >
         <div className="container flex flex-row-reverse items-center justify-between p-6 mx-auto">
           <div className="flex justify-between gap-8">
-            {navigation.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="duration-200 text-xs md:text-sm text-zinc-400 hover:text-zinc-100"
-              >
-                {item.name}
-              </Link>
-            ))}
+            {navigation.map((item) =>
+              item.noLink ? (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className="duration-200 text-xs md:text-sm text-zinc-400 hover:text-zinc-100"
+                >
+                  {item.name}
+                </a>
+              ) : (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="duration-200 text-xs md:text-sm text-zinc-400 hover:text-zinc-100"
+                >
+                  {item.name}
+                </Link>
+              )
+            )}
           </div>
 
           <Link

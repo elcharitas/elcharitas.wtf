@@ -1,53 +1,32 @@
-import { useQuery } from "graphql-hooks";
+"use client";
+import { useState } from "react";
+import { GraphQLClient, ClientContext, useQuery } from "graphql-hooks";
 import { PostsPage } from "../post-page";
+import {
+  publicationsQuery,
+  PublicationsQueryResponse,
+  transformBlog,
+} from "./utils";
 
-const publicationsQuery = `
-  query {
-    user(username: "elcharitas") {
-      publication {
-        posts(page: 0) {
-          title
-          dateAdded
-          coverImage
-          slug
-          brief
-          views
-        }
-      }
-    }
-  }
-`;
+interface BlogProps {
+  initialPosts: Post[];
+}
 
-type PublicationsQueryResponse = {
-  user: {
-    publication: {
-      posts: {
-        title: string;
-        dateAdded: string;
-        coverImage: string;
-        slug: string;
-        brief: string;
-        views: number;
-        tags: {
-          name: string;
-        }[];
-      }[];
-    };
-  };
-};
+const client = new GraphQLClient({
+  url: "https://api.hashnode.com",
+});
 
-const Blogs = () => {
-  const { data } = useQuery<PublicationsQueryResponse>(publicationsQuery);
-  const [featured, top1, top2, ...sorted]: Post[] =
-    data?.user.publication?.posts.map((post) => ({
-      title: post.title,
-      date: post.dateAdded,
-      brief: post.brief,
-      coverImage: post.coverImage,
-      slug: post.slug,
-      views: post.views,
-      type: "blog",
-    })) || [];
+const BlogListing = ({ initialPosts }: BlogProps) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const { data } = useQuery<PublicationsQueryResponse>(
+    publicationsQuery.replace("$page", currentPage.toString())
+  );
+
+  const [featured, top1, top2, ...sorted]: Post[] = [
+    ...initialPosts,
+    ...(data?.user.publication?.posts || []).map(transformBlog),
+  ];
+
   return (
     <PostsPage
       title="✍🏼 Blogs"
@@ -55,6 +34,14 @@ const Blogs = () => {
       featured={[featured, top1, top2]}
       sorted={sorted}
     />
+  );
+};
+
+const Blogs = ({ initialPosts }: BlogProps) => {
+  return (
+    <ClientContext.Provider value={client}>
+      <BlogListing initialPosts={initialPosts} />
+    </ClientContext.Provider>
   );
 };
 

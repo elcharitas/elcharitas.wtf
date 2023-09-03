@@ -29,18 +29,23 @@
       "Implemented new feature"
     ],
     "august": [
-      "Optimized server-side rendering",
-      "Resolved critical bugs"
+      "Started work on Rustle.rs Framework to empower next-gen backend apps",
+      "Started building this website you're viewing",
+      "Reached read 60-Book mark + tens thousands of articles consumed in the year"
+    ],
+    "september": [
+      "Attended Web3Lagos representing Alphaday to Nigeria's web3 community"
     ]
   },
   "2022": {
+    "may": [
+      "Joined Alphaday as a Software Engineer to build customizable crypto dashboards"
+    ],
     "september": [
-      "Conducted code reviews",
-      "Implemented internationalization"
+      "Attended and helped coordinate Mobile Dev Community Hangout"
     ],
     "october": [
-      "Improved accessibility",
-      "Integrated third-party API"
+      "Started work on Muxifi, A decentralized music app"
     ],
     "november": [
       "Conducted load testing",
@@ -53,5 +58,36 @@
   },
   "2021": {},
   "2020": {},
-  "2019": {}
+  "2019": {
+    "february": [
+      "Sold E-pages Software for a giveaway price"
+    ]
+  },
+  "2018": {
+    "march": [
+      "Total number of E-pages created climaxed 1K+"
+    ]
+  },
+  "2017": {
+    "july": [
+      "Created E-pages, a php powered page generator inspired by txti.es",
+      "Improved the E-pages software with increased size, load speed"
+    ],
+    "august": [
+      "First Learnt about Developer community like Facebook Developers, NCT",
+      "Added E-pages to Freebasics by Facebook"
+    ]
+  },
+  "2015": {
+    "january": [
+      "Started Learning PHP",
+      "Built First ever full website using my-place.us using PHP"
+    ]
+  },
+  "2014": {
+    "Sometime...": [
+      "First time I heard about programming from Eriomola Tomiwa (RIP)",
+      "Wrote First HTML code"
+    ]
+  }
 }

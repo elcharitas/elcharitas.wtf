@@ -66,12 +66,17 @@
   "2018": {
     "march": [
       "Total number of E-pages created climaxed 1K+"
+    ],
+    "april": [
+      "First Learned of WordPress"
     ]
   },
   "2017": {
+    "june": [
+      "Created E-pages, a php powered page generator inspired by txti.es"
+    ],
     "july": [
-      "Created E-pages, a php powered page generator inspired by txti.es",
-      "Improved the E-pages software with increased size, load speed"
+      "Improved the E-pages software with increased size, load speed and support for special tags"
     ],
     "august": [
       "First Learnt about Developer community like Facebook Developers, NCT",
@@ -81,7 +86,11 @@
   "2015": {
     "january": [
       "Started Learning PHP",
-      "Built First ever full website using my-place.us using PHP"
+      "Built First ever full website using PHP and hosted through my-place.us"
+    ],
+    "february": [
+      "Learnt about MyBB forum software",
+      "Created first theme and plugins for MyBB (Never got to publish)"
     ]
   },
   "2014": {

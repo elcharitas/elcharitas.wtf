@@ -13,7 +13,7 @@ export const Article: React.FC<Props> = ({ post }) => {
           <span className="text-xs duration-1000 text-zinc-200 group-hover:text-white group-hover:border-zinc-200 drop-shadow-orange">
             {post.date ? (
               <time dateTime={new Date(post.date).toISOString()}>
-                {Intl.DateTimeFormat(undefined, { dateStyle: "medium" }).format(
+                {Intl.DateTimeFormat("en-US", { dateStyle: "medium" }).format(
                   new Date(post.date)
                 )}
               </time>

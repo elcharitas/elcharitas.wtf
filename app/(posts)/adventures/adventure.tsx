@@ -14,14 +14,14 @@ const Adventure: FC<AdventureProps> = ({ year, yearData }) => {
   return (
     <li className="mb-2 flex flex-col items-center">
       <div className="flex flex-col md:w-3/4">
-        <span
+        <div
           tabIndex={0}
           role="button"
           className="text-zinc-500 font-display animate-title text-4xl text-center my-8 py-8 border-zinc-800 border rounded-xl"
           onClick={() => setIsExpanded((prev) => !prev)}
         >
           {year}
-        </span>
+        </div>
         {isExpanded &&
           yearData.map(({ month, info }, index) => (
             <div

@@ -36,15 +36,16 @@ export default async function PostPage({ params }: Props) {
     }
   );
   const data = await response.json();
-  const readmeContent = atob(data.content);
 
   return (
     <div className="bg-zinc-900 min-h-screen">
       <Header post={project} />
 
-      <article className="px-4 py-12 mx-auto prose prose-zinc prose-quoteless">
-        <Mdx code={readmeContent} />
-      </article>
+      {data.content && (
+        <article className="px-4 py-12 mx-auto prose prose-zinc prose-quoteless">
+          <Mdx code={atob(data.content)} />
+        </article>
+      )}
     </div>
   );
 }

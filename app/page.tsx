@@ -52,10 +52,10 @@ export default function Home() {
           <br />
           and working on{" "}
           <Link
-            href="/projects/rustle-rs"
+            href="/projects/ngyn-rs"
             className="underline duration-500 hover:text-zinc-300"
           >
-            Rustle.rs
+            Ngyn.rs
           </Link>{" "}
           and{" "}
           <Link

@@ -85,7 +85,7 @@ export function PostsPage({
           <div className="flex flex-col w-full gap-8 mx-auto border-t border-gray-900/10 lg:mx-0 lg:border-t-0 ">
             {others.map((post) => (
               <Card key={post.slug}>
-                <Article post={post} />
+                <Article post={post} showReadMore />
               </Card>
             ))}
           </div>

@@ -32,7 +32,7 @@ const updateData = (
 const BlogListing = ({ initialPosts }: BlogProps) => {
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { data } = useQuery<UserQueryResponse>(
+  const { data, loading } = useQuery<UserQueryResponse>(
     userDataQuery.replace("$page", currentPage.toString()),
     {
       updateData,
@@ -47,12 +47,22 @@ const BlogListing = ({ initialPosts }: BlogProps) => {
     [initialPosts, data]
   );
 
+  const isReachedEnd = (sorted.length + 3) % 6 !== 0;
+
   return (
     <PostsPage
       title="Blogs ✍🏼"
       description="I write about my experiences and thoughts on how to do software development, productivity, and life."
       featured={[featured, top1, top2]}
       sorted={sorted}
+      isReachedEnd={isReachedEnd}
+      isLoading={loading}
+      handleLoadMore={() => {
+        if (isReachedEnd) {
+          return;
+        }
+        setCurrentPage((prev) => prev + 1);
+      }}
     />
   );
 };

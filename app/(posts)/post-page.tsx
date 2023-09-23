@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import { Eye, Star } from "lucide-react";
+import { ArrowDownCircle, Settings, Eye, Star } from "lucide-react";
 import { Card } from "../components/card";
 import { Article } from "./article";
 
@@ -9,6 +9,9 @@ interface PostsPageProps {
   description?: string;
   featured?: Post[];
   sorted: Post[];
+  isLoading?: boolean;
+  isReachedEnd?: boolean;
+  handleLoadMore?: () => void;
 }
 
 export function PostsPage({
@@ -16,6 +19,9 @@ export function PostsPage({
   description,
   sorted,
   featured: [featured, ...others] = [],
+  isLoading,
+  isReachedEnd,
+  handleLoadMore,
 }: PostsPageProps) {
   return (
     <>
@@ -122,6 +128,29 @@ export function PostsPage({
             ))}
         </div>
       </div>
+      {handleLoadMore && !isReachedEnd && (
+        <div className="flex justify-center items-center">
+          <button
+            disabled={isLoading}
+            onClick={handleLoadMore}
+            className={`flex justify-between items-center m-2 px-4 py-2 text-sm text-zinc-50  border border-zinc-700 rounded ${
+              isLoading
+                ? "bg-zinc-700 scale-110 rounded-xl"
+                : "hover:bg-zinc-800 hover:scale-110 hover:rounded-xl duration-1000"
+            }`}
+          >
+            {isLoading ? (
+              <>
+                Loading... <Settings className="w-4 h-4 m-2 animate-spin" />
+              </>
+            ) : (
+              <>
+                Load more <ArrowDownCircle className="w-4 h-4 m-2" />
+              </>
+            )}
+          </button>
+        </div>
+      )}
     </>
   );
 }

@@ -13,7 +13,7 @@
     "graphql-hooks": "6.3.0",
     "lucide-react": "^0.220.0",
     "markdown-wasm": "^1.2.0",
-    "next": "13.4.3",
+    "next": "13.5.2",
     "next-contentlayer": "0.3.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",

@@ -43,7 +43,7 @@ export default async function PostPage({ params }: Props) {
 
       {data.content && (
         <article className="px-4 py-12 mx-auto prose prose-zinc prose-quoteless">
-          <Mdx code={atob(data.content)} />
+          <Mdx code={Buffer.from(data.content, data.encoding).toString()} />
         </article>
       )}
     </div>

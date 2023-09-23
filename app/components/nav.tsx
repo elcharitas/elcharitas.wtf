@@ -6,7 +6,6 @@ import React, { useEffect, useRef, useState } from "react";
 const navigation = [
   { name: "Blog", href: "/blog" },
   { name: "Projects", href: "/projects" },
-  { name: "Resume", href: "/mods/resume", noLink: true },
   { name: "Adventures", href: "/adventures" },
 ];
 
@@ -36,26 +35,25 @@ export const Navigation: React.FC = () => {
         }`}
       >
         <div className="container flex flex-row-reverse items-center justify-between p-6 mx-auto">
-          <div className="flex justify-between gap-8">
-            {navigation.map((item) =>
-              item.noLink ? (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="duration-200 text-xs md:text-sm text-zinc-400 hover:text-zinc-100"
-                >
-                  {item.name}
-                </a>
-              ) : (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="duration-200 text-xs md:text-sm text-zinc-400 hover:text-zinc-100"
-                >
-                  {item.name}
-                </Link>
-              )
-            )}
+          <div className="flex justify-between gap-8 items-center">
+            {navigation.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="duration-500 text-xs md:text-sm text-zinc-400 hover:text-zinc-100 hover:scale-110"
+              >
+                {item.name}
+              </Link>
+            ))}
+            <a
+              href="/mods/resume"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2 text-sm text-white  border border-zinc-700 rounded hover:bg-zinc-800 hover:scale-110 hover:rounded-xl duration-1000"
+              title="Let's get your questions answered"
+            >
+              Resume
+            </a>
           </div>
 
           <Link

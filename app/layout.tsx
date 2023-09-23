@@ -1,16 +1,17 @@
-import "../global.css";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import LocalFont from "next/font/local";
 import { Metadata } from "next";
+import "../global.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://elcharitas.wtf"),
   title: {
-    default: "elcharitas.wtf",
+    default: "elcharitas.wtf | Software Engineer",
     template: "%s | elcharitas.wtf",
   },
   description: "Software engineer at alphaday.com",
   openGraph: {
-    title: "elcharitas.wtf",
+    title: "elcharitas.wtf | Software Engineer",
     description: "Software engineer at alphaday.com",
     url: "https://elcharitas.wtf",
     siteName: "elcharitas.wtf",
@@ -36,7 +37,8 @@ export const metadata: Metadata = {
     },
   },
   twitter: {
-    title: "Chronark",
+    title: "elcharitas.wtf",
+    creator: "@iamelcharitas",
     card: "summary_large_image",
   },
   icons: {

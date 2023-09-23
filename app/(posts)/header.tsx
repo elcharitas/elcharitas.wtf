@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
-import { ArrowLeft, Eye, Github, Twitter } from "lucide-react";
+import { List, Eye, Star, Twitter } from "lucide-react";
 
 type Props = {
   post: Post;
@@ -41,7 +41,7 @@ export const Header: React.FC<Props> = ({ post }) => {
       className="relative isolate overflow-hidden bg-gradient-to-tl from-black via-zinc-900 to-black"
     >
       <div
-        className={`fixed inset-x-0 top-0 z-50 backdrop-blur lg:backdrop-blur-none duration-200 border-b lg:bg-transparent ${
+        className={`inset-x-0 top-0 z-50 backdrop-blur lg:backdrop-blur-none duration-200 border-b lg:bg-transparent ${
           isIntersecting
             ? "bg-zinc-900/0 border-transparent"
             : "bg-white/10  border-zinc-200 lg:border-transparent"
@@ -57,22 +57,17 @@ export const Header: React.FC<Props> = ({ post }) => {
                   : "text-zinc-600 hover:text-zinc-900"
               } `}
             >
-              <Eye className="w-5 h-5" />{" "}
+              {post.type === "projects" ? (
+                <Star className="w-5 h-5 text-yellow-200/60" />
+              ) : (
+                <Eye className="w-5 h-5 text-yellow-200/60" />
+              )}{" "}
               {Intl.NumberFormat("en-US", { notation: "compact" }).format(
                 post.views ?? 0
               )}
             </span>
-            <Link target="_blank" href="https://twitter.com/elcharitas_">
+            <Link target="_blank" href="https://twitter.com/iamelcharitas">
               <Twitter
-                className={`w-6 h-6 duration-200 hover:font-medium ${
-                  isIntersecting
-                    ? " text-zinc-400 hover:text-zinc-100"
-                    : "text-zinc-600 hover:text-zinc-900"
-                } `}
-              />
-            </Link>
-            <Link target="_blank" href="https://github.com/elcharitas">
-              <Github
                 className={`w-6 h-6 duration-200 hover:font-medium ${
                   isIntersecting
                     ? " text-zinc-400 hover:text-zinc-100"
@@ -83,14 +78,14 @@ export const Header: React.FC<Props> = ({ post }) => {
           </div>
 
           <Link
-            href="/projects"
+            href={`/${post.type}`}
             className={`duration-200 hover:font-medium ${
               isIntersecting
                 ? " text-zinc-400 hover:text-zinc-100"
                 : "text-zinc-600 hover:text-zinc-900"
             } `}
           >
-            <ArrowLeft className="w-6 h-6 " />
+            <List className="w-6 h-6 " />
           </Link>
         </div>
       </div>

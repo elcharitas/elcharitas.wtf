@@ -25,6 +25,7 @@ const Adventure: FC<AdventureProps> = ({ year, yearData }) => {
         {isExpanded &&
           yearData.map(({ month, info }, index) => (
             <div
+              key={month}
               className={`mb-4 md:ml-4 md:mt-8 animate-fade-in md:flex flex-col ${
                 index % 2 ? "items-start" : "items-end"
               }`}

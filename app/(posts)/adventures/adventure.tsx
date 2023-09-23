@@ -17,7 +17,7 @@ const Adventure: FC<AdventureProps> = ({ year, yearData }) => {
         <div
           tabIndex={0}
           role="button"
-          className="text-zinc-500 font-display animate-title text-4xl text-center my-8 py-8 border-zinc-800 border rounded-xl"
+          className="text-zinc-500 font-display animate-title text-center text-4xl my-8 py-4 duration-700 hover:text-yellow-500/80 hover:scale-110"
           onClick={() => setIsExpanded((prev) => !prev)}
         >
           {year}
@@ -30,13 +30,18 @@ const Adventure: FC<AdventureProps> = ({ year, yearData }) => {
               }`}
             >
               <Card>
-                <div className="m-4 min-w-[300px]">
-                  <h3 className="text-lg font-display uppercase">{month}</h3>
-                  {info.map((data) => (
-                    <p key={data} className="text-zinc-400">
-                      &#8226; &nbsp; {data}
-                    </p>
-                  ))}
+                <div className="max-w-[450px] min-w-[300px] md:w-[450px]">
+                  <div className="m-4 pt-2 w-full">
+                    <h3 className="text-lg font-display uppercase my-2 text-yellow-500/80">
+                      {month}
+                    </h3>
+                    {info.map((data) => (
+                      <p key={data} className="text-zinc-400">
+                        <span className="text-yellow-500 mr-1">&#8226;</span>{" "}
+                        &nbsp; {data}
+                      </p>
+                    ))}
+                  </div>
                 </div>
               </Card>
             </div>

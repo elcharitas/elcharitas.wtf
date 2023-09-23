@@ -14,7 +14,7 @@ const components: Partial<Components> = {
   h1: ({ className, ...props }) => (
     <h1
       className={clsx(
-        "mt-2 scroll-m-20 text-4xl font-bold tracking-tight text-zinc-100",
+        "mt-2 scroll-m-20 text-3xl font-bold tracking-tight text-zinc-100",
         className
       )}
       {...props}
@@ -23,7 +23,7 @@ const components: Partial<Components> = {
   h2: ({ className, ...props }) => (
     <h2
       className={clsx(
-        "mt-10 scroll-m-20 border-b  border-b-zinc-50 pb-1 text-3xl font-semibold tracking-tight text-zinc-100 first:mt-0",
+        "mt-10 scroll-m-20 border-b  border-b-zinc-50/10 pb-3 text-2xl font-semibold tracking-tight text-zinc-100 first:mt-0",
         className
       )}
       {...props}
@@ -32,7 +32,7 @@ const components: Partial<Components> = {
   h3: ({ className, ...props }) => (
     <h3
       className={clsx(
-        "mt-8 scroll-m-20 text-2xl font-semibold tracking-tight text-zinc-100",
+        "mt-8 scroll-m-20 text-xl font-semibold tracking-tight text-zinc-100",
         className
       )}
       {...props}
@@ -41,7 +41,7 @@ const components: Partial<Components> = {
   h4: ({ className, ...props }) => (
     <h4
       className={clsx(
-        "mt-8 scroll-m-20 text-xl font-semibold tracking-tight",
+        "mt-8 scroll-m-20 text-lg font-semibold tracking-tight",
         className
       )}
       {...props}
@@ -50,7 +50,7 @@ const components: Partial<Components> = {
   h5: ({ className, ...props }) => (
     <h5
       className={clsx(
-        "mt-8 scroll-m-20 text-lg font-semibold tracking-tight",
+        "mt-8 scroll-m-20 text-sm font-semibold tracking-tight",
         className
       )}
       {...props}
@@ -106,7 +106,10 @@ const components: Partial<Components> = {
   }: React.ImgHTMLAttributes<HTMLImageElement>) => (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      className={clsx("rounded-md border border-zinc-200", className)}
+      className={clsx(
+        "rounded-md border border-zinc-200 inline-block",
+        className
+      )}
       alt={alt}
       {...props}
     />
@@ -155,15 +158,23 @@ const components: Partial<Components> = {
       {...props}
     />
   ),
-  code: ({ className, ...props }) => (
-    <code
-      className={clsx(
-        "relative rounded border bg-zinc-300 bg-opacity-25 py-[0.2rem] px-[0.3rem] font-mono text-sm text-zinc-80",
-        className
-      )}
-      {...props}
-    />
-  ),
+  code: ({ className, ...props }) => {
+    const isMultiline = props.children?.toString().includes("\n");
+
+    return (
+      <code
+        className={clsx(
+          `${
+            isMultiline
+              ? "block p-8 bg-black/30 group md:gap-8"
+              : "text-zinc-200 mx-1 py-[0.2rem] px-[0.3rem] align-middle bg-zinc-300 bg-opacity-25"
+          } relative rounded font-mono text-sm text-zinc-80`,
+          className
+        )}
+        {...props}
+      />
+    );
+  },
 };
 
 interface MdxProps {

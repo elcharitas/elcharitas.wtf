@@ -100,7 +100,9 @@ export const Header: React.FC<Props> = ({ post }) => {
             <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl font-display">
               {post.title}
             </h1>
-            <p className="mt-6 text-lg leading-8 text-zinc-300">{post.brief}</p>
+            <p className="mt-6 text-lg leading-8 text-zinc-300">
+              {post.brief.substring(0, 120)}...
+            </p>
           </div>
 
           <div className="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">

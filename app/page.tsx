@@ -40,7 +40,7 @@ export default function Home() {
       </h1>
       <div className="my-16 mx-4 text-center animate-fade-in">
         <h2 className="text-sm text-zinc-500 ">
-          Hi, my name is Jonathan, I'm currently building amazing crypto
+          Hi, my name is Jonathan, I'm currently building interactive crypto
           dashboards at{" "}
           <a
             target="_blank"
@@ -50,12 +50,12 @@ export default function Home() {
             Alphaday
           </a>
           <br />
-          and working on{" "}
+          while working on{" "}
           <Link
-            href="/projects/ngyn-rs"
+            href="/projects/ngyn"
             className="underline duration-500 hover:text-zinc-300"
           >
-            Ngyn.rs
+            Ngyn
           </Link>{" "}
           and{" "}
           <Link
@@ -72,6 +72,7 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
             className="px-4 py-2 text-sm text-white bg-zinc-700 border border-zinc-700 rounded hover:bg-zinc-600 duration-500"
+            title="Let's get your questions answered"
           >
             Connect with me 🤝
           </a>
@@ -83,6 +84,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
           className="text-zinc-500 hover:text-zinc-300 duration-500"
+          title="I collaborate on github often"
         >
           <Github
             size={24}

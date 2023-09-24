@@ -22,12 +22,8 @@ export default async function Page() {
           Adventures 🔥
         </h2>
         <p className="mt-4 text-zinc-400">
-          Here&apos;s some of the more exciting things I&apos;ve done or
-          experienced. I&apos;ve been fortunate enough to have had the
-          opportunity to travel to some amazing places and meet some amazing
-          people. I&apos;ve also been fortunate enough to have had the
-          opportunity to work on some amazing projects with some amazing people.
-          🤌
+          I&apos;ve been fortunate to travel and work on incredible projects
+          with amazing people. 🤌
         </p>
       </div>
       <div className="w-full h-px bg-zinc-800" />

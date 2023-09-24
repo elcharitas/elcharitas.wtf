@@ -49,10 +49,10 @@ export const Navigation: React.FC = () => {
               href="/mods/resume"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 text-sm text-white  border border-zinc-700 rounded hover:bg-zinc-800 hover:scale-110 hover:rounded-xl duration-1000"
-              title="Let's get your questions answered"
+              className="px-4 py-2 text-sm text-white  border border-yellow-700 rounded hover:bg-zinc-800 hover:scale-110 hover:rounded-xl duration-1000"
+              title="My Resume"
             >
-              Resume
+              My Resume
             </a>
           </div>
 

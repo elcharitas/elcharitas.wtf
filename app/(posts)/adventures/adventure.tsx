@@ -33,14 +33,14 @@ const Adventure: FC<AdventureProps> = ({ year, yearData }) => {
             >
               <Card>
                 <div className="max-w-[450px] min-w-[300px] md:w-[450px]">
-                  <div className="m-4 pt-2 w-full">
+                  <div className="m-4 p-4 pt-2 w-full">
                     <h3 className="text-lg font-display uppercase my-2 text-yellow-500/80">
                       {month}
                     </h3>
                     {info.map((data) => (
                       <p key={data} className="text-zinc-400">
-                        <span className="text-yellow-500 mr-1">&#8226;</span>{" "}
-                        &nbsp; <Content text={data} />
+                        <span className="text-yellow-500">&#8226;</span> &nbsp;{" "}
+                        <Content text={data} />
                       </p>
                     ))}
                   </div>

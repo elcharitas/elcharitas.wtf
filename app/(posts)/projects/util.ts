@@ -23,7 +23,7 @@ export async function getAllProjects(page = 1): Promise<Post[]> {
           (await fetch(coverImageUrl, { method: "HEAD" })).status === 200;
         return {
           slug: repo.name,
-          title: `${repo.owner.login}/${repo.name}`,
+          title: repo.name.replace(/[-_]/g, " "),
           brief: repo.description,
           date: repo.pushed_at,
           url: repo.html_url,

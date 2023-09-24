@@ -50,6 +50,10 @@ const parseToJsx = (text: string, patterns: RegExp[]) => {
     return acc;
   }, [] as Node[]);
 
+  if (matches.length === 0) {
+    return text;
+  }
+
   return matches.map((node) => {
     if (node.pattern === BOLD_REGEX) {
       return <strong key={node.index}>{node.text}</strong>;
@@ -68,13 +72,15 @@ const parseToJsx = (text: string, patterns: RegExp[]) => {
         </a>
       );
     }
-    console.log(node);
     return <span key={node.index}>{node.text}</span>;
   });
 };
 
 export const Content: React.FC<Props> = ({ text }) => {
   return (
-    <>{text && parseToJsx(text, [BOLD_REGEX, UNDERLINE_REGEX, URL_REGEX])}</>
+    <>
+      {text !== undefined &&
+        parseToJsx(text, [BOLD_REGEX, UNDERLINE_REGEX, URL_REGEX])}
+    </>
   );
 };

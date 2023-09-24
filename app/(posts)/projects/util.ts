@@ -28,7 +28,7 @@ export async function getAllProjects(): Promise<Post[]> {
           date: repo.pushed_at,
           url: repo.html_url,
           content: "",
-          coverImage: isCoverImage ? coverImageUrl : null,
+          coverImage: isCoverImage ? coverImageUrl : undefined,
           type: "projects",
           views: repo.stargazers_count,
           owner: repo.owner.login,

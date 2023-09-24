@@ -2,6 +2,9 @@ import * as React from "react";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import rehypeSlug from "rehype-slug";
+import rehypeRaw from "rehype-raw";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 type Components = {
   [key in keyof JSX.IntrinsicElements]: React.FC<JSX.IntrinsicElements[key]>;
@@ -160,7 +163,6 @@ const components: Partial<Components> = {
   ),
   code: ({ className, ...props }) => {
     const isMultiline = props.children?.toString().includes("\n");
-
     return (
       <code
         className={clsx(
@@ -187,6 +189,7 @@ export function Mdx({ code }: MdxProps) {
       // @ts-ignore
       components={components}
       remarkPlugins={[remarkGfm]}
+      rehypePlugins={[rehypeRaw, rehypeSlug, rehypeAutolinkHeadings]}
       className="mdx text-zinc-100"
     >
       {code}

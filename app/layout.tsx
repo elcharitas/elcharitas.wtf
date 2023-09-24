@@ -6,13 +6,15 @@ import "../global.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://elcharitas.wtf"),
   title: {
-    default: "elcharitas.wtf | Software Engineer",
+    default:
+      "elcharitas.wtf | Software engineer with a passion for building things.",
     template: "%s | elcharitas.wtf",
   },
-  description: "Software engineer at alphaday.com",
+  description: "Software engineer with a passion for building things.",
   openGraph: {
-    title: "elcharitas.wtf | Software Engineer",
-    description: "Software engineer at alphaday.com",
+    title:
+      "elcharitas.wtf | Software engineer with a passion for building things.",
+    description: "Software engineer with a passion for building things.",
     url: "https://elcharitas.wtf",
     siteName: "elcharitas.wtf",
     images: [

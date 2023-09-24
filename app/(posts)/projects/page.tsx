@@ -1,6 +1,8 @@
 import { PostsPage } from "../post-page";
 import { getAllProjects } from "./util";
 
+export const revalidate = 60;
+
 export default async function Page() {
   const [featured, top1, top2, ...projects] = await getAllProjects();
   return (

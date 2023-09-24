@@ -1,6 +1,7 @@
 "use client";
 import { useState, FC } from "react";
 import { Card } from "@/app/components/card";
+import { Content } from "@/app/components/content";
 
 interface AdventureProps {
   year: string;
@@ -39,7 +40,7 @@ const Adventure: FC<AdventureProps> = ({ year, yearData }) => {
                     {info.map((data) => (
                       <p key={data} className="text-zinc-400">
                         <span className="text-yellow-500 mr-1">&#8226;</span>{" "}
-                        &nbsp; {data}
+                        &nbsp; <Content text={data} />
                       </p>
                     ))}
                   </div>

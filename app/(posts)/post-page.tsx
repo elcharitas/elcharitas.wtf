@@ -3,6 +3,7 @@ import React from "react";
 import { ArrowDownCircle, Settings, Eye, Star } from "lucide-react";
 import { Card } from "../components/card";
 import { Article } from "./article";
+import { Content } from "../components/content";
 
 interface PostsPageProps {
   title: string;
@@ -29,7 +30,9 @@ export function PostsPage({
         <h2 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-4xl">
           {title}
         </h2>
-        <p className="mt-4 text-zinc-400">{description}</p>
+        <p className="mt-4 text-zinc-400">
+          <Content text={description} />
+        </p>
       </div>
       <div className="w-full h-px bg-zinc-800" />
 

@@ -4,32 +4,8 @@
       "Published ChakraUI",
       "Started working on a new React project"
     ],
-    "february": [
-      "Implemented authentication feature",
-      "Optimized database queries"
-    ],
-    "march": [
-      "Launched mobile app version",
-      "Integrated payment gateway"
-    ],
-    "april": [
-      "Conducted code refactoring",
-      "Improved UI/UX design"
-    ],
-    "may": [
-      "Implemented automated testing",
-      "Deployed to production environment"
-    ],
-    "june": [
-      "Collaborated with cross-functional teams",
-      "Implemented performance optimizations"
-    ],
-    "july": [
-      "Conducted user research",
-      "Implemented new feature"
-    ],
     "august": [
-      "Started work on Ngyn.rs Framework to empower next-gen backend apps",
+      "Started work on Ngyn Framework to empower next-gen backend apps in rust",
       "Started building this website you're viewing",
       "Reached read 60-Book mark + tens thousands of articles consumed in the year"
     ],
@@ -56,10 +32,39 @@
     ]
   },
   "2021": {},
-  "2020": {},
+  "2020": {
+    "february": [
+      "Began work with a friend on a telegram bot for Futarians. It was a success"
+    ],
+    "april": [
+      "Joined a team of developers to build a social media platform"
+    ],
+    "june": [
+      "Had this idea for a multiforum platform, So, I built it in php and launched it"
+    ],
+    "september": [
+      "Joined E-learning team to build the backend for a e-learning platform using php/laravel",
+      "Built an internal package at new team called z3.js for fluent interfaces like we have in laravel"
+    ],
+    "october": [
+      "Kept adding more features to multiforum platform like twig template, markdown support, etc"
+    ],
+    "november": [
+      "Began work on my first portfolio website built with 11ty - elcharitas.github.io"
+    ],
+    "december": [
+      "Created Knuckjs, a framework for building web apps with ease",
+      "Created cli-njk, a command line tool for generating static sites with nunjucks",
+      "Created js-dot, a javascript library for accessing nested objects",
+      "Created schip, a command line tool for running package binaries"
+    ]
+  },
   "2019": {
     "february": [
       "Sold E-pages Software for a giveaway price"
+    ],
+    "december": [
+      "Picked up mybb again and started building plugins for it"
     ]
   },
   "2018": {

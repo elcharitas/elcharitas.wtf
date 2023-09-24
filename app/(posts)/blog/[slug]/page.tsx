@@ -22,7 +22,7 @@ export default async function BlogInfo({ params }: Props) {
   return (
     <div className="bg-zinc-800 min-h-screen">
       <Header post={blogPost} />
-      <article className="px-4 py-12 mx-auto prose prose-zinc prose-quoteless">
+      <article className="md:px-4 py-12 md:mx-auto prose prose-zinc prose-quoteless">
         <Mdx code={blogPost.content ?? ""} />
       </article>
     </div>

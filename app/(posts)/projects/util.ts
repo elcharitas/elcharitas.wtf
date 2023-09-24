@@ -1,6 +1,6 @@
-export async function getAllProjects(): Promise<Post[]> {
+export async function getAllProjects(page = 1): Promise<Post[]> {
   const response = await fetch(
-    "https://api.github.com/user/repos?sort=stars&affiliation=owner,collaborator&per_page=350&direction=desc",
+    `https://api.github.com/user/repos?sort=updated&visibility=public&affiliation=owner,collaborator&per_page=100&direction=desc&page=${page}`,
     {
       headers: {
         Authorization: `token ${process.env.GITHUB_TOKEN}`,

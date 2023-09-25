@@ -78,6 +78,9 @@ const components: Partial<Components> = {
       {...props}
     />
   ),
+  strong: ({ className, ...props }) => (
+    <strong className={clsx("font-bold text-zinc-50", className)} {...props} />
+  ),
   p: ({ className, ...props }) => (
     <p
       className={clsx("leading-7 [&:not(:first-child)]:mt-6", className)}

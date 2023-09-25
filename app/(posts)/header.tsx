@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
-import { List, Eye, Star, Twitter } from "lucide-react";
+import { List, Eye, Star, Twitter, Github, ExternalLink } from "lucide-react";
 
 type Props = {
   post: Post;
@@ -10,17 +10,19 @@ export const Header: React.FC<Props> = ({ post }) => {
   const ref = useRef<HTMLElement>(null);
   const [isIntersecting, setIntersecting] = useState(true);
 
-  const links: { label: string; href: string }[] = [];
+  const links: { label: string; href: string; icon: any }[] = [];
   if (post.owner) {
     links.push({
-      label: "GitHub",
+      label: "Source Code",
       href: `https://github.com/${post.owner}/${post.slug}`,
+      icon: Github,
     });
   }
   if (post.url) {
     links.push({
-      label: "Website",
+      label: "View Docs",
       href: post.url,
+      icon: ExternalLink,
     });
   }
   useEffect(() => {
@@ -108,8 +110,13 @@ export const Header: React.FC<Props> = ({ post }) => {
           <div className="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
             <div className="grid grid-cols-1 gap-y-6 gap-x-8 text-base font-semibold leading-7 text-white sm:grid-cols-2 md:flex lg:gap-x-10">
               {links.map((link) => (
-                <Link target="_blank" key={link.label} href={link.href}>
-                  {link.label} <span aria-hidden="true">&rarr;</span>
+                <Link
+                  target="_blank"
+                  key={link.label}
+                  href={link.href}
+                  className="flex justify-between items-center px-4 py-2 text-sm text-zinc-50  border border-zinc-600 rounded hover:scale-110 hover:bg-zinc-900 duration-1000"
+                >
+                  {link.label} <link.icon className="w-4 h-4 ml-2" />
                 </Link>
               ))}
             </div>

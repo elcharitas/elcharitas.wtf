@@ -26,7 +26,7 @@ export async function getAllProjects(page = 1): Promise<Post[]> {
           title: repo.name.replace(/[-_]/g, " "),
           brief: repo.description,
           date: repo.pushed_at,
-          url: repo.html_url,
+          url: repo.homepage ?? "",
           content: "",
           coverImage: isCoverImage ? coverImageUrl : undefined,
           type: "projects",

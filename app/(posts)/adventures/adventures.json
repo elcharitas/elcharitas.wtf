@@ -1,8 +1,7 @@
 {
   "2023": {
     "january": [
-      "Published ChakraUI",
-      "Started working on a new React project"
+      "Published ChakraUI"
     ],
     "august": [
       "Started work on Ngyn Framework to empower next-gen backend apps in rust",
@@ -14,24 +13,62 @@
     ]
   },
   "2022": {
+    "january": [
+      "Built Lovenotes, a mongodb powered love letter app",
+      "Built Mangako, an manga-themed NFT marketplace"
+    ],
+    "february": [
+      "Created storm UI, a UI library for building apps fluently in flutter",
+      "Built an autoposter telegram bot just for fun"
+    ],
     "may": [
       "Joined Alphaday as a Software Engineer to build customizable crypto dashboards"
     ],
+    "april": [
+      "Created Chakra UI Svelte, a UI library I decided to build only because I loved https://chakra-ui.com",
+      "Teamed up with my friends to build a decentralized betting platform called Tete",
+      "Built supa cart, an inventory management system powered by Supabase, SaasUI and NextJs"
+    ],
+    "june": [
+      "Had this idea to ease out web3 connection via a centralized network called Web3Gateway (W3G). I wrote the drafts/specs and built a MVP - https://github.com/w3gx"
+    ],
     "september": [
-      "Attended and helped coordinate Mobile Dev Community Hangout"
+      "Attended and helped coordinate first Mobile Dev Community Hangout"
     ],
     "october": [
-      "Started work on Muxifi, A decentralized music app"
+      "Started work on Muxifi, A decentralized music app with a team, I lead and coordinated"
     ],
     "november": [
-      "Conducted load testing",
+      "Conducted load testing for the first time",
       "Implemented caching mechanism"
     ],
     "december": [
       "Attended DevFest Ibadan 2022, met many great minds I had been connected with online"
     ]
   },
-  "2021": {},
+  "2021": {
+    "january": [
+      "Created Waxe, a Laravel Blade inspired templating engine for NodeJS"
+    ],
+    "june": [
+      "Built an app for my church using ionic and firebase"
+    ],
+    "july": [
+      "Wrote a script called Ember, which hacks telegram to send messages to multiple bots at once",
+      "Picked up gatsby for the first time. Gatsby was lit"
+    ],
+    "august": [
+      "Built a minimalistic desktop web browser in python",
+      "Joined a Video Streaming team to build a video streaming platform using php/laravel (Contract)",
+      "I was tasked with leading a team of 3 to move the source code of the video streaming platform from a monolith to a microservice architecture and to NodeJS."
+    ],
+    "october": [
+      "Joined a company which was building a decentralized crowdfunding app as a software engineer"
+    ],
+    "december": [
+      "Wrote my first ever Solana Program in Rust for an NFT"
+    ]
+  },
   "2020": {
     "february": [
       "Began work with a friend on a telegram bot for Futarians. It was a success"
@@ -40,14 +77,14 @@
       "Joined a team of developers to build a social media platform"
     ],
     "june": [
-      "Had this idea for a multiforum platform, So, I built it in php and launched it"
+      "Had this idea for a multiforum platform, So I built it in php and launched it as MacBB"
     ],
     "september": [
       "Joined E-learning team to build the backend for a e-learning platform using php/laravel",
       "Built an internal package at new team called z3.js for fluent interfaces like we have in laravel"
     ],
     "october": [
-      "Kept adding more features to multiforum platform like twig template, markdown support, etc"
+      "Kept adding more features to MacBB like twig template, markdown support, etc"
     ],
     "november": [
       "Began work on my first portfolio website built with 11ty - elcharitas.github.io"
@@ -56,12 +93,18 @@
       "Created Knuckjs, a framework for building web apps with ease",
       "Created cli-njk, a command line tool for generating static sites with nunjucks",
       "Created js-dot, a javascript library for accessing nested objects",
-      "Created schip, a command line tool for running package binaries"
+      "Created schip, a command line tool for running package binaries",
+      "Opened my very first pull request"
     ]
   },
   "2019": {
     "february": [
       "Sold E-pages Software for a giveaway price"
+    ],
+    "february - december": [
+      "Took a break from programming to focus on my studies",
+      "Wrote a lot of bash, and python for my school projects",
+      "Also wrote a Javascript Game engine, called PuckJS when I was bored"
     ],
     "december": [
       "Picked up mybb again and started building plugins for it"

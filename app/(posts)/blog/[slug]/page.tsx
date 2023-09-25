@@ -23,7 +23,12 @@ export default async function BlogInfo({ params }: Props) {
     <div className="bg-zinc-800 min-h-screen">
       <Header post={blogPost} />
       <article className="md:px-4 py-12 md:mx-auto prose prose-zinc prose-quoteless">
-        <Mdx code={blogPost.content ?? ""} />
+        <Mdx
+          code={(blogPost.content ?? "").replace(
+            /align=\"(left|right|center)\"/g,
+            ""
+          )}
+        />
       </article>
     </div>
   );

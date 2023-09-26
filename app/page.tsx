@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-tl from-black via-zinc-600/20 to-black">
       <nav className="my-16 animate-fade-in">
-        <ul className="flex items-center justify-center gap-4">
+        <div className="flex items-center justify-center gap-4">
           {navigation.map((item) =>
             item.noLink ? (
               <a
@@ -33,7 +33,7 @@ export default function Home() {
               </Link>
             )
           )}
-        </ul>
+        </div>
       </nav>
       <h1 className="z-10 text-4xl text-transparent duration-1000 bg-white cursor-default text-edge-outline animate-title font-display sm:text-6xl md:text-9xl whitespace-nowrap bg-clip-text ">
         elch🔥rit🔥s
@@ -85,6 +85,7 @@ export default function Home() {
           rel="noopener noreferrer"
           className="text-zinc-500 hover:text-zinc-300 duration-500"
           title="I collaborate on github often"
+          aria-label="Follow me on github"
         >
           <Github
             size={24}
@@ -96,6 +97,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
           className="text-zinc-500 hover:text-zinc-300 duration-500"
+          aria-label="Connect with me on linkedin"
         >
           <Linkedin
             size={24}
@@ -107,6 +109,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
           className="text-zinc-500 hover:text-zinc-300 duration-500"
+          aria-label="Follow me on twitter"
         >
           <Twitter
             size={24}
@@ -118,6 +121,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
           className="text-zinc-500 hover:text-zinc-300 duration-500"
+          aria-label="My links"
         >
           <ExternalLink
             size={24}

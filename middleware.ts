@@ -8,7 +8,7 @@ export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
 
   // ensure we track one view per request
-  if (!response.cookies.get("blog-" + slug + "-viewed")?.value) {
+  if (!request.cookies.get("blog-" + slug + "-viewed")) {
     const currentViews = (await kv.get<number>(`blog-${slug}-views`)) || 0;
     await kv.set(`blog-${slug}-views`, currentViews + 1);
     response.cookies.set("blog-" + slug + "-viewed", "1", {

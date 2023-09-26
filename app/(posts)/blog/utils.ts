@@ -1,5 +1,4 @@
 import { kv } from "@vercel/kv";
-import { cookies } from "next/headers";
 
 export const userDataQuery = `
   query {
@@ -98,6 +97,7 @@ export async function getAllBlogs(page = 0): Promise<Post[]> {
 }
 
 export async function getBlogPost(slug: string): Promise<Post> {
+  const { cookies } = await import("next/headers");
   const response = await fetch("https://api.hashnode.com", {
     method: "POST",
     headers: {

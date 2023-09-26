@@ -97,7 +97,6 @@ export async function getAllBlogs(page = 0): Promise<Post[]> {
 }
 
 export async function getBlogPost(slug: string): Promise<Post> {
-  const { cookies } = await import("next/headers");
   const response = await fetch("https://api.hashnode.com", {
     method: "POST",
     headers: {
@@ -112,14 +111,5 @@ export async function getBlogPost(slug: string): Promise<Post> {
     data: PostQueryResponse;
   };
 
-  const post = await transformBlog(data.post);
-
-  // ensure we track one view per request
-  if (!cookies().get("blog-" + slug + "-viewed")?.value) {
-    const views = await kv.set(`blog-${slug}-views`, (post.views || 0) + 1);
-    post.views = views !== "OK" ? views ?? post.views : post.views;
-    cookies().set("blog-" + slug + "-viewed", "true");
-  }
-
-  return post;
+  return await transformBlog(data.post);
 }

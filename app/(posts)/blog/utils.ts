@@ -1,4 +1,5 @@
 import { kv } from "@vercel/kv";
+import { cookies } from "next/headers";
 
 export const userDataQuery = `
   query {
@@ -113,7 +114,12 @@ export async function getBlogPost(slug: string): Promise<Post> {
 
   const post = await transformBlog(data.post);
 
-  await kv.set(`blog-${slug}-views`, (post.views || 0) + 1);
+  // ensure we track one view per request
+  if (!cookies().get("blog-" + slug + "-viewed")?.value) {
+    const views = await kv.set(`blog-${slug}-views`, (post.views || 0) + 1);
+    post.views = views !== "OK" ? views ?? post.views : post.views;
+    cookies().set("blog-" + slug + "-viewed", "true");
+  }
 
   return post;
 }

@@ -8,10 +8,10 @@ export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
 
   // ensure we track one view per request
-  if (!request.cookies.get("blog-" + slug + "-viewed")) {
-    const currentViews = (await kv.get<number>(`blog-${slug}-views`)) || 0;
-    await kv.set(`blog-${slug}-views`, currentViews + 1);
-    response.cookies.set("blog-" + slug + "-viewed", "1", {
+  if (!request.cookies.get(`${slug}-viewed`)) {
+    const currentViews = (await kv.get<number>(`${slug}-views`)) || 0;
+    await kv.set(`${slug}-views`, currentViews + 1);
+    response.cookies.set(`${slug}-viewed`, "1", {
       maxAge: 60 * 60 * 24 * 365, // 1 year
       path: "/",
     });

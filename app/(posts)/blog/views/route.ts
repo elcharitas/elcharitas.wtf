@@ -6,6 +6,6 @@ export async function GET(request: Request) {
   const slug = searchParams.get("slug");
 
   return NextResponse.json({
-    views: await kv.get<number>(`blog-${slug}-views`),
+    views: await kv.get<number>(`${slug}-views`),
   });
 }

@@ -63,7 +63,7 @@ export async function transformBlog(
   const { views } =
     "location" in globalThis
       ? await (await fetch(`/blog/views?slug=${post.slug}`)).json()
-      : { views: await kv.get<number>(`blog-${post.slug}-views`) };
+      : { views: await kv.get<number>(`${post.slug}-views`) };
   return {
     title: post.title,
     date: post.dateAdded,

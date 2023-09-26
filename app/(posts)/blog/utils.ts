@@ -1,3 +1,5 @@
+import { kv } from "@vercel/kv";
+
 export const userDataQuery = `
   query {
     user(username: "elcharitas") {
@@ -55,27 +57,33 @@ export type PostQueryResponse = {
   };
 };
 
-export function transformBlog(post: PostQueryResponse["post"]): Post {
+export async function transformBlog(
+  post: PostQueryResponse["post"]
+): Promise<Post> {
+  const { views } =
+    "location" in globalThis
+      ? await (await fetch(`/blog/views?slug=${post.slug}`)).json()
+      : { views: await kv.get<number>(`blog-${post.slug}-views`) };
   return {
     title: post.title,
     date: post.dateAdded,
     brief: post.brief,
     coverImage: post.coverImage,
     slug: post.slug,
-    views: post.views,
+    views: post.views + views,
     content: post.contentMarkdown,
     type: "blog",
   };
 }
 
-export async function getAllBlogs() {
+export async function getAllBlogs(page = 0): Promise<Post[]> {
   const response = await fetch("https://api.hashnode.com", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      query: userDataQuery.replace("$page", "0"),
+      query: userDataQuery.replace("$page", page.toString()),
     }),
   });
 
@@ -83,10 +91,12 @@ export async function getAllBlogs() {
     data: UserQueryResponse;
   };
 
-  return data?.user?.publication?.posts.map(transformBlog) || [];
+  return await Promise.all(
+    data?.user?.publication?.posts.map(transformBlog) || []
+  );
 }
 
-export async function getBlogPost(slug: string) {
+export async function getBlogPost(slug: string): Promise<Post> {
   const response = await fetch("https://api.hashnode.com", {
     method: "POST",
     headers: {
@@ -101,5 +111,9 @@ export async function getBlogPost(slug: string) {
     data: PostQueryResponse;
   };
 
-  return transformBlog(data.post);
+  const post = await transformBlog(data.post);
+
+  await kv.set(`blog-${slug}-views`, (post.views || 0) + 1);
+
+  return post;
 }

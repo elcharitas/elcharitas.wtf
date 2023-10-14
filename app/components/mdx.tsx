@@ -1,19 +1,15 @@
 import * as React from "react";
 import Link from "next/link";
-import ReactMarkdown from "react-markdown";
+import ReactMarkdown, { Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
 import rehypeRaw from "rehype-raw";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
-type Components = {
-  [key in keyof JSX.IntrinsicElements]: React.FC<JSX.IntrinsicElements[key]>;
-};
-
 function clsx(...args: (string | undefined)[]) {
   return args.filter(Boolean).join(" ");
 }
-const components: Partial<Components> = {
+const components: Components = {
   h1: ({ className, ...props }) => (
     <h1
       className={clsx(
@@ -68,7 +64,7 @@ const components: Partial<Components> = {
       {...props}
     />
   ),
-  a: ({ className, href, ref, ...props }) => (
+  a: ({ className, href, ...props }) => (
     <Link
       className={clsx(
         "font-medium text-zinc-50 underline underline-offset-4",
@@ -105,11 +101,7 @@ const components: Partial<Components> = {
       {...props}
     />
   ),
-  img: ({
-    className,
-    alt,
-    ...props
-  }: React.ImgHTMLAttributes<HTMLImageElement>) => (
+  img: ({ className, alt, ...props }) => (
     // eslint-disable-next-line @next/next/no-img-element
     <img
       className={clsx(
@@ -123,12 +115,12 @@ const components: Partial<Components> = {
   hr: ({ ...props }) => (
     <hr className="my-4 border-zinc-200 md:my-8" {...props} />
   ),
-  table: ({ className, ...props }: React.HTMLAttributes<HTMLTableElement>) => (
+  table: ({ className, ...props }) => (
     <div className="w-full my-6 overflow-y-auto">
       <table className={clsx("w-full", className)} {...props} />
     </div>
   ),
-  tr: ({ className, ...props }: React.HTMLAttributes<HTMLTableRowElement>) => (
+  tr: ({ className, ...props }) => (
     <tr
       className={clsx(
         "m-0 border-t border-zinc-300 p-0 even:bg-zinc-100",
@@ -184,15 +176,21 @@ const components: Partial<Components> = {
 
 interface MdxProps {
   code: string;
+  baseUri?: string;
 }
 
-export function Mdx({ code }: MdxProps) {
+export function Mdx({ code, baseUri }: MdxProps) {
   return (
     <ReactMarkdown
-      // @ts-ignore
       components={components}
       remarkPlugins={[remarkGfm]}
       rehypePlugins={[rehypeRaw, rehypeSlug, rehypeAutolinkHeadings]}
+      transformImageUri={(src) => {
+        if (src.startsWith("http")) {
+          return src;
+        }
+        return baseUri ? `${baseUri}${src}` : src;
+      }}
       className="mdx text-zinc-100"
     >
       {code}

@@ -32,6 +32,7 @@ export async function getAllProjects(page = 1): Promise<Post[]> {
           type: "projects",
           views: repo.stargazers_count,
           owner: repo.owner.login,
+          branch: repo.default_branch,
         };
       })
   );

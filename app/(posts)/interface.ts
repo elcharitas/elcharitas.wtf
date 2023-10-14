@@ -9,6 +9,7 @@ interface Post {
   type: "blog" | "projects" | "talks";
   views?: number;
   owner?: string;
+  branch?: string;
 }
 
 interface Repo {

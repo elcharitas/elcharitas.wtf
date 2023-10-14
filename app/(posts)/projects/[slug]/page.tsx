@@ -43,7 +43,10 @@ export default async function PostPage({ params }: Props) {
 
       {data.content && (
         <article className="px-4 md:px-0 py-12 md:mx-auto prose prose-zinc prose-quoteless">
-          <Mdx code={Buffer.from(data.content, data.encoding).toString()} />
+          <Mdx
+            baseUri={`https://raw.githubusercontent.com/${project.owner}/${project.slug}/${project.branch}/`}
+            code={Buffer.from(data.content, data.encoding).toString()}
+          />
         </article>
       )}
     </div>

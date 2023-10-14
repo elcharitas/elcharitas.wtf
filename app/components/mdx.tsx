@@ -104,10 +104,7 @@ const components: Components = {
   img: ({ className, alt, ...props }) => (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      className={clsx(
-        "rounded-md border border-zinc-200 inline-block",
-        className
-      )}
+      className={clsx("rounded-md inline-block", className)}
       alt={alt}
       {...props}
     />

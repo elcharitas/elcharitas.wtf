@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import React from "react";
 import { ArrowDownCircle, Settings, Eye, Star } from "lucide-react";
 import { Card } from "../components/card";
@@ -65,13 +66,15 @@ export function PostsPage({
                   </span>
                 </div>
 
-                <div className="rounded-lg overflow-hidden w-full h-48 mx-auto mt-2">
-                  <img
-                    src={featured.coverImage}
-                    alt={featured.title}
-                    className="object-cover w-full h-full"
-                  />
-                </div>
+                {featured.coverImage && (
+                  <div className="relative rounded-lg overflow-hidden w-full h-48 mx-auto mt-2">
+                    <Image
+                      src={featured.coverImage}
+                      alt={featured.title}
+                      fill
+                    />
+                  </div>
+                )}
 
                 <h2
                   id="featured-post"

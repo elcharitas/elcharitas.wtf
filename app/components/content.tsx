@@ -5,8 +5,8 @@ type Props = {
 const BOLD_REGEX = /\*\*(.*?)\*\*/g; // Example: **bold**
 const UNDERLINE_REGEX = /__(.*?)__/g; // Example: __underline__
 const URL_REGEX = /(https?:\/\/[a-z\d-]+\.+[a-z\d]{2,}[\w/?&=#%]*)/g; // Example: https://google.com
-const NAMED_URL_REGEX = /\[(.*?)\]\((https?:\/\/[a-z\d-]+\.+[a-z\d]{2,}[\w?&=#%]*)\)/;
-const NAMED_GROUP_URL_REGEX = /(\[(.*?)\]\((https?:\/\/[a-z\d-]+\.+[a-z\d]{2,}[\w?&=#%]*)\))/g; // Example: [Google](https://google.com)
+const NAMED_URL_REGEX = /\[(.*?)\]\((https:\/\/[^\)]+)\)/;
+const NAMED_GROUP_URL_REGEX = /(\[(.*?)\]\((https:\/\/[^\)]+)\))/g; // Example: [Google](https://google.com)
 
 interface Node {
   index: number;
@@ -76,6 +76,7 @@ const parseToJsx = (text: string, patterns: RegExp[]) => {
     }
     if (node.pattern === NAMED_GROUP_URL_REGEX) {
       const matches = NAMED_URL_REGEX.exec(node.text);
+      console.log("matches2", matches);
       if (matches === null || matches.length === 1) {
         return node.text;
       }
@@ -98,10 +99,10 @@ export const Content: React.FC<Props> = ({ text }) => {
     <>
       {text !== undefined &&
         parseToJsx(text, [
+          NAMED_GROUP_URL_REGEX,
           BOLD_REGEX,
           UNDERLINE_REGEX,
           URL_REGEX,
-          NAMED_GROUP_URL_REGEX,
         ])}
     </>
   );

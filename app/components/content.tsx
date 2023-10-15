@@ -44,7 +44,7 @@ const parseToJsx = (text: string, patterns: RegExp[]) => {
     }
 
     acc.forEach((node, index) => {
-      if (node.text.includes(nodes[0])) {
+      if (node.text.includes(nodes[0]) && node.text.length > nodes[0].length) {
         acc.splice(index, 1, ...parseAndSplit(node.text, pattern, nodes.index));
       }
       return node;
@@ -98,10 +98,10 @@ export const Content: React.FC<Props> = ({ text }) => {
     <>
       {text !== undefined &&
         parseToJsx(text, [
-          NAMED_GROUP_URL_REGEX,
           BOLD_REGEX,
           UNDERLINE_REGEX,
           URL_REGEX,
+          NAMED_GROUP_URL_REGEX,
         ])}
     </>
   );

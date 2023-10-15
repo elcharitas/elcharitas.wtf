@@ -40,8 +40,7 @@ export default function Home() {
       </h1>
       <div className="my-16 mx-4 text-center animate-fade-in">
         <h2 className="text-sm text-zinc-500 ">
-          Hi, my name is Jonathan, I'm currently building interactive crypto
-          dashboards at{" "}
+          Hi, I&apos;m Jonathan, I build interactive crypto dashboards at{" "}
           <a
             target="_blank"
             href="https://alphaday.com"
@@ -52,6 +51,7 @@ export default function Home() {
           <br />
           while working on{" "}
           <Link
+            target="_blank"
             href="https://crates.io/crates/ngyn"
             className="underline duration-500 hover:text-zinc-300"
           >

@@ -13,6 +13,16 @@ export default function ProjectsLayout({
           {children}
         </div>
       </div>
+      <div className="flex justify-center text-sm text-zinc-50 py-8 border-t border-zinc-800">
+        Designed and developed by &nbsp;
+        <a
+          href="https://elcharitas.wtf"
+          className="font-medium text-zinc-500 hover:text-zinc-300"
+        >
+          Jonathan Irhodia
+        </a>
+        &nbsp; © {new Date().getFullYear()}
+      </div>
     </div>
   );
 }

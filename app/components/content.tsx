@@ -76,7 +76,6 @@ const parseToJsx = (text: string, patterns: RegExp[]) => {
     }
     if (node.pattern === NAMED_GROUP_URL_REGEX) {
       const matches = NAMED_URL_REGEX.exec(node.text);
-      console.log("matches2", matches);
       if (matches === null || matches.length === 1) {
         return node.text;
       }

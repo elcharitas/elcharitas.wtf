@@ -177,17 +177,20 @@ interface MdxProps {
 }
 
 export function Mdx({ code, baseUri }: MdxProps) {
+  const transformLink = (href: string) => {
+    if (href.startsWith("http")) {
+      return href;
+    }
+    return baseUri ? `${baseUri}${href}` : href;
+  };
+
   return (
     <ReactMarkdown
       components={components}
       remarkPlugins={[remarkGfm]}
       rehypePlugins={[rehypeRaw, rehypeSlug, rehypeAutolinkHeadings]}
-      transformImageUri={(src) => {
-        if (src.startsWith("http")) {
-          return src;
-        }
-        return baseUri ? `${baseUri}${src}` : src;
-      }}
+      transformLinkUri={transformLink}
+      transformImageUri={transformLink}
       className="mdx text-zinc-100"
     >
       {code}

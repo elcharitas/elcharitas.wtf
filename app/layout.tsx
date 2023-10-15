@@ -1,6 +1,7 @@
 import { Plus_Jakarta_Sans } from "next/font/google";
 import LocalFont from "next/font/local";
 import { Metadata } from "next";
+import { Toaster } from "react-hot-toast";
 import { Analytics } from "@vercel/analytics/react";
 import "../global.css";
 
@@ -68,6 +69,15 @@ export default function RootLayout({
       <body className="bg-black">
         {children}
         <Analytics />
+        <Toaster
+          toastOptions={{
+            style: {
+              background: "#333",
+              color: "#fff",
+            },
+            position: "bottom-center",
+          }}
+        />
       </body>
     </html>
   );

@@ -52,7 +52,7 @@ export default function Home() {
           <br />
           while working on{" "}
           <Link
-            href="/projects/ngyn"
+            href="https://crates.io/crates/ngyn"
             className="underline duration-500 hover:text-zinc-300"
           >
             Ngyn

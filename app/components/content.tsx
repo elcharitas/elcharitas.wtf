@@ -25,7 +25,7 @@ const parseAndSplit = (text: string, pattern: RegExp, nodeIndex: number) => {
       };
     }
     return {
-      index: 0,
+      index: nodeIndex + text.length + index,
       text: text,
     };
   });
@@ -53,7 +53,7 @@ const parseToJsx = (text: string, patterns: RegExp[]) => {
   }, [] as Node[]);
 
   if (matches.length === 0) {
-    return text;
+    return <span key={text}>{text}</span>;
   }
 
   return matches.map((node) => {
@@ -94,15 +94,17 @@ const parseToJsx = (text: string, patterns: RegExp[]) => {
 };
 
 export const Content: React.FC<Props> = ({ text }) => {
-  return (
-    <>
-      {text !== undefined &&
-        parseToJsx(text, [
+  if (text !== undefined) {
+    return (
+      <>
+        {parseToJsx(text, [
           BOLD_REGEX,
           UNDERLINE_REGEX,
           URL_REGEX,
           NAMED_GROUP_URL_REGEX,
         ])}
-    </>
-  );
+      </>
+    );
+  }
+  return null;
 };

@@ -34,7 +34,6 @@ export default async function Page() {
           ))}
         </ul>
       </div>
-      <div className="w-full h-px bg-zinc-800" />
     </>
   );
 }

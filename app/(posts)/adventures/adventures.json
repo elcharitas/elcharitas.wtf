@@ -14,7 +14,7 @@
   },
   "2022": {
     "january": [
-      "Built [Lovenotes](https://github.com/elcharitas), a mongodb powered love letter app",
+      "Built [Lovenotes](https://github.com/elcharitas/mongodb-hackathon), a mongodb powered love letter app",
       "Built Mangako, an manga-themed NFT marketplace"
     ],
     "february": [
@@ -22,12 +22,12 @@
       "Built an autoposter telegram bot just for fun"
     ],
     "may": [
-      "Joined Alphaday as a Software Engineer to build customizable crypto dashboards"
+      "Joined [Alphaday](https://alphaday.com) as a Software Engineer to build customizable crypto dashboards"
     ],
     "april": [
       "Created Chakra UI Svelte, a UI library I decided to build only because I loved https://chakra-ui.com",
       "Teamed up with my friends to build a decentralized betting platform called Tete",
-      "Built supa cart, an inventory management system powered by Supabase, SaasUI and NextJs"
+      "Built supa cart, an inventory management system powered by Supabase, [SaasUI](https://saas-ui.com) and [NextJs](https://nextjs.org)"
     ],
     "june": [
       "Had this idea to ease out web3 connection via a centralized network called Web3Gateway (W3G). I wrote the drafts/specs and built a MVP - https://github.com/w3gx"

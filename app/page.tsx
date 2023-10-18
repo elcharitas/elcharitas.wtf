@@ -1,6 +1,12 @@
 import Link from "next/link";
 import React from "react";
-import { Github, Linkedin, Twitter, ExternalLink } from "lucide-react";
+import {
+  Github,
+  Linkedin,
+  Twitter,
+  ExternalLink,
+  Instagram,
+} from "lucide-react";
 
 const navigation = [
   { name: "Blog", href: "/blog" },
@@ -100,6 +106,18 @@ export default function Home() {
           aria-label="Connect with me on linkedin"
         >
           <Linkedin
+            size={24}
+            className="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+          />
+        </a>
+        <a
+          href="https://instagram.com/iamelcharitas"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-zinc-500 hover:text-zinc-300 duration-500"
+          aria-label="Connect with me on instagram"
+        >
+          <Instagram
             size={24}
             className="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
           />

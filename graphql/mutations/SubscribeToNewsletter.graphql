@@ -1,0 +1,12 @@
+input SubscribeToNewsletterInput {
+  """The email of the subscriber."""
+  email: String!
+  """The ID of the publication to subscribe to."""
+  publicationId: ObjectId!
+}
+
+mutation SubscribeToNewsletter($input: SubscribeToNewsletterInput!) {
+	subscribeToNewsletter(input: $input) {
+		status
+	}
+}

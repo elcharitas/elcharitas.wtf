@@ -4,9 +4,17 @@
     "rules": {
       "recommended": true
     },
-    "ignore": ["node_modules", ".next", "dist"]
+    "ignore": [
+      "node_modules",
+      ".next",
+      "dist"
+    ]
   },
   "formatter": {
-    "ignore": ["node_modules", ".next", "dist"]
+    "ignore": [
+      "node_modules",
+      ".next",
+      "dist"
+    ]
   }
 }

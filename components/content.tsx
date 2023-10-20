@@ -3,7 +3,6 @@ const UNDERLINE_REGEX = /__(.*?)__/g; // Example: __underline__
 const URL_REGEX = /(https?:\/\/[a-z\-\d-]+\.+[a-z\-\d]{2,}[\w/?&=#%]*)/g; // Example: https://google.com
 const NAMED_URL_REGEX = /\[(.*?)\]\((https:\/\/[^\)]+)\)/;
 const NAMED_GROUP_URL_REGEX = /(\[(.*?)\]\((https:\/\/[^\)]+)\))/g; // Example: [Google](https://google.com)
-const EXACT_URL_REGEX = new RegExp(`^${URL_REGEX.source}$`); // Example: https://google.com
 
 interface Node {
   index: number;

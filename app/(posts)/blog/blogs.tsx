@@ -5,26 +5,29 @@ import { PostsPage } from "../post-page";
 import { getAllBlogs } from "./utils";
 
 interface BlogProps {
+  initialCursor: string | null;
   initialPosts: Post[];
 }
 
-const BlogListing = ({ initialPosts }: BlogProps) => {
-  const [currentPage, setCurrentPage] = useState(1);
+const BlogListing = ({ initialPosts, initialCursor }: BlogProps) => {
+  const [nextCursor, setNextCursor] = useState<string | null>(null);
 
   const blogPosts = useRef(initialPosts);
   const [featured, top1, top2, ...sorted] = blogPosts.current;
 
-  const { value: hasReachedEnd, status } = useAsyncEffect(async () => {
-    const currentPosts = await getAllBlogs(currentPage);
-    if (currentPosts.length > 0) {
-      const newPosts = currentPosts.filter(
-        (c) => !blogPosts.current.find((p) => p.slug === c.slug)
-      );
-      blogPosts.current = [...blogPosts.current, ...newPosts];
-      return (await getAllBlogs(currentPage + 1)).length === 0;
+  const { value: nextPageCursor, status } = useAsyncEffect(async () => {
+    if (nextCursor) {
+      const [currentPosts, nextPageCursor] = await getAllBlogs(nextCursor);
+      if (currentPosts.length > 0) {
+        const newPosts = currentPosts.filter(
+          (c) => !blogPosts.current.find((p) => p.slug === c.slug)
+        );
+        blogPosts.current = [...blogPosts.current, ...newPosts];
+      }
+      return nextPageCursor;
     }
-    return currentPosts.length === 0;
-  }, [currentPage]);
+    return initialCursor;
+  }, [nextCursor, initialCursor]);
 
   return (
     <PostsPage
@@ -32,10 +35,12 @@ const BlogListing = ({ initialPosts }: BlogProps) => {
       description="I write about my experiences and thoughts on how to do software development, productivity, and life."
       featured={[featured, top1, top2]}
       sorted={sorted}
-      isReachedEnd={hasReachedEnd}
+      isReachedEnd={!nextPageCursor}
       isLoading={status === "loading"}
       handleLoadMore={() => {
-        setCurrentPage((prev) => prev + 1);
+        if (nextPageCursor) {
+          setNextCursor(nextPageCursor);
+        }
       }}
     />
   );

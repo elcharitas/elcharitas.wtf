@@ -14,28 +14,34 @@ const viewCount = async (slug: string) => {
   ).views;
 };
 
-export async function getAllBlogs(page = 0): Promise<Post[]> {
+export async function getAllBlogs(
+  cursor: string | null = null
+): Promise<[Post[], string | null]> {
   const { data } = await executeQuery<PostsByPublicationQuery>(
     { PostsByPublication },
     {
       host: "elcharitas.wtf/blog",
-      first: 12 * (page + 1),
+      first: 9,
+      after: cursor,
     }
   );
 
-  const { edges = [] } = data?.publication?.posts ?? {};
+  const { edges = [], pageInfo } = data?.publication?.posts ?? {};
 
-  return Promise.all(
-    edges.map(async ({ node: post }) => ({
-      title: post.title,
-      date: post.publishedAt,
-      brief: post.brief,
-      coverImage: post.coverImage?.url,
-      slug: post.slug,
-      views: post.views + (await viewCount(post.slug)),
-      type: "blog",
-    }))
-  );
+  return [
+    await Promise.all(
+      edges.map(async ({ node: post }) => ({
+        title: post.title,
+        date: post.publishedAt,
+        brief: post.brief,
+        coverImage: post.coverImage?.url,
+        slug: post.slug,
+        views: post.views + (await viewCount(post.slug)),
+        type: "blog",
+      }))
+    ),
+    pageInfo?.hasNextPage && pageInfo.endCursor ? pageInfo.endCursor : null,
+  ];
 }
 
 export async function getBlogPost(slug: string): Promise<Post> {

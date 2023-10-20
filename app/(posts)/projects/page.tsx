@@ -1,4 +1,4 @@
-import { PostsPage } from "../post-page";
+import { PostsPage } from "@/components/post-page";
 import { getAllProjects } from "./util";
 
 export const revalidate = 60;

@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
-import { Mdx } from "@/app/components/mdx";
-import { Header } from "../../header";
-import "../../mdx.css";
+import { Mdx } from "@/components/mdx";
+import { Header } from "@/components/header";
 import { getBlogPost } from "../utils";
 
 export const revalidate = 60;

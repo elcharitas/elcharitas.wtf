@@ -1,6 +1,6 @@
 import { FC } from "react";
-import { Card } from "@/app/components/card";
-import { Content } from "@/app/components/content";
+import { Card } from "@/components/card";
+import { Content } from "@/components/content";
 
 interface AdventureProps {
   year: string;

@@ -1,6 +1,5 @@
-import { Card } from "@/app/components/card";
-import adventures from "./adventures.json";
 import { Adventure } from "./adventure";
+import adventures from "./adventures.json";
 
 const adventuresByYear = Object.entries(adventures)
   .map(([year, yearData]) => ({

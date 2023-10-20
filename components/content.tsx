@@ -27,27 +27,38 @@ const parseTextToNodes = (text: string, patterns: RegExp[]): Node[] => {
       if (node.pattern) {
         newNodes.push(node);
       } else {
-        const match = node.text.match(pattern);
-        if (match) {
-          const matchedText = match[0];
-          const matchedIndex = node.text.indexOf(matchedText);
-          if (matchedIndex > 0) {
+        const matches = node.text.match(pattern);
+        if (matches) {
+          let currentIndex = 0;
+          matches.forEach((match, index) => {
+            const matchedText = match;
+            const matchedIndex = node.text.indexOf(matchedText);
+
+            if (matchedIndex > 0) {
+              newNodes.push({
+                index: nodeIndex++,
+                text: node.text.substring(currentIndex, matchedIndex),
+              });
+              currentIndex = matchedIndex + matchedText.length;
+            }
+
             newNodes.push({
               index: nodeIndex++,
-              text: node.text.substring(0, matchedIndex),
+              text: matchedText,
+              pattern: pattern,
             });
-          }
-          newNodes.push({
-            index: nodeIndex++,
-            text: matchedText,
-            pattern: pattern,
+
+            if (
+              currentIndex < node.text.length && // Not at the end of the node
+              index === matches.length - 1 // Last match
+            ) {
+              // Add the remaining text
+              newNodes.push({
+                index: nodeIndex++,
+                text: node.text.substring(currentIndex),
+              });
+            }
           });
-          if (matchedIndex + matchedText.length < node.text.length) {
-            newNodes.push({
-              index: nodeIndex++,
-              text: node.text.substring(matchedIndex + matchedText.length),
-            });
-          }
         } else {
           newNodes.push(node);
         }

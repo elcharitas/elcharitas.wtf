@@ -20,16 +20,16 @@ const Adventure: FC<AdventureProps> = ({ year, yearData }) => {
         >
           {year}
         </div>
-        {yearData.map(({ month, info }, index) => (
+        {yearData.map(({ month, info }, pos) => (
           <div
             key={month}
             className={`mb-4 md:ml-4 md:mt-8 animate-fade-in md:flex flex-col ${
-              index % 2 ? "items-start" : "items-end"
+              pos % 2 ? "items-start" : "items-end"
             }`}
           >
             <Card>
-              <div className="max-w-[450px] min-w-[300px] md:w-[450px]">
-                <div className="m-4 p-4 pt-2 w-full">
+              <div className="p-4 max-w-[500px] min-w-[300px] md:w-[500px]">
+                <div className="px-4 pb-4 w-full">
                   <h3 className="text-lg font-display uppercase my-2 text-yellow-500/80">
                     {month}
                   </h3>

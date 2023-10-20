@@ -1,115 +1,56 @@
-import { kv } from "@vercel/kv";
-
-export const userDataQuery = `
-  query {
-    user(username: "elcharitas") {
-      publication {
-        posts(page: $page) {
-          title
-          dateAdded
-          coverImage
-          slug
-          brief
-          views
-          readTime
-        }
-      }
-    }
-  }
-`;
-
-export const blogPostQuery = `
-  query {
-    post(slug: $slug, hostname: "iamelcharitas.hashnode.dev") {
-      title
-      dateAdded
-      coverImage
-      contentMarkdown
-      slug
-      brief
-      views
-      readTime
-    }
-  }
-`;
-
-export type UserQueryResponse = {
-  user: {
-    publication: {
-      posts: PostQueryResponse["post"][];
-    };
-  };
-};
-
-export type PostQueryResponse = {
-  post: {
-    title: string;
-    dateAdded: string;
-    coverImage: string;
-    contentMarkdown?: string;
-    slug: string;
-    brief: string;
-    views: number;
-    readTime: number;
-    tags: {
-      name: string;
-    }[];
-  };
-};
-
-export async function transformBlog(
-  post: PostQueryResponse["post"]
-): Promise<Post> {
-  const { views } =
-    "location" in globalThis
-      ? await (await fetch(`/blog/views?slug=${post.slug}`)).json()
-      : { views: await kv.get<number>(`${post.slug}-views`) };
-  return {
-    title: post.title,
-    date: post.dateAdded,
-    brief: post.brief,
-    coverImage: post.coverImage,
-    slug: post.slug,
-    views: post.views + views,
-    content: post.contentMarkdown,
-    type: "blog",
-  };
-}
+import type {
+  PostsByPublicationQuery,
+  SinglePostByPublicationQuery,
+} from "@/graphql/graphql";
+import PostsByPublication from "@/graphql/queries/PostsByPublication.graphql";
+import SinglePostByPublication from "@/graphql/queries/SinglePostByPublication.graphql";
+import { executeQuery } from "@/graphql/utils";
 
 export async function getAllBlogs(page = 0): Promise<Post[]> {
-  const response = await fetch("https://api.hashnode.com", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      query: userDataQuery.replace("$page", page.toString()),
-    }),
-  });
-
-  const { data } = (await response.json()) as {
-    data: UserQueryResponse;
-  };
-
-  return await Promise.all(
-    data?.user?.publication?.posts.map(transformBlog) || []
+  const { data } = await executeQuery<PostsByPublicationQuery>(
+    { PostsByPublication },
+    {
+      host: "elcharitas.wtf/blog",
+      first: 12 * (page + 1),
+    }
   );
+
+  const { edges = [] } = data?.publication?.posts ?? {};
+
+  return edges.map(({ node }) => ({
+    title: node.title,
+    date: node.publishedAt,
+    brief: node.brief,
+    coverImage: node.coverImage?.url,
+    slug: node.slug,
+    views: node.views,
+    type: "blog",
+  }));
 }
 
 export async function getBlogPost(slug: string): Promise<Post> {
-  const response = await fetch("https://api.hashnode.com", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      query: blogPostQuery.replace("$slug", JSON.stringify(slug)),
-    }),
-  });
+  const { data } = await executeQuery<SinglePostByPublicationQuery>(
+    { SinglePostByPublication },
+    {
+      host: "elcharitas.wtf/blog",
+      slug,
+    }
+  );
 
-  const { data } = (await response.json()) as {
-    data: PostQueryResponse;
+  if (data?.publication?.post == null) {
+    throw new Error("Post not found");
+  }
+
+  const { post } = data.publication;
+
+  return {
+    title: post.title,
+    date: post.publishedAt,
+    brief: post.brief,
+    coverImage: post.coverImage?.url,
+    slug: post.slug,
+    views: post.views,
+    content: post.content.markdown,
+    type: "blog",
   };
-
-  return await transformBlog(data.post);
 }

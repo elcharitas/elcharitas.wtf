@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
   pageExtensions: ["ts", "tsx"],
+  experimental: {
+    serverActions: true,
+  },
   images: {
     remotePatterns: [
       {

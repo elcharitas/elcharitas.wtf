@@ -3,6 +3,7 @@ import LocalFont from "next/font/local";
 import { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
 import { Analytics } from "@vercel/analytics/react";
+import { TourDriver } from "@/components/tour";
 import "../global.css";
 
 export const metadata: Metadata = {
@@ -68,7 +69,7 @@ export default function RootLayout({
     <html lang="en" className={[inter.variable, calSans.variable].join(" ")}>
       <body className="bg-black">
         {children}
-        <Analytics />
+        <TourDriver />
         <Toaster
           toastOptions={{
             style: {
@@ -78,6 +79,7 @@ export default function RootLayout({
             position: "bottom-center",
           }}
         />
+        <Analytics />
       </body>
     </html>
   );

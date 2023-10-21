@@ -1,17 +1,5 @@
-import { executeQuery } from "@/graphql/utils";
-import type { SubscribeToNewsletterMutation } from "@/graphql/graphql";
-import SubscribeToNewsletter from "@/graphql/mutations/SubscribeToNewsletter.graphql";
 import { SubscribeForm } from "./form";
-
-async function subscribe(formData: FormData) {
-  "use server";
-  const email = formData.get("email")?.valueOf();
-
-  await executeQuery<SubscribeToNewsletterMutation>(
-    { SubscribeToNewsletter },
-    { input: { email, publicationId: "6231526bc4a093f00c8acd3b" } }
-  );
-}
+import { subscribe } from "./actions";
 
 export default function Newsletter() {
   return (

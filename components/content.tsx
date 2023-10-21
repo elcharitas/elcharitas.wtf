@@ -1,74 +1,10 @@
+import { parseTextToNodes } from "./utils";
+
 const BOLD_REGEX = /\*\*(.*?)\*\*/g; // Example: **bold**
 const UNDERLINE_REGEX = /__(.*?)__/g; // Example: __underline__
 const URL_REGEX = /(https?:\/\/[a-z\-\d-]+\.+[a-z\-\d]{2,}[\w/?&=#%]*)/g; // Example: https://google.com
 const NAMED_URL_REGEX = /\[(.*?)\]\((https:\/\/[^\)]+)\)/;
 const NAMED_GROUP_URL_REGEX = /(\[(.*?)\]\((https:\/\/[^\)]+)\))/g; // Example: [Google](https://google.com)
-
-interface Node {
-  index: number;
-  text: string;
-  pattern?: RegExp;
-}
-
-/**
- * Function to parse a text input into nodes using regex patterns.
- *
- * @param text
- * @param patterns
- * @returns nodes
- */
-const parseTextToNodes = (text: string, patterns: RegExp[]): Node[] => {
-  let nodeIndex = 0;
-  let nodes: Node[] = [{ index: nodeIndex, text: text }];
-
-  patterns.forEach((pattern) => {
-    let newNodes: Node[] = [];
-    nodes.forEach((node) => {
-      if (node.pattern) {
-        newNodes.push(node);
-      } else {
-        const matches = node.text.match(pattern);
-        if (matches) {
-          let currentIndex = 0;
-          matches.forEach((match, index) => {
-            const matchedText = match;
-            const matchedIndex = node.text.indexOf(matchedText);
-
-            if (matchedIndex > 0) {
-              newNodes.push({
-                index: nodeIndex++,
-                text: node.text.substring(currentIndex, matchedIndex),
-              });
-              currentIndex = matchedIndex + matchedText.length;
-            }
-
-            newNodes.push({
-              index: nodeIndex++,
-              text: matchedText,
-              pattern: pattern,
-            });
-
-            if (
-              currentIndex < node.text.length && // Not at the end of the node
-              index === matches.length - 1 // Last match
-            ) {
-              // Add the remaining text
-              newNodes.push({
-                index: nodeIndex++,
-                text: node.text.substring(currentIndex),
-              });
-            }
-          });
-        } else {
-          newNodes.push(node);
-        }
-      }
-    });
-    nodes = newNodes;
-  });
-
-  return nodes;
-};
 
 const parseToJsx = (text: string, patterns: RegExp[]) => {
   const nodes = parseTextToNodes(text, patterns);
@@ -118,11 +54,11 @@ const parseToJsx = (text: string, patterns: RegExp[]) => {
   });
 };
 
-type Props = {
+type ContentProps = {
   text: string | undefined;
 };
 
-export const Content: React.FC<Props> = ({ text }) => {
+export const Content: React.FC<ContentProps> = ({ text }) => {
   if (text !== undefined) {
     return (
       <>

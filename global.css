@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-.driver-popover.tour-wrapper {
+.tour-wrapper {
   background-color: theme("colors.zinc.700");
   color: theme("colors.zinc.100");
   min-height: theme("spacing.32");
@@ -11,17 +11,17 @@
   justify-content: space-between;
 }
 
-.driver-popover.tour-wrapper .driver-popover-title {
+.tour-wrapper .driver-popover-title {
   font-size: theme("fontSize.lg");
 }
 
-.driver-popover.tour-wrapper .driver-popover-title,
-.driver-popover.tour-wrapper .driver-popover-description,
-.driver-popover.tour-wrapper .driver-popover-progress-text {
+.tour-wrapper .driver-popover-title,
+.tour-wrapper .driver-popover-description,
+.tour-wrapper .driver-popover-progress-text {
   color: theme("colors.zinc.100");
 }
 
-.driver-popover.tour-wrapper button {
+.tour-wrapper button {
   text-align: center;
   background-color: theme("colors.zinc.800");
   color: theme("colors.zinc.100");
@@ -32,21 +32,21 @@
   border-radius: theme("borderRadius.md");
 }
 
-.driver-popover.tour-wrapper button:hover {
+.tour-wrapper button:hover {
   background-color: theme("colors.zinc.900");
 }
 
-.driver-popover.tour-wrapper .driver-popover-navigation-btns {
+.tour-wrapper .driver-popover-navigation-btns {
   justify-content: space-between;
   gap: 3px;
 }
 
-.driver-popover.tour-wrapper .driver-popover-close-btn {
+.tour-wrapper .driver-popover-close-btn {
   padding: 0;
   background-color: transparent;
   border: none;
 }
-.driver-popover.tour-wrapper .driver-popover-close-btn:hover {
+.tour-wrapper .driver-popover-close-btn:hover {
   color: theme("colors.zinc.200");
   background-color: transparent;
 }

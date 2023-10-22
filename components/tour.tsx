@@ -14,7 +14,7 @@ export const TourDriver = () => {
     const steps = elements.map((element) => ({
       element: getUniqueSelector(element),
       popover: {
-        title: element.getAttribute("data-tour-title") ?? "",
+        title: element.getAttribute("data-tour") ?? "",
         description: element.getAttribute("data-tour-description") ?? "",
         side: element.getAttribute("data-tour-position") as Side,
       },

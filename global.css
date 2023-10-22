@@ -2,12 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  .text-edge-outline {
-    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
-  }
-}
-
 .driver-popover.tour-wrapper {
   background-color: theme("colors.zinc.700");
   color: theme("colors.zinc.100");
@@ -19,7 +13,6 @@
 
 .driver-popover.tour-wrapper .driver-popover-title {
   font-size: theme("fontSize.lg");
-  color: theme("colors.zinc.100");
 }
 
 .driver-popover.tour-wrapper .driver-popover-title,
@@ -49,7 +42,6 @@
 }
 
 .driver-popover.tour-wrapper .driver-popover-close-btn {
-  color: theme("colors.zinc.100");
   padding: 0;
   background-color: transparent;
   border: none;

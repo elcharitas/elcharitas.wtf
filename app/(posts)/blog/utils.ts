@@ -1,4 +1,3 @@
-import { kv } from "@vercel/kv";
 import type {
   PostsByPublicationQuery,
   SinglePostByPublicationQuery,
@@ -6,13 +5,6 @@ import type {
 import PostsByPublication from "@/graphql/queries/PostsByPublication.graphql";
 import SinglePostByPublication from "@/graphql/queries/SinglePostByPublication.graphql";
 import { executeQuery } from "@/graphql/utils";
-
-const viewCount = async (slug: string) => {
-  return ("location" in globalThis
-    ? await (await fetch(`/blog/views?slug=${slug}`)).json()
-    : { views: await kv.get<number>(`${slug}-views`) }
-  ).views;
-};
 
 export async function getAllBlogs(
   cursor: string | null = null
@@ -29,17 +21,15 @@ export async function getAllBlogs(
   const { edges = [], pageInfo } = data?.publication?.posts ?? {};
 
   return [
-    await Promise.all(
-      edges.map(async ({ node: post }) => ({
-        title: post.title,
-        date: post.publishedAt,
-        brief: post.brief,
-        coverImage: post.coverImage?.url,
-        slug: post.slug,
-        views: post.views + (await viewCount(post.slug)),
-        type: "blog",
-      }))
-    ),
+    edges.map(({ node: post }) => ({
+      title: post.title,
+      date: post.publishedAt,
+      brief: post.brief,
+      coverImage: post.coverImage?.url,
+      slug: post.slug,
+      views: post.views,
+      type: "blog",
+    })),
     pageInfo?.hasNextPage && pageInfo.endCursor ? pageInfo.endCursor : null,
   ];
 }
@@ -65,7 +55,7 @@ export async function getBlogPost(slug: string): Promise<Post> {
     brief: post.brief,
     coverImage: post.coverImage?.url,
     slug: post.slug,
-    views: post.views + (await viewCount(post.slug)),
+    views: post.views,
     content: post.content.markdown,
     type: "blog",
   };

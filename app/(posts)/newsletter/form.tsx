@@ -23,7 +23,8 @@ export const SubscribeForm = () => {
   if (isSubmitted) {
     return (
       <p className="text-xs text-zinc-500 dark:text-zinc-400 text-center">
-        Thanks for subscribing!
+        Thanks for subscribing! A confirmation email has been sent to your
+        inbox. If you don&apos;t see it, check your spam folder. 📬
       </p>
     );
   }
@@ -44,11 +45,15 @@ export const SubscribeForm = () => {
           placeholder="mail@example.com"
           required
           type="email"
+          data-tour="Enter your email"
+          data-tour-description="We'll send you an email to confirm your subscription."
         />
         <button
           type="submit"
           className="flex items-center justify-center h-10 px-4 text-sm font-medium rounded-md border border-transparent bg-zinc-700 hover:bg-zinc-600 text-white disabled:cursor-not-allowed disabled:opacity-50"
           disabled={pending}
+          data-tour="Subscribe"
+          data-tour-description="Click here to subscribe to my newsletter."
         >
           Subscribe
         </button>

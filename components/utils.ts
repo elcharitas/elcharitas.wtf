@@ -77,7 +77,13 @@ export function getUniqueSelector(element: Element): string {
   const tag = element.tagName.toLowerCase();
   const id = element.id ? `#${element.id}` : "";
   const classNames = element.className?.split(" ").reduce((acc, className) => {
-    if (className && !className.includes(":") && !className.includes("/")) {
+    if (
+      className &&
+      !className.includes(":") &&
+      !className.includes("/") &&
+      !className.includes("[") &&
+      !className.includes("]")
+    ) {
       return `${acc}.${className}`;
     }
     return acc;

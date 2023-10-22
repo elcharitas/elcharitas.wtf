@@ -17,7 +17,7 @@ const _sendViewsToHashnodeInternalAnalytics = async (
     time: new Date().getTime(),
     event_properties: {
       hostname: "elcharitas.wtf",
-      url: `https://elcharitas.wtf/blog/${publication.post.slug}`,
+      url: publication.post.url,
       eventType: "pageview",
       publicationId: publication.id,
       dateAdded: new Date().getTime(),
@@ -35,7 +35,7 @@ const _sendViewsToHashnodeInternalAnalytics = async (
 
   event["device_id"] = deviceId;
 
-  return await fetch(`https://hn-ping2.hashnode.com/api/data-event`, {
+  return await fetch("https://hn-ping2.hashnode.com/api/data-event", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -57,18 +57,19 @@ const _sendViewsToHashnodeAnalyticsDashboard = async (
     publicationId: publication.id,
     postId: post.id,
     timestamp: Date.now(),
-    url: `https://elcharitas.wtf/blog/${slug}`,
+    url: post.url,
     referrer: "",
     title: post.title,
     charset: "UTF-8",
     lang: "en-US",
-    userAgent: "Next.js Server Side Rendering",
+    userAgent:
+      "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
     historyLength: 1,
     timezoneOffset: new Date().getTimezoneOffset(),
   };
 
   // For Hashnode Blog Dashboard Analytics
-  return await fetch(`https://hn-ping2.hashnode.com/api/view`, {
+  return await fetch("https://hn-ping2.hashnode.com/api/view", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

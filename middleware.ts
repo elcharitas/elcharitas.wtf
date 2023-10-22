@@ -25,7 +25,7 @@ const _sendViewsToHashnodeInternalAnalytics = async (
     },
   };
 
-  let deviceId = Math.random().toString(36).substring(2, 15); //response.cookies.get("__amplitudeDeviceID")?.value;
+  let deviceId = response.cookies.get("__amplitudeDeviceID")?.value;
   if (!deviceId) {
     deviceId = Math.random().toString(36).substring(2, 15);
     response.cookies.set("__amplitudeDeviceID", deviceId, {

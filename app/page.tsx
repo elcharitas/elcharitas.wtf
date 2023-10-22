@@ -45,7 +45,7 @@ export default function Home() {
         elch🔥rit🔥s
       </h1>
       <div className="my-16 mx-4 text-center animate-fade-in">
-        <h2 className="text-sm text-zinc-500 ">
+        <h2 className="text-sm text-zinc-500 max-sm:w-[300px]">
           Hi, I&apos;m Jonathan, I build interactive crypto dashboards at{" "}
           <a
             target="_blank"

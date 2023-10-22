@@ -23,10 +23,8 @@ export const TourDriver = () => {
       steps,
       popoverClass: "tour-wrapper",
       onDestroyStarted: () => {
-        if (!driverObj.hasNextStep()) {
-          driverObj.destroy();
-          setIsTourEnded(true);
-        }
+        driverObj.destroy();
+        setIsTourEnded(true);
       },
     });
     driverObj.drive();

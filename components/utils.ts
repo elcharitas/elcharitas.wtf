@@ -68,6 +68,21 @@ export const parseTextToNodes = (
 };
 
 /**
+ * Builds a class string from a given class name.
+ *
+ * @param className - The class name to build the string from.
+ * @returns
+ */
+export function buildClassString(className: string): string {
+  return className.split(" ").reduce((classString, className) => {
+    if (className && !/[:/[\]]/.test(className)) {
+      return `${classString}.${className}`;
+    }
+    return classString;
+  }, "");
+}
+
+/**
  * Retrieves the unique selector for a given HTML element.
  *
  * @param element - The HTML element to get the selector for.
@@ -75,19 +90,8 @@ export const parseTextToNodes = (
  */
 export function getUniqueSelector(element: Element): string {
   const tag = element.tagName.toLowerCase();
-  const id = element.id ? `#${element.id}` : "";
-  const classNames = element.className?.split(" ").reduce((acc, className) => {
-    if (
-      className &&
-      !className.includes(":") &&
-      !className.includes("/") &&
-      !className.includes("[") &&
-      !className.includes("]")
-    ) {
-      return `${acc}.${className}`;
-    }
-    return acc;
-  }, "");
+  const id = element.id && `#${element.id}`;
+  const classNames = buildClassString(element.className);
 
   if (
     element.parentElement === null ||

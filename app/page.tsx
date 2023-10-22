@@ -41,7 +41,7 @@ export default function Home() {
           )}
         </div>
       </nav>
-      <h1 className="z-10 text-4xl text-transparent duration-1000 bg-white cursor-default text-edge-outline animate-title font-display sm:text-6xl md:text-9xl whitespace-nowrap bg-clip-text ">
+      <h1 className="z-10 text-4xl text-zinc-100 duration-1000 cursor-default text-edge-outline animate-title font-display sm:text-6xl md:text-9xl whitespace-nowrap">
         elch🔥rit🔥s
       </h1>
       <div className="my-16 mx-4 text-center animate-fade-in">

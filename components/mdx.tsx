@@ -10,7 +10,7 @@ import shiki from "shiki";
 const highlighter = shiki.getHighlighter({ theme: "nord" });
 
 async function Code({ code }: { code: string }) {
-  const html = (await highlighter).codeToHtml(code, {});
+  const html = (await highlighter).codeToHtml(code, { lang: "tsx" });
   return <div dangerouslySetInnerHTML={{ __html: html }} />;
 }
 

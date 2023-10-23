@@ -2691,6 +2691,7 @@ export type SearchPostsOfPublicationQuery = {
         title: string;
         cuid?: string | null;
         slug: string;
+        publishedAt: string;
         coverImage?: { __typename?: "PostCoverImage"; url: string } | null;
         author: { __typename?: "User"; id: string; name: string };
         publication?: {

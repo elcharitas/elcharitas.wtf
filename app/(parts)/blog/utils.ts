@@ -52,7 +52,7 @@ export async function searchBlogs(
   return [
     edges.map(({ node: post }) => ({
       title: post.title,
-      date: post.title,
+      date: post.publishedAt,
       brief: post.brief,
       coverImage: post.coverImage?.url,
       slug: post.slug,

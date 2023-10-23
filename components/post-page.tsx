@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import React from "react";
-import { ArrowDownCircle, Settings, Eye, Star } from "lucide-react";
+import { RefObject } from "react";
+import { ArrowDownCircle, Settings, Eye, Star, Search } from "lucide-react";
 import { Card } from "./card";
 import { Article } from "./article";
 import { Content } from "./content";
@@ -15,6 +15,7 @@ interface PostsPageProps {
   isLoading?: boolean;
   isReachedEnd?: boolean;
   handleLoadMore?: () => void;
+  handleSearch?: (value: string) => void;
 }
 
 export function PostsPage({
@@ -26,21 +27,39 @@ export function PostsPage({
   isLoading,
   isReachedEnd,
   handleLoadMore,
+  handleSearch,
 }: PostsPageProps) {
   return (
     <>
-      <div className="max-w-2xl mx-auto lg:mx-0">
-        <h2 className="flex items-center text-3xl font-bold tracking-tight text-zinc-100 sm:text-4xl">
-          {count && (
-            <span className="text-zinc-50 bg-zinc-600 p-2 mr-4 text-sm rounded-full">
-              {count}+
-            </span>
-          )}
-          {title}
-        </h2>
-        <p className="mt-4 text-zinc-400">
-          <Content text={description} />
-        </p>
+      <div className="flex flex-row max-sm:flex-col justify-between md:items-center">
+        <div className="max-w-2xl mx-auto lg:mx-0">
+          <h2 className="flex items-center text-3xl font-bold tracking-tight text-zinc-100 sm:text-4xl">
+            {count && (
+              <span className="text-zinc-50 bg-zinc-600 p-2 mr-4 text-sm rounded-full">
+                {count}+
+              </span>
+            )}
+            {title}
+          </h2>
+          <p className="mt-4 text-zinc-400">
+            <Content text={description} />
+          </p>
+        </div>
+        {handleSearch && (
+          <div className="relative file:flex items-center justify-end md:min-w-[300px] py-4">
+            <input
+              placeholder="Search by keyword, or title"
+              className="w-full px-4 py-2 text-sm text-zinc-50 bg-zinc-700 border border-transparent rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-500 focus-visible:ring-offset-2"
+              required
+              onChange={(e) => {
+                handleSearch(e.target.value);
+              }}
+            />
+            <button className="absolute right-3 bg-transparent py-1.5">
+              <Search className="w-6 h-6 text-zinc-500 rounded-md cursor-pointer hover:text-zinc-100" />
+            </button>
+          </div>
+        )}
       </div>
       <div className="w-full h-px bg-zinc-800" />
 

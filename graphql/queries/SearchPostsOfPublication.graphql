@@ -9,6 +9,7 @@ query SearchPostsOfPublication($first: Int!, $filter: SearchPostsOfPublicationFi
 				cuid
 				slug
 				views
+  			publishedAt
 				coverImage {
 					url
 				}

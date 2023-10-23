@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, userAgent } from "next/server";
 import type { NextRequest } from "next/server";
 import { SinglePostByPublicationQuery } from "./graphql/graphql";
 import SinglePostByPublication from "./graphql/queries/SinglePostByPublication.graphql";
@@ -6,6 +6,7 @@ import { executeQuery } from "./graphql/utils";
 
 const _sendViewsToHashnodeInternalAnalytics = async (
   publication: SinglePostByPublicationQuery["publication"],
+  request: NextRequest,
   response: NextResponse
 ) => {
   if (publication == null || publication.post == null) {
@@ -21,7 +22,7 @@ const _sendViewsToHashnodeInternalAnalytics = async (
       eventType: "pageview",
       publicationId: publication.id,
       dateAdded: new Date().getTime(),
-      referrer: "",
+      referrer: request.referrer,
     },
   };
 
@@ -46,24 +47,24 @@ const _sendViewsToHashnodeInternalAnalytics = async (
 
 const _sendViewsToHashnodeAnalyticsDashboard = async (
   publication: SinglePostByPublicationQuery["publication"],
-  slug?: string
+  request: NextRequest
 ) => {
   const { post } = publication ?? {};
   if (publication == null || post == null) {
     return;
   }
 
+  const ua = userAgent(request);
   const data = {
     publicationId: publication.id,
     postId: post.id,
     timestamp: Date.now(),
     url: post.url,
-    referrer: "",
+    referrer: request.referrer,
     title: post.title,
-    charset: "UTF-8",
-    lang: "en-US",
-    userAgent:
-      "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+    charset: request.headers.get("accept-charset") ?? "UTF-8",
+    lang: request.headers.get("accept-language") ?? "en-US",
+    userAgent: `${ua.browser.name}/${ua.browser.version} (${ua.os.name} ${ua.os.version}; ${ua.device.type})`,
     historyLength: 1,
     timezoneOffset: new Date().getTimezoneOffset(),
   };
@@ -91,8 +92,21 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  await _sendViewsToHashnodeInternalAnalytics(data.publication, response);
-  await _sendViewsToHashnodeAnalyticsDashboard(data.publication, slug);
+  // fire and forget the analytics to reduce latency
+  _sendViewsToHashnodeInternalAnalytics(
+    data.publication,
+    request,
+    response
+  ).catch((error) => {
+    console.error("Error sending to Hashnode Internal Analytics:", error);
+  });
+
+  // fire and forget the analytics to reduce latency
+  _sendViewsToHashnodeAnalyticsDashboard(data.publication, request).catch(
+    (error) => {
+      console.error("Error sending to Hashnode Analytics Dashboard:", error);
+    }
+  );
 
   return response;
 }

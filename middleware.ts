@@ -84,6 +84,11 @@ export async function middleware(request: NextRequest) {
   const slug = nextUrl.pathname.split("/").pop();
   const response = NextResponse.next();
 
+  // If the slug is not present, we don't need to do anything
+  if (!slug) {
+    return response;
+  }
+
   const { data } = await executeQuery<SinglePostByPublicationQuery>(
     { SinglePostByPublication },
     {

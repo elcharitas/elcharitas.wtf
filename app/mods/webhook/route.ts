@@ -1,5 +1,6 @@
 import { getBlogPost } from "@/app/(parts)/blog/utils";
 import { revalidatePath } from "next/cache";
+import { NextResponse } from "next/server";
 
 interface WebhookData {
   metadata: {
@@ -28,4 +29,8 @@ export async function POST(request: Request) {
   }
 
   revalidatePath(`/blog/${post.slug}`);
+
+  return NextResponse.json({
+    message: "revalidated",
+  });
 }

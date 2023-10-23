@@ -7,7 +7,7 @@ import rehypeRaw from "rehype-raw";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import shiki from "shiki";
 
-const highlighter = shiki.getHighlighter({ theme: "nord" });
+const highlighter = shiki.getHighlighter({ theme: "dracula" });
 
 async function Code({ code }: { code: string }) {
   const html = (await highlighter).codeToHtml(code, { lang: "tsx" });
@@ -17,6 +17,7 @@ async function Code({ code }: { code: string }) {
 function clsx(...args: (string | undefined)[]) {
   return args.filter(Boolean).join(" ");
 }
+
 const components: Components = {
   h1: ({ className, node: _n, ...props }) => (
     <h1

@@ -6,6 +6,21 @@ type SingleEntryRecord<K extends string | number | symbol, V> = {
   [P in K]: Record<P, V> & Record<Exclude<K, P>, never>;
 }[K];
 
+type ApiResponse<T> = {
+  data: T;
+  errors?: Array<{
+    message: string;
+    locations: Array<{
+      line: number;
+      column: number;
+    }>;
+    path: Array<string | number>;
+    extensions: {
+      code: string;
+    };
+  }>;
+};
+
 export const buildQuery = (query: GraphQLQuery) => {
   const finalQuery = [query];
   if (query.includes("PageInfo")) {
@@ -37,14 +52,18 @@ export const executeQuery = async <T>(
    * Options to configure the request.
    * @default { baseUrl: 'https://api.hashnode.com' }
    */
-  baseUrl = "https://gql.hashnode.com"
-): Promise<{ data: T }> => {
+  options: {
+    baseUrl?: string;
+    headers?: Record<string, string>;
+  } = {}
+): Promise<ApiResponse<T>> => {
   const [[operationName, query]] = Object.entries(entry);
 
-  const res = await fetch(baseUrl, {
+  const res = await fetch(options.baseUrl ?? "https://gql.hashnode.com", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      ...options.headers,
     },
     body: JSON.stringify({
       query: buildQuery(query),

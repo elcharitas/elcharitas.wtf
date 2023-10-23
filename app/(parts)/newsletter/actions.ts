@@ -2,8 +2,7 @@
 import { executeQuery } from "@/graphql/utils";
 import type { SubscribeToNewsletterMutation } from "@/graphql/graphql";
 import SubscribeToNewsletter from "@/graphql/mutations/SubscribeToNewsletter.graphql";
-
-const publicationId = "6231526bc4a093f00c8acd3b";
+import { publicationId } from "@/graphql/config";
 
 export async function subscribe(formData: FormData) {
   const email = formData.get("email")?.valueOf();

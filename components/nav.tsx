@@ -7,6 +7,7 @@ const navigation = [
   { name: "Blog", href: "/blog" },
   { name: "Projects", href: "/projects" },
   { name: "Adventures", href: "/adventures" },
+  { name: "Newsletter", href: "/newsletter" },
 ];
 
 export const Navigation: React.FC = () => {

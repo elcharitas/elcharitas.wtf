@@ -7,10 +7,9 @@ import rehypeRaw from "rehype-raw";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import shiki from "shiki";
 
-const highlighter = shiki.getHighlighter({ theme: "dracula" });
-
 async function Code({ code }: { code: string }) {
-  const html = await highlighter
+  const html = await shiki
+    .getHighlighter({ theme: "dracula" })
     .then((h) => h.codeToHtml(code, { lang: "tsx" }))
     .catch(() => `<pre>${code}</pre>`);
   return <div dangerouslySetInnerHTML={{ __html: html }} />;

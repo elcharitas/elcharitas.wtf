@@ -1,21 +1,20 @@
 import type {
   PostsByPublicationQuery,
   SinglePostByPublicationQuery,
+  SearchPostsOfPublicationQuery,
 } from "@/graphql/graphql";
 import PostsByPublication from "@/graphql/queries/PostsByPublication.graphql";
 import SinglePostByPublication from "@/graphql/queries/SinglePostByPublication.graphql";
+import SearchPostsOfPublication from "@/graphql/queries/SearchPostsOfPublication.graphql";
 import { executeQuery } from "@/graphql/utils";
+import { first, publicationId, host } from "@/graphql/config";
 
 export async function getAllBlogs(
   cursor: string | null = null
 ): Promise<[Post[], string | null]> {
   const { data } = await executeQuery<PostsByPublicationQuery>(
     { PostsByPublication },
-    {
-      host: "elcharitas.wtf/blog",
-      first: 9,
-      after: cursor,
-    }
+    { host, first, after: cursor }
   );
 
   const { edges = [], pageInfo } = data?.publication?.posts ?? {};
@@ -34,13 +33,40 @@ export async function getAllBlogs(
   ];
 }
 
+export async function searchBlogs(
+  query: string,
+  cursor: string | null = null
+): Promise<[Post[], string | null]> {
+  const { data } = await executeQuery<SearchPostsOfPublicationQuery>(
+    { SearchPostsOfPublication },
+    {
+      host,
+      filter: { publicationId, query },
+      first,
+      after: cursor,
+    }
+  );
+
+  const { edges = [], pageInfo } = data?.searchPostsOfPublication ?? {};
+
+  return [
+    edges.map(({ node: post }) => ({
+      title: post.title,
+      date: post.title,
+      brief: post.brief,
+      coverImage: post.coverImage?.url,
+      slug: post.slug,
+      views: post.views,
+      type: "blog",
+    })),
+    pageInfo?.hasNextPage && pageInfo.endCursor ? pageInfo.endCursor : null,
+  ];
+}
+
 export async function getBlogPost(slug: string): Promise<Post> {
   const { data } = await executeQuery<SinglePostByPublicationQuery>(
     { SinglePostByPublication },
-    {
-      host: "elcharitas.wtf/blog",
-      slug,
-    }
+    { host, slug }
   );
 
   if (data?.publication?.post == null) {

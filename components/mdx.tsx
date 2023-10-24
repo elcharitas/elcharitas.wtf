@@ -1,17 +1,19 @@
-import * as React from "react";
 import Link from "next/link";
 import ReactMarkdown, { Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
 import rehypeRaw from "rehype-raw";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import shiki from "shiki";
+import shiki, { Highlighter } from "shiki";
 
-async function Code({ code }: { code: string }) {
-  const html = await shiki
-    .getHighlighter({ theme: "dracula" })
-    .then((h) => h.codeToHtml(code, { lang: "tsx" }))
-    .catch(() => `<pre>${code}</pre>`);
+function Code({
+  code,
+  highlighter,
+}: {
+  code: string;
+  highlighter: Highlighter;
+}) {
+  const html = highlighter.codeToHtml(code, { lang: "tsx" });
   return <div dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
@@ -19,7 +21,7 @@ function clsx(...args: (string | undefined)[]) {
   return args.filter(Boolean).join(" ");
 }
 
-const components: Components = {
+const components: Components & { highlighter?: Highlighter } = {
   h1: ({ className, node: _n, ...props }) => (
     <h1
       className={clsx(
@@ -163,20 +165,21 @@ const components: Components = {
       {...props}
     />
   ),
-  code: ({ className, children, node: _n, ...props }) => {
+  // @ts-expect-error - code makes use of async
+  code: async ({ className, children, node: _n, ...props }) => {
     const isMultiline = children?.toString().includes("\n");
     if (isMultiline) {
-      // @ts-expect-error Code is a RSC
-      return <Code code={children?.toString() ?? ""} />;
+      const highlighter = await shiki.getHighlighter({
+        theme: "dracula",
+      });
+      return (
+        <Code highlighter={highlighter} code={children?.toString() ?? ""} />
+      );
     }
     return (
       <code
         className={clsx(
-          `${
-            isMultiline
-              ? "block p-8 bg-black/30 group md:gap-8"
-              : "text-zinc-200 mx-1 py-[0.2rem] px-[0.3rem] align-middle bg-zinc-300 bg-opacity-25"
-          } relative rounded font-mono text-sm text-zinc-80`,
+          "mx-1 py-[0.2rem] px-[0.3rem] align-middle bg-zinc-300 bg-opacity-25 relative rounded font-mono text-sm text-zinc-200",
           className
         )}
         {...props}

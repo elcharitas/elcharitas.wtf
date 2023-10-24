@@ -11,8 +11,11 @@ function Code({
   highlighter,
 }: {
   code: string;
-  highlighter: Highlighter;
+  highlighter?: Highlighter;
 }) {
+  if (highlighter === undefined) {
+    return <code>{code}</code>;
+  }
   const html = highlighter.codeToHtml(code, { lang: "tsx" });
   return <div dangerouslySetInnerHTML={{ __html: html }} />;
 }
@@ -20,6 +23,8 @@ function Code({
 function clsx(...args: (string | undefined)[]) {
   return args.filter(Boolean).join(" ");
 }
+
+let highlighter: Highlighter | undefined;
 
 const components: Components & { highlighter?: Highlighter } = {
   h1: ({ className, node: _n, ...props }) => (
@@ -169,9 +174,13 @@ const components: Components & { highlighter?: Highlighter } = {
   code: async ({ className, children, node: _n, ...props }) => {
     const isMultiline = children?.toString().includes("\n");
     if (isMultiline) {
-      const highlighter = await shiki.getHighlighter({
-        theme: "dracula",
-      });
+      if (highlighter === undefined) {
+        highlighter = await shiki
+          .getHighlighter({
+            theme: "dracula",
+          })
+          .catch(() => undefined);
+      }
       return (
         <Code highlighter={highlighter} code={children?.toString() ?? ""} />
       );

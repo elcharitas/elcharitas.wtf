@@ -32,10 +32,7 @@ export const SubscribeForm = () => {
   return (
     <>
       <div className="flex space-x-2 mb-4">
-        <label
-          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-          htmlFor="email"
-        >
+        <label className="sr-only" htmlFor="email">
           Email
         </label>
         <input

@@ -1,7 +1,15 @@
 "use client";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
-import { List, Eye, Star, Twitter, Github, ExternalLink } from "lucide-react";
+import {
+  List,
+  Eye,
+  Star,
+  Twitter,
+  Github,
+  ExternalLink,
+  MessageSquare,
+} from "lucide-react";
 
 type Props = {
   post: Post;
@@ -56,8 +64,20 @@ export const Header: React.FC<Props> = ({ post }) => {
       >
         <div className="container flex flex-row-reverse items-center justify-between p-6 mx-auto">
           <div className="flex justify-between gap-8">
+            {post.comments !== undefined && (
+              <span
+                className={`duration-200 hover:font-medium flex items-center gap-1 ${
+                  isIntersecting
+                    ? " text-zinc-400 hover:text-zinc-100"
+                    : "text-zinc-600 hover:text-zinc-900"
+                } `}
+              >
+                <MessageSquare className="w-4 h-4 text-yellow-200/60" />
+                {(post.comments as number[]).length}
+              </span>
+            )}
             <span
-              title="View counter for this page"
+              title="View count for this page"
               className={`duration-200 hover:font-medium flex items-center gap-1 ${
                 isIntersecting
                   ? " text-zinc-400 hover:text-zinc-100"

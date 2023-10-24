@@ -29,6 +29,20 @@ export default async function BlogInfo({ params }: Props) {
           )}
         />
       </article>
+      {blogPost.comments && blogPost.comments.length > 0 && (
+        <div className="container flex flex-col items-center justify-center py-12 mx-auto">
+          <div className="flex flex-col items-center justify-center w-full max-w-2xl">
+            <h2 className="mb-4 text-3xl font-bold tracking-tight text-center text-zinc-50 md:text-4xl">
+              Comments ({blogPost.comments.length})
+            </h2>
+            <p className="mb-8 text-lg text-center text-zinc-200">
+              {blogPost.comments.map(({ node: comment }) => (
+                <div>{comment.author.name}</div>
+              ))}
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

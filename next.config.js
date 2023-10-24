@@ -3,6 +3,7 @@ module.exports = {
   pageExtensions: ["ts", "tsx"],
   experimental: {
     serverActions: true,
+    serverComponentsExternalPackages: ["shiki"],
   },
   images: {
     remotePatterns: [

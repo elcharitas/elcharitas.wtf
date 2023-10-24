@@ -2417,6 +2417,7 @@ export type PostsByPublicationQuery = {
             name: string;
             profilePicture?: string | null;
           };
+          comments: { totalDocuments: number };
           coverImage?: { __typename?: "PostCoverImage"; url: string } | null;
         };
       }>;
@@ -2694,6 +2695,7 @@ export type SearchPostsOfPublicationQuery = {
         publishedAt: string;
         coverImage?: { __typename?: "PostCoverImage"; url: string } | null;
         author: { __typename?: "User"; id: string; name: string };
+        comments: { totalDocuments: number };
         publication?: {
           __typename?: "Publication";
           title: string;

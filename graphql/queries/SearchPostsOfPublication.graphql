@@ -17,6 +17,9 @@ query SearchPostsOfPublication($first: Int!, $filter: SearchPostsOfPublicationFi
 					id
 					name
 				}
+				comments(first: 0) {
+					totalDocuments
+				}
 				publication {
 					title
 					url

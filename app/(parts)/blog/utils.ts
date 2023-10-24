@@ -2,6 +2,7 @@ import type {
   PostsByPublicationQuery,
   SinglePostByPublicationQuery,
   SearchPostsOfPublicationQuery,
+  PostCommentEdge,
 } from "@/graphql/graphql";
 import PostsByPublication from "@/graphql/queries/PostsByPublication.graphql";
 import SinglePostByPublication from "@/graphql/queries/SinglePostByPublication.graphql";
@@ -11,7 +12,7 @@ import { first, publicationId, host } from "@/graphql/config";
 
 export async function getAllBlogs(
   cursor: string | null = null
-): Promise<[Post[], string | null]> {
+): Promise<[Post<number>[], string | null]> {
   const { data } = await executeQuery<PostsByPublicationQuery>(
     { PostsByPublication },
     { host, first, after: cursor }
@@ -27,6 +28,7 @@ export async function getAllBlogs(
       coverImage: post.coverImage?.url,
       slug: post.slug,
       views: post.views,
+      comments: post.comments.totalDocuments,
       type: "blog",
     })),
     pageInfo?.hasNextPage && pageInfo.endCursor ? pageInfo.endCursor : null,
@@ -36,7 +38,7 @@ export async function getAllBlogs(
 export async function searchBlogs(
   query: string,
   cursor: string | null = null
-): Promise<[Post[], string | null]> {
+): Promise<[Post<number>[], string | null]> {
   const { data } = await executeQuery<SearchPostsOfPublicationQuery>(
     { SearchPostsOfPublication },
     {
@@ -57,13 +59,16 @@ export async function searchBlogs(
       coverImage: post.coverImage?.url,
       slug: post.slug,
       views: post.views,
+      comments: post.comments.totalDocuments,
       type: "blog",
     })),
     pageInfo?.hasNextPage && pageInfo.endCursor ? pageInfo.endCursor : null,
   ];
 }
 
-export async function getBlogPost(slug: string): Promise<Post> {
+export async function getBlogPost(
+  slug: string
+): Promise<Post<PostCommentEdge[]>> {
   const { data } = await executeQuery<SinglePostByPublicationQuery>(
     { SinglePostByPublication },
     { host, slug }
@@ -83,6 +88,7 @@ export async function getBlogPost(slug: string): Promise<Post> {
     slug: post.slug,
     views: post.views,
     content: post.content.markdown,
+    comments: post.comments?.edges as PostCommentEdge[],
     type: "blog",
   };
 }

@@ -6,7 +6,7 @@ import { getAllBlogs, searchBlogs } from "./utils";
 
 interface BlogProps {
   initialCursor: string | null;
-  initialPosts: Post[];
+  initialPosts: Post<number>[];
 }
 
 const BlogListing = ({ initialPosts, initialCursor }: BlogProps) => {
@@ -26,7 +26,7 @@ const BlogListing = ({ initialPosts, initialCursor }: BlogProps) => {
   }, [blogPosts.current, search]);
 
   const { value: nextPageCursor, status } = useAsyncEffect(async () => {
-    let currentPosts: Post[] = [];
+    let currentPosts: Post<number>[] = [];
     let nextPageCursor: string | null = null;
 
     if (search && search.length >= 2) {

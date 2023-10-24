@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import { RefObject } from "react";
 import { ArrowDownCircle, Settings, Eye, Star, Search } from "lucide-react";
 import { Card } from "./card";
 import { Article } from "./article";

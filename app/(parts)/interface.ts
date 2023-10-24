@@ -1,4 +1,4 @@
-interface Post {
+interface Post<T = unknown> {
   slug: string;
   title: string;
   brief: string;
@@ -10,6 +10,7 @@ interface Post {
   views?: number;
   owner?: string;
   branch?: string;
+  comments?: T;
 }
 
 interface Repo {

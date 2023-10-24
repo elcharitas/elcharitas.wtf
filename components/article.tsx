@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Eye, Star } from "lucide-react";
+import { Eye, Star, MessageSquare } from "lucide-react";
 
 type Props = {
   post: Post;
@@ -23,10 +23,16 @@ export const Article: React.FC<Props> = ({ post, showReadMore }) => {
             )}
           </span>
           <span className="text-zinc-400 text-xs flex items-center gap-1">
+            {post.comments !== undefined && (
+              <>
+                <MessageSquare className="w-4 h-4 text-yellow-200/60" />
+                {post.comments as number}
+              </>
+            )}
             {post.type === "projects" ? (
-              <Star className="w-4 h-4 text-yellow-200/60" />
+              <Star className="w-4 h-4 text-yellow-200/60 ml-3" />
             ) : (
-              <Eye className="w-4 h-4 text-yellow-200/60" />
+              <Eye className="w-4 h-4 text-yellow-200/60 ml-3" />
             )}{" "}
             {Intl.NumberFormat("en-US", { notation: "compact" }).format(
               post.views ?? 0

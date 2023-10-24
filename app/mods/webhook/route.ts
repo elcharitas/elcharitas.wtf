@@ -19,7 +19,6 @@ interface WebhookData {
 
 export async function POST(request: Request) {
   const body: WebhookData = await request.json();
-  const post = await getBlogPost(body.data.post.id);
 
   if (
     body.data.eventType === "post_published" ||
@@ -28,7 +27,8 @@ export async function POST(request: Request) {
     revalidatePath("/blog");
   }
 
-  revalidatePath(`/blog/${post.slug}`);
+  // const post = await getBlogPost(body.data.post.id);
+  // revalidatePath(`/blog/${post.slug}`);
 
   return NextResponse.json({
     message: "revalidated",

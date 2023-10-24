@@ -44,6 +44,7 @@ export const SubscribeForm = () => {
           type="email"
           data-tour="Enter your email"
           data-tour-description="We'll send you an email to confirm your subscription."
+          data-tour-position="right"
         />
         <button
           type="submit"
@@ -51,6 +52,7 @@ export const SubscribeForm = () => {
           disabled={pending}
           data-tour="Subscribe"
           data-tour-description="Click here to subscribe to my newsletter."
+          data-tour-position="right"
         >
           Subscribe
         </button>

@@ -3,7 +3,7 @@ import { Mdx } from "@/components/mdx";
 import { Header } from "@/components/header";
 import { getBlogPost } from "../utils";
 
-export const revalidate = 60 * 30; // 30 min
+export const revalidate = 30; // 1 min
 
 type Props = {
   params: {

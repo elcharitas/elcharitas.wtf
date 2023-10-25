@@ -1,3 +1,5 @@
+import { getHighlighter } from "shiki";
+
 export interface TextNode {
   index: number;
   text: string;
@@ -112,4 +114,13 @@ export function getUniqueSelector(element: Element): string {
   }
 
   return `${prefix} > ${tag}${id}${classNames}:nth-child(${position})`;
+}
+
+const highlighterPromise = getHighlighter({
+  theme: "dracula",
+});
+
+export async function highlight(code: string, lang: string) {
+  const highlighter = await highlighterPromise;
+  return highlighter.codeToHtml(code, { lang });
 }

@@ -31,7 +31,8 @@ export default function Error({
             Oops! Something went wrong
           </h2>
           <p className="mt-2 text-sm text-zinc-300">
-            {error.digest || "Please check your connection and try again."}
+            {error.digest}:{" "}
+            {error.message || "Please check your connection and try again."}
           </p>
         </div>
         <div className="mt-8 space-y-6 flex justify-center">

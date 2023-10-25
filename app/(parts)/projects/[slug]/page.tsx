@@ -3,7 +3,7 @@ import { Mdx } from "@/components/mdx";
 import { Header } from "@/components/header";
 import { getAllProjects } from "../util";
 
-export const revalidate = 60;
+export const revalidate = 60 * 60 * 24 * 7;
 
 type Props = {
   params: {

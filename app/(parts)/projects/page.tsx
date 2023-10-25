@@ -1,7 +1,7 @@
 import { PostsPage } from "@/components/post-page";
 import { getAllProjects } from "./util";
 
-export const revalidate = 60;
+export const revalidate = 60 * 60 * 24 * 7;
 
 export default async function Page() {
   const [featured, top1, top2, ...projects] = await getAllProjects();

@@ -84,11 +84,9 @@ export function buildClassString(className: string): string {
   }, "");
 }
 
-const highlighterPromise = getHighlighter({
-  theme: "dracula",
-});
-
 export async function highlight(code: string, lang: string) {
-  const highlighter = await highlighterPromise;
+  const highlighter = await getHighlighter({
+    theme: "dracula",
+  });
   return highlighter.codeToHtml(code, { lang });
 }

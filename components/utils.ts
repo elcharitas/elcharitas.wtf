@@ -84,38 +84,6 @@ export function buildClassString(className: string): string {
   }, "");
 }
 
-/**
- * Retrieves the unique selector for a given HTML element.
- *
- * @param element - The HTML element to get the selector for.
- * @returns - The unique selector for the element.
- */
-export function getUniqueSelector(element: Element): string {
-  const tag = element.tagName.toLowerCase();
-  const id = element.id && `#${element.id}`;
-  const classNames = buildClassString(element.className);
-
-  if (
-    element.parentElement === null ||
-    element.parentElement === document.body
-  ) {
-    return `${tag}${id}${classNames}`;
-  }
-
-  const siblings = Array.from(element.parentElement.children).filter(
-    (el) => el.tagName === element.tagName
-  );
-  const position = siblings.indexOf(element) + 1;
-
-  const prefix = getUniqueSelector(element.parentElement);
-
-  if (!id && !classNames) {
-    return `${prefix} > ${tag}:nth-child(${position})`;
-  }
-
-  return `${prefix} > ${tag}${id}${classNames}:nth-child(${position})`;
-}
-
 const highlighterPromise = getHighlighter({
   theme: "dracula",
 });

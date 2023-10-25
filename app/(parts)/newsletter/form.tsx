@@ -42,7 +42,8 @@ export const SubscribeForm = () => {
           placeholder="mail@example.com"
           required
           type="email"
-          data-tour="Enter your email"
+          data-tour="email-form"
+          data-tour-title="Subscribe to my newsletter"
           data-tour-description="We'll send you an email to confirm your subscription."
           data-tour-position="right"
         />

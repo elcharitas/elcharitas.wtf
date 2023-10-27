@@ -1,6 +1,6 @@
 "use client";
 import { toast } from "react-hot-toast";
-import { experimental_useFormStatus as useFormStatus } from "react-dom";
+import { useFormStatus } from "react-dom";
 import { useEffect, useMemo, useRef } from "react";
 import Link from "next/link";
 

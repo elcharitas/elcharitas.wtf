@@ -1,7 +1,7 @@
 "use client";
 import { useMemo, useRef, useState } from "react";
 import { useAsyncEffect } from "@react-hook/async";
-import { PostsPage } from "@/components/post-page";
+import { PostsPage } from "../posts-page";
 import { getAllBlogs, searchBlogs } from "./utils";
 
 interface BlogProps {

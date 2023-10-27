@@ -1,4 +1,3 @@
-import { getBlogPost } from "@/app/(parts)/blog/utils";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 

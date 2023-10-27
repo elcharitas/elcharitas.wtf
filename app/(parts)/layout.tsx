@@ -1,10 +1,7 @@
 import { Navigation } from "@/components/nav";
+import { PropsWithChildren } from "react";
 
-export default function ProjectsLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function ProjectsLayout({ children }: PropsWithChildren) {
   return (
     <div className="relative min-h-screen bg-gradient-to-tl from-black via-zinc-600/20 to-black ">
       <div className="relative pb-16">

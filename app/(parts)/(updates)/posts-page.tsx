@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowDownCircle, Settings, Eye, Star, Search } from "lucide-react";
-import { Card } from "./card";
-import { Article } from "./article";
-import { Content } from "./content";
+import { Card } from "@/components/card";
+import { Article } from "@/components/article";
+import { Content } from "@/components/content";
 
 interface PostsPageProps {
   title: string;

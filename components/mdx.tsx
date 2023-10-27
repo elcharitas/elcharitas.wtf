@@ -4,14 +4,14 @@ import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
 import rehypeRaw from "rehype-raw";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import shiki, { Highlighter } from "shiki";
-import { highlight } from "./utils";
+import shiki from "shiki";
+import rehypeShiki from "@leafac/rehype-shiki";
 
 function clsx(...args: (string | undefined)[]) {
   return args.filter(Boolean).join(" ");
 }
 
-const components: Components & { highlighter?: Highlighter } = {
+const components: Components = {
   h1: ({ className, node: _n, ...props }) => (
     <h1
       className={clsx(
@@ -155,12 +155,10 @@ const components: Components & { highlighter?: Highlighter } = {
       {...props}
     />
   ),
-  // @ts-expect-error - code makes use of async
-  code: async ({ className, children, node: _n, ...props }) => {
-    const isMultiline = children?.toString().includes("\n");
+  code: ({ className, children, node, ...props }) => {
+    const isMultiline = node.children.length > 1;
     if (isMultiline) {
-      const html = await highlight(children?.toString() ?? "", "tsx");
-      return <div dangerouslySetInnerHTML={{ __html: html }} />;
+      return <code>{children}</code>;
     }
     return (
       <code
@@ -181,7 +179,7 @@ interface MdxProps {
   baseUri?: string;
 }
 
-export function Mdx({ code, baseUri }: MdxProps) {
+export async function Mdx({ code, baseUri }: MdxProps) {
   const transformLink = (href: string) => {
     if (href.startsWith("http")) {
       return href;
@@ -193,7 +191,17 @@ export function Mdx({ code, baseUri }: MdxProps) {
     <ReactMarkdown
       components={components}
       remarkPlugins={[remarkGfm]}
-      rehypePlugins={[rehypeRaw, rehypeSlug, rehypeAutolinkHeadings]}
+      rehypePlugins={[
+        rehypeRaw,
+        rehypeSlug,
+        rehypeAutolinkHeadings,
+        [
+          rehypeShiki,
+          {
+            highlighter: await shiki.getHighlighter({ theme: "one-dark-pro" }),
+          },
+        ],
+      ]}
       transformLinkUri={transformLink}
       transformImageUri={transformLink}
       className="mdx text-zinc-100"

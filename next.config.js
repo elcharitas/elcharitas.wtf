@@ -2,10 +2,7 @@
 module.exports = {
   pageExtensions: ["ts", "tsx"],
   experimental: {
-    serverComponentsExternalPackages: [
-      "shiki",
-      "shiki/themes/one-dark-pro.json",
-    ],
+    serverComponentsExternalPackages: ["shiki"],
   },
   images: {
     remotePatterns: [

@@ -8,9 +8,6 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import shiki from "shiki";
 import rehypeShiki from "@leafac/rehype-shiki";
 
-// set CDN as unpkg
-shiki.setCDN("https://unpkg.com/shiki/");
-
 const components: Components = {
   h1: ({ className, node: _n, ...props }) => (
     <h1
@@ -198,7 +195,10 @@ export async function Mdx({ code, baseUri }: MdxProps) {
         [
           rehypeShiki,
           {
-            highlighter: await shiki.getHighlighter({ theme: "one-dark-pro" }),
+            highlighter: await shiki.getHighlighter({
+              theme: "one-dark-pro",
+              paths: { themes: "../../themes/" },
+            }),
           },
         ],
       ]}

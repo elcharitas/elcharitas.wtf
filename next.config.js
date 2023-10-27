@@ -2,7 +2,7 @@
 module.exports = {
   pageExtensions: ["ts", "tsx"],
   experimental: {
-    serverComponentsExternalPackages: ["shiki"],
+    serverComponentsExternalPackages: ["shiki", "vscode-oniguruma"],
   },
   images: {
     remotePatterns: [

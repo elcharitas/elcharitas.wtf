@@ -192,14 +192,17 @@ export async function Mdx({ code, baseUri }: MdxProps) {
         rehypeRaw,
         rehypeSlug,
         rehypeAutolinkHeadings,
-        // [
-        //   rehypeShiki,
-        //   {
-        //     highlighter: await shiki.getHighlighter({
-        //       theme: "one-dark-pro",
-        //     }),
-        //   },
-        // ],
+        ...(code.includes("```")
+          ? [
+              rehypeShiki,
+              {
+                // @ts-expect-error highlighter is a option of shiki
+                highlighter: await shiki.getHighlighter({
+                  theme: "one-dark-pro",
+                }),
+              },
+            ]
+          : []),
       ]}
       transformLinkUri={transformLink}
       transformImageUri={transformLink}

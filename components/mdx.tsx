@@ -6,6 +6,7 @@ import rehypeRaw from "rehype-raw";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import shiki from "shiki";
 import rehypeShiki from "@leafac/rehype-shiki";
+import "shiki/themes/one-dark-pro.json";
 
 function clsx(...args: (string | undefined)[]) {
   return args.filter(Boolean).join(" ");

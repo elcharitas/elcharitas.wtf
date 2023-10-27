@@ -150,7 +150,7 @@ const components: Components = {
   pre: ({ className, node: _n, ...props }) => (
     <pre
       className={clsx(
-        "mt-6 mb-4 overflow-x-auto rounded-lg bg-zinc-900 py-0",
+        "mt-6 mb-4 p-4 overflow-x-auto rounded-lg bg-zinc-900 border border-zinc-700",
         className
       )}
       {...props}

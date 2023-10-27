@@ -30,10 +30,7 @@ export default function Error({
           <h2 className="mt-6 text-3xl font-extrabold text-zinc-100">
             Oops! Something went wrong
           </h2>
-          <p className="mt-2 text-sm text-zinc-300">
-            {error.digest}:{" "}
-            {error.message || "Please check your connection and try again."}
-          </p>
+          <p className="mt-2 text-sm text-zinc-300">{error.digest}</p>
         </div>
         <div className="mt-8 space-y-6 flex justify-center">
           <button

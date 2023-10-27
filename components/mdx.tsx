@@ -192,15 +192,17 @@ export async function Mdx({ code, baseUri }: MdxProps) {
         rehypeRaw,
         rehypeSlug,
         rehypeAutolinkHeadings,
+        // @ts-expect-error
         ...(code.includes("```")
           ? [
-              rehypeShiki,
-              {
-                // @ts-expect-error highlighter is a option of shiki
-                highlighter: await shiki.getHighlighter({
-                  theme: "one-dark-pro",
-                }),
-              },
+              [
+                rehypeShiki,
+                {
+                  highlighter: await shiki.getHighlighter({
+                    theme: "one-dark-pro",
+                  }),
+                },
+              ],
             ]
           : []),
       ]}

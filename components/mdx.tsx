@@ -5,8 +5,8 @@ import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
 import rehypeRaw from "rehype-raw";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import shiki from "shiki";
-import rehypeShiki from "@leafac/rehype-shiki";
+import rehypeHighlight from "rehype-highlight";
+import "highlight.js/styles/github-dark-dimmed.min.css";
 
 const components: Components = {
   h1: ({ className, node: _n, ...props }) => (
@@ -155,7 +155,10 @@ const components: Components = {
   code: ({ className, children, node, ...props }) => {
     const isMultiline = node.children.length > 1;
     if (isMultiline) {
-      return <code>{children}</code>;
+      const { className } = node.properties ?? {};
+      return (
+        <code className={(className as string[]).join(" ")}>{children}</code>
+      );
     }
     return (
       <code
@@ -176,7 +179,7 @@ interface MdxProps {
   baseUri?: string;
 }
 
-export async function Mdx({ code, baseUri }: MdxProps) {
+export function Mdx({ code, baseUri }: MdxProps) {
   const transformLink = (href: string) => {
     if (href.startsWith("http")) {
       return href;
@@ -192,19 +195,8 @@ export async function Mdx({ code, baseUri }: MdxProps) {
         rehypeRaw,
         rehypeSlug,
         rehypeAutolinkHeadings,
-        // // @ts-expect-error
-        // ...(code.includes("```")
-        //   ? [
-        //       [
-        //         rehypeShiki,
-        //         {
-        //           highlighter: await shiki.getHighlighter({
-        //             theme: "one-dark-pro",
-        //           }),
-        //         },
-        //       ],
-        //     ]
-        //   : []),
+        // @ts-expect-error
+        ...(code.includes("```") ? [[rehypeHighlight, { detect: true }]] : []),
       ]}
       transformLinkUri={transformLink}
       transformImageUri={transformLink}

@@ -1,5 +1,3 @@
-import { getHighlighter } from "shiki";
-
 export interface TextNode {
   index: number;
   text: string;
@@ -82,11 +80,4 @@ export function buildClassString(className: string): string {
     }
     return classString;
   }, "");
-}
-
-export async function highlight(code: string, lang: string) {
-  const highlighter = await getHighlighter({
-    theme: "dracula",
-  });
-  return highlighter.codeToHtml(code, { lang });
 }

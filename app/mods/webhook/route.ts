@@ -24,6 +24,7 @@ export async function POST(request: Request) {
     body.data.eventType === "post_deleted"
   ) {
     revalidatePath("/blog");
+    revalidatePath("/blog/:slug");
   }
 
   // const post = await getBlogPost(body.data.post.id);

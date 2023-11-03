@@ -163,9 +163,9 @@ export function PostsPage({
           </div>
         </div>
       ) : (
-        <p>No matching filter</p>
+        <p className="text-zinc-50">No matching filter</p>
       )}
-      {handleLoadMore && !isReachedEnd && (
+      {sorted.length > 0 && handleLoadMore && !isReachedEnd && (
         <div className="flex justify-center items-center">
           <button
             disabled={isLoading}

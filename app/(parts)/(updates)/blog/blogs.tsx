@@ -55,12 +55,13 @@ const BlogListing = ({ initialPosts, initialCursor }: BlogProps) => {
       isReachedEnd={status !== "loading" && !nextPageCursor}
       isLoading={status === "loading"}
       handleSearch={(value) => {
-        blogPosts.current = [];
         if (!value) {
           blogPosts.current = initialPosts;
           setNextCursor(initialCursor);
+        } else if (value.length >= 2) {
+          blogPosts.current = [];
+          setSearch(value);
         }
-        setSearch(value);
       }}
       handleLoadMore={() => {
         if (nextPageCursor) {

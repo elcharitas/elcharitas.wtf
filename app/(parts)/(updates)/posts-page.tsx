@@ -161,7 +161,7 @@ export function PostsPage({
             ))}
         </div>
       </div>
-      {sorted.length > 0 && !isLoading && (
+      {sorted.length == 0 && !isLoading && (
         <p className="text-zinc-50">No matching filter</p>
       )}
       {(sorted.length > 0 || isLoading) && handleLoadMore && !isReachedEnd && (

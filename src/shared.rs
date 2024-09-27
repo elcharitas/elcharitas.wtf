@@ -2,6 +2,7 @@ pub use hypertext::{GlobalAttributes, RenderIterator, Renderable, Rendered};
 use ngyn::shared::server::{Bytes, ToBytes};
 
 pub use html_elements::AriaAttributes;
+pub use html_elements::MetaAttributes;
 use serde::{Deserialize, Serialize};
 
 pub mod html_elements {
@@ -15,6 +16,11 @@ pub mod html_elements {
         const aria_hidden: Attribute = Attribute;
     }
 
+    #[allow(non_upper_case_globals)]
+    pub trait MetaAttributes: GlobalAttributes {
+        const property: Attribute = Attribute;
+    }
+
     pub struct Link;
 
     #[allow(non_upper_case_globals)]
@@ -22,6 +28,10 @@ pub mod html_elements {
         // sets the `href` to target the given URL
         // e.g. `<Link href="https://example.com">...</Link>`
         pub const href: Attribute = Attribute;
+
+        // sets the `target` to the given value
+        // e.g. `<Link target="_blank">...</Link>`
+        pub const target: Attribute = Attribute;
     }
 
     pub struct FontAwesomeIcon;
@@ -31,6 +41,11 @@ pub mod html_elements {
         // sets the icon to the given class
         // e.g. `<FontAwesomeIcon icon="fas fa-home" />`
         pub const icon: Attribute = Attribute;
+
+        // sets the size of the icon
+        // e.g. `<FontAwesomeIcon size="24" />`
+        // e.g. `<FontAwesomeIcon size="2x" />`
+        pub const size: Attribute = Attribute;
     }
 
     impl GlobalAttributes for Link {}
@@ -38,6 +53,7 @@ pub mod html_elements {
     impl VoidElement for FontAwesomeIcon {}
 
     impl<T: GlobalAttributes> AriaAttributes for T {}
+    impl<T: GlobalAttributes> MetaAttributes for T {}
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -58,9 +74,18 @@ pub struct Post<T> {
 
 pub struct Rsx<T = fn(&mut String)>(pub T);
 
+impl<T> Rsx<T>
+where
+    T: FnOnce(&mut String),
+{
+    pub fn inner(self) -> T {
+        self.0
+    }
+}
+
 impl<T> From<T> for Rsx<T>
 where
-    T: Fn(&mut String),
+    T: FnOnce(&mut String),
 {
     fn from(value: T) -> Self {
         Self(value)
@@ -82,6 +107,25 @@ where
     fn to_bytes(self) -> Bytes {
         let output = self.0.render();
         output.as_inner().as_str().to_bytes()
+    }
+}
+
+impl Serialize for Rsx<fn(&mut String)> {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let output = self.0.render();
+        serializer.serialize_str(output.as_inner().as_str())
+    }
+}
+
+impl<'de> Deserialize<'de> for Rsx<fn(&mut String)> {
+    fn deserialize<D>(_deserializer: D) -> Result<Rsx<fn(&mut String)>, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        Ok(Rsx(move |_| {}))
     }
 }
 
@@ -164,10 +208,45 @@ macro_rules! derive_component {
     }) => {
         $visibility struct $name;
 
+        #[allow(dead_code)]
         impl $name {
             pub fn render(raw_props: &str) -> impl FnOnce(&mut String) {
                 let $props_ident: $props = serde_json::from_str(raw_props).expect("failed to parse props");
                 $($body)*
+            }
+
+            pub fn with($props_ident: $props) -> impl FnOnce(&mut String) {
+                $($body)*
+            }
+
+            pub fn build($props_ident: $props) -> String {
+                Self::with($props_ident).render().as_inner().to_string()
+            }
+        }
+    };
+    ($visibility:vis $name:ident {
+        $($body:tt)*
+    }) => {
+        $visibility struct $name;
+
+        #[allow(dead_code)]
+        impl $name {
+            pub fn render(_raw_props: &str) -> impl FnOnce(&mut String) {
+                $($body)*
+            }
+
+            pub fn with() -> impl FnOnce(&mut String) {
+                $($body)*
+            }
+
+            pub fn build() -> String {
+                Self::with().render().as_inner().to_string()
+            }
+        }
+
+        impl $name {
+            pub fn route_handler(_cx: &mut ngyn::prelude::NgynContext) -> String {
+                Self::build()
             }
         }
     };

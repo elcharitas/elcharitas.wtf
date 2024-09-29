@@ -46,10 +46,7 @@ fn read_directory_files(dir_path: &str) -> io::Result<Vec<FileInfo>> {
         if path.is_file() {
             let content = fs::read(&path)?;
 
-            let file_info = FileInfo {
-                path: path.clone(),
-                content,
-            };
+            let file_info = FileInfo { path, content };
 
             result.push(file_info);
         }

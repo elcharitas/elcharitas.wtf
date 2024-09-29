@@ -22,8 +22,8 @@ lazy_static! {
             href: "/projects"
         },
         NavigationInfo {
-            name: "Blog",
-            href: "/blog"
+            name: "Writings",
+            href: "/writings"
         },
         NavigationInfo {
             name: "Resume",
@@ -59,7 +59,7 @@ derive_component! {
                 </h1>
                 <div class="my-16 mx-4 text-center animate-fade-in">
                     <h2 class="text-sm text-zinc-500 max-sm:w-[300px]">
-                    Hi, I&apos;m Jonathan, I build interactive crypto dashboards at{" "}
+                    Hi, I{"'"}m Jonathan, a proud believer, lover of music, philosophy, theology and technology. I{"'"}m a Software Engineer at{" "}
                     <a
                         target="_blank"
                         href="https://alphaday.com"
@@ -68,7 +68,7 @@ derive_component! {
                         Alphaday
                     </a>
                     <br />
-                    while working on{" "}
+                    publicly building the next generation framework - {" "}
                     <a
                         target="_blank"
                         href="https://ngyn.rs"

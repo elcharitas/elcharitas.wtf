@@ -1235,7 +1235,7 @@ dependencies = [
 [[package]]
 name = "ngyn"
 version = "0.4.5"
-source = "git+https://github.com/ngyn-rs/ngyn?branch=dev#82c412f4c9186c5f970f0f11aedea5d59eb3cc53"
+source = "git+https://github.com/ngyn-rs/ngyn?branch=dev#39e1c2da8a0a5bd1e207e485e3177820a489c978"
 dependencies = [
  "async-std",
  "async-trait",
@@ -1248,7 +1248,7 @@ dependencies = [
 [[package]]
 name = "ngyn-hyper"
 version = "0.1.1"
-source = "git+https://github.com/ngyn-rs/ngyn?branch=dev#82c412f4c9186c5f970f0f11aedea5d59eb3cc53"
+source = "git+https://github.com/ngyn-rs/ngyn?branch=dev#39e1c2da8a0a5bd1e207e485e3177820a489c978"
 dependencies = [
  "http-body-util",
  "hyper 1.4.1",
@@ -1260,7 +1260,7 @@ dependencies = [
 [[package]]
 name = "ngyn-shuttle"
 version = "0.1.1"
-source = "git+https://github.com/ngyn-rs/ngyn?branch=dev#82c412f4c9186c5f970f0f11aedea5d59eb3cc53"
+source = "git+https://github.com/ngyn-rs/ngyn?branch=dev#39e1c2da8a0a5bd1e207e485e3177820a489c978"
 dependencies = [
  "ngyn-hyper",
  "shuttle-runtime",
@@ -1269,7 +1269,7 @@ dependencies = [
 [[package]]
 name = "ngyn_macros"
 version = "0.4.5"
-source = "git+https://github.com/ngyn-rs/ngyn?branch=dev#82c412f4c9186c5f970f0f11aedea5d59eb3cc53"
+source = "git+https://github.com/ngyn-rs/ngyn?branch=dev#39e1c2da8a0a5bd1e207e485e3177820a489c978"
 dependencies = [
  "http 1.1.0",
  "ngyn_shared",
@@ -1280,7 +1280,7 @@ dependencies = [
 [[package]]
 name = "ngyn_shared"
 version = "0.4.5"
-source = "git+https://github.com/ngyn-rs/ngyn?branch=dev#82c412f4c9186c5f970f0f11aedea5d59eb3cc53"
+source = "git+https://github.com/ngyn-rs/ngyn?branch=dev#39e1c2da8a0a5bd1e207e485e3177820a489c978"
 dependencies = [
  "async-trait",
  "bytes",

@@ -1,17 +1,19 @@
 mod adventures;
+mod blog;
 mod home;
-mod newsleter;
+mod newsletter;
 mod projects;
 
-use home::Home;
+use home::HomePage;
 use ngyn::prelude::*;
 
 pub fn register_routes(app: &mut HyperApplication) {
     // Pages
-    app.get("/", handler(Home::route_handler));
-    
+    app.get("/", handler(HomePage::route_handler));
+
     // Redirects
-    app.get("/blog", redirect_permanent("/writings"));
+    app.get("/blog", redirect_permanent("/writings")); // Old blog URL
+    app.get("/mods/resume", redirect_permanent("/resume")); // Old resume URL
     app.get(
         "/resume",
         redirect_to(

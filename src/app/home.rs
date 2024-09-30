@@ -33,7 +33,7 @@ lazy_static! {
 }
 
 derive_component! {
-    pub Home {
+    pub HomePage {
         AppLayout::with(LayoutProps {
             title: "Home".to_string(),
             children: Rsx(hypertext::rsx! {

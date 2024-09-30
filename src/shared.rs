@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 
 pub mod html_elements {
     pub use hypertext::html_elements::*;
-    use hypertext::{Attribute, GlobalAttributes, VoidElement};
+    use hypertext::{elements, Attribute, GlobalAttributes, VoidElement};
 
     #[allow(non_upper_case_globals)]
     pub trait AriaAttributes: GlobalAttributes {
@@ -21,35 +21,29 @@ pub mod html_elements {
         const property: Attribute = Attribute;
     }
 
-    pub struct Link;
+    elements! {
+        Link {
+            // sets the `href` to target the given URL
+            // e.g. `<Link href="https://example.com">...</Link>`
+            href
 
-    #[allow(non_upper_case_globals)]
-    impl Link {
-        // sets the `href` to target the given URL
-        // e.g. `<Link href="https://example.com">...</Link>`
-        pub const href: Attribute = Attribute;
+            // sets the `target` to the given value
+            // e.g. `<Link target="_blank">...</Link>`
+            target
+        }
 
-        // sets the `target` to the given value
-        // e.g. `<Link target="_blank">...</Link>`
-        pub const target: Attribute = Attribute;
+        FontAwesomeIcon {
+            // sets the icon to the given class
+            // e.g. `<FontAwesomeIcon icon="fas fa-home" />`
+            icon
+
+            // sets the size of the icon
+            // e.g. `<FontAwesomeIcon size="24" />`
+            // e.g. `<FontAwesomeIcon size="2x" />`
+            size
+        }
     }
 
-    pub struct FontAwesomeIcon;
-
-    #[allow(non_upper_case_globals)]
-    impl FontAwesomeIcon {
-        // sets the icon to the given class
-        // e.g. `<FontAwesomeIcon icon="fas fa-home" />`
-        pub const icon: Attribute = Attribute;
-
-        // sets the size of the icon
-        // e.g. `<FontAwesomeIcon size="24" />`
-        // e.g. `<FontAwesomeIcon size="2x" />`
-        pub const size: Attribute = Attribute;
-    }
-
-    impl GlobalAttributes for Link {}
-    impl GlobalAttributes for FontAwesomeIcon {}
     impl VoidElement for FontAwesomeIcon {}
 
     impl<T: GlobalAttributes> AriaAttributes for T {}

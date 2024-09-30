@@ -49,6 +49,9 @@ fn read_directory_files(dir_path: &str) -> io::Result<Vec<FileInfo>> {
             let file_info = FileInfo { path, content };
 
             result.push(file_info);
+        } else if path.is_dir() {
+            let dir_files = read_directory_files(&path.to_str().unwrap())?;
+            result.extend(dir_files);
         }
     }
 

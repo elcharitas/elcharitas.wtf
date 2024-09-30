@@ -7,7 +7,10 @@ use home::Home;
 use ngyn::prelude::*;
 
 pub fn register_routes(app: &mut HyperApplication) {
+    // Pages
     app.get("/", handler(Home::route_handler));
+    
+    // Redirects
     app.get("/blog", redirect_permanent("/writings"));
     app.get(
         "/resume",

@@ -11,8 +11,9 @@ fn main() {
     if !status.success() {
         panic!("Could not install your dependencies.");
     }
-    // Rebuild if any component changes.
+    // Rebuild if any component changes or global.css changes
     println!("cargo:rerun-if-changed=src/components");
+    println!("cargo:rerun-if-changed=global.css");
     let status = Command::new("npx")
         .args([
             "tailwindcss",

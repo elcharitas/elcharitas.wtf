@@ -125,7 +125,7 @@ derive_component! {
     pub AppLayout(props: LayoutProps) {
         let page_title = METADATA.title.template.replace("%s", &props.title);
         hypertext::rsx_move! {
-            <html>
+            <html lang="en" class="font-plus-jakarta-sans font-calsans">
                 <head>
                     <title>{&page_title}</title>
                     <meta charset="utf-8" />
@@ -157,9 +157,13 @@ derive_component! {
                             if METADATA.robots.follow { ", follow" } else { ", nofollow" }
                         )
                     } />
-
                     <link rel="shortcut icon" href=&METADATA.icons.shortcut />
                     <link rel="stylesheet" href="/styles.css" />
+
+                    <link rel="preconnect" href="https://fonts.googleapis.com" />
+                    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+                    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap" rel="stylesheet" />
+
                 </head>
                 <body class="bg-black">
                     {props.children.inner()}

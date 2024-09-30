@@ -3,7 +3,7 @@ use lazy_static::lazy_static;
 use crate::shared::*;
 use crate::{
     components::{AppLayout, LayoutProps},
-    derive_component, rsx_move,
+    derive_component,
 };
 
 struct NavigationInfo {
@@ -14,23 +14,19 @@ struct NavigationInfo {
 lazy_static! {
     static ref NAVIGATION: Vec<NavigationInfo> = vec![
         NavigationInfo {
-            name: "Home",
-            href: "/"
-        },
-        NavigationInfo {
-            name: "Projects",
+            name: "🛠️ Projects",
             href: "/projects"
         },
         NavigationInfo {
-            name: "Writings",
+            name: "✍🏼 Writings",
             href: "/writings"
         },
         NavigationInfo {
-            name: "Resume",
-            href: "/mod/resume"
+            name: "📄 Resume",
+            href: "/resume"
         },
         NavigationInfo {
-            name: "Adventures",
+            name: "🌍 Adventures",
             href: "/adventures"
         },
     ];

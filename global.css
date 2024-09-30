@@ -2,51 +2,67 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: "__calSans";
+    src: url(/fonts/CalSans-SemiBold.woff2);
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+}
+
+.font-plus-jakarta-sans {
+    --font-inter: "Plus Jakarta Sans", sans-serif;
+}
+
+.font-calsans {
+    --font-calsans: "__calSans", sans-serif;
+}
+
 .tour-wrapper {
-  background-color: theme("colors.zinc.700");
-  color: theme("colors.zinc.100");
-  min-height: theme("spacing.32");
-  display: flex !important;
-  flex-direction: column;
-  justify-content: space-between;
+    background-color: theme("colors.zinc.700");
+    color: theme("colors.zinc.100");
+    min-height: theme("spacing.32");
+    display: flex !important;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .tour-wrapper .driver-popover-title {
-  font-size: theme("fontSize.lg");
+    font-size: theme("fontSize.lg");
 }
 
 .tour-wrapper .driver-popover-title,
 .tour-wrapper .driver-popover-description,
 .tour-wrapper .driver-popover-progress-text {
-  color: theme("colors.zinc.100");
+    color: theme("colors.zinc.100");
 }
 
 .tour-wrapper button {
-  text-align: center;
-  background-color: theme("colors.zinc.800");
-  color: theme("colors.zinc.100");
-  border: 2px solid theme("colors.zinc.800");
-  text-shadow: none;
-  font-size: theme("fontSize.sm");
-  padding: theme("spacing.2") theme("spacing.4");
-  border-radius: theme("borderRadius.md");
+    text-align: center;
+    background-color: theme("colors.zinc.800");
+    color: theme("colors.zinc.100");
+    border: 2px solid theme("colors.zinc.800");
+    text-shadow: none;
+    font-size: theme("fontSize.sm");
+    padding: theme("spacing.2") theme("spacing.4");
+    border-radius: theme("borderRadius.md");
 }
 
 .tour-wrapper button:hover {
-  background-color: theme("colors.zinc.900");
+    background-color: theme("colors.zinc.900");
 }
 
 .tour-wrapper .driver-popover-navigation-btns {
-  justify-content: space-between;
-  gap: 3px;
+    justify-content: space-between;
+    gap: 3px;
 }
 
 .tour-wrapper .driver-popover-close-btn {
-  padding: 0;
-  background-color: transparent;
-  border: none;
+    padding: 0;
+    background-color: transparent;
+    border: none;
 }
 .tour-wrapper .driver-popover-close-btn:hover {
-  color: theme("colors.zinc.200");
-  background-color: transparent;
+    color: theme("colors.zinc.200");
+    background-color: transparent;
 }

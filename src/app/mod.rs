@@ -14,6 +14,8 @@ pub fn register_routes(app: &mut HyperApplication) {
     // Redirects
     app.get("/blog", redirect_permanent("/writings")); // Old blog URL
     app.get("/mods/resume", redirect_permanent("/resume")); // Old resume URL
+    app.get("/mods/connect", redirect_permanent("/connect"));
+    app.get("/connect", redirect_to("https://cal.com/elcharitas"));
     app.get(
         "/resume",
         redirect_to(

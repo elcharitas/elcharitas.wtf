@@ -170,6 +170,7 @@ derive_component! {
                 </head>
                 <body class="bg-black">
                     {props.children.inner()}
+                    <script src="https://unpkg.com/htmx.org@2.0.2"></script>
                 </body>
             </html>
         }

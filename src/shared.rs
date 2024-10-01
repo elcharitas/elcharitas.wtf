@@ -17,6 +17,66 @@ pub mod html_elements {
     }
 
     #[allow(non_upper_case_globals)]
+    pub trait HtmxAttributes: GlobalAttributes {
+        /// issues a `GET` to the specified URL
+        const hx_get: Attribute = Attribute;
+        /// issues a `POST` to the specified URL
+        const hx_post: Attribute = Attribute;
+        /// issues a `PUT` to the specified URL
+        const hx_put: Attribute = Attribute;
+        /// issues a `PATCH` to the specified URL
+        const hx_patch: Attribute = Attribute;
+        /// issues a `DELETE` to the specified URL
+        const hx_delete: Attribute = Attribute;
+        /// controls how content will swap in (`outerHTML`, `beforeend`, `afterend`, …)
+        const hx_swap: Attribute = Attribute;
+        /// specifies the event that triggers the request
+        const hx_trigger: Attribute = Attribute;
+        /// mark element to swap in from a response (out of band)
+        const hx_swap_oob: Attribute = Attribute;
+        /// specifies the target element to be swapped
+        const hx_target: Attribute = Attribute;
+        /// disables htmx processing for the given node and any children nodes
+        const hx_disable: Attribute = Attribute;
+        /// select content to swap in from a response
+        const hx_select: Attribute = Attribute;
+        /// push a [`URL`] into the browser location bar to create history
+        const hx_push_url: Attribute = Attribute;
+        /// replace the URL in the browser location bar
+        const hx_replace_url: Attribute = Attribute;
+        /// the element to snapshot and restore during history navigation
+        const hx_history_elt: Attribute = Attribute;
+        /// add progressive enhancement for links and forms
+        const hx_boost: Attribute = Attribute;
+        /// shows a `prompt()` before submitting a request
+        const hx_prompt: Attribute = Attribute;
+        /// shows a `confirm()` dialog before issuing a request
+        const hx_confirm: Attribute = Attribute;
+        /// changes the request encoding type
+        const hx_encoding: Attribute = Attribute;
+        /// the element to put the `htmx-request` class on during the request
+        const hx_indicator: Attribute = Attribute;
+        /// add values to submit with the request (JSON format)
+        const hx_vals: Attribute = Attribute;
+        /// handle `on_click` events with inline scripts on elements
+        const hx_on_click: Attribute = Attribute;
+        /// handle `on_change` events with inline scripts on elements
+        const hx_on_change: Attribute = Attribute;
+        /// handle `on_input` events with inline scripts on elements
+        const hx_on_input: Attribute = Attribute;
+        /// handle `on_submit` events with inline scripts on elements
+        const hx_on_submit: Attribute = Attribute;
+        /// handle `htmx:on_load` events with inline scripts on elements
+        const hx_on__load: Attribute = Attribute;
+        /// handle `htmx:on_error` events with inline scripts on elements
+        const hx_on__error: Attribute = Attribute;
+        /// handle `htmx:before_request` events with inline scripts on elements
+        const hx_on__before_request: Attribute = Attribute;
+        /// handle `htmx:after_request` events with inline scripts on elements
+        const hx_on__after_request: Attribute = Attribute;
+    }
+
+    #[allow(non_upper_case_globals)]
     pub trait MetaAttributes: GlobalAttributes {
         const property: Attribute = Attribute;
     }
@@ -166,6 +226,7 @@ pub mod html_elements {
 
     impl<T: GlobalAttributes> AriaAttributes for T {}
     impl<T: GlobalAttributes> MetaAttributes for T {}
+    impl<T: GlobalAttributes> HtmxAttributes for T {}
 }
 
 #[derive(Debug, Serialize, Deserialize)]

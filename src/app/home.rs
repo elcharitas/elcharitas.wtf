@@ -1,3 +1,4 @@
+use html_elements::HtmxAttributes;
 use lazy_static::lazy_static;
 
 use crate::shared::*;
@@ -44,6 +45,7 @@ derive_component! {
                                 <a
                                     href=item.href
                                     class="text-sm duration-500 text-zinc-500 hover:text-zinc-300"
+                                    hx_boost="true"
                                 >
                                     {item.name}
                                 </a>

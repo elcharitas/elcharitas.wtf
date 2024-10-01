@@ -15,7 +15,7 @@ async fn main() -> ShuttleNgyn {
     register_routes(&mut app);
 
     // static files
-    app.get("/*", handler(static_files));
+    app.get("/*", static_files);
 
     Ok(app.into())
 }

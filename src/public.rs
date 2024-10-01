@@ -1,6 +1,7 @@
 use lazy_static::lazy_static;
 use ngyn::shared::server::Bytes;
 use ngyn::shared::server::NgynContext;
+use ngyn::shared::server::NgynResponse;
 use std::fs;
 use std::io;
 use std::path::PathBuf;
@@ -25,7 +26,7 @@ pub struct FileInfo {
     content: Vec<u8>,
 }
 
-pub fn static_files(cx: &mut NgynContext) -> Result<Bytes, String> {
+pub fn static_files(cx: &mut NgynContext, res: &mut NgynResponse) {
     let current_file = cx.request().uri().path().trim_start_matches("/");
     println!("Current file: {:?}", current_file);
     let file = STATIC_FILES.iter().find(|f| f.path.ends_with(current_file));
@@ -33,17 +34,23 @@ pub fn static_files(cx: &mut NgynContext) -> Result<Bytes, String> {
     match file {
         Some(file) => {
             println!("Serving file: {:?}", file.path);
-            Ok(Bytes::from(file.content.clone()))
+            *res.body_mut() = Bytes::from(file.content.clone()).into();
         }
-        None => Err(AppLayout::with(LayoutProps {
-            title: "404 Not Found".to_string(),
-            children: Rsx(hypertext::rsx! {
-                {Error::with()}
-            }),
-        })
-        .render()
-        .as_inner()
-        .clone()),
+        None => {
+            *res.status_mut() = ngyn::http::StatusCode::NOT_FOUND;
+            *res.body_mut() = Bytes::from(
+                AppLayout::with(LayoutProps {
+                    title: "404 Not Found".to_string(),
+                    children: Rsx(hypertext::rsx! {
+                        {Error::with()}
+                    }),
+                })
+                .render()
+                .as_inner()
+                .clone(),
+            )
+            .into();
+        }
     }
 }
 

@@ -95,11 +95,7 @@ derive_component! {
                     title="I collaborate on github often"
                     aria-label="Follow me on github"
                     >
-                    <FontAwesomeIcon
-                        icon="github"
-                        size=24
-                        class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
-                    />
+                    <i class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 fab fa-github"></i>
                     </a>
                     <a
                     href="https://linkedin.com/in/elcharitas"

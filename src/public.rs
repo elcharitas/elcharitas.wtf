@@ -1,11 +1,14 @@
 use lazy_static::lazy_static;
 use ngyn::shared::server::Bytes;
 use ngyn::shared::server::NgynContext;
-use serde_json::json;
-use serde_json::Value;
 use std::fs;
 use std::io;
 use std::path::PathBuf;
+
+use crate::components::error::Error;
+use crate::components::AppLayout;
+use crate::components::LayoutProps;
+use crate::shared::*;
 
 lazy_static! {
     static ref STATIC_FILES: Vec<FileInfo> = {
@@ -22,7 +25,7 @@ pub struct FileInfo {
     content: Vec<u8>,
 }
 
-pub fn static_files(cx: &mut NgynContext) -> Result<Bytes, Value> {
+pub fn static_files(cx: &mut NgynContext) -> Result<Bytes, String> {
     let current_file = cx.request().uri().path().trim_start_matches("/");
     println!("Current file: {:?}", current_file);
     let file = STATIC_FILES.iter().find(|f| f.path.ends_with(current_file));
@@ -32,7 +35,15 @@ pub fn static_files(cx: &mut NgynContext) -> Result<Bytes, Value> {
             println!("Serving file: {:?}", file.path);
             Ok(Bytes::from(file.content.clone()))
         }
-        None => Err(json!({"error": "File not found"})),
+        None => Err(AppLayout::with(LayoutProps {
+            title: "404 Not Found".to_string(),
+            children: Rsx(hypertext::rsx! {
+                {Error::with()}
+            }),
+        })
+        .render()
+        .as_inner()
+        .clone()),
     }
 }
 

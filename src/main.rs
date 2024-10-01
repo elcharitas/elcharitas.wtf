@@ -1,6 +1,5 @@
 mod app;
 mod components;
-mod middlewares;
 mod public;
 mod shared;
 

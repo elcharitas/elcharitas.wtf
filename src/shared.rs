@@ -1,4 +1,4 @@
-pub use hypertext::{GlobalAttributes, RenderIterator, Renderable, Rendered};
+pub use hypertext::{GlobalAttributes, RenderIterator, Renderable};
 use ngyn::shared::server::{Bytes, ToBytes};
 
 pub use html_elements::AriaAttributes;
@@ -22,14 +22,128 @@ pub mod html_elements {
     }
 
     elements! {
-        Link {
-            // sets the `href` to target the given URL
-            // e.g. `<Link href="https://example.com">...</Link>`
-            href
+        svg {
+            /// svg width
+            width
 
-            // sets the `target` to the given value
-            // e.g. `<Link target="_blank">...</Link>`
-            target
+            /// svg height
+            /// e.g. `<svg height="100" />`
+            height
+
+            /// svg viewbox
+            /// e.g. `<svg viewbox="0 0 100 100" />`
+            viewbox
+
+            /// svg fill
+            fill
+
+            /// svg stroke
+            stroke
+
+            /// svg stroke-width
+            stroke_width
+
+            /// svg stroke-linecap
+            stroke_linecap
+
+            /// svg stroke-linejoin
+            stroke_linejoin
+
+            /// svg stroke-miterlimit
+            stroke_miterlimit
+
+            /// svg stroke-dasharray
+            stroke_dasharray
+
+            /// xmlns attribute
+            xmlns
+
+            /// svg preserveAspectRatio
+            preserveAspectRatio
+
+            /// svg version
+            version
+
+            /// svg xmlns:xlink
+            xmlns_xlink
+
+            /// svg xmlns:sketch
+            xmlns_sketch
+        }
+
+        circle {
+            /// circle cx
+            cx
+
+            /// circle cy
+            cy
+
+            /// circle r
+            r
+        }
+
+        line {
+            /// line x1
+            x1
+
+            /// line x2
+            x2
+
+            /// line y1
+            y1
+
+            /// line y2
+            y2
+        }
+
+        path {
+            /// path d
+            d
+        }
+
+        rect {
+            /// rect x
+            x
+
+            /// rect y
+            y
+
+            /// rect width
+            width
+
+            /// rect height
+            height
+        }
+
+        text {
+            /// text x
+            x
+
+            /// text y
+            y
+        }
+
+        tspan {
+            /// tspan x
+            x
+
+            /// tspan y
+            y
+        }
+
+        def {
+            /// def id
+            id
+        }
+
+        g {
+            /// g transform
+            transform
+        }
+
+        title {
+            /// title
+            title
         }
 
         FontAwesomeIcon {
@@ -45,6 +159,10 @@ pub mod html_elements {
     }
 
     impl VoidElement for FontAwesomeIcon {}
+    impl VoidElement for circle {}
+    impl VoidElement for line {}
+    impl VoidElement for path {}
+    impl VoidElement for rect {}
 
     impl<T: GlobalAttributes> AriaAttributes for T {}
     impl<T: GlobalAttributes> MetaAttributes for T {}
@@ -55,7 +173,7 @@ pub struct Post<T> {
     pub slug: String,
     pub title: String,
     pub brief: String,
-    pub cover_mage: Option<String>,
+    pub cover_image: Option<String>,
     pub date: Option<String>,
     pub category: String,
     pub content: Option<String>,
@@ -238,6 +356,7 @@ macro_rules! derive_component {
             }
         }
 
+        #[allow(dead_code)]
         impl $name {
             pub fn route_handler(_cx: &mut ngyn::prelude::NgynContext) -> String {
                 Self::build()

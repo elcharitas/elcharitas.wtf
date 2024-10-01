@@ -159,6 +159,9 @@ derive_component! {
                     } />
                     <link rel="shortcut icon" href=&METADATA.icons.shortcut />
                     <link rel="stylesheet" href="/styles.css" />
+                    <link rel="stylesheet" href="/fontawesome/css/regular.min.css" />
+                    <link rel="stylesheet" href="/fontawesome/css/brands.min.css" />
+                    <link rel="stylesheet" href="/fontawesome/css/all.min.css" />
 
                     <link rel="preconnect" href="https://fonts.googleapis.com" />
                     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

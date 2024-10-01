@@ -173,6 +173,12 @@ pub mod html_elements {
 
             /// rect height
             height
+            
+            /// rect rx
+            rx
+            
+            /// rect ry
+            ry
         }
 
         text {
@@ -201,6 +207,11 @@ pub mod html_elements {
             transform
         }
 
+        r#use {
+            /// use href
+            href
+        }
+
         title {
             /// title
             title
@@ -223,6 +234,7 @@ pub mod html_elements {
     impl VoidElement for line {}
     impl VoidElement for path {}
     impl VoidElement for rect {}
+    impl VoidElement for r#use {}
 
     impl<T: GlobalAttributes> AriaAttributes for T {}
     impl<T: GlobalAttributes> MetaAttributes for T {}

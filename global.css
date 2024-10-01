@@ -10,6 +10,16 @@
     font-display: swap;
 }
 
+.lucide-icon {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
 .font-plus-jakarta-sans {
     --font-inter: "Plus Jakarta Sans", sans-serif;
 }

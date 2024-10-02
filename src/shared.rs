@@ -14,6 +14,16 @@ pub mod html_elements {
         const aria_label: Attribute = Attribute;
         const aria_labelledby: Attribute = Attribute;
         const aria_hidden: Attribute = Attribute;
+        const aria_live: Attribute = Attribute; // assertive, polite, off
+        const aria_atomic: Attribute = Attribute; // true, false
+        const aria_busy: Attribute = Attribute; // true, false
+        const aria_controls: Attribute = Attribute;
+        const aria_describedby: Attribute = Attribute;
+        const aria_disabled: Attribute = Attribute; // true, false
+        const aria_dropeffect: Attribute = Attribute;
+        const aria_flowto: Attribute = Attribute;
+        const aria_grabbed: Attribute = Attribute; // true, false
+        const aria_haspopup: Attribute = Attribute; // true, false
     }
 
     #[allow(non_upper_case_globals)]
@@ -173,10 +183,10 @@ pub mod html_elements {
 
             /// rect height
             height
-            
+
             /// rect rx
             rx
-            
+
             /// rect ry
             ry
         }

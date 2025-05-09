@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Metadata {
-    metadata_base: url::Url,
+    metadata_base: String,
     title: Title,
     description: String,
     open_graph: OpenGraph,
@@ -24,7 +24,7 @@ struct Title {
 struct OpenGraph {
     title: String,
     description: String,
-    url: url::Url,
+    url: String,
     site_name: String,
     images: Vec<OpenGraphImage>,
     locale: String,
@@ -34,7 +34,7 @@ struct OpenGraph {
 
 #[derive(Debug, Serialize, Deserialize)]
 struct OpenGraphImage {
-    url: url::Url,
+    url: String,
     width: u32,
     height: u32,
 }
@@ -72,7 +72,7 @@ struct Icons {
 
 lazy_static! {
     static ref METADATA: Metadata = Metadata {
-        metadata_base: url::Url::parse("https://elcharitas.wtf").unwrap(),
+        metadata_base: String::from("https://elcharitas.wtf"),
         title: Title {
             default: "elcharitas.wtf | Software engineer with a passion for building things."
                 .into(),
@@ -82,10 +82,10 @@ lazy_static! {
         open_graph: OpenGraph {
             title: "elcharitas.wtf | Software engineer with a passion for building things.".into(),
             description: "Software engineer with a passion for building things.".into(),
-            url: url::Url::parse("https://elcharitas.wtf").unwrap(),
+            url: String::from("https://elcharitas.wtf"),
             site_name: "elcharitas.wtf".into(),
             images: vec![OpenGraphImage {
-                url: url::Url::parse("https://elcharitas.wtf/og.png").unwrap(),
+                url: String::from("https://elcharitas.wtf/og.png"),
                 width: 1920,
                 height: 1080,
             }],

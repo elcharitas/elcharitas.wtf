@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 pub use hypertext::{GlobalAttributes, RenderIterator, Renderable};
 use ngyn::shared::server::{Bytes, ToBytes};
 
@@ -454,201 +456,138 @@ macro_rules! derive_component {
     };
 }
 
-use std::collections::HashMap;
-use std::fmt;
+#[macro_export]
+macro_rules! jsx {
+    // Self-closing tag: <tag attr="value" />
+    ($(<$tag:ident $($attr:ident = $value:literal),* />),*) => {{
+        $(
+            {
+                #[allow(unused_mut)]
+                let mut element = Element::new(stringify!($tag));
+                $(
+                    element.set_attribute(stringify!($attr), &$value.to_string());
+                )*
+                element
+            }
+        )*
+    }};
 
-// Base trait for all nodes in our virtual DOM
-pub trait Node {
-    fn render(&self) -> String;
+    // Tag with children: <tag attr="value">children</tag>
+    ($(<$tag:ident $($attr:ident = $value:literal),*>$($children:tt)*</$close_tag:ident>),*) => {{
+        $(
+            {
+                #[allow(unused_mut)]
+                let mut element = Element::new(stringify!($tag));
+                $(
+                    element.set_attribute(stringify!($attr), &$value.to_string());
+                )*
+
+                // Process children and append them
+                let children = jsx!($($children)*);
+                match children {
+                    NodeList::Fragment(nodes) => {
+                        for child in nodes {
+                            element.append_child(child);
+                        }
+                    },
+                    NodeList::Single(node) => {
+                        element.append_child(node);
+                    }
+                }
+
+                NodeList::Single(element)
+            }
+        )*
+    }};
+
+    // Fragment: <>children</>
+    ($(<>$($children:tt)*</>),*) => {{
+        let mut nodes = Vec::new();
+        $(
+            match jsx!($($children)*) {
+                NodeList::Fragment(mut child_nodes) => nodes.append(&mut child_nodes),
+                NodeList::Single(node) => nodes.push(node),
+            }
+        )*
+        NodeList::Fragment(nodes)
+    }};
+
+    // Multiple sibling nodes (for fragment children)
+    ($($node:tt),+) => {{
+        let mut nodes = Vec::new();
+        $(
+            match jsx!($node) {
+                NodeList::Fragment(mut child_nodes) => nodes.append(&mut child_nodes),
+                NodeList::Single(node) => nodes.push(node),
+            }
+        )*
+        NodeList::Fragment(nodes)
+    }};
+
+    // String literal
+    ($text:literal) => {{
+        NodeList::Single(TextNode::new($text))
+    }};
+
+    // Expression
+    ($expr:expr) => {{
+        match $expr {
+            node @ Node::Element(_) | node @ Node::Text(_) => NodeList::Single(node),
+            nodes @ NodeList::Fragment(_) => nodes,
+            other => NodeList::Single(TextNode::new(&other.to_string())),
+        }
+    }};
+
+    // Empty case
+    () => {{
+        NodeList::Fragment(Vec::new())
+    }};
 }
 
-// Text node implementation
+// Helper enum to handle both single nodes and fragments
+pub enum NodeList {
+    Single(Node),
+    Fragment(Vec<Node>),
+}
+
+// Example Node type (you would replace this with your actual implementation)
+pub enum Node {
+    Element(Element),
+    Text(TextNode),
+}
+
+pub struct Element {
+    tag: String,
+    attributes: HashMap<String, String>,
+    children: Vec<Node>,
+}
+
+impl Element {
+    pub fn new(tag: &str) -> Node {
+        Node::Element(Self {
+            tag: tag.to_string(),
+            attributes: HashMap::new(),
+            children: Vec::new(),
+        })
+    }
+
+    pub fn set_attribute(&mut self, name: &str, value: &str) {
+        self.attributes.insert(name.to_string(), value.to_string());
+    }
+
+    pub fn append_child(&mut self, child: Node) {
+        self.children.push(child);
+    }
+}
+
 pub struct TextNode {
     content: String,
 }
 
 impl TextNode {
-    pub fn new<S: Into<String>>(content: S) -> Self {
-        TextNode {
-            content: content.into(),
-        }
+    pub fn new(content: &str) -> Node {
+        Node::Text(Self {
+            content: content.to_string(),
+        })
     }
-}
-
-impl Node for TextNode {
-    fn render(&self) -> String {
-        self.content.clone()
-    }
-}
-
-// Element implementation for HTML and Web Components
-pub struct Element {
-    tag_name: String,
-    attributes: HashMap<String, String>,
-    children: Vec<Box<dyn Node>>,
-}
-
-impl Element {
-    pub fn new<S: Into<String>>(tag_name: S) -> Self {
-        Element {
-            tag_name: tag_name.into(),
-            attributes: HashMap::new(),
-            children: Vec::new(),
-        }
-    }
-
-    pub fn set_attribute<K: Into<String>, V: ToString>(&mut self, key: K, value: V) {
-        self.attributes.insert(key.into(), value.to_string());
-    }
-
-    pub fn add_child<T: Node + 'static>(&mut self, child: T) {
-        self.children.push(Box::new(child));
-    }
-}
-
-impl Node for Element {
-    fn render(&self) -> String {
-        let mut result = format!("<{}", self.tag_name);
-
-        // Add attributes
-        for (key, value) in &self.attributes {
-            result.push_str(&format!(" {}=\"{}\"", key, value));
-        }
-
-        if self.children.is_empty() {
-            // Self-closing tag
-            result.push_str(" />");
-        } else {
-            // Opening tag with children and closing tag
-            result.push('>');
-            for child in &self.children {
-                result.push_str(&child.render());
-            }
-            result.push_str(&format!("</{}>", self.tag_name));
-        }
-
-        result
-    }
-}
-
-impl fmt::Display for Element {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{}", self.render())
-    }
-}
-
-// Component trait for custom components
-pub trait Component: Node {
-    fn new() -> Self
-    where
-        Self: Sized;
-    fn set_prop<V: ToString>(&mut self, key: &str, value: V);
-    fn add_child<T: Node + 'static>(&mut self, child: T);
-}
-
-pub mod components {
-    use super::*;
-
-    pub struct PrimaryButton {
-        props: HashMap<String, String>,
-        children: Vec<Box<dyn Node>>,
-    }
-
-    impl PrimaryButton {
-        pub fn new() -> Self {
-            PrimaryButton {
-                props: HashMap::new(),
-                children: Vec::new(),
-            }
-        }
-    }
-
-    impl Component for PrimaryButton {
-        fn new() -> Self {
-            PrimaryButton::new()
-        }
-
-        fn set_prop<V: ToString>(&mut self, key: &str, value: V) {
-            self.props.insert(key.to_string(), value.to_string());
-        }
-
-        fn add_child<T: Node + 'static>(&mut self, child: T) {
-            self.children.push(Box::new(child));
-        }
-    }
-
-    impl Node for PrimaryButton {
-        fn render(&self) -> String {
-            let mut button = Element::new("button");
-
-            // Add class for primary button
-            button.set_attribute("class", "btn btn-primary");
-
-            // Add all other props
-            for (key, value) in &self.props {
-                if key != "class" {
-                    // Skip class as we've already set it
-                    button.set_attribute(key, value);
-                }
-            }
-
-            // Add children
-            for child in &self.children {
-                button.add_child(TextNode::new(child.render()));
-            }
-
-            button.render()
-        }
-    }
-}
-
-#[macro_export]
-macro_rules! jsx_rules {
-    // match just everything else before closing tag
-    ($($nodes:tt)* $(<$close_tag:ident)?$(/)?>) => {{
-        $(
-            assert_eq!(tag, stringify!($close_tag), "Opening and closing tags must match");
-            $($close_tag = tag;)?
-            $(
-                $close_tag.add_child(TextNode::new($children_lit));
-            )*
-            $(
-                $close_tag.add_child(jsx!($children));
-            )*
-        )?
-    }};
-}
-
-#[macro_export]
-macro_rules! jsx {
-    ($(<$tag:ident $($attr:ident = $value:literal)* $(>$($children:tt)+)?),*) => {{
-        $(
-            {
-                #[allow(unused_mut)]
-                let mut $tag = Element::new(stringify!($tag));
-
-                $(
-                    let $attr = $value;
-                    $tag.set_attribute(stringify!($attr), $attr);
-                )*
-                jsx!($(
-                    $($children)+
-                )?);
-                $tag
-            }
-        )*
-    }};
-
-    // match everything after attributes just after the >
-    ($($children:tt)+) => {{
-        $crate::jsx_rules!($($children)*);
-    }};
-
-    ($(</$close_tag:ident)?$(/)?>) => {
-        // Handle closing tag
-    };
-    // String literal without quotes (direct text)
-    ($text:literal) => {{ TextNode::new($text) }};
-
-    ($text:expr) => {{ $text }};
 }

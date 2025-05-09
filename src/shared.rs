@@ -276,6 +276,12 @@ where
     pub fn inner(self) -> T {
         self.0
     }
+
+    pub fn render(self) -> String {
+        let mut output = String::new();
+        (self.0)(&mut output);
+        output
+    }
 }
 
 impl<T> From<T> for Rsx<T>

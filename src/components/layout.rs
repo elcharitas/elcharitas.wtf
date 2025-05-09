@@ -175,3 +175,18 @@ derive_component! {
         }
     }
 }
+
+derive_component! {
+    pub BlogLayout(props: LayoutProps) {
+        AppLayout::with(LayoutProps {
+            title: props.title,
+            children: Rsx(hypertext::rsx! {
+                <div class="flex flex-col min-h-screen">
+                    <div class="flex flex-col flex-1">
+                        ""
+                    </div>
+                </div>
+            })
+        })
+    }
+}

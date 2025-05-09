@@ -36,7 +36,7 @@ lazy_static! {
 derive_component! {
     pub HomePage {
         let article = jsx! {
-            <img src="/images/me.jpg" alt="me" class="w-24 h-24 rounded-full" />
+            <input type="text" />
         };
         AppLayout::with(LayoutProps {
             title: "Home".to_string(),

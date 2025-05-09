@@ -459,21 +459,25 @@ macro_rules! derive_component {
 #[macro_export]
 macro_rules! jsx {
     // Self-closing tag: <tag attr="value" />
-    ($(<$tag:ident $($attr:ident = $value:literal),* />),*) => {{
+    ($(<$tag:ident $($attr:ident = $value:literal)*/>),*) => {{
         $(
             {
                 #[allow(unused_mut)]
-                let mut element = Element::new(stringify!($tag));
+                let mut $tag = Element::new(stringify!($tag));
                 $(
-                    element.set_attribute(stringify!($attr), &$value.to_string());
+                    if let Some(e) = $tag.as_element_mut() {
+                        e.set_attribute(stringify!($attr), {
+                            &$value.to_string()
+                        });
+                    }
                 )*
-                element
+                NodeList::Single($tag)
             }
         )*
     }};
 
     // Tag with children: <tag attr="value">children</tag>
-    ($(<$tag:ident $($attr:ident = $value:literal),*>$($children:tt)*</$close_tag:ident>),*) => {{
+    ($(<$tag:ident $($attr:ident = $value:literal)*>$($children:tt)*</$close_tag:ident>),*) => {{
         $(
             {
                 #[allow(unused_mut)]
@@ -504,7 +508,8 @@ macro_rules! jsx {
     ($(<>$($children:tt)*</>),*) => {{
         let mut nodes = Vec::new();
         $(
-            match jsx!($($children)*) {
+            let result = jsx!($($children)*);
+            match result {
                 NodeList::Fragment(mut child_nodes) => nodes.append(&mut child_nodes),
                 NodeList::Single(node) => nodes.push(node),
             }
@@ -513,10 +518,11 @@ macro_rules! jsx {
     }};
 
     // Multiple sibling nodes (for fragment children)
-    ($($node:tt),+) => {{
+    ($($node:tt)+) => {{
         let mut nodes = Vec::new();
         $(
-            match jsx!($node) {
+            let result = jsx!($node);
+            match result {
                 NodeList::Fragment(mut child_nodes) => nodes.append(&mut child_nodes),
                 NodeList::Single(node) => nodes.push(node),
             }
@@ -531,11 +537,8 @@ macro_rules! jsx {
 
     // Expression
     ($expr:expr) => {{
-        match $expr {
-            node @ Node::Element(_) | node @ Node::Text(_) => NodeList::Single(node),
-            nodes @ NodeList::Fragment(_) => nodes,
-            other => NodeList::Single(TextNode::new(&other.to_string())),
-        }
+        // Handle expression based on its type
+        NodeList::Single(TextNode::new(&$expr.to_string()))
     }};
 
     // Empty case
@@ -554,6 +557,29 @@ pub enum NodeList {
 pub enum Node {
     Element(Element),
     Text(TextNode),
+}
+
+impl Node {
+    pub fn as_inner(&self) -> &str {
+        match self {
+            Node::Element(element) => &element.tag,
+            Node::Text(text) => &text.content,
+        }
+    }
+
+    pub fn as_element(&self) -> Option<&Element> {
+        match self {
+            Node::Element(element) => Some(element),
+            _ => None,
+        }
+    }
+
+    pub fn as_element_mut(&mut self) -> Option<&mut Element> {
+        match self {
+            Node::Element(element) => Some(element),
+            _ => None,
+        }
+    }
 }
 
 pub struct Element {

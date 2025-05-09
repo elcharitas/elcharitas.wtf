@@ -453,3 +453,202 @@ macro_rules! derive_component {
         }
     };
 }
+
+use std::collections::HashMap;
+use std::fmt;
+
+// Base trait for all nodes in our virtual DOM
+pub trait Node {
+    fn render(&self) -> String;
+}
+
+// Text node implementation
+pub struct TextNode {
+    content: String,
+}
+
+impl TextNode {
+    pub fn new<S: Into<String>>(content: S) -> Self {
+        TextNode {
+            content: content.into(),
+        }
+    }
+}
+
+impl Node for TextNode {
+    fn render(&self) -> String {
+        self.content.clone()
+    }
+}
+
+// Element implementation for HTML and Web Components
+pub struct Element {
+    tag_name: String,
+    attributes: HashMap<String, String>,
+    children: Vec<Box<dyn Node>>,
+}
+
+impl Element {
+    pub fn new<S: Into<String>>(tag_name: S) -> Self {
+        Element {
+            tag_name: tag_name.into(),
+            attributes: HashMap::new(),
+            children: Vec::new(),
+        }
+    }
+
+    pub fn set_attribute<K: Into<String>, V: ToString>(&mut self, key: K, value: V) {
+        self.attributes.insert(key.into(), value.to_string());
+    }
+
+    pub fn add_child<T: Node + 'static>(&mut self, child: T) {
+        self.children.push(Box::new(child));
+    }
+}
+
+impl Node for Element {
+    fn render(&self) -> String {
+        let mut result = format!("<{}", self.tag_name);
+
+        // Add attributes
+        for (key, value) in &self.attributes {
+            result.push_str(&format!(" {}=\"{}\"", key, value));
+        }
+
+        if self.children.is_empty() {
+            // Self-closing tag
+            result.push_str(" />");
+        } else {
+            // Opening tag with children and closing tag
+            result.push('>');
+            for child in &self.children {
+                result.push_str(&child.render());
+            }
+            result.push_str(&format!("</{}>", self.tag_name));
+        }
+
+        result
+    }
+}
+
+impl fmt::Display for Element {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}", self.render())
+    }
+}
+
+// Component trait for custom components
+pub trait Component: Node {
+    fn new() -> Self
+    where
+        Self: Sized;
+    fn set_prop<V: ToString>(&mut self, key: &str, value: V);
+    fn add_child<T: Node + 'static>(&mut self, child: T);
+}
+
+pub mod components {
+    use super::*;
+
+    pub struct PrimaryButton {
+        props: HashMap<String, String>,
+        children: Vec<Box<dyn Node>>,
+    }
+
+    impl PrimaryButton {
+        pub fn new() -> Self {
+            PrimaryButton {
+                props: HashMap::new(),
+                children: Vec::new(),
+            }
+        }
+    }
+
+    impl Component for PrimaryButton {
+        fn new() -> Self {
+            PrimaryButton::new()
+        }
+
+        fn set_prop<V: ToString>(&mut self, key: &str, value: V) {
+            self.props.insert(key.to_string(), value.to_string());
+        }
+
+        fn add_child<T: Node + 'static>(&mut self, child: T) {
+            self.children.push(Box::new(child));
+        }
+    }
+
+    impl Node for PrimaryButton {
+        fn render(&self) -> String {
+            let mut button = Element::new("button");
+
+            // Add class for primary button
+            button.set_attribute("class", "btn btn-primary");
+
+            // Add all other props
+            for (key, value) in &self.props {
+                if key != "class" {
+                    // Skip class as we've already set it
+                    button.set_attribute(key, value);
+                }
+            }
+
+            // Add children
+            for child in &self.children {
+                button.add_child(TextNode::new(child.render()));
+            }
+
+            button.render()
+        }
+    }
+}
+
+#[macro_export]
+macro_rules! jsx_rules {
+    // match just everything else before closing tag
+    ($($nodes:tt)* $(<$close_tag:ident)?$(/)?>) => {{
+        $(
+            assert_eq!(tag, stringify!($close_tag), "Opening and closing tags must match");
+            $($close_tag = tag;)?
+            $(
+                $close_tag.add_child(TextNode::new($children_lit));
+            )*
+            $(
+                $close_tag.add_child(jsx!($children));
+            )*
+        )?
+    }};
+}
+
+#[macro_export]
+macro_rules! jsx {
+    ($(<$tag:ident $($attr:ident = $value:literal)* $(>$($children:tt)+)?),*) => {{
+        $(
+            {
+                #[allow(unused_mut)]
+                let mut $tag = Element::new(stringify!($tag));
+
+                $(
+                    let $attr = $value;
+                    $tag.set_attribute(stringify!($attr), $attr);
+                )*
+                jsx!($(
+                    $($children)+
+                )?);
+                $tag
+            }
+        )*
+    }};
+
+    // match everything after attributes just after the >
+    ($($children:tt)+) => {{
+        $crate::jsx_rules!($($children)*);
+    }};
+
+    ($(</$close_tag:ident)?$(/)?>) => {
+        // Handle closing tag
+    };
+    // String literal without quotes (direct text)
+    ($text:literal) => {{ TextNode::new($text) }};
+
+    ($text:expr) => {{ $text }};
+}

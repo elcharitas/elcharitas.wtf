@@ -1,11 +1,11 @@
 use html_elements::HtmxAttributes;
 use lazy_static::lazy_static;
 
-use crate::shared::*;
 use crate::{
     components::{AppLayout, LayoutProps},
     derive_component,
 };
+use crate::{jsx, shared::*};
 
 struct NavigationInfo {
     name: &'static str,
@@ -35,6 +35,13 @@ lazy_static! {
 
 derive_component! {
     pub HomePage {
+        let article = jsx! {
+            <div class="">
+                <br />
+                <br />
+                <br />
+            </div>
+        };
         AppLayout::with(LayoutProps {
             title: "Home".to_string(),
             children: Rsx(hypertext::rsx! {

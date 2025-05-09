@@ -1,2 +1,0 @@
-mod adventure;
-mod page;

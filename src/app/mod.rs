@@ -1,8 +1,17 @@
-mod adventures;
-mod blog;
+mod adventures {
+    mod adventure;
+    mod page;
+}
+mod blog {
+    mod page;
+    mod slug;
+}
 mod home;
 mod newsletter;
-mod projects;
+mod projects {
+    mod page;
+    mod slug;
+}
 
 use home::HomePage;
 use ngyn::prelude::*;

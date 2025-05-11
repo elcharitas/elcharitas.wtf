@@ -1,5 +1,3 @@
-use crate::shared::*;
-use crate::{derive_component, derive_props};
 use lazy_static::lazy_static;
 use serde::{Deserialize, Serialize};
 use simple_rsx::{rsx, Node};

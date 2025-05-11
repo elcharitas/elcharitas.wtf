@@ -1,9 +1,10 @@
-pub use crate::{derive_component, shared::*};
+use simple_rsx::rsx;
+pub use crate::derive_component;
 
 derive_component! {
     pub Error {
-        hypertext::rsx! {
-            <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        rsx! {
+          <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
                 <div class="max-w-md w-full space-y-8">
                   <div class="text-center">
                     <svg
@@ -11,9 +12,9 @@ derive_component! {
                         fill="none"
                         height="24"
                         stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
+                        stroke_linecap="round"
+                        stroke_linejoin="round"
+                        stroke_width="2"
                         viewbox="0 0 24 24"
                         width="24"
                         xmlns="http://www.w3.org/2000/svg"

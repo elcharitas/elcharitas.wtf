@@ -12,6 +12,7 @@ pub struct BlogProps {
 
 derive_component! {
     pub BlogPage {
+        let blank = "".to_string();
         AppLayout(LayoutProps {
             title: "Writings".to_string(),
             children: rsx! {
@@ -25,7 +26,7 @@ derive_component! {
                             {Vec::<Post<u64>>::new().iter().map(|post| {
                                 rsx! {
                                     <article class="bg-zinc-900 rounded-lg overflow-hidden shadow-lg">
-                                        <img src={post.cover_image.as_ref()} alt={&post.title} class="w-full h-48 object-cover" />
+                                        <img src={post.cover_image.as_ref().unwrap_or(&blank)} alt={&post.title} class="w-full h-48 object-cover" />
                                         <div class="p-6">
                                             <h2 class="text-xl font-semibold text-zinc-50 mb-2">{&post.title}</h2>
                                             <p class="text-zinc-300">{&post.brief}</p>

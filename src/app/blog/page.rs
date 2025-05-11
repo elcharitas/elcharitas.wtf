@@ -1,8 +1,8 @@
 use crate::components::{AppLayout, LayoutProps};
 use crate::derive_component;
 use crate::shared::*;
-use hypertext::rsx;
 use serde::{Deserialize, Serialize};
+use simple_rsx::rsx;
 
 #[derive(Serialize, Deserialize)]
 pub struct BlogProps {
@@ -12,9 +12,9 @@ pub struct BlogProps {
 
 derive_component! {
     pub BlogPage {
-        AppLayout::with(LayoutProps {
+        AppLayout(LayoutProps {
             title: "Writings".to_string(),
-            children: Rsx(hypertext::rsx! {
+            children: rsx! {
                 <div class="bg-zinc-800 min-h-screen">
                     <div class="container mx-auto px-4 py-12">
                         <h1 class="text-4xl font-bold text-zinc-50 mb-8">"Blogs ✍🏼"</h1>
@@ -36,7 +36,7 @@ derive_component! {
                                         </div>
                                     </article>
                                 }
-                            }).render_all()}
+                            })}
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                             {Vec::<Post<u64>>::new().iter().map(|post| {
@@ -52,11 +52,11 @@ derive_component! {
                                         </div>
                                     </article>
                                 }
-                            }).render_all()}
+                            })}
                         </div>
                     </div>
                 </div>
-            }),
+            },
         })
     }
 }

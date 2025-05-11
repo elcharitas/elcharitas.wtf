@@ -1,10 +1,7 @@
-use std::collections::HashMap;
-
 pub use hypertext::{GlobalAttributes, RenderIterator, Renderable};
 use ngyn::shared::server::{Bytes, ToBytes};
 
 pub use html_elements::AriaAttributes;
-pub use html_elements::MetaAttributes;
 use serde::{Deserialize, Serialize};
 
 pub mod html_elements {
@@ -432,188 +429,20 @@ macro_rules! derive_component {
     }) => {
         $visibility struct $name;
 
-        #[allow(dead_code)]
         impl $name {
-            pub fn render(_raw_props: &str) -> impl FnOnce(&mut String) {
-                $($body)*
-            }
-
-            pub fn with() -> impl FnOnce(&mut String) {
-                $($body)*
-            }
-
-            pub fn build() -> String {
-                Self::with().render().as_inner().to_string()
+            pub fn render() -> String {
+                let output = {
+                    $($body)*
+                };
+                output.to_string()
             }
         }
 
         #[allow(dead_code)]
         impl $name {
             pub fn route_handler(_cx: &mut ngyn::prelude::NgynContext) -> String {
-                Self::build()
+                Self::render()
             }
         }
     };
-}
-
-#[macro_export]
-macro_rules! jsx {
-    // Self-closing tag: <tag attr="value" />
-    ($(<$tag:ident $($attr:ident = $value:literal)*/>),*) => {{
-        $(
-            {
-                #[allow(unused_mut)]
-                let mut $tag = Element::new(stringify!($tag));
-                $(
-                    if let Some(e) = $tag.as_element_mut() {
-                        e.set_attribute(stringify!($attr), {
-                            &$value.to_string()
-                        });
-                    }
-                )*
-                NodeList::Single($tag)
-            }
-        )*
-    }};
-
-    // Tag with children: <tag attr="value">children</tag>
-    ($(<$tag:ident $($attr:ident = $value:literal)*>$($children:tt)*</$close_tag:ident>),*) => {{
-        $(
-            {
-                #[allow(unused_mut)]
-                let mut element = Element::new(stringify!($tag));
-                $(
-                    element.set_attribute(stringify!($attr), &$value.to_string());
-                )*
-
-                // Process children and append them
-                let children = jsx!($($children)*);
-                match children {
-                    NodeList::Fragment(nodes) => {
-                        for child in nodes {
-                            element.append_child(child);
-                        }
-                    },
-                    NodeList::Single(node) => {
-                        element.append_child(node);
-                    }
-                }
-
-                NodeList::Single(element)
-            }
-        )*
-    }};
-
-    // Fragment: <>children</>
-    ($(<>$($children:tt)*</>),*) => {{
-        let mut nodes = Vec::new();
-        $(
-            let result = jsx!($($children)*);
-            match result {
-                NodeList::Fragment(mut child_nodes) => nodes.append(&mut child_nodes),
-                NodeList::Single(node) => nodes.push(node),
-            }
-        )*
-        NodeList::Fragment(nodes)
-    }};
-
-    // Multiple sibling nodes (for fragment children)
-    ($($node:tt)+) => {{
-        let mut nodes = Vec::new();
-        $(
-            let result = jsx!($node);
-            match result {
-                NodeList::Fragment(mut child_nodes) => nodes.append(&mut child_nodes),
-                NodeList::Single(node) => nodes.push(node),
-            }
-        )*
-        NodeList::Fragment(nodes)
-    }};
-
-    // String literal
-    ($text:literal) => {{
-        NodeList::Single(TextNode::new($text))
-    }};
-
-    // Expression
-    ($expr:expr) => {{
-        // Handle expression based on its type
-        NodeList::Single(TextNode::new(&$expr.to_string()))
-    }};
-
-    // Empty case
-    () => {{
-        NodeList::Fragment(Vec::new())
-    }};
-}
-
-// Helper enum to handle both single nodes and fragments
-pub enum NodeList {
-    Single(Node),
-    Fragment(Vec<Node>),
-}
-
-// Example Node type (you would replace this with your actual implementation)
-pub enum Node {
-    Element(Element),
-    Text(TextNode),
-}
-
-impl Node {
-    pub fn as_inner(&self) -> &str {
-        match self {
-            Node::Element(element) => &element.tag,
-            Node::Text(text) => &text.content,
-        }
-    }
-
-    pub fn as_element(&self) -> Option<&Element> {
-        match self {
-            Node::Element(element) => Some(element),
-            _ => None,
-        }
-    }
-
-    pub fn as_element_mut(&mut self) -> Option<&mut Element> {
-        match self {
-            Node::Element(element) => Some(element),
-            _ => None,
-        }
-    }
-}
-
-pub struct Element {
-    tag: String,
-    attributes: HashMap<String, String>,
-    children: Vec<Node>,
-}
-
-impl Element {
-    pub fn new(tag: &str) -> Node {
-        Node::Element(Self {
-            tag: tag.to_string(),
-            attributes: HashMap::new(),
-            children: Vec::new(),
-        })
-    }
-
-    pub fn set_attribute(&mut self, name: &str, value: &str) {
-        self.attributes.insert(name.to_string(), value.to_string());
-    }
-
-    pub fn append_child(&mut self, child: Node) {
-        self.children.push(child);
-    }
-}
-
-pub struct TextNode {
-    content: String,
-}
-
-impl TextNode {
-    pub fn new(content: &str) -> Node {
-        Node::Text(Self {
-            content: content.to_string(),
-        })
-    }
 }

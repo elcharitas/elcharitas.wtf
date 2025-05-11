@@ -9,6 +9,7 @@ google-fonts = "0.1"
 hypertext = "0.5"
 lazy_static = "1.5"
 ngyn = { git = "https://github.com/ngyn-rs/ngyn", branch = "dev" }
+simple-rsx = { version = "0.1.5" }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 tokio = { version = "1", features = ["full"] }

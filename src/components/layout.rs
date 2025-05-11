@@ -2,6 +2,7 @@ use crate::shared::*;
 use crate::{derive_component, derive_props};
 use lazy_static::lazy_static;
 use serde::{Deserialize, Serialize};
+use simple_rsx::{rsx, Node};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Metadata {
@@ -114,79 +115,59 @@ lazy_static! {
     };
 }
 
-derive_props! {
-    LayoutProps {
-        title: String,
-        children: Rsx,
-    }
+pub struct LayoutProps {
+    pub title: String,
+    pub children: Node,
 }
 
-derive_component! {
-    pub AppLayout(props: LayoutProps) {
-        let page_title = METADATA.title.template.replace("%s", &props.title);
-        hypertext::rsx_move! {
-            <html lang="en" class="font-plus-jakarta-sans font-calsans">
-                <head>
-                    <title>{&page_title}</title>
-                    <meta charset="utf-8" />
-                    <meta name="title" content=&page_title />
-                    <meta name="description" content=&METADATA.description />
-                    <meta name="viewport" content="width=device-width, initial-scale=1" />
+#[allow(non_snake_case)]
+pub fn AppLayout(props: LayoutProps) -> Node {
+    let page_title = METADATA.title.template.replace("%s", &props.title);
 
-                    <!-- "OpenGraph Metadata" -->
-                    <meta property="og:title" content=&METADATA.open_graph.title />
-                    <meta property="og:description" content=&METADATA.open_graph.description />
-                    <meta property="og:url" content=METADATA.open_graph.url.as_str() />
-                    <meta property="og:site_name" content=&METADATA.open_graph.site_name />
-                    <meta property="og:image" content=METADATA.open_graph.images[0].url.as_str() />
-                    <meta property="og:image:width" content=METADATA.open_graph.images[0].width.to_string() />
-                    <meta property="og:image:height" content=METADATA.open_graph.images[0].height.to_string() />
-                    <meta property="og:locale" content=&METADATA.open_graph.locale />
-                    <meta property="og:type" content=&METADATA.open_graph.type_ />
+    rsx! {
+        <html lang="en" class="font-plus-jakarta-sans font-calsans">
+            <head>
+                <title>{&page_title}</title>
+                <meta charset="utf-8" />
+                <meta name="title" content={&page_title} />
+                <meta name="description" content={&METADATA.description} />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-                    <!-- "Twitter Metadata" -->
-                    <meta name="twitter:title" content=&METADATA.twitter.title />
-                    <meta name="twitter:creator" content=&METADATA.twitter.creator />
-                    <meta name="twitter:card" content=&METADATA.twitter.card />
+                <meta property="og:title" content={&METADATA.open_graph.title} />
+                <meta property="og:description" content={&METADATA.open_graph.description} />
+                <meta property="og:url" content={METADATA.open_graph.url.as_str()} />
+                <meta property="og:site_name" content={&METADATA.open_graph.site_name} />
+                <meta property="og:image" content={METADATA.open_graph.images[0].url.as_str()} />
+                <meta property="og:image:width" content={METADATA.open_graph.images[0].width.to_string()} />
+                <meta property="og:image:height" content={METADATA.open_graph.images[0].height.to_string()} />
+                <meta property="og:locale" content={&METADATA.open_graph.locale} />
+                <meta property="og:type" content={&METADATA.open_graph.type_} />
 
-                    <!-- "Robots Metadata" -->
-                    <meta name="robots" content={
-                        format!(
-                            "{}{}",
-                            if METADATA.robots.index { "index" } else { "noindex" },
-                            if METADATA.robots.follow { ", follow" } else { ", nofollow" }
-                        )
-                    } />
-                    <link rel="shortcut icon" href=&METADATA.icons.shortcut />
-                    <link rel="stylesheet" href="/styles.css" />
-                    <link rel="stylesheet" href="/fontawesome/css/regular.min.css" />
-                    <link rel="stylesheet" href="/fontawesome/css/brands.min.css" />
-                    <link rel="stylesheet" href="/fontawesome/css/all.min.css" />
+                <meta name="twitter:title" content={&METADATA.twitter.title} />
+                <meta name="twitter:creator" content={&METADATA.twitter.creator} />
+                <meta name="twitter:card" content={&METADATA.twitter.card} />
 
-                    <link rel="preconnect" href="https://fonts.googleapis.com" />
-                    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-                    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap" rel="stylesheet" />
-                </head>
-                <body class="bg-black">
-                    {props.children.inner()}
-                    <script src="https://unpkg.com/htmx.org@2.0.2"></script>
-                </body>
-            </html>
-        }
-    }
-}
+                <meta name="robots" content={
+                    format!(
+                        "{}{}",
+                        if METADATA.robots.index { "index" } else { "noindex" },
+                        if METADATA.robots.follow { ", follow" } else { ", nofollow" }
+                    )
+                } />
+                <link rel="shortcut icon" href={&METADATA.icons.shortcut} />
+                <link rel="stylesheet" href="/styles.css" />
+                <link rel="stylesheet" href="/fontawesome/css/regular.min.css" />
+                <link rel="stylesheet" href="/fontawesome/css/brands.min.css" />
+                <link rel="stylesheet" href="/fontawesome/css/all.min.css" />
 
-derive_component! {
-    pub BlogLayout(props: LayoutProps) {
-        AppLayout::with(LayoutProps {
-            title: props.title,
-            children: Rsx(hypertext::rsx! {
-                <div class="flex flex-col min-h-screen">
-                    <div class="flex flex-col flex-1">
-                        ""
-                    </div>
-                </div>
-            })
-        })
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+                <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap" rel="stylesheet" />
+            </head>
+            <body class="bg-black">
+                {props.children}
+                <script src="https://unpkg.com/htmx.org@2.0.2"></script>
+            </body>
+        </html>
     }
 }

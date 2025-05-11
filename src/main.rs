@@ -13,5 +13,7 @@ async fn main() {
 
     register_routes(&mut app);
 
+    let _ = app.use_static(std::path::Path::new("public").to_path_buf());
+
     let _ = app.listen("0.0.0.0:3000").await;
 }

@@ -164,7 +164,7 @@ pub fn AppLayout(props: LayoutProps) -> Node {
             </head>
             <body class="bg-black">
                 {props.children}
-                <script src="https://unpkg.com/htmx.org@2.0.2"></script>
+                <script src="https://unpkg.com/htmx.org@2.0.2" r#async></script>
             </body>
         </html>
     }

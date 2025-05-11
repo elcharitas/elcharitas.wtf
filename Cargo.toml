@@ -7,7 +7,7 @@ edition = "2021"
 chrono = { version = "0.4", features = ["serde"] }
 google-fonts = "0.1"
 lazy_static = "1.5"
-ngyn = { git = "https://github.com/ngyn-rs/ngyn", branch = "dev" }
+ngyn = { version = "0.5.4" }
 simple-rsx = { git = "https://github.com/elcharitas/simple-rsx", branch = "main" }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"

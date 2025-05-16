@@ -10,7 +10,7 @@ pub struct BlogProps {
 }
 
 #[component]
-pub fn Blog() -> Node {
+pub fn BlogPage() -> Node {
     let blank = String::new();
     rsx! {
         <AppLayout title="Writings">

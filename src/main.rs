@@ -8,12 +8,25 @@ use app::register_routes;
 use ngyn::prelude::*;
 
 #[tokio::main]
-async fn main() {
+async fn main() -> Result<(), std::io::Error> {
+    // Initialize tracing subscriber for logging
+    tracing_subscriber::fmt()
+        .with_env_filter("info,elcharitas=debug")
+        .init();
+
+    tracing::info!("Starting elcharitas.wtf server");
+
     let mut app = HyperApplication::default();
 
     register_routes(&mut app);
 
-    let _ = app.use_static(std::path::Path::new("public").to_path_buf());
+    app.use_static(std::path::Path::new("public").to_path_buf())?;
+    tracing::info!("Static files directory configured");
 
-    let _ = app.listen("0.0.0.0:3000").await;
+    tracing::info!("Server listening on http://0.0.0.0:3000");
+    app.listen("0.0.0.0:3000").await.map_err(|e| {
+        tracing::error!("Server error: {:?}", e);
+        e
+    })?;
+    Ok(())
 }

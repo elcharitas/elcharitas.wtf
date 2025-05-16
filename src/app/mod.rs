@@ -16,9 +16,11 @@ mod projects {
 use home::HomePage;
 use ngyn::prelude::*;
 
+use crate::shared::route_handler;
+
 pub fn register_routes(app: &mut HyperApplication) {
     // Pages
-    app.get("/", handler(HomePage::route_handler));
+    app.get("/", route_handler(HomePage));
 
     // Redirects
     app.get("/blog", redirect_permanent("/writings")); // Old blog URL

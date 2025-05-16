@@ -1,6 +1,6 @@
 use lazy_static::lazy_static;
 use serde::{Deserialize, Serialize};
-use simple_rsx::{rsx, Node};
+use simple_rsx::*;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Metadata {
@@ -113,15 +113,15 @@ lazy_static! {
     };
 }
 
+#[derive(Default)]
 pub struct LayoutProps {
     pub title: String,
-    pub children: Node,
+    pub children: Vec<Node>,
 }
 
-#[allow(non_snake_case)]
+#[component]
 pub fn AppLayout(props: LayoutProps) -> Node {
     let page_title = METADATA.title.template.replace("%s", &props.title);
-
     rsx! {
         <html lang="en" class="font-plus-jakarta-sans font-calsans">
             <head>
@@ -164,7 +164,7 @@ pub fn AppLayout(props: LayoutProps) -> Node {
             </head>
             <body class="bg-black">
                 {props.children}
-                <script src="https://unpkg.com/htmx.org@2.0.2" r#async></script>
+                <script src="https://unpkg.com/htmx.org@2.0.2" async_></script>
             </body>
         </html>
     }

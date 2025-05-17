@@ -1,4 +1,5 @@
 use lazy_static::lazy_static;
+use ngyn::prelude::*;
 use simple_rsx::*;
 
 use crate::components::AppLayout;
@@ -29,8 +30,11 @@ lazy_static! {
     ];
 }
 
+#[derive(Param)]
+pub struct PageParams;
+
 #[component]
-pub fn HomePage() -> Node {
+pub fn HomePage(_: PageParams) -> Node {
     rsx! {
         <AppLayout title="Home">
             <div class="flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-tl from-black via-zinc-600/20 to-black">

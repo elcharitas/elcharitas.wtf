@@ -1,4 +1,4 @@
-use ngyn::prelude::*;
+use ngyn::{prelude::*, shared::server::Transformer};
 use serde::{Deserialize, Serialize};
 use simple_rsx::Component;
 
@@ -18,10 +18,14 @@ pub struct Post<T> {
     pub comments: Option<T>,
 }
 
-pub fn route_handler<T: Component>(mut comp: T) -> impl Into<RouteHandler>
+pub fn route_handler<T: Component>(_: T) -> impl Into<RouteHandler>
 where
-    <T as simple_rsx::Component>::Props: Default,
+    for<'a> <T as simple_rsx::Component>::Props: Transformer<'a>,
 {
-    let body = comp.render(Default::default());
-    handler(move |_| body.to_string())
+    handler(move |ctx| {
+        let body = <T as simple_rsx::Component>::render(
+            <T as simple_rsx::Component>::Props::transform(ctx),
+        );
+        body.to_string()
+    })
 }

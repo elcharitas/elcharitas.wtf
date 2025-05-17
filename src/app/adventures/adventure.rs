@@ -1,3 +1,4 @@
+use ngyn::macros::Param;
 use serde::{Deserialize, Serialize};
 use simple_rsx::*;
 
@@ -7,14 +8,14 @@ pub struct YearData {
     info: Vec<String>,
 }
 
-#[derive(Default)]
+#[derive(Param, Serialize, Deserialize)]
 pub struct AdventureProps {
     pub year: String,
-    pub data: Vec<YearData>,
 }
 
 #[component]
-pub fn Adventure(AdventureProps { year, data }: AdventureProps) -> Node {
+pub fn Adventure(AdventureProps { year }: AdventureProps) -> Node {
+    let data: Vec<YearData> = vec![];
     rsx! {
         <li class="mb-2 flex flex-col items-center">
             <div class="flex flex-col md:w-3/4">
@@ -43,7 +44,7 @@ pub fn Adventure(AdventureProps { year, data }: AdventureProps) -> Node {
                         </div>
                         </div>
                     </div>
-                    </div>
+                </div>
                 }
             ))}
             </div>

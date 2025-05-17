@@ -27,7 +27,7 @@ pub fn register_routes(app: &mut HyperApplication) {
         "/adventures",
         route_handler(adventures::page::AdventuresPage),
     );
-    app.get("/newsletter", route_handler(newsletter::NewsletterPage));
+    app.any("/newsletter", route_handler(newsletter::NewsletterPage));
 
     // Redirects
     app.get("/blog", redirect_permanent("/writings")); // Old blog URL

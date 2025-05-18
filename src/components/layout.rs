@@ -154,17 +154,39 @@ pub fn AppLayout(props: LayoutProps) -> Node {
                 } />
                 <link rel="shortcut icon" href={&METADATA.icons.shortcut} />
                 <link rel="stylesheet" href="/styles.css" />
-                <link rel="stylesheet" href="/fontawesome/css/regular.min.css" />
-                <link rel="stylesheet" href="/fontawesome/css/brands.min.css" />
-                <link rel="stylesheet" href="/fontawesome/css/all.min.css" />
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
 
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
                 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap" rel="stylesheet" />
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.css"/>
             </head>
             <body class="bg-black">
                 {props.children}
-                <script src="https://unpkg.com/htmx.org@2.0.2" async_></script>
+                <script type_="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0-beta.11/bundles/datastar.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.js.iife.js">
+                    const driver = window.driver.js.driver;
+                    const driverObj = driver();
+
+                    const elements = Array.from(document.querySelectorAll("[data-tour]"));
+                    const steps = elements.map((element) => ({
+                        element: "[data-tour=\"${element.getAttribute(\"data-tour\")}\"]",
+                        popover: {
+                            title: element.getAttribute("data-tour-title") ?? "",
+                            description: element.getAttribute("data-tour-description") ?? "",
+                            side: element.getAttribute("data-tour-position") as Side,
+                        },
+                    }));
+                    driverObj.setConfig({
+                        steps,
+                        popoverClass: "tour-wrapper",
+                        onDestroyStarted: () => {
+                            driverObj.destroy();
+                            setIsTourEnded(true);
+                        },
+                    });
+                    driverObj.drive();
+                </script>
             </body>
         </html>
     }

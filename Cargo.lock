@@ -1443,7 +1443,7 @@ dependencies = [
 [[package]]
 name = "simple-rsx"
 version = "0.1.8"
-source = "git+https://github.com/elcharitas/simple-rsx?branch=main#d950686112268f241c6cefc74fb3b5cf2be7b251"
+source = "git+https://github.com/elcharitas/simple-rsx?branch=main#51c118d7db139b39294ec65dcc148051b60131ea"
 dependencies = [
  "indexmap",
  "paste",
@@ -1453,7 +1453,7 @@ dependencies = [
 [[package]]
 name = "simple-rsx-macros"
 version = "0.1.8"
-source = "git+https://github.com/elcharitas/simple-rsx?branch=main#d950686112268f241c6cefc74fb3b5cf2be7b251"
+source = "git+https://github.com/elcharitas/simple-rsx?branch=main#51c118d7db139b39294ec65dcc148051b60131ea"
 dependencies = [
  "proc-macro2",
  "quote",

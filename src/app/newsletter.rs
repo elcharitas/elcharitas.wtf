@@ -20,7 +20,7 @@ impl Transformer<'_> for NewsletterSubscription {
 #[component]
 pub fn NewsletterPage(props: NewsletterSubscription) -> Node {
     rsx! {
-        <AppLayout title="">
+        <AppLayout title="Subscribe to my Newsletter">
             <div class="h-[65vh] flex flex-col justify-center">
                 <div class="w-full max-w-md mx-auto space-y-4">
                     <div class="space-y-2">

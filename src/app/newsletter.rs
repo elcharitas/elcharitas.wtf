@@ -1,6 +1,7 @@
+use momenta::prelude::*;
 use ngyn::{prelude::*, shared::server::Transformer};
 use serde::{Deserialize, Serialize};
-use simple_rsx::*;
+extern crate alloc;
 
 use crate::components::AppLayout;
 
@@ -18,7 +19,7 @@ impl Transformer<'_> for NewsletterSubscription {
 }
 
 #[component]
-pub fn NewsletterPage(props: NewsletterSubscription) -> Node {
+pub fn NewsletterPage(props: &NewsletterSubscription) -> Node {
     rsx! {
         <AppLayout title="Subscribe to my Newsletter">
             <div class="h-[65vh] flex flex-col justify-center">
@@ -40,20 +41,20 @@ pub fn NewsletterPage(props: NewsletterSubscription) -> Node {
                                 class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                                 id="email"
                                 name="email"
-                                placeholder="mail@example.com"
+                                placeholder={"mail@example.com".to_string()}
                                 required
                                 type_="email"
-                                data_tour="email-form"
-                                data_tour_title="Subscribe to my newsletter"
-                                data_tour_description="We'll send you an email to confirm your subscription."
-                                data_tour_position="right"
+                                // data_tour="email-form"
+                                // data_tour_title="Subscribe to my newsletter"
+                                // data_tour_description="We'll send you an email to confirm your subscription."
+                                // data_tour_position="right"
                             />
                             <button
                                 type_="submit"
                                 class="flex items-center justify-center h-10 px-4 text-sm font-medium rounded-md border border-transparent bg-zinc-700 hover:bg-zinc-600 text-white disabled:cursor-not-allowed disabled:opacity-50"
-                                data_tour="Subscribe"
-                                data_tour_description="Click here to subscribe to my newsletter."
-                                data_tour_position="right"
+                                // data_tour="Subscribe"
+                                // data_tour_description="Click here to subscribe to my newsletter."
+                                // data_tour_position="right"
                             >
                                 Subscribe
                             </button>

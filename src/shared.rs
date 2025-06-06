@@ -1,6 +1,6 @@
+use momenta::nodes::Component;
 use ngyn::{prelude::*, shared::server::Transformer};
 use serde::{Deserialize, Serialize};
-use simple_rsx::Component;
 
 #[derive(Debug, Default, Serialize, Deserialize)]
 pub struct Post<T> {
@@ -20,11 +20,11 @@ pub struct Post<T> {
 
 pub fn route_handler<T: Component>(_: T) -> impl Into<RouteHandler>
 where
-    for<'a> <T as simple_rsx::Component>::Props: Transformer<'a>,
+    for<'a> <T as momenta::nodes::Component>::Props: Transformer<'a>,
 {
     handler(move |ctx| {
-        let body = <T as simple_rsx::Component>::render(
-            <T as simple_rsx::Component>::Props::transform(ctx),
+        let body = <T as momenta::nodes::Component>::render(
+            &<T as momenta::nodes::Component>::Props::transform(ctx),
         );
         body.to_string()
     })

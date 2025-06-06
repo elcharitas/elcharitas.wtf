@@ -1,12 +1,12 @@
 use crate::components::AppLayout;
+use momenta::prelude::*;
 use ngyn::prelude::*;
-use simple_rsx::*;
 
 #[derive(Param)]
 pub struct PageParams;
 
 #[component]
-pub fn AdventuresPage(_: PageParams) -> Node {
+pub fn AdventuresPage(_: &PageParams) -> Node {
     rsx! {
         <AppLayout title="Adventures">
             <div class="bg-zinc-800 min-h-screen">

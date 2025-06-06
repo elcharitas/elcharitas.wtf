@@ -1,6 +1,6 @@
 use lazy_static::lazy_static;
+use momenta::prelude::*;
 use serde::{Deserialize, Serialize};
-use simple_rsx::*;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Metadata {
@@ -120,7 +120,7 @@ pub struct LayoutProps {
 }
 
 #[component]
-pub fn AppLayout(props: LayoutProps) -> Node {
+pub fn AppLayout(props: &LayoutProps) -> Node {
     let page_title = METADATA.title.template.replace("%s", &props.title);
     rsx! {
         <html lang="en" class="font-plus-jakarta-sans font-calsans">
@@ -162,7 +162,7 @@ pub fn AppLayout(props: LayoutProps) -> Node {
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.css"/>
             </head>
             <body class="bg-black">
-                {props.children}
+                {&props.children}
                 <script type_="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0-beta.11/bundles/datastar.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.js.iife.js">
                     const driver = window.driver.js.driver;

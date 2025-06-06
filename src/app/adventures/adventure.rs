@@ -1,6 +1,6 @@
+use momenta::prelude::*;
 use ngyn::macros::Param;
 use serde::{Deserialize, Serialize};
-use simple_rsx::*;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct YearData {
@@ -14,7 +14,7 @@ pub struct AdventureProps {
 }
 
 #[component]
-pub fn Adventure(AdventureProps { year }: AdventureProps) -> Node {
+pub fn Adventure(AdventureProps { year }: &AdventureProps) -> Node {
     let data: Vec<YearData> = vec![];
     rsx! {
         <li class="mb-2 flex flex-col items-center">

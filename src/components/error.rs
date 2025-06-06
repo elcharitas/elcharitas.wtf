@@ -1,4 +1,4 @@
-use simple_rsx::*;
+use momenta::prelude::*;
 
 #[component]
 pub fn Error() -> Node {

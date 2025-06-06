@@ -1,8 +1,8 @@
 use crate::components::AppLayout;
 use crate::shared::*;
+use momenta::prelude::*;
 use ngyn::prelude::*;
 use serde::{Deserialize, Serialize};
-use simple_rsx::*;
 
 #[derive(Serialize, Deserialize)]
 pub struct BlogProps {
@@ -14,7 +14,7 @@ pub struct BlogProps {
 pub struct PageParams;
 
 #[component]
-pub fn BlogPage(_: PageParams) -> Node {
+pub fn BlogPage(_: &PageParams) -> Node {
     let blank = String::new();
     rsx! {
         <AppLayout title="Writings">

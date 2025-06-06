@@ -183,10 +183,10 @@ dependencies = [
  "chrono",
  "google-fonts",
  "lazy_static",
+ "momenta",
  "ngyn",
  "serde",
  "serde_json",
- "simple-rsx",
  "tokio",
  "tracing",
  "tracing-subscriber",
@@ -769,6 +769,29 @@ dependencies = [
 ]
 
 [[package]]
+name = "momenta"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a4f0ce0838f7b210210a8761e3a6af3c0a05dd6f86a097f7b4d138adde74a4a0"
+dependencies = [
+ "momenta-macros",
+ "paste",
+ "spin 0.10.0",
+]
+
+[[package]]
+name = "momenta-macros"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "503b79e5511a7c38d3c7675575856c9ed2d859b219c62949b52e6489ac07acda"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "regex",
+ "syn",
+]
+
+[[package]]
 name = "multer"
 version = "3.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -781,7 +804,7 @@ dependencies = [
  "httparse",
  "memchr",
  "mime",
- "spin",
+ "spin 0.9.8",
  "version_check",
 ]
 
@@ -1441,27 +1464,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "simple-rsx"
-version = "0.1.8"
-source = "git+https://github.com/elcharitas/simple-rsx?branch=main#51c118d7db139b39294ec65dcc148051b60131ea"
-dependencies = [
- "indexmap",
- "paste",
- "simple-rsx-macros",
-]
-
-[[package]]
-name = "simple-rsx-macros"
-version = "0.1.8"
-source = "git+https://github.com/elcharitas/simple-rsx?branch=main#51c118d7db139b39294ec65dcc148051b60131ea"
-dependencies = [
- "proc-macro2",
- "quote",
- "regex",
- "syn",
-]
-
-[[package]]
 name = "slab"
 version = "0.4.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1491,6 +1493,15 @@ name = "spin"
 version = "0.9.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6980e8d7511241f8acf4aebddbb1ff938df5eebe98691418c4468d0b72a96a67"
+
+[[package]]
+name = "spin"
+version = "0.10.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d5fe4ccb98d9c292d56fec89a5e07da7fc4cf0dc11e156b41793132775d3e591"
+dependencies = [
+ "lock_api",
+]
 
 [[package]]
 name = "stable_deref_trait"

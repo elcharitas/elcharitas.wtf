@@ -3,6 +3,9 @@ use momenta::nodes::Component;
 use ngyn::{prelude::*, shared::server::Transformer};
 use serde::{Deserialize, Serialize};
 
+#[derive(Param)]
+pub struct PageParams;
+
 pub struct NavigationInfo {
     pub name: &'static str,
     pub href: &'static str,
@@ -11,25 +14,25 @@ pub struct NavigationInfo {
 lazy_static! {
     pub static ref NAVIGATION: Vec<NavigationInfo> = vec![
         NavigationInfo {
-            name: "🛠️ Projects",
+            name: "Projects",
             href: "/projects"
         },
         NavigationInfo {
-            name: "✍🏼 Writings",
+            name: "Writings",
             href: "/writings"
         },
         NavigationInfo {
-            name: "📄 Resume",
+            name: "Resume",
             href: "/resume"
         },
         NavigationInfo {
-            name: "🌍 Adventures",
+            name: "Adventures",
             href: "/adventures"
         },
     ];
 }
 
-#[derive(Debug, Default, Serialize, Deserialize)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Post<T> {
     pub slug: String,
     pub title: String,
@@ -43,6 +46,15 @@ pub struct Post<T> {
     pub owner: Option<String>,
     pub branch: Option<String>,
     pub comments: Option<T>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Project {
+    pub name: String,
+    pub description: String,
+    pub url: Option<String>,
+    pub image: Option<String>,
+    pub tags: Vec<String>,
 }
 
 pub fn route_handler<T: Component>(_: T) -> impl Into<RouteHandler>

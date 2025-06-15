@@ -1,3 +1,4 @@
+use crate::shared::NAVIGATION;
 use lazy_static::lazy_static;
 use momenta::prelude::*;
 use serde::{Deserialize, Serialize};
@@ -75,7 +76,7 @@ lazy_static! {
         title: Title {
             default: "elcharitas.wtf | Software engineer with a passion for building things."
                 .into(),
-            template: "%s | elcharitas.wtf".into(),
+            template: "elcharitas.wtf | %s".into(),
         },
         description: "Software engineer with a passion for building things.".into(),
         open_graph: OpenGraph {
@@ -115,7 +116,7 @@ lazy_static! {
 
 #[derive(Default)]
 pub struct LayoutProps {
-    pub title: String,
+    pub title: &'static str,
     pub children: Vec<Node>,
 }
 
@@ -144,6 +145,7 @@ pub fn AppLayout(props: &LayoutProps) -> Node {
                 <meta name="twitter:title" content={&METADATA.twitter.title} />
                 <meta name="twitter:creator" content={&METADATA.twitter.creator} />
                 <meta name="twitter:card" content={&METADATA.twitter.card} />
+                <meta name="twitter:image" content={METADATA.open_graph.images[0].url.as_str()} />
 
                 <meta name="robots" content={
                     format!(
@@ -163,7 +165,7 @@ pub fn AppLayout(props: &LayoutProps) -> Node {
             </head>
             <body class="bg-black">
                 {&props.children}
-                <script type_="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0-beta.11/bundles/datastar.js"></script>
+                <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0-beta.11/bundles/datastar.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.js.iife.js">
                     const driver = window.driver.js.driver;
                     const driverObj = driver();
@@ -193,14 +195,31 @@ pub fn AppLayout(props: &LayoutProps) -> Node {
 }
 
 #[component]
-pub fn Header() -> Node {
+pub fn Navigation() -> Node {
     rsx! {
-        <header class="bg-gray-800 text-white p-4">
-            <div class="container mx-auto flex justify-between items-center">
-                <h1 class="text-2xl font-bold">My App</h1>
-                <nav class="flex space-x-4">
-                    <a href="/" class="hover:text-blue-400">Home</a>
-                    <a href="/about" class="hover:text-blue-400">About</a>
+        <header class="fixed top-0 left-0 right-0 z-50 bg-black/50 backdrop-blur-md border-b border-zinc-800">
+            <div class="container mx-auto px-6 h-16 flex items-center justify-between">
+                <a href="/" class="text-zinc-50 font-semibold text-xl hover:text-zinc-300 transition-colors">
+                    "elch🔥rit🔥s"
+                </a>
+                <nav class="flex items-center space-x-8">
+                    {NAVIGATION.iter().map(|nav| {
+                        rsx! {
+                            <a
+                                href={nav.href}
+                                class="text-sm text-zinc-400 hover:text-zinc-50 transition-colors"
+                            >
+                                {nav.name}
+                            </a>
+                        }
+                    })}
+                    <a
+                        href="/newsletter"
+                        class="px-4 py-2 text-sm text-white  border border-yellow-700 rounded hover:bg-zinc-800 hover:scale-110 hover:rounded-xl duration-1000"
+                        title="Newsletter"
+                    >
+                        Newsletter
+                    </a>
                 </nav>
             </div>
         </header>
@@ -208,24 +227,13 @@ pub fn Header() -> Node {
 }
 
 #[component]
-pub fn Footer() -> Node {
-    rsx! {
-        <footer class="bg-gray-800 text-white p-4">
-            <div class="container mx-auto text-center">
-                <p>&copy; 2023 My App. All rights reserved.</p>
-            </div>
-        </footer>
-    }
-}
-
-#[component]
 pub fn PageLayout(props: &LayoutProps) -> Node {
     rsx! {
-        <AppLayout title={&props.title}>
-            <div class="relative min-h-screen bg-gradient-to-tl from-black via-zinc-600/20 to-black ">
+        <AppLayout title={props.title}>
+            <div class="relative min-h-screen bg-gradient-to-tl from-black via-zinc-600/20 to-black">
               <div class="relative pb-16">
-                // <Navigation />
-                <div class="px-6 pt-12 md:mx-auto space-y-8 max-w-7xl lg:px-8 md:space-y-16 md:pt-24 lg:pt-32">
+                <Navigation />
+                <div class="px-6 pt-12 md:mx-auto space-y-8 max-w-7xl lg:px-8 md:space-y-16 md:pt-24 lg:pt-32 min-h-[85vh]">
                   {&props.children}
                 </div>
               </div>
@@ -237,7 +245,7 @@ pub fn PageLayout(props: &LayoutProps) -> Node {
                 >
                   Jonathan Irhodia
                 </a>
-                " &copy;"
+                " ©️"
               </div>
             </div>
         </AppLayout>

@@ -1,6 +1,4 @@
-#[allow(unused_braces)]
 mod app;
-#[allow(unused_braces)]
 mod components;
 mod shared;
 

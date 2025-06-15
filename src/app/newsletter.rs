@@ -3,7 +3,7 @@ use ngyn::{prelude::*, shared::server::Transformer};
 use serde::{Deserialize, Serialize};
 extern crate alloc;
 
-use crate::components::AppLayout;
+use crate::components::PageLayout;
 
 #[derive(Default, Serialize, Deserialize)]
 pub struct NewsletterSubscription {
@@ -21,7 +21,7 @@ impl Transformer<'_> for NewsletterSubscription {
 #[component]
 pub fn NewsletterPage(props: &NewsletterSubscription) -> Node {
     rsx! {
-        <AppLayout title="Subscribe to my Newsletter">
+        <PageLayout title="Subscribe to my Newsletter">
             <div class="h-[65vh] flex flex-col justify-center">
                 <div class="w-full max-w-md mx-auto space-y-4">
                     <div class="space-y-2">
@@ -68,6 +68,6 @@ pub fn NewsletterPage(props: &NewsletterSubscription) -> Node {
                     </form>
                 </div>
             </div>
-        </AppLayout>
+        </PageLayout>
     }
 }

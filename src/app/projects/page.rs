@@ -1,4 +1,4 @@
-use crate::components::AppLayout;
+use crate::components::PageLayout;
 use momenta::prelude::*;
 use ngyn::prelude::*;
 
@@ -8,7 +8,7 @@ pub struct PageParams;
 #[component]
 pub fn ProjectsPage(_: &PageParams) -> Node {
     rsx! {
-        <AppLayout title="Projects">
+        <PageLayout title="Projects">
             <div class="bg-zinc-800 min-h-screen">
                 <div class="container mx-auto px-4 py-12">
                     <h1 class="text-4xl font-bold text-zinc-50 mb-8">"Projects 🚀"</h1>
@@ -49,6 +49,6 @@ pub fn ProjectsPage(_: &PageParams) -> Node {
                     </div>
                 </div>
             </div>
-        </AppLayout>
+        </PageLayout>
     }
 }

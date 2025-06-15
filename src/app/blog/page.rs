@@ -1,4 +1,4 @@
-use crate::components::AppLayout;
+use crate::components::PageLayout;
 use crate::shared::*;
 use momenta::prelude::*;
 use ngyn::prelude::*;
@@ -17,7 +17,7 @@ pub struct PageParams;
 pub fn BlogPage(_: &PageParams) -> Node {
     let blank = String::new();
     rsx! {
-        <AppLayout title="Writings">
+        <PageLayout title="Writings">
              <div class="bg-zinc-800 min-h-screen">
                 <div class="container mx-auto px-4 py-12">
                     <h1 class="text-4xl font-bold text-zinc-50 mb-8">"Blogs ✍🏼"</h1>
@@ -59,6 +59,6 @@ pub fn BlogPage(_: &PageParams) -> Node {
                     </div>
                 </div>
             </div>
-        </AppLayout>
+        </PageLayout>
     }
 }

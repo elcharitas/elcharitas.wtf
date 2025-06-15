@@ -1,6 +1,33 @@
+use lazy_static::lazy_static;
 use momenta::nodes::Component;
 use ngyn::{prelude::*, shared::server::Transformer};
 use serde::{Deserialize, Serialize};
+
+pub struct NavigationInfo {
+    pub name: &'static str,
+    pub href: &'static str,
+}
+
+lazy_static! {
+    pub static ref NAVIGATION: Vec<NavigationInfo> = vec![
+        NavigationInfo {
+            name: "🛠️ Projects",
+            href: "/projects"
+        },
+        NavigationInfo {
+            name: "✍🏼 Writings",
+            href: "/writings"
+        },
+        NavigationInfo {
+            name: "📄 Resume",
+            href: "/resume"
+        },
+        NavigationInfo {
+            name: "🌍 Adventures",
+            href: "/adventures"
+        },
+    ];
+}
 
 #[derive(Debug, Default, Serialize, Deserialize)]
 pub struct Post<T> {

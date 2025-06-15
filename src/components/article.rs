@@ -41,15 +41,15 @@ pub fn Article(
                 </span>
                 </div>
                 <h2 class="z-20 text-xl font-medium duration-1000 lg:text-3xl text-zinc-200 group-hover:text-white font-display">
-                {&post.title}
+                    {&post.title}
                 </h2>
                 <p class="z-20 mt-4 mb-8 text-sm  duration-1000 text-zinc-400 group-hover:text-zinc-200">
-                {&post.brief[0..120]}...
+                    {&post.brief[0..120]}...
                 </p>
                 {when!(show_read_more =>
                     <div class="absolute bottom-4 md:bottom-8">
                         <p class="hidden text-zinc-200 hover:text-zinc-50 lg:block">
-                            Read more <span aria_hidden>&rarr;</span>
+                            "Read more" <span aria_hidden>&rarr;</span>
                         </p>
                     </div>
                 )}

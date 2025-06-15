@@ -191,3 +191,55 @@ pub fn AppLayout(props: &LayoutProps) -> Node {
         </html>
     }
 }
+
+#[component]
+pub fn Header() -> Node {
+    rsx! {
+        <header class="bg-gray-800 text-white p-4">
+            <div class="container mx-auto flex justify-between items-center">
+                <h1 class="text-2xl font-bold">My App</h1>
+                <nav class="flex space-x-4">
+                    <a href="/" class="hover:text-blue-400">Home</a>
+                    <a href="/about" class="hover:text-blue-400">About</a>
+                </nav>
+            </div>
+        </header>
+    }
+}
+
+#[component]
+pub fn Footer() -> Node {
+    rsx! {
+        <footer class="bg-gray-800 text-white p-4">
+            <div class="container mx-auto text-center">
+                <p>&copy; 2023 My App. All rights reserved.</p>
+            </div>
+        </footer>
+    }
+}
+
+#[component]
+pub fn PageLayout(props: &LayoutProps) -> Node {
+    rsx! {
+        <AppLayout title={&props.title}>
+            <div class="relative min-h-screen bg-gradient-to-tl from-black via-zinc-600/20 to-black ">
+              <div class="relative pb-16">
+                // <Navigation />
+                <div class="px-6 pt-12 md:mx-auto space-y-8 max-w-7xl lg:px-8 md:space-y-16 md:pt-24 lg:pt-32">
+                  {&props.children}
+                </div>
+              </div>
+              <div class="flex justify-center text-sm text-zinc-50 py-8 border-t border-zinc-800">
+                "Designed and developed by "
+                <a
+                  href="https://elcharitas.wtf"
+                  class="font-medium text-zinc-500 hover:text-zinc-300 mx-2"
+                >
+                  Jonathan Irhodia
+                </a>
+                " &copy;"
+              </div>
+            </div>
+        </AppLayout>
+    }
+}

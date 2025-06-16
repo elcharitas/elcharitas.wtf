@@ -217,32 +217,20 @@ macro_rules! graphql_query {
 struct GitHubRepo {
     name: String,
     description: Option<String>,
-    stargazers_count: u32,
+    stargazers_count: f32,
     fork: bool,
     pushed_at: String,
     homepage: Option<String>,
+    html_url: String,
     default_branch: String,
     owner: GitHubOwner,
+    topics: Vec<String>,
+    watchers_count: f32,
 }
 
 #[derive(Debug, Deserialize)]
 struct GitHubOwner {
     login: String,
-}
-
-#[derive(Debug, Serialize, Clone)]
-pub struct Post {
-    pub slug: String,
-    pub title: String,
-    pub brief: String,
-    pub date: String,
-    pub url: String,
-    pub content: String,
-    pub cover_image: String,
-    pub post_type: String,
-    pub views: u32,
-    pub owner: String,
-    pub branch: String,
 }
 
 #[derive(Debug)]
@@ -301,8 +289,8 @@ pub async fn get_all_projects(page: u32) -> Result<Vec<Project>, GitHubError> {
 
     // Sort by star count (descending) and by last updated
     filtered_repos.sort_by(|a, b| {
-        b.stargazers_count
-            .cmp(&a.stargazers_count)
+        (b.stargazers_count as u32)
+            .cmp(&(a.stargazers_count as u32))
             .then_with(|| b.pushed_at.cmp(&a.pushed_at))
     });
 
@@ -315,15 +303,21 @@ pub async fn get_all_projects(page: u32) -> Result<Vec<Project>, GitHubError> {
             );
 
             Project {
-                url: format!("https://github.com/{}/{}", repo.owner.login, repo.name),
+                url: repo.html_url,
                 name: repo.name,
                 description: repo.description.unwrap_or_default(),
                 stargazers_count: repo.stargazers_count,
                 language: None,
                 updated_at: repo.pushed_at,
-                html_url: repo.homepage.unwrap_or_default(),
+                homepage: repo.homepage.unwrap_or_default(),
                 image: Some(cover_image_url),
-                tags: Vec::new(),
+                tags: repo.topics,
+                watching: 100.0
+                    * (if repo.stargazers_count > repo.watchers_count {
+                        repo.watchers_count / (repo.stargazers_count + 0.005)
+                    } else {
+                        repo.stargazers_count / (repo.watchers_count + 0.005)
+                    }),
             }
         })
         .collect();

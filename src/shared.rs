@@ -248,10 +248,11 @@ pub struct Project {
     pub url: String,
     pub image: Option<String>,
     pub tags: Vec<String>,
-    pub stargazers_count: u32,
+    pub stargazers_count: f32,
     pub language: Option<String>,
     pub updated_at: String,
-    pub html_url: String,
+    pub homepage: String,
+    pub watching: f32,
 }
 
 pub trait PageLoader {

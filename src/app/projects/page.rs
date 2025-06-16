@@ -1,3 +1,5 @@
+use std::cell::RefCell;
+
 use crate::{
     components::{article::ProjectArticle, PageLayout},
     requests::get_all_projects,
@@ -5,13 +7,24 @@ use crate::{
 };
 use momenta::prelude::*;
 
+thread_local! {
+    static PROJECTS: RefCell<Vec<Project>> = RefCell::new(Vec::new());
+}
+
 pub struct ProjectsProps {
     projects: Vec<Project>,
 }
 
 impl PageLoader for ProjectsProps {
     async fn load(_: &mut ngyn::shared::server::NgynContext<'_>) -> Self {
-        let projects = get_all_projects(1).await.unwrap();
+        let mut projects = PROJECTS.with_borrow(|projects| projects.clone());
+
+        if projects.is_empty() {
+            projects = get_all_projects(1).await.unwrap();
+            PROJECTS.with_borrow_mut(|stored| {
+                *stored = projects.clone();
+            });
+        }
 
         Self { projects }
     }

@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+cached = "0.55"
 chrono = { version = "0.4", features = ["serde"] }
 dotenv = "0.15"
 google-fonts = "0.1"

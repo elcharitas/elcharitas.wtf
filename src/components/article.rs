@@ -1,3 +1,5 @@
+use std::fmt::format;
+
 use crate::{components::card::Card, shared::*};
 use momenta::prelude::*;
 
@@ -20,9 +22,9 @@ pub fn Article(
                 href={format!("/writings/{}", post.slug)}
                 class="block group relative overflow-hidden h-full"
             >
-                <div class="relative bg-zinc-900 rounded-lg h-full">
-                    <div class="relative p-6 md:p-8 h-full flex flex-col">
-                        <div class="flex justify-between items-start mb-4 gap-4">
+                <div class="flex flex-col relative bg-zinc-900 rounded-lg h-full">
+                    <div class="flex-1 relative p-6 md:p-8 h-full flex flex-col">
+                        <div class="flex-1 flex justify-between items-start mb-4 gap-4">
                             <div class="flex flex-col space-y-2">
                                 {when!(let Some(published_at) = &post.published_at =>
                                     <time
@@ -57,7 +59,7 @@ pub fn Article(
                             {&post.title}
                         </h2>
 
-                        <p class="text-sm md:text-base text-zinc-400 group-hover:text-zinc-200 leading-relaxed mb-6 flex-grow transition-colors duration-300 line-clamp-3">
+                        <p class="flex-1 text-sm md:text-base text-zinc-400 group-hover:text-zinc-200 leading-relaxed mb-6 flex-grow transition-colors duration-300 line-clamp-3">
                             {&post.brief[0..(post.brief.len().min(200))]}...
                         </p>
 
@@ -88,13 +90,18 @@ pub fn Article(
 
 #[component]
 pub fn ProjectArticle(props: &Project) -> Node {
+    let brief = props
+        .description
+        .is_empty()
+        .then(|| &props.name)
+        .unwrap_or(&props.description);
     rsx! {
-        <article class="group relative">  
+        <article class="flex group relative">
             <div class="absolute -inset-1 bg-gradient-to-r from-yellow-400 via-orange-500 to-yellow-400 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10">
                 <div class="absolute inset-0 bg-gradient-to-r from-yellow-400 via-orange-500 via-red-500 via-orange-500 to-yellow-400 rounded-xl animate-spin-slow opacity-0 group-hover:opacity-100 transition-opacity duration-500" style="animation-duration: 3s;"></div>
             </div>
 
-            <div class="relative p-6 md:p-8 bg-gradient-to-br from-zinc-900/80 to-zinc-800/50 backdrop-blur-sm rounded-xl overflow-hidden border border-zinc-700/50 group-hover:border-transparent transition-all duration-500 hover:transform hover:scale-[1.02] hover:shadow-2xl hover:shadow-yellow-500/10">
+            <div class="flex-1 flex flex-col relative p-6 md:p-8 bg-gradient-to-br from-zinc-900/80 to-zinc-800/50 backdrop-blur-sm rounded-xl overflow-hidden border border-zinc-700/50 group-hover:border-transparent transition-all duration-500 hover:transform hover:scale-[1.02] hover:shadow-2xl hover:shadow-yellow-500/10">
                 <div class="flex items-start justify-between mb-4">
                     <div class="flex items-center space-x-3">
                         <div>
@@ -113,10 +120,10 @@ pub fn ProjectArticle(props: &Project) -> Node {
                 </div>
 
                 <p class="text-zinc-300 group-hover:text-zinc-100 leading-relaxed mb-6 transition-colors duration-300">
-                    {&props.description[0..(props.description.len().min(30))]}...
+                    {&brief[0..(brief.len().min(60))]}...
                 </p>
 
-                <div class="mb-6">
+                <div class="flex-1 mb-6">
                     <div class="flex flex-wrap gap-2">
                         {props.tags.iter().map(|tag| {
                             rsx! {
@@ -145,11 +152,11 @@ pub fn ProjectArticle(props: &Project) -> Node {
 
                 <div class="mt-4">
                     <div class="flex items-center justify-between text-xs text-zinc-400 mb-2">
-                        <span>"Progress"</span>
-                        <span>"85%"</span>
+                        <span>"Watching"</span>
+                        <span>{props.watching}</span>
                     </div>
                     <div class="h-1.5 bg-zinc-800 rounded-full overflow-hidden">
-                        <div class="h-full bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full transition-all duration-1000 ease-out" style="width: 85%"></div>
+                        <div class="h-full bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full transition-all duration-1000 ease-out" style={format!("width: {}%", props.watching)}></div>
                     </div>
                 </div>
             </div>

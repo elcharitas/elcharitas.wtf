@@ -50,7 +50,7 @@ pub fn BlogPage(BlogProps { posts, .. }: &BlogProps) -> Node {
                 <p class="text-lg text-zinc-200 mb-12">
                     "I write about my experiences and thoughts on how to do software development, productivity, and life."
                 </p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {posts.iter().map(|post| {
                         rsx! {<Article post={post.clone()} show_read_more />}
                     })}

@@ -256,7 +256,7 @@ pub fn Navigation() -> Node {
                 // Enhanced logo with gradient and animation
                 <a
                     href="/"
-                    class="group flex items-center space-x-2 hover-lift text-white"
+                    class="group flex items-center hover-lift text-white"
                 >
                     "elch"
                     <span class="inline-block text-yellow-400 drop-shadow-[0_0_15px_rgba(234,179,8,0.5)]">"🔥"</span>

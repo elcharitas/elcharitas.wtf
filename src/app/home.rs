@@ -58,8 +58,8 @@ pub fn HomePage(_: &PageParams) -> Node {
                     <div class="backdrop-blur-md bg-zinc-900/20 rounded-2xl border border-zinc-800/30 p-6 md:p-8">
                         <p class="text-sm md:text-base text-zinc-300 leading-relaxed mb-6">
                             "Hi, I'm "
-                            <span class="font-semibold text-white">"Elcharitas"</span>
-                            "."
+                            <span class="font-semibold text-white">"Jonathan Irhodia"</span>
+                            ". Software engineer by day, writer and manhwa addict by night."
                         </p>
                     </div>
                 </div>
@@ -98,16 +98,16 @@ pub fn HomePage(_: &PageParams) -> Node {
                         </a>
 
                         // Instagram
-                        <a
-                            href="https://instagram.com/iamelcharitas"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="group relative p-3 rounded-full bg-zinc-800/50 border border-zinc-700 hover:border-pink-500/50 hover:bg-pink-900/20 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-pink-400/20"
-                            title="Connect with me on instagram"
-                        >
-                            <i class="fab fa-instagram text-xl text-zinc-400 group-hover:text-pink-400 transition-colors duration-300"></i>
-                            <div class="absolute inset-0 bg-gradient-to-r from-pink-500/20 via-purple-500/20 to-yellow-500/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        </a>
+                        // <a
+                        //     href="https://instagram.com/iamelcharitas"
+                        //     target="_blank"
+                        //     rel="noopener noreferrer"
+                        //     class="group relative p-3 rounded-full bg-zinc-800/50 border border-zinc-700 hover:border-pink-500/50 hover:bg-pink-900/20 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-pink-400/20"
+                        //     title="Connect with me on instagram"
+                        // >
+                        //     <i class="fab fa-instagram text-xl text-zinc-400 group-hover:text-pink-400 transition-colors duration-300"></i>
+                        //     <div class="absolute inset-0 bg-gradient-to-r from-pink-500/20 via-purple-500/20 to-yellow-500/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        // </a>
 
                         // Twitter/X
                         <a
@@ -117,9 +117,22 @@ pub fn HomePage(_: &PageParams) -> Node {
                             class="group relative p-3 rounded-full bg-zinc-800/50 border border-zinc-700 hover:border-sky-500/50 hover:bg-sky-900/20 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-sky-400/20"
                             title="Follow me on twitter"
                         >
-                            <i class="fab fa-twitter text-xl text-zinc-400 group-hover:text-sky-400 transition-colors duration-300"></i>
+                            <i class="fab fa-x-twitter text-xl text-zinc-400 group-hover:text-sky-400 transition-colors duration-300"></i>
                             <div class="absolute inset-0 bg-gradient-to-r from-sky-500/20 to-blue-400/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                         </a>
+
+                        // Substack
+                        <a
+                            href="https://elcharitas.substack.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="group relative p-3 rounded-full bg-zinc-800/50 border border-zinc-700 hover:border-orange-500/50 hover:bg-orange-900/20 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-orange-400/20"
+                            title="Read Substack"
+                        >
+                            <i class="fa fa-book text-xl text-zinc-400 group-hover:text-orange-400 transition-colors duration-300"></i>
+                            <div class="absolute inset-0 bg-gradient-to-r from-orange-600/20 to-orange-400/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </a>
+
                     </div>
                 </div>
 

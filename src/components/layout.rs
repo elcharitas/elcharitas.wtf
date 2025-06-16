@@ -279,20 +279,18 @@ pub fn Navigation() -> Node {
                         }
                     })}
 
-                    // Enhanced newsletter button with gradient border
                     <div class="ml-4">
                         <a
                             href="/newsletter"
                             class="gradient-border px-6 py-2.5 text-sm font-semibold text-white hover:text-yellow-300 transition-all duration-300 hover-lift inline-flex items-center space-x-2 group"
                             title="Newsletter"
                         >
-                            <i class="fas fa-envelope text-xs group-hover:animate-bounce"></i>
-                            <span>"Newsletter"</span>
+                            <i class="fas fa-envelope text-xs"></i>
+                            <span>"SUBSCRIBE"</span>
                         </a>
                     </div>
                 </nav>
 
-                // Mobile menu button
                 <button class="md:hidden p-2 text-zinc-400 hover:text-white transition-colors">
                     <i class="fas fa-bars text-lg"></i>
                 </button>
@@ -325,8 +323,20 @@ pub fn PageLayout(props: &LayoutProps) -> Node {
                             <div class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
                                 // Footer content
                                 <div class="flex items-center text-sm text-zinc-400">
-                                    <span>"Designed and developed with "</span>
-                                    <i class="fas fa-heart text-red-400 mx-1 animate-pulse"></i>
+                                    <span>"Built on "</span>
+                                    <a
+                                        href="https://ngyn.rs"
+                                        class="font-semibold text-orange-400 hover:text-orange-300 mx-1 transition-colors duration-200 hover-lift"
+                                    >
+                                        "Ngyn"
+                                    </a>
+                                    "and "
+                                    <a
+                                        href="https://elcharitas.github.io/momenta"
+                                        class="font-semibold text-blue-400 hover:text-blue-300 mx-1 transition-colors duration-200 hover-lift"
+                                    >
+                                        "Momenta"
+                                    </a>
                                     <span>" by "</span>
                                     <a
                                         href="https://elcharitas.wtf"
@@ -348,13 +358,6 @@ pub fn PageLayout(props: &LayoutProps) -> Node {
                                         <i class="fab fa-linkedin text-lg"></i>
                                     </a>
                                 </div>
-                            </div>
-
-                            // Copyright
-                            <div class="mt-8 pt-8 border-t border-zinc-800/30 text-center">
-                                <p class="text-xs text-zinc-500">
-                                    "© 2024 elcharitas.wtf. All rights reserved."
-                                </p>
                             </div>
                         </div>
                     </footer>

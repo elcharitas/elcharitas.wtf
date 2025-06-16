@@ -11,7 +11,7 @@ pub struct NewsletterSubscription {
 impl PageLoader for NewsletterSubscription {
     async fn load(ctx: &mut NgynContext<'_>) -> Self {
         let body = Body::transform(ctx);
-        body.json().unwrap()
+        body.json().unwrap_or_default()
     }
 }
 
@@ -29,7 +29,7 @@ pub fn NewsletterPage(props: &NewsletterSubscription) -> Node {
                             Get the latest updates and news delivered to your inbox.
                         </p>
                     </div>
-                    <form action="/newsletter" method="POST">
+                    {when!(props.email.is_empty() => <form action="/newsletter" method="POST">
                         <div class="flex space-x-2 mb-4">
                             <label class="sr-only" for="email">
                                 Email
@@ -62,7 +62,7 @@ pub fn NewsletterPage(props: &NewsletterSubscription) -> Node {
                                 Privacy Policy
                             </a>
                         </p>
-                    </form>
+                    </form>)}
                 </div>
             </div>
         </PageLayout>

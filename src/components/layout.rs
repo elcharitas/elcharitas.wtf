@@ -259,9 +259,9 @@ pub fn Navigation() -> Node {
                     class="group flex items-center space-x-2 hover-lift text-white"
                 >
                     "elch"
-                    <span class="inline-block animate-bounce text-yellow-400 drop-shadow-[0_0_15px_rgba(234,179,8,0.5)]">"🔥"</span>
+                    <span class="inline-block text-yellow-400 drop-shadow-[0_0_15px_rgba(234,179,8,0.5)]">"🔥"</span>
                     "rit"
-                    <span class="inline-block animate-bounce delay-150 text-orange-400 drop-shadow-[0_0_15px_rgba(251,146,60,0.5)]">"🔥"</span>
+                    <span class="inline-block delay-150 text-orange-400 drop-shadow-[0_0_15px_rgba(251,146,60,0.5)]">"🔥"</span>
                     "s"
                 </a>
 

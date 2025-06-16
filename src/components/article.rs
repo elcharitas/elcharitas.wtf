@@ -89,7 +89,7 @@ pub fn Article(
 #[component]
 pub fn ProjectArticle(props: &Project) -> Node {
     rsx! {
-        <article class="group relative">
+        <article class="group relative">  
             <div class="absolute -inset-1 bg-gradient-to-r from-yellow-400 via-orange-500 to-yellow-400 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10">
                 <div class="absolute inset-0 bg-gradient-to-r from-yellow-400 via-orange-500 via-red-500 via-orange-500 to-yellow-400 rounded-xl animate-spin-slow opacity-0 group-hover:opacity-100 transition-opacity duration-500" style="animation-duration: 3s;"></div>
             </div>

@@ -39,9 +39,9 @@ pub fn HomePage(_: &PageParams) -> Node {
 
                     <h1 class="relative text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-bold text-white duration-1000 cursor-default font-display animate-title">
                         "elch"
-                        <span class="inline-block animate-bounce text-yellow-400 drop-shadow-[0_0_15px_rgba(234,179,8,0.5)]">"🔥"</span>
+                        <span class="inline-block text-yellow-400 drop-shadow-[0_0_15px_rgba(234,179,8,0.5)]">"🔥"</span>
                         "rit"
-                        <span class="inline-block animate-bounce delay-150 text-orange-400 drop-shadow-[0_0_15px_rgba(251,146,60,0.5)]">"🔥"</span>
+                        <span class="inline-block delay-150 text-orange-400 drop-shadow-[0_0_15px_rgba(251,146,60,0.5)]">"🔥"</span>
                         "s"
                     </h1>
 

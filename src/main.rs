@@ -1,5 +1,6 @@
 mod app;
 mod components;
+mod requests;
 mod shared;
 
 use app::register_routes;
@@ -7,6 +8,8 @@ use ngyn::prelude::*;
 
 #[tokio::main]
 async fn main() -> Result<(), std::io::Error> {
+    let _ = dotenv::dotenv();
+
     // Initialize tracing subscriber for logging
     tracing_subscriber::fmt()
         .with_env_filter("info,elcharitas=debug")

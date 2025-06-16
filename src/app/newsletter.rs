@@ -1,4 +1,4 @@
-use crate::components::PageLayout;
+use crate::{components::PageLayout, shared::PageLoader};
 use momenta::prelude::*;
 use ngyn::{prelude::*, shared::server::Transformer};
 use serde::{Deserialize, Serialize};
@@ -8,11 +8,10 @@ pub struct NewsletterSubscription {
     pub email: String,
 }
 
-impl Transformer<'_> for NewsletterSubscription {
-    fn transform(cx: &mut NgynContext) -> Self {
-        Body::transform(cx)
-            .json::<NewsletterSubscription>()
-            .unwrap_or_default()
+impl PageLoader for NewsletterSubscription {
+    async fn load(ctx: &mut NgynContext<'_>) -> Self {
+        let body = Body::transform(ctx);
+        body.json().unwrap()
     }
 }
 

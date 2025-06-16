@@ -124,7 +124,7 @@ pub struct LayoutProps {
 pub fn AppLayout(props: &LayoutProps) -> Node {
     let page_title = METADATA.title.template.replace("%s", &props.title);
     rsx! {
-        <html lang="en" class="font-plus-jakarta-sans font-calsans">
+        <html lang="en-US" class="font-plus-jakarta-sans font-calsans scroll-smooth">
             <head>
                 <title>{&page_title}</title>
                 <meta charset="utf-8" />
@@ -162,21 +162,74 @@ pub fn AppLayout(props: &LayoutProps) -> Node {
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
                 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap" rel="stylesheet" />
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.css"/>
+
+                // Enhanced custom styles
+                <style>
+                    {r#"
+                    .glow-effect {
+                        box-shadow: 0 0 20px rgba(234, 179, 8, 0.3);
+                    }
+                    .nav-blur {
+                        backdrop-filter: blur(20px);
+                        -webkit-backdrop-filter: blur(20px);
+                    }
+                    .gradient-border {
+                        position: relative;
+                        background: linear-gradient(45deg, #000, #1f2937);
+                        border-radius: 12px;
+                    }
+                    .gradient-border::before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        border-radius: 12px;
+                        padding: 1px;
+                        background: linear-gradient(45deg, #eab308, #f59e0b, #d97706);
+                        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                        mask-composite: exclude;
+                        -webkit-mask-composite: xor;
+                    }
+                    .hover-lift {
+                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    }
+                    .hover-lift:hover {
+                        transform: translateY(-2px);
+                    }
+                    .text-gradient {
+                        background: linear-gradient(135deg, #eab308, #f59e0b);
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        background-clip: text;
+                    }
+                    "#}
+                </style>
             </head>
-            <body class="bg-black">
+            <body class="bg-black overflow-x-hidden">
+                // Animated background elements
+                <div class="fixed inset-0 overflow-hidden pointer-events-none">
+                    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-yellow-500/5 rounded-full blur-3xl animate-pulse"></div>
+                    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
+                    <div class="absolute top-3/4 left-1/2 w-64 h-64 bg-amber-500/5 rounded-full blur-2xl animate-pulse delay-500"></div>
+                </div>
+
                 {&props.children}
+
                 <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0-beta.11/bundles/datastar.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.js.iife.js">
+                    {r#"
                     const driver = window.driver.js.driver;
                     const driverObj = driver();
 
                     const elements = Array.from(document.querySelectorAll("[data-tour]"));
                     const steps = elements.map((element) => ({
-                        element: "[data-tour=\"${element.getAttribute(\"data-tour\")}\"]",
+                        element: `[data-tour="${element.getAttribute("data-tour")}"]`,
                         popover: {
                             title: element.getAttribute("data-tour-title") ?? "",
                             description: element.getAttribute("data-tour-description") ?? "",
-                            side: element.getAttribute("data-tour-position") as Side,
+                            side: element.getAttribute("data-tour-position"),
                         },
                     }));
                     driverObj.setConfig({
@@ -188,6 +241,7 @@ pub fn AppLayout(props: &LayoutProps) -> Node {
                         },
                     });
                     driverObj.drive();
+                    "#}
                 </script>
             </body>
         </html>
@@ -197,30 +251,51 @@ pub fn AppLayout(props: &LayoutProps) -> Node {
 #[component]
 pub fn Navigation() -> Node {
     rsx! {
-        <header class="fixed top-0 left-0 right-0 z-50 bg-black/50 backdrop-blur-md border-b border-zinc-800">
-            <div class="container mx-auto px-6 h-16 flex items-center justify-between">
-                <a href="/" class="text-zinc-50 font-semibold text-xl hover:text-zinc-300 transition-colors">
-                    "elch🔥rit🔥s"
+        <header class="fixed top-0 left-0 right-0 z-50 nav-blur bg-black/60 border-b border-zinc-800/50 transition-all duration-300">
+            <div class="container mx-auto px-6 h-20 flex items-center justify-between">
+                // Enhanced logo with gradient and animation
+                <a
+                    href="/"
+                    class="group flex items-center space-x-2 hover-lift text-white"
+                >
+                    "elch"
+                    <span class="inline-block animate-bounce text-yellow-400 drop-shadow-[0_0_15px_rgba(234,179,8,0.5)]">"🔥"</span>
+                    "rit"
+                    <span class="inline-block animate-bounce delay-150 text-orange-400 drop-shadow-[0_0_15px_rgba(251,146,60,0.5)]">"🔥"</span>
+                    "s"
                 </a>
-                <nav class="flex items-center space-x-8">
+
+                // Enhanced navigation with better styling
+                <nav class="hidden md:flex items-center space-x-1">
                     {NAVIGATION.iter().map(|nav| {
                         rsx! {
                             <a
                                 href={nav.href}
-                                class="text-sm text-zinc-400 hover:text-zinc-50 transition-colors"
+                                class="px-4 py-2 text-sm font-medium text-zinc-400 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-all duration-200 hover-lift relative group"
                             >
-                                {nav.name}
+                                <span class="relative z-10">{nav.name}</span>
+                                <div class="absolute inset-0 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
                             </a>
                         }
                     })}
-                    <a
-                        href="/newsletter"
-                        class="px-4 py-2 text-sm text-white  border border-yellow-700 rounded hover:bg-zinc-800 hover:scale-110 hover:rounded-xl duration-1000"
-                        title="Newsletter"
-                    >
-                        Newsletter
-                    </a>
+
+                    // Enhanced newsletter button with gradient border
+                    <div class="ml-4">
+                        <a
+                            href="/newsletter"
+                            class="gradient-border px-6 py-2.5 text-sm font-semibold text-white hover:text-yellow-300 transition-all duration-300 hover-lift inline-flex items-center space-x-2 group"
+                            title="Newsletter"
+                        >
+                            <i class="fas fa-envelope text-xs group-hover:animate-bounce"></i>
+                            <span>"Newsletter"</span>
+                        </a>
+                    </div>
                 </nav>
+
+                // Mobile menu button
+                <button class="md:hidden p-2 text-zinc-400 hover:text-white transition-colors">
+                    <i class="fas fa-bars text-lg"></i>
+                </button>
             </div>
         </header>
     }
@@ -230,23 +305,60 @@ pub fn Navigation() -> Node {
 pub fn PageLayout(props: &LayoutProps) -> Node {
     rsx! {
         <AppLayout title={props.title}>
-            <div class="relative min-h-screen bg-gradient-to-tl from-black via-zinc-600/20 to-black">
-              <div class="relative pb-16">
-                <Navigation />
-                <div class="px-6 pt-12 md:mx-auto space-y-8 max-w-7xl lg:px-8 md:space-y-16 md:pt-24 lg:pt-32 min-h-[85vh]">
-                  {&props.children}
+            <div class="relative min-h-screen bg-gradient-to-br from-black via-zinc-900/50 to-black">
+                // Enhanced gradient overlay
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/50 pointer-events-none"></div>
+
+                <div class="relative">
+                    <Navigation />
+
+                    // Main content area with improved spacing and styling
+                    <main class="px-6 pt-20 md:mx-auto space-y-12 max-w-7xl lg:px-8 md:space-y-20 md:pt-32 lg:pt-40 min-h-[85vh]">
+                        <div class="relative">
+                            {&props.children}
+                        </div>
+                    </main>
+
+                    // Enhanced footer with better styling
+                    <footer class="relative mt-20 border-t border-zinc-800/50 bg-zinc-900/20 backdrop-blur-sm">
+                        <div class="container mx-auto px-6 py-12">
+                            <div class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+                                // Footer content
+                                <div class="flex items-center text-sm text-zinc-400">
+                                    <span>"Designed and developed with "</span>
+                                    <i class="fas fa-heart text-red-400 mx-1 animate-pulse"></i>
+                                    <span>" by "</span>
+                                    <a
+                                        href="https://elcharitas.wtf"
+                                        class="font-semibold text-yellow-400 hover:text-yellow-300 mx-1 transition-colors duration-200 hover-lift"
+                                    >
+                                        "Jonathan Irhodia"
+                                    </a>
+                                </div>
+
+                                // Social links
+                                <div class="flex items-center space-x-4">
+                                    <a href="https://twitter.com/iamelcharitas" class="text-zinc-400 hover:text-blue-400 transition-colors duration-200 hover-lift">
+                                        <i class="fab fa-twitter text-lg"></i>
+                                    </a>
+                                    <a href="https://github.com/elcharitas" class="text-zinc-400 hover:text-white transition-colors duration-200 hover-lift">
+                                        <i class="fab fa-github text-lg"></i>
+                                    </a>
+                                    <a href="https://linkedin.com/in/elcharitas" class="text-zinc-400 hover:text-blue-500 transition-colors duration-200 hover-lift">
+                                        <i class="fab fa-linkedin text-lg"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            // Copyright
+                            <div class="mt-8 pt-8 border-t border-zinc-800/30 text-center">
+                                <p class="text-xs text-zinc-500">
+                                    "© 2024 elcharitas.wtf. All rights reserved."
+                                </p>
+                            </div>
+                        </div>
+                    </footer>
                 </div>
-              </div>
-              <div class="flex justify-center text-sm text-zinc-50 py-8 border-t border-zinc-800">
-                "Designed and developed by "
-                <a
-                  href="https://elcharitas.wtf"
-                  class="font-medium text-zinc-500 hover:text-zinc-300 mx-2"
-                >
-                  Jonathan Irhodia
-                </a>
-                " ©️"
-              </div>
             </div>
         </AppLayout>
     }

@@ -13,4 +13,12 @@ fragment Post on Post {
   slug
   brief
   views
+	ogMetaData {
+		image
+	}
+	tags {
+		id
+		name
+		slug
+	}
 }

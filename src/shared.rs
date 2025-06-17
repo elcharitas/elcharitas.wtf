@@ -40,7 +40,7 @@ lazy_static! {
             href: "/resume"
         },
         NavigationInfo {
-            name: "Adventures",
+            name: "Timeline",
             href: "/adventures"
         },
     ];

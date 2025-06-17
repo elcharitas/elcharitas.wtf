@@ -269,7 +269,7 @@ pub async fn get_all_projects(page: u32) -> Result<Vec<Project>, GitHubError> {
     let client = reqwest::Client::new();
 
     let url = format!(
-        "https://api.github.com/user/repos?sort=updated&visibility=public&affiliation=owner,collaborator&per_page=32&direction=desc&page={}",
+        "https://api.github.com/user/repos?sort=updated&visibility=public&affiliation=owner,collaborator&per_page=21&direction=desc&page={}",
         page
     );
     let response = client
@@ -285,7 +285,10 @@ pub async fn get_all_projects(page: u32) -> Result<Vec<Project>, GitHubError> {
 
     let repos: Vec<GitHubRepo> = response.json().await.map_err(GitHubError::JsonError)?;
 
-    let mut filtered_repos: Vec<GitHubRepo> = repos.into_iter().filter(|repo| !repo.fork).collect();
+    let mut filtered_repos: Vec<GitHubRepo> = repos
+        .into_iter()
+        .filter(|repo| !repo.fork && repo.stargazers_count > 0.0)
+        .collect();
 
     // Sort by star count (descending) and by last updated
     filtered_repos.sort_by(|a, b| {

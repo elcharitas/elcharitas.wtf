@@ -1,5 +1,4 @@
 mod adventures {
-    mod adventure;
     pub mod page;
 }
 mod blog {
@@ -8,10 +7,7 @@ mod blog {
 }
 mod home;
 mod newsletter;
-mod projects {
-    pub mod page;
-    mod slug;
-}
+mod projects;
 
 use home::HomePage;
 use ngyn::prelude::*;
@@ -22,7 +18,7 @@ pub fn register_routes(app: &mut HyperApplication) {
     // Pages
     app.get("/", route_handler(HomePage));
     app.get("/writings", route_handler(blog::page::BlogPage));
-    app.get("/projects", route_handler(projects::page::ProjectsPage));
+    app.get("/projects", route_handler(projects::ProjectsPage));
     app.get(
         "/adventures",
         route_handler(adventures::page::AdventuresPage),

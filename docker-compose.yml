@@ -1,0 +1,15 @@
+services:
+  app:
+    build:
+      context: .
+    volumes:
+      - ./:/app
+      - cargo-cache:/usr/local/cargo
+    ports:
+      - 3000
+    environment:
+      # Configure log level: trace, debug, info, warn, error
+      - RUST_LOG=${LOG_LEVEL:-debug}
+
+volumes:
+  cargo-cache:

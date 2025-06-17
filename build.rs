@@ -16,6 +16,7 @@ fn main() {
     println!("cargo:rerun-if-changed=global.css");
     let status = Command::new("npx")
         .args([
+            "npx",
             "tailwindcss",
             "-i",
             "./global.css",

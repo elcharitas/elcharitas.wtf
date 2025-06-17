@@ -349,7 +349,7 @@ pub fn PageLayout(props: &LayoutProps) -> Node {
                                 // Social links
                                 <div class="flex items-center space-x-4">
                                     <a href="https://twitter.com/iamelcharitas" class="text-zinc-400 hover:text-blue-400 transition-colors duration-200 hover-lift">
-                                        <i class="fab fa-twitter text-lg"></i>
+                                        <i class="fab fa-x-twitter text-lg"></i>
                                     </a>
                                     <a href="https://github.com/elcharitas" class="text-zinc-400 hover:text-white transition-colors duration-200 hover-lift">
                                         <i class="fab fa-github text-lg"></i>

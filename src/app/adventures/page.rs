@@ -159,7 +159,7 @@ pub fn AdventuresPage(_: &PageParams) -> Node {
 
                             rsx! {
                                 <div class="relative flex items-start group">
-                                    // <div class="absolute left-4 md:left-8 rounded-full border-2 border-zinc-900 bg-gradient-to-r from-yellow-400 to-orange-400 transform -translate-x-1.5 z-10 group-hover:scale-125 transition-transform"></div>
+                                    <div class="absolute left-4 md:left-8 w-3 h-3 rounded-full border-2 border-zinc-900 bg-gradient-to-r from-yellow-400 to-orange-400 transform -translate-x-1.5 z-10 group-hover:scale-125 transition-transform"></div>
 
                                     <div class="ml-12 md:ml-20 flex-1">
                                         <div class={format!("p-4 rounded-lg border border-zinc-800 bg-zinc-900/60 hover:border-zinc-600 hover:bg-zinc-900/80 transition-all duration-200 {}",

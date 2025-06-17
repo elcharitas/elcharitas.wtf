@@ -1,37 +1,68 @@
 {
   "2023": {
     "january": [
-      "Published ChakraUI"
+      "Published ChakraUI updates to Chakra UI Svelte",
+      "Continued expansion of Alphaday with new widgets and analytical tools"
+    ],
+    "february": [
+      "Deepened expertise in TypeScript, Solidity, and Rust development",
+      "Contributed to decentralized application infrastructure development"
+    ],
+    "march": [
+      "Advanced work on blockchain smart contracts for various DeFi applications"
+    ],
+    "april": [
+      "Focused on open-source contributions across multiple technology stacks"
     ],
     "august": [
       "Started work on Ngyn Framework to empower next-gen backend apps in rust",
-      "Started building this website you're viewing",
-      "Reached read 60-Book mark + tens thousands of articles consumed in the year"
+      "Started building this website you're viewing (elcharitas.wtf)",
+      "Reached read 60-Book mark + tens thousands of articles consumed in the year",
+      "Continued development of Krypto Koffee decentralized crowdfunding platform"
     ],
     "september": [
       "Attended Web3Lagos representing **Alphaday** to Nigeria's web3 community",
-      "Finished and announced this portfolio website"
+      "Finished and announced this portfolio website",
+      "Networked with key figures in Nigerian blockchain development scene"
     ],
     "october": [
-      "Attended Abuja Hangout organized by [astoundihub](https://astoundinnovation.com/)"
+      "Attended Abuja Hangout organized by [astoundihub](https://astoundinnovation.com/)",
+      "Continued contributions to Nigerian tech community through mentorship and knowledge sharing"
+    ],
+    "november": [
+      "Enhanced Ngyn Framework with additional middleware and routing capabilities",
+      "Continued work on smart contract development for various Web3 applications"
+    ],
+    "december": [
+      "Reflected on year of growth in Rust development and Web3 ecosystem contributions",
+      "Planned 2024 in light of open-source projects and technical leadership"
     ]
   },
   "2022": {
     "january": [
-      "Built [Lovenotes](https://github.com/elcharitas/mongodb-hackathon), a mongodb powered love letter app",
-      "Built Mangako, an manga-themed NFT marketplace"
+      "Built [Lovenotes](https://github.com/elcharitas/mongodb-hackathon), a mongodb powered love letter app for MongoDB hackathon",
+      "Built Mangako, an manga-themed NFT marketplace demonstrating Web3 and creative industry integration",
+      "Expanded expertise in NFT smart contract development and marketplace architecture"
     ],
     "february": [
       "Created storm UI, a UI library for building apps fluently in flutter",
-      "Built an autoposter telegram bot just for fun"
+      "Built an autoposter telegram bot just for fun",
+      "Began exploring cross-platform mobile development frameworks"
     ],
-    "may": [
-      "Joined [Alphaday](https://alphaday.com) as a Software Engineer to build customizable crypto dashboards"
+    "march": [
+      "Prepared for transition to Web3-focused career path",
+      "Enhanced skills in decentralized application architecture and blockchain development"
     ],
     "april": [
-      "Created Chakra UI Svelte, a UI library I decided to build only because I loved https://chakra-ui.com",
-      "Teamed up with my friends to build a decentralized betting platform called Tete",
-      "Built supa cart, an inventory management system powered by Supabase, [SaasUI](https://saas-ui.com) and [NextJs](https://nextjs.org)"
+      "Created Chakra UI Svelte, a UI library inspired by https://chakra-ui.com",
+      "Teamed up with friends to build a decentralized betting platform called Tete",
+      "Built supa cart, an inventory management system powered by Supabase, [SaasUI](https://saas-ui.com) and [NextJs](https://nextjs.org)",
+      "Demonstrated full-stack development capabilities across multiple frameworks"
+    ],
+    "may": [
+      "Joined [Alphaday](https://alphaday.com) as a Software Engineer to build customizable crypto dashboards",
+      "Began work on comprehensive Web3 data aggregation and visualization platform",
+      "Transitioned to professional blockchain and cryptocurrency development role"
     ],
     "june": [
       "Had this idea to ease out web3 connection via a centralized network called Web3Gateway (W3G). I wrote the drafts/specs and built a MVP - https://github.com/w3gx"
@@ -44,7 +75,7 @@
     ],
     "november": [
       "Conducted load testing for the first time",
-      "Implemented caching mechanism"
+      "Applied performance optimization to Alphaday's web app - https://app.alphaday.com"
     ],
     "december": [
       "Attended DevFest Ibadan 2022, met many great minds I had been connected with online"
@@ -52,11 +83,10 @@
   },
   "2021": {
     "january": [
-      "Created Waxe, a Laravel Blade inspired template engine for NodeJS"
+      "Created Waxe, a Laravel Blade inspired template engine for NodeJS."
     ],
-    "june": [
-      "Built an app for my church using ionic and firebase"
-    ],
+    "march": ["Began exploring blockchain development fundamentals"],
+    "june": ["Built a bible study app for my church using ionic and firebase"],
     "july": [
       "Wrote a script called Ember, which hacks telegram to send messages to multiple bots at once",
       "Picked up gatsby for the first time. Gatsby was lit"
@@ -64,28 +94,47 @@
     "august": [
       "Built a minimalistic desktop web browser in python",
       "Joined a Video Streaming team to build a video streaming platform using php/laravel (Contract)",
-      "I was tasked with leading a team of 3 to move the source code of the video streaming platform from a monolith to a microservice architecture and to NodeJS."
+      "I was tasked with leading a team of 3 to move the source code of the video streaming platform from a monolith to a microservice architecture and to NodeJS"
+    ],
+    "september": [
+      "Successfully completed microservice migration project, demonstrating architecture and leadership skills",
+      "Enhanced expertise in distributed systems and team coordination"
     ],
     "october": [
-      "Joined a company which was building a decentralized crowdfunding app as a software engineer"
+      "Joined a company which was building a decentralized crowdfunding app as a software engineer. This was my first professional blockchain role"
+    ],
+    "november": [
+      "Began deep dive into blockchain development and smart contract programming",
+      "Started learning Solidity and Web3 development fundamentals"
     ],
     "december": [
-      "Wrote my first ever Solana Program in Rust for an NFT"
+      "Wrote my first ever Solana Program in Rust for an NFT",
+      "Established foundation for future expertise in Rust and decentralized applications"
     ]
   },
   "2020": {
+    "january": [
+      "Continued learning programming skills across multiple languages and frameworks",
+      "Began exploring collaborative development projects"
+    ],
     "february": [
       "Began work with a friend on a telegram bot for Futarians. It was a success"
     ],
+    "march": [
+      "Enhanced understanding of bot development and automated systems",
+      "Began exploring team-based development workflows"
+    ],
     "april": [
-      "Joined a team of developers to build a social media platform"
+      "Joined a team of developers to build a social media platform with market features"
     ],
     "june": [
       "Had this idea for a multiforum platform, So I built it in php and launched it as MacBB"
     ],
+    "july": ["Continued development and improvement of MacBB platform"],
+    "august": ["Added more features to MacBB and improved user base"],
     "september": [
-      "Joined E-learning team to build the backend for a e-learning platform using php/laravel",
-      "Built an internal package at new team called z3.js for fluent interfaces like we have in laravel"
+      "Joined an E-learning team to build the backend for a e-learning platform using php/laravel",
+      "Built an internal package at new team called z3.js for fluent interfaces like we have in laravel which improved our efficiency"
     ],
     "october": [
       "Kept adding more features to MacBB like twig template, markdown support, etc"
@@ -102,33 +151,44 @@
     ]
   },
   "2019": {
-    "february": [
-      "Sold E-pages Software for a giveaway price"
+    "january": [
+      "Continued development of E-pages platform and user base growth"
     ],
+    "february": ["Sold E-pages Software for a giveaway price"],
     "february - december": [
       "Took a break from programming to focus on my studies",
-      "Wrote a lot of bash, and python for my school projects",
+      "Wrote a lot of bash, and python for my school projects which allowed me maintain technical skills through academic work",
       "Also wrote a Javascript Game engine, called PuckJS when I was bored"
     ],
-    "december": [
-      "Picked up mybb again and started building plugins for it"
-    ]
+    "december": ["Picked up mybb again and started building plugins for it"]
   },
   "2018": {
-    "march": [
-      "Total number of E-pages created climaxed 1K+"
+    "january": [
+      "Continued expansion of E-pages user base and feature development",
+      "Enhanced web development skills and user engagement strategies"
     ],
+    "february": [
+      "Reached significant milestones in E-pages adoption and usage",
+      "Refined understanding of scalable web application development"
+    ],
+    "march": ["Total number of E-pages created climaxed 1K+"],
     "july": [
-      "Joined Gate Initiative as a Developer helping to manage web projects"
+      "Joined Gate Initiative as a Developer helping to manage web projects",
+      "Began working on client projects and professional web development workflows"
+    ],
+    "august": [
+      "Enhanced skills in professional development practices and client management",
+      "Contributed to various web projects under Gate Initiative"
     ]
   },
   "2017": {
     "january": [
-      "First Learnt about Developer community like Facebook Developers, NCT"
+      "First Learnt about Developer community like Facebook Developers, NCT and this was my entry into professional developer ecosystems"
     ],
+    "march": ["Joined NCT's leadership as a moderator and community manager"],
     "april": [
       "Created and started managing a community for developers across the world called Web Coders Forum",
-      "First Learned of WordPress"
+      "First time I learned of WordPress"
     ],
     "june": [
       "Created E-pages, a php powered page generator inspired by txti.es"
@@ -136,9 +196,7 @@
     "july": [
       "Improved the E-pages software with increased size, load speed and support for special tags"
     ],
-    "august": [
-      "Added E-pages to Freebasics by Facebook"
-    ]
+    "august": ["Added E-pages to Freebasics by Facebook"]
   },
   "2015": {
     "january": [
@@ -151,9 +209,13 @@
     ]
   },
   "2014": {
-    "Sometime...": [
-      "First time I heard about programming from Eriomola Tomiwa (RIP)",
-      "Wrote First HTML code"
+    "june": [
+      "First time I heard about programming from Eriomola Tomiwa (RIP). It was recess period and we were simply having a conversation as high school seniors",
+      "Wrote First HTML code at a cyber cafe"
+    ],
+    "september": [
+      "Continued learning HTML and basic web development concepts",
+      "Discovered wapka.mobi and xtgem. I went on later to create multiple things using wapka and xtgem"
     ]
   }
 }

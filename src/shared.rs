@@ -70,7 +70,7 @@ pub struct SinglePostByPublicationQuery {
 }
 
 /// Publication type for single post query
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SinglePostPublication {
     pub id: String,
     pub title: String,
@@ -91,9 +91,9 @@ pub struct SinglePostPublication {
     pub author: User,
     #[serde(rename = "ogMetaData")]
     pub og_meta_data: OpenGraphMetaData,
-    pub preferences: Preferences,
-    pub links: Option<PublicationLinks>,
-    pub integrations: Option<PublicationIntegrations>,
+    // pub preferences: Preferences,
+    // pub links: Option<PublicationLinks>,
+    // pub integrations: Option<PublicationIntegrations>,
 }
 
 /// SEO metadata
@@ -194,7 +194,7 @@ pub struct Publication {
 }
 
 /// Post connection type for pagination
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PublicationPostConnection {
     #[serde(rename = "totalDocuments")]
     pub total_documents: i32,
@@ -204,7 +204,7 @@ pub struct PublicationPostConnection {
 }
 
 /// Post edge for connection
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PostEdge {
     pub node: Post,
 }
@@ -273,7 +273,7 @@ pub struct PostCoverImage {
 }
 
 /// Page info for pagination
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PageInfo {
     #[serde(rename = "endCursor")]
     pub end_cursor: Option<String>,

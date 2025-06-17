@@ -1,6 +1,13 @@
-use crate::{components::PageLayout, shared::*};
+use crate::{
+    analytics::{
+        get_or_create_device_id, send_views_to_hashnode_analytics_dashboard,
+        send_views_to_hashnode_internal_analytics,
+    },
+    components::PageLayout,
+    shared::*,
+};
 use momenta::prelude::*;
-use ngyn::{prelude::*, shared::server::Transformer};
+use ngyn::{http::HeaderMap, prelude::*, shared::server::Transformer};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 
@@ -13,9 +20,10 @@ pub struct BlogDetailProps {
 
 impl PageLoader for BlogDetailProps {
     async fn load(ctx: &mut NgynContext<'_>) -> Self {
+        let headers = ctx.request().headers().clone();
         let PageParams { slug } = PageParams::transform(ctx);
 
-        let post = fetch_post_by_slug(&slug).await;
+        let post = fetch_post_by_slug(&slug, headers).await;
         let related_posts = if post.is_some() {
             fetch_related_posts(&slug, 3).await
         } else {
@@ -233,8 +241,8 @@ pub fn BlogDetailPage(props: &BlogDetailProps) -> Node {
     }
 }
 
-async fn fetch_post_by_slug(slug: &str) -> Option<Post> {
-    HASHNODE_CLIENT
+async fn fetch_post_by_slug(slug: &str, headers: HeaderMap) -> Option<Post> {
+    if let Ok(SinglePostByPublicationQuery { publication }) = HASHNODE_CLIENT
         .execute_query::<SinglePostByPublicationQuery>(
             SINGLE_POST_QUERY.to_owned(),
             Some(json!({
@@ -243,9 +251,22 @@ async fn fetch_post_by_slug(slug: &str) -> Option<Post> {
             })),
         )
         .await
-        .ok()
-        .and_then(|res| res.publication)
-        .and_then(|publ| publ.post)
+    {
+        let (device_id, _) = get_or_create_device_id("");
+
+        tokio::spawn(send_views_to_hashnode_internal_analytics(
+            publication.clone(),
+            headers.clone(),
+            device_id,
+        ));
+
+        tokio::spawn(send_views_to_hashnode_analytics_dashboard(
+            publication.clone(),
+            headers,
+        ));
+        return publication.and_then(|publ| publ.post);
+    }
+    None
 }
 
 async fn fetch_related_posts(_current_slug: &str, _limit: usize) -> Vec<Post> {

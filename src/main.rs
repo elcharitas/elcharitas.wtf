@@ -1,3 +1,4 @@
+mod analytics;
 mod app;
 mod components;
 mod requests;

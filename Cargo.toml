@@ -6,6 +6,7 @@ edition = "2021"
 [dependencies]
 cached = "0.55"
 chrono = { version = "0.4", features = ["serde"] }
+cookie = "0.18"
 dotenv = "0.15"
 google-fonts = "0.1"
 lazy_static = "1.5"
@@ -19,4 +20,4 @@ tokio = { version = "1", features = ["full"] }
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 url = "2.5"
-futures = "0.3.31"
+uuid = { version = "1.0", features = ["v4"] }

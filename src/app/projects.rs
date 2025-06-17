@@ -20,7 +20,7 @@ impl PageLoader for ProjectsProps {
         let mut projects = PROJECTS.with_borrow(|projects| projects.clone());
 
         if projects.is_empty() {
-            projects = get_all_projects(1).await.unwrap();
+            projects = get_all_projects(1).await.unwrap_or_default();
             PROJECTS.with_borrow_mut(|stored| {
                 *stored = projects.clone();
             });

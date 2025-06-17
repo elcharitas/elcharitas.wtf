@@ -7,7 +7,7 @@ COPY ./src ./src
 RUN cargo chef prepare
 
 FROM chef AS builder
-RUN apt install nodejs
+RUN apk add --update nodejs npm
 COPY --from=planner /app/recipe.json .
 RUN cargo chef cook --release
 COPY . .

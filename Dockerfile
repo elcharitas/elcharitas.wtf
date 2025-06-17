@@ -22,5 +22,6 @@ RUN apt update -y \
     && apt install libssl3
 WORKDIR /app
 COPY --from=builder /app/elcharitas /usr/local/bin
+COPY --from=builder /app/public .
 EXPOSE 3000
 ENTRYPOINT ["/usr/local/bin/elcharitas"]

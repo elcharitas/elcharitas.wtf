@@ -6,6 +6,7 @@ use crate::{
     components::PageLayout,
     shared::*,
 };
+use comrak::{markdown_to_html, Options};
 use momenta::prelude::*;
 use ngyn::{http::HeaderMap, prelude::*, shared::server::Transformer};
 use serde::{Deserialize, Serialize};
@@ -110,7 +111,7 @@ pub fn BlogDetailPage(props: &BlogDetailProps) -> Node {
                         // Article Content
                         <div class="prose prose-invert prose-lg max-w-none mb-12">
                             <div class="text-zinc-200 leading-relaxed">
-                               {when!(let Some(content) = &post.content => <>{&content.markdown}</>)}
+                               {when!(let Some(content) = &post.content => <p _dangerously_set_inner_html={markdown_to_html(&content.markdown, &Options::default())} />)}
                             </div>
                         </div>
 

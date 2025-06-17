@@ -12,12 +12,12 @@ COPY --from=planner /app/recipe.json .
 RUN cargo chef cook --release
 COPY . .
 RUN cargo build --release
-RUN mv ./target/release/elcharitas ./app
+RUN mv ./target/release/elcharitas .
 
 FROM debian:stable-slim AS runtime
 RUN apt update -y \
     && apt install libssl3
 WORKDIR /app
-COPY --from=builder /app/app /usr/local/bin/
+COPY --from=builder /app/elcharitas /usr/local/bin
 EXPOSE 3000
-ENTRYPOINT ["/usr/local/bin/app"]
+ENTRYPOINT ["/usr/local/bin/elcharitas"]

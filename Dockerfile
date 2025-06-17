@@ -19,7 +19,7 @@ RUN mv ./target/release/elcharitas .
 
 FROM debian:stable-slim AS runtime
 RUN apt update -y \
-    && apt install libssl3
+    && apt install -y libssl3 ca-certificates
 WORKDIR /app
 COPY --from=builder /app/elcharitas /usr/local/bin
 COPY --from=builder /app/public .

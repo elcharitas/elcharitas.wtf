@@ -12,7 +12,7 @@ COPY --from=planner /app/recipe.json .
 RUN cargo chef cook --release
 COPY . .
 RUN cargo build --release
-RUN mv ./target/release/aurapay ./app
+RUN mv ./target/release/elcharitas ./app
 
 FROM debian:stable-slim AS runtime
 RUN apt update -y \

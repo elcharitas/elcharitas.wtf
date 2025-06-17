@@ -8,7 +8,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Param)]
 pub struct PageParams {
-    slug: String,
+    pub slug: String,
 }
 
 impl PageLoader for PageParams {
@@ -63,6 +63,110 @@ pub struct PostsByPublicationQuery {
     pub publication: Publication,
 }
 
+/// Root query response type for single post
+#[derive(Debug, Serialize, Deserialize)]
+pub struct SinglePostByPublicationQuery {
+    pub publication: Option<SinglePostPublication>,
+}
+
+/// Publication type for single post query
+#[derive(Debug, Serialize, Deserialize)]
+pub struct SinglePostPublication {
+    pub id: String,
+    pub title: String,
+    #[serde(rename = "displayTitle")]
+    pub display_title: Option<String>,
+    pub url: String,
+    #[serde(rename = "metaTags")]
+    pub meta_tags: Option<String>,
+    pub favicon: Option<String>,
+    #[serde(rename = "isTeam")]
+    pub is_team: bool,
+    #[serde(rename = "followersCount")]
+    pub followers_count: Option<i32>,
+    #[serde(rename = "descriptionSEO")]
+    pub description_seo: Option<String>,
+    pub posts: PublicationPostConnection,
+    pub post: Option<Post>,
+    pub author: User,
+    #[serde(rename = "ogMetaData")]
+    pub og_meta_data: OpenGraphMetaData,
+    pub preferences: Preferences,
+    pub links: Option<PublicationLinks>,
+    pub integrations: Option<PublicationIntegrations>,
+}
+
+/// SEO metadata
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SEO {
+    pub title: Option<String>,
+    pub description: Option<String>,
+}
+
+/// Content with markdown and html
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct Content {
+    pub markdown: String,
+    pub html: String,
+}
+
+/// Post features
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PostFeatures {
+    #[serde(rename = "tableOfContents")]
+    pub table_of_contents: TableOfContentsFeature,
+}
+
+/// Table of contents feature
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TableOfContentsFeature {
+    #[serde(rename = "isEnabled")]
+    pub is_enabled: bool,
+    pub items: Vec<TableOfContentsItem>,
+}
+
+/// Table of contents item
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TableOfContentsItem {
+    pub id: String,
+    pub level: i32,
+    #[serde(rename = "parentId")]
+    pub parent_id: Option<String>,
+    pub slug: String,
+    pub title: String,
+}
+
+/// Post preferences
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PostPreferences {
+    #[serde(rename = "disableComments")]
+    pub disable_comments: bool,
+}
+
+/// Post comment connection
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PostCommentConnection {
+    #[serde(rename = "totalDocuments")]
+    pub total_documents: i32,
+    pub edges: Option<Vec<PostCommentEdge>>,
+}
+
+/// Post comment edge
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PostCommentEdge {
+    pub node: Comment,
+}
+
+/// Comment
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Comment {
+    pub id: String,
+    #[serde(rename = "totalReactions")]
+    pub total_reactions: i32,
+    pub content: Content,
+    pub author: User,
+}
+
 /// Publication type
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Publication {
@@ -94,9 +198,9 @@ pub struct Publication {
 pub struct PublicationPostConnection {
     #[serde(rename = "totalDocuments")]
     pub total_documents: i32,
-    pub edges: Vec<PostEdge>,
+    pub edges: Option<Vec<PostEdge>>,
     #[serde(rename = "pageInfo")]
-    pub page_info: PageInfo,
+    pub page_info: Option<PageInfo>,
 }
 
 /// Post edge for connection
@@ -114,21 +218,34 @@ pub struct Tag {
 }
 
 /// Post type
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Post {
     pub id: String,
-    pub title: String,
+    pub slug: String,
     pub url: String,
+    pub brief: String,
+    pub title: String,
+    pub subtitle: Option<String>,
     #[serde(rename = "publishedAt")]
     pub published_at: Option<String>,
-    pub slug: String,
-    pub brief: String,
+    #[serde(rename = "updatedAt")]
+    pub updated_at: Option<String>,
+    #[serde(rename = "readTimeInMinutes")]
+    pub read_time_in_minutes: i32,
+    #[serde(rename = "reactionCount")]
+    pub reaction_count: Option<i32>,
+    #[serde(rename = "responseCount")]
+    pub response_count: Option<i32>,
     pub views: i32,
-    pub author: User,
-    pub comments: CommentsConnection,
+    pub seo: Option<SEO>,
     #[serde(rename = "coverImage")]
     pub cover_image: Option<PostCoverImage>,
+    pub author: Option<User>,
+    pub content: Option<Content>,
+    #[serde(rename = "ogMetaData")]
+    pub og_meta_data: Option<OpenGraphMetaData>,
     pub tags: Vec<Tag>,
+    pub comments: PostCommentConnection,
 }
 
 /// User type
@@ -165,7 +282,7 @@ pub struct PageInfo {
 }
 
 /// Open Graph metadata
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct OpenGraphMetaData {
     pub image: Option<String>,
 }

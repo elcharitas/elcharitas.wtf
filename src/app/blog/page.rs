@@ -27,6 +27,7 @@ impl PageLoader for BlogProps {
                 posts: publication
                     .posts
                     .edges
+                    .unwrap_or_default()
                     .iter()
                     .map(|edge| edge.node.clone())
                     .collect(),

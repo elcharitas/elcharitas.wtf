@@ -3,7 +3,7 @@ mod adventures {
 }
 mod blog {
     pub mod page;
-    mod slug;
+    pub mod slug;
 }
 mod home;
 mod newsletter;
@@ -18,6 +18,10 @@ pub fn register_routes(app: &mut HyperApplication) {
     // Pages
     app.get("/", route_handler(HomePage));
     app.get("/writings", route_handler(blog::page::BlogPage));
+    app.get(
+        "/writings/{slug}",
+        route_handler(blog::slug::BlogDetailPage),
+    );
     app.get("/projects", route_handler(projects::ProjectsPage));
     app.get(
         "/adventures",

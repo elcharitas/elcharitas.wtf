@@ -116,7 +116,7 @@ lazy_static! {
 
 #[derive(Default)]
 pub struct LayoutProps {
-    pub title: &'static str,
+    pub title: String,
     pub children: Vec<Node>,
 }
 
@@ -302,7 +302,7 @@ pub fn Navigation() -> Node {
 #[component]
 pub fn PageLayout(props: &LayoutProps) -> Node {
     rsx! {
-        <AppLayout title={props.title}>
+        <AppLayout title={&props.title}>
             <div class="relative min-h-screen bg-gradient-to-br from-black via-zinc-900/50 to-black">
                 // Enhanced gradient overlay
                 <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/50 pointer-events-none"></div>

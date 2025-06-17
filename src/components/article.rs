@@ -19,7 +19,18 @@ pub fn Article(
             href={format!("/writings/{}", post.slug)}
             class="block group relative overflow-hidden flex flex-col relative bg-zinc-900 rounded-lg h-full"
         >
-            <div class="relative p-6 md:p-8 h-full flex flex-col">
+            {when!(let Some(cover_url) = &post.cover_image =>
+                <div class="relative overflow-hidden">
+                    <img
+                        src={&cover_url.url}
+                        alt={format!("Cover image for {}", post.title)}
+                        class="w-full h-32 md:h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-zinc-900/60 to-transparent opacity-60"></div>
+                </div>
+            )}
+
+            <div class="relative p-6 flex flex-col justify-between">
                 <div class="flex justify-between items-start mb-4 gap-4">
                     <div class="flex flex-col space-y-2">
                         {when!(let Some(published_at) = &post.published_at =>
@@ -51,16 +62,16 @@ pub fn Article(
                     </div>
                 </div>
 
-                <h2 class="text-xl md:text-2xl font-bold text-zinc-50 group-hover:text-white transition-colors duration-300 mb-1">
+                <h2 class="text-lg md:text-xl font-bold text-zinc-50 group-hover:text-white transition-colors duration-300 mb-1">
                     {&post.title}
                 </h2>
 
-                <p class="flex-1 text-sm md:text-base text-zinc-400 group-hover:text-zinc-200 leading-relaxed mb-6 flex-grow transition-colors duration-300 line-clamp-3">
+                <p class="text-sm md:text-base text-zinc-400 group-hover:text-zinc-200 leading-relaxed flex-grow transition-colors duration-300 line-clamp-3">
                     {&post.brief[0..(post.brief.len().min(100))]}...
                 </p>
 
                 {when!(show_read_more =>
-                    <div class="mt-auto">
+                    <div class="flex-1 mt-2">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center space-x-2 text-yellow-400 group-hover:text-yellow-300 font-medium text-sm transition-all duration-300 group-hover:transform group-hover:translate-x-1">
                                 <span>"Read article"</span>

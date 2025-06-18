@@ -332,8 +332,6 @@ pub async fn get_all_projects(page: u32) -> Result<Vec<Project>, GitHubError> {
         })
         .collect();
 
-    println!("{:?}", page);
-
     Ok(projects)
 }
 

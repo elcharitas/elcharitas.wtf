@@ -14,7 +14,7 @@ RUN npm install @tailwindcss/typography@0.5.9
 COPY --from=planner /app/recipe.json .
 RUN cargo chef cook --release
 COPY . .
-RUN npx tailwindcss -i ./global.css -o ./public/styles.css --minify
+RUN npx tailwindcss -i ./global.css -o ./styles.css --minify
 RUN cargo build --release
 RUN mv ./target/release/elcharitas .
 
@@ -24,7 +24,7 @@ RUN apt update -y \
 
 WORKDIR /app
 COPY --from=builder /app/elcharitas /usr/local/bin
-COPY --from=builder /app/public/styles.css ./public
+COPY --from=builder /app/styles.css ./public
 
 EXPOSE 3000
 ENTRYPOINT ["/usr/local/bin/elcharitas"]

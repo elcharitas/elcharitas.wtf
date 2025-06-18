@@ -19,8 +19,11 @@ RUN mv ./target/release/elcharitas .
 
 FROM debian:stable-slim AS runtime
 RUN apt update -y \
-    && apt install -y libssl3 ca-certificates
+    && apt install -y libssl3 ca-certificates nodejs npm
+RUN npm install -g tailwindcss@3
 WORKDIR /app
+RUN npm install @tailwindcss/typography@0.5.9
+RUN npx tailwindcss -i ./global.css -o ./public/styles.css --minify
 COPY --from=builder /app/elcharitas /usr/local/bin
 COPY --from=builder /app/public .
 EXPOSE 3000

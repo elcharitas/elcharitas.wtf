@@ -252,8 +252,7 @@ pub fn AppLayout(props: &LayoutProps) -> Node {
 pub fn Navigation() -> Node {
     rsx! {
         <header class="fixed top-0 left-0 right-0 z-50 nav-blur bg-black/60 border-b border-zinc-800/50 transition-all duration-300">
-            <div class="container mx-auto px-6 h-20 flex items-center justify-between">
-                // Enhanced logo with gradient and animation
+            <div class="container mx-auto px-6 py-2 flex items-center justify-between">
                 <a
                     href="/"
                     class="group flex items-center hover-lift text-white"
@@ -265,7 +264,6 @@ pub fn Navigation() -> Node {
                     "s"
                 </a>
 
-                // Enhanced navigation with better styling
                 <nav class="hidden md:flex items-center space-x-1">
                     {NAVIGATION.iter().map(|nav| {
                         rsx! {

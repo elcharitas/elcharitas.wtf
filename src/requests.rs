@@ -107,7 +107,7 @@ impl GraphQLClient {
 
     /// Create a new GraphQL client with custom options
     pub fn with_options(options: QueryOptions) -> Result<Self, GraphQLClientError> {
-        let mut client_builder = reqwest::Client::builder();
+        let mut client_builder = reqwest::Client::builder().danger_accept_invalid_certs(true);
 
         // Set timeout if specified
         if let Some(timeout) = options.timeout_seconds {
@@ -266,7 +266,7 @@ impl From<env::VarError> for GitHubError {
 
 pub async fn get_all_projects(page: u32) -> Result<Vec<Project>, GitHubError> {
     let github_token = env::var("GITHUB_TOKEN").unwrap_or("".to_string());
-    let client = reqwest::Client::new();
+    let client = reqwest::Client::builder().danger_accept_invalid_certs(true).build()?;
 
     let url = format!(
         "https://api.github.com/user/repos?sort=updated&visibility=public&affiliation=owner,collaborator&per_page=21&direction=desc&page={}",

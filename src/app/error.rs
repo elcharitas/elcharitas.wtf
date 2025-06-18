@@ -1,8 +1,19 @@
-use crate::{components::AppLayout, shared::PageParams};
+use crate::{components::AppLayout, shared::PageLoader};
 use momenta::prelude::*;
+use reqwest::StatusCode;
+
+pub struct ErrorPageProps;
+
+impl PageLoader for ErrorPageProps {
+    async fn load(ctx: &mut ngyn::shared::server::NgynContext<'_>) -> Self {
+        *ctx.response_mut().status_mut() = StatusCode::NOT_FOUND;
+
+        ErrorPageProps {}
+    }
+}
 
 #[component]
-pub fn ErrorPage(_: &PageParams) -> Node {
+pub fn ErrorPage(_: &ErrorPageProps) -> Node {
     rsx! {
         <AppLayout title="Page Not Found - 404">
             <div class="min-h-screen bg-zinc-800 bg-opacity-30 flex items-center justify-center p-4 sm:p-6 lg:p-8">

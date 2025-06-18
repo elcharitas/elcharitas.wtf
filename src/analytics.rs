@@ -3,7 +3,10 @@ use cookie::Cookie;
 use ngyn::http::HeaderMap;
 use reqwest::Client;
 use serde::Serialize;
-use std::time::{SystemTime, UNIX_EPOCH};
+use std::{
+    env,
+    time::{SystemTime, UNIX_EPOCH},
+};
 
 #[derive(Debug, Serialize)]
 struct AnalyticsEvent {

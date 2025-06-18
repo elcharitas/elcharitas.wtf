@@ -276,7 +276,7 @@ pub async fn get_all_projects(page: u32) -> Result<Vec<Project>, GitHubError> {
     let client = reqwest::Client::builder().build()?;
 
     let url = format!(
-        "https://api.github.com/user/repos?sort=updated&visibility=public&affiliation=owner,collaborator&per_page=50&direction=desc&page={}",
+        "https://api.github.com/user/repos?sort=updated&visibility=public&affiliation=owner,collaborator&per_page=25&direction=desc&page={}",
         page
     );
     let response = client
@@ -331,6 +331,8 @@ pub async fn get_all_projects(page: u32) -> Result<Vec<Project>, GitHubError> {
             }
         })
         .collect();
+
+    println!("{:?}", page);
 
     Ok(projects)
 }

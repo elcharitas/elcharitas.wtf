@@ -63,7 +63,7 @@ pub fn BlogPage(
 ) -> Node {
     rsx! {
         <PageLayout title="Essays">
-            <div class="container mx-auto px-4 py-12" data_signals={format!("{{'cursor': '', 'has_next_page': {}}}", has_next_page.unwrap_or(false))}>
+            <div class="container mx-auto px-4 py-12" data_signals={format!("{{'cursor': '{}', 'has_next_page': {}}}", cursor.as_ref().map_or("", |v| v), has_next_page.unwrap_or(false))}>
                 <div class="text-center mb-12">
                     <h1 class="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400 mb-4">
                         "Essays"
@@ -77,7 +77,7 @@ pub fn BlogPage(
                         rsx! {<Article post={post.clone()} show_read_more />}
                     })}
                 </div>
-                <ScrollCard intersect={format!("$cursor='{}';@get('/essays/infinite_scroll')", cursor.as_ref().map_or("", |v| v))} />
+                <ScrollCard intersect="@get('/essays/infinite_scroll')" />
             </div>
         </PageLayout>
     }

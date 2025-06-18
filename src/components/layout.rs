@@ -251,7 +251,7 @@ pub fn AppLayout(props: &LayoutProps) -> Node {
 #[component]
 pub fn Navigation() -> Node {
     rsx! {
-        <header class="fixed top-0 left-0 right-0 z-50 nav-blur bg-black/60 border-b border-zinc-800/50 transition-all duration-300">
+        <header data_signals="{'mobileMenu': true}" class="fixed top-0 left-0 right-0 z-50 nav-blur bg-black/60 border-b border-zinc-800/50 transition-all duration-300">
             <div class="container mx-auto px-6 py-2 flex items-center justify-between">
                 <a
                     href="/"
@@ -264,7 +264,7 @@ pub fn Navigation() -> Node {
                     "s"
                 </a>
 
-                <nav class="hidden md:flex items-center space-x-1">
+                <nav data_show="$mobileMenu" class="hidden md:flex items-center space-x-1">
                     {NAVIGATION.iter().map(|nav| {
                         rsx! {
                             <a
@@ -289,7 +289,7 @@ pub fn Navigation() -> Node {
                     </div>
                 </nav>
 
-                <button class="md:hidden p-2 text-zinc-400 hover:text-white transition-colors">
+                <button class="md:hidden p-2 text-zinc-400 hover:text-white transition-colors" data_on_click="$mobileMenu = !$mobileMenu">
                     <i class="fas fa-bars text-lg"></i>
                 </button>
             </div>

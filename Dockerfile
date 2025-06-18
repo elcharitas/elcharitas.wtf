@@ -24,7 +24,7 @@ RUN apt update -y \
 
 WORKDIR /app
 COPY --from=builder /app/elcharitas /usr/local/bin
-COPY --from=builder /app/public ./public
+COPY --from=builder /app/public/styles.css ./public
 
 EXPOSE 3000
 ENTRYPOINT ["/usr/local/bin/elcharitas"]

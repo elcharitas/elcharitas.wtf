@@ -26,7 +26,7 @@ async fn main() -> Result<(), std::io::Error> {
     tracing::info!("Static files directory configured");
 
     tracing::info!("Server listening on http://0.0.0.0:3000");
-    app.listen("0.0.0.0:3001").await.map_err(|e| {
+    app.listen("0.0.0.0:3000").await.map_err(|e| {
         tracing::error!("Server error: {:?}", e);
         e
     })?;

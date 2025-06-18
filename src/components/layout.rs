@@ -251,7 +251,7 @@ pub fn AppLayout(props: &LayoutProps) -> Node {
 #[component]
 pub fn Navigation() -> Node {
     rsx! {
-        <header data_signals="{'mobileMenu': true}" class="fixed top-0 left-0 right-0 z-50 nav-blur bg-black/60 border-b border-zinc-800/50 transition-all duration-300">
+        <header data_signals="{'mobileMenu': window.screen.width > 768}" class="fixed top-0 left-0 right-0 z-50 nav-blur bg-black/60 border-b border-zinc-800/50 transition-all duration-300">
             <div class="container mx-auto px-6 py-2 flex items-center justify-between">
                 <a
                     href="/"
@@ -264,23 +264,23 @@ pub fn Navigation() -> Node {
                     "s"
                 </a>
 
-                <nav data_show="$mobileMenu" class="hidden md:flex items-center space-x-1">
+                <nav data_show="$mobileMenu" class="absolute md:relative top-full left-0 right-0 md:top-auto min-h-[calc(100vh-4rem)] md:min-h-0 bg-black md:bg-transparent border-b border-zinc-800/50 md:border-none flex flex-col md:flex-row items-center md:space-x-1 py-4 md:py-0 transform transition-all duration-300 ease-in-out md:translate-y-0 md:opacity-100" style="transform: translateY($mobileMenu ? '0' : '-100%'); opacity: $mobileMenu ? '1' : '0';">
                     {NAVIGATION.iter().map(|nav| {
                         rsx! {
                             <a
                                 href={nav.href}
-                                class="px-4 py-2 text-sm font-medium text-zinc-400 hover:text-white hover:bg-zinc-800/50 rounded-lg transition-all duration-200 hover-lift relative group"
+                                class="md:w-auto px-4 py-3 md:py-2 text-sm font-medium text-zinc-400 hover:text-white md:hover:bg-zinc-800/50 rounded-lg transition-all duration-200 hover-lift relative group text-center md:text-left"
                             >
                                 <span class="relative z-10">{nav.name}</span>
-                                <div class="absolute inset-0 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                                <div class="absolute inset-0 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 rounded-lg opacity-0 md:group-hover:opacity-100 transition-opacity duration-200"></div>
                             </a>
                         }
                     })}
 
-                    <div class="ml-4">
+                    <div class="mt-4 md:mt-0 md:ml-4 flex justify-center px-4 md:px-0">
                         <a
                             href="/newsletter"
-                            class="gradient-border px-6 py-2.5 text-sm font-semibold text-white hover:text-yellow-300 transition-all duration-300 hover-lift inline-flex items-center space-x-2 group"
+                            class="gradient-border md:w-auto px-6 py-3 md:py-2.5 text-sm font-semibold text-white hover:text-yellow-300 transition-all duration-300 hover-lift inline-flex items-center justify-center md:justify-start space-x-2 group"
                             title="Newsletter"
                         >
                             <i class="fas fa-envelope text-xs"></i>
@@ -290,7 +290,8 @@ pub fn Navigation() -> Node {
                 </nav>
 
                 <button class="md:hidden p-2 text-zinc-400 hover:text-white transition-colors" data_on_click="$mobileMenu = !$mobileMenu">
-                    <i class="fas fa-bars text-lg"></i>
+                    <i data_show="!$mobileMenu" class="fas fa-bars text-lg"></i>
+                    <i data_show="$mobileMenu" class="fas fa-x text-lg"></i>
                 </button>
             </div>
         </header>

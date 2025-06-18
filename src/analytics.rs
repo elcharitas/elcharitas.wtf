@@ -99,6 +99,10 @@ pub async fn send_views_to_hashnode_internal_analytics(
     let response = client
         .post("https://hn-ping2.hashnode.com/api/data-event")
         .header("Content-Type", "application/json")
+        .header(
+            reqwest::header::AUTHORIZATION,
+            env::var("HASHNODE_TOKEN").unwrap_or_default(),
+        )
         .json(&HashnodeAnalyticsRequest {
             events: vec![event],
         })
@@ -173,6 +177,10 @@ pub async fn send_views_to_hashnode_analytics_dashboard(
     let response = client
         .post("https://hn-ping2.hashnode.com/api/view")
         .header("Content-Type", "application/json")
+        .header(
+            reqwest::header::AUTHORIZATION,
+            env::var("HASHNODE_TOKEN").unwrap_or_default(),
+        )
         .json(&HashnodeDashboardRequest { data })
         .send()
         .await?;

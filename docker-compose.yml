@@ -9,6 +9,8 @@ services:
     environment:
       # Configure log level: trace, debug, info, warn, error
       - RUST_LOG=${LOG_LEVEL:-debug}
+      - GITHUB_TOKEN=${GITHUB_TOKEN:-}
+      - HASHNODE_TOKEN=${HASHNODE_TOKEN:-}
 
 volumes:
   cargo-cache:

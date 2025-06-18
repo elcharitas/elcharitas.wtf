@@ -166,6 +166,10 @@ impl GraphQLClient {
             reqwest::header::CONTENT_TYPE,
             reqwest::header::HeaderValue::from_static("application/json"),
         );
+        headers.insert(
+            reqwest::header::AUTHORIZATION,
+            env::var("HASHNODE_TOKEN").unwrap_or_default(),
+        );
 
         // Add custom headers
         for (key, value) in &self.options.headers {

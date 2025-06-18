@@ -18,7 +18,7 @@ impl PageLoader for BlogProps {
                 POSTS_QUERY.to_owned(),
                 Some(json!({
                     "host": "elcharitas.wtf/blog",
-                    "first": 12
+                    "first": 15
                 })),
             )
             .await
@@ -47,10 +47,14 @@ pub fn BlogPage(BlogProps { posts, .. }: &BlogProps) -> Node {
     rsx! {
         <PageLayout title="Writings">
             <div class="container mx-auto px-4 py-12">
-                <h1 class="text-4xl font-bold text-zinc-50 mb-8">"Blogs ✍🏼"</h1>
-                <p class="text-lg text-zinc-200 mb-12">
-                    "I write about my experiences and thoughts on how to do software development, productivity, and life."
-                </p>
+                <div class="text-center mb-12">
+                    <h1 class="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400 mb-4">
+                        "Essays"
+                    </h1>
+                    <p class="text-base text-zinc-300 max-w-2xl mx-auto">
+                        "I write about my experiences and thoughts on how to do software development, productivity, and life."
+                    </p>
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {posts.iter().map(|post| {
                         rsx! {<Article post={post.clone()} show_read_more />}

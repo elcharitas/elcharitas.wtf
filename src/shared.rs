@@ -32,8 +32,8 @@ lazy_static! {
             href: "/projects"
         },
         NavigationInfo {
-            name: "Writings",
-            href: "/writings"
+            name: "Essays",
+            href: "/essays"
         },
         NavigationInfo {
             name: "Resume",

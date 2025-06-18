@@ -59,7 +59,7 @@ pub fn HomePage(_: &PageParams) -> Node {
                         <p class="text-sm md:text-base text-zinc-300 leading-relaxed mb-6">
                             "Hi, I'm "
                             <span class="font-semibold text-white">"Jonathan Irhodia"</span>
-                            ". Software engineer by day, writer and manhwa addict by night."
+                            ". Software engineer by day - Rust, books and manhwa - addict by night."
                         </p>
                     </div>
                 </div>

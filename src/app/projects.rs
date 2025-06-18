@@ -35,10 +35,14 @@ pub fn ProjectsPage(ProjectsProps { projects }: &ProjectsProps) -> Node {
     rsx! {
         <PageLayout title="Projects">
             <div class="container mx-auto px-4 py-12">
-                <h1 class="text-4xl font-bold text-zinc-50 mb-8">"Projects 🚀"</h1>
-                <p class="text-lg text-zinc-200 mb-12">
-                    "Here are some of the projects I've worked on, from open source contributions to personal experiments."
-                </p>
+                <div class="text-center mb-12">
+                    <h1 class="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400 mb-4">
+                        "Projects"
+                    </h1>
+                    <p class="text-base text-zinc-300 max-w-2xl mx-auto">
+                        "Here are some of the projects I've worked on, from open source contributions to personal experiments."
+                    </p>
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {projects.iter().map(|project| {
                         let project = project.clone();

@@ -17,11 +17,8 @@ use crate::shared::route_handler;
 pub fn register_routes(app: &mut HyperApplication) {
     // Pages
     app.get("/", route_handler(HomePage));
-    app.get("/writings", route_handler(blog::page::BlogPage));
-    app.get(
-        "/writings/{slug}",
-        route_handler(blog::slug::BlogDetailPage),
-    );
+    app.get("/essays", route_handler(blog::page::BlogPage));
+    app.get("/essays/{slug}", route_handler(blog::slug::BlogDetailPage));
     app.get("/projects", route_handler(projects::ProjectsPage));
     app.get(
         "/adventures",
@@ -30,7 +27,7 @@ pub fn register_routes(app: &mut HyperApplication) {
     app.any("/newsletter", route_handler(newsletter::NewsletterPage));
 
     // Redirects
-    app.get("/blog", redirect_permanent("/writings")); // Old blog URL
+    app.get("/blog", redirect_permanent("/essays")); // Old blog URL
     app.get("/mods/resume", redirect_permanent("/resume")); // Old resume URL
     app.get("/mods/connect", redirect_permanent("/connect"));
     app.get("/connect", redirect_to("https://cal.com/elcharitas"));

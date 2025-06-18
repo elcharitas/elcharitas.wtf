@@ -3,7 +3,6 @@ services:
     build:
       context: .
     volumes:
-      - ./:/app
       - cargo-cache:/usr/local/cargo
     ports:
       - 3000

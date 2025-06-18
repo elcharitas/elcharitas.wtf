@@ -18,11 +18,15 @@ pub fn Card(props: &CardProps) -> Node {
     }
 }
 
+pub struct ScrollCardProps {
+    pub intersect: String,
+}
+
 #[component]
-pub fn ScrollCard() -> Node {
+pub fn ScrollCard(ScrollCardProps { intersect }: &ScrollCardProps) -> Node {
     rsx! {
         // Scroll indicator
-        <div class={"absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce"}>
+        <div data_show="$has_next_page" class={"animate-bounce mt-12"} data_on_intersect={intersect}>
             <div class="flex flex-col items-center gap-2 text-zinc-500">
                 <span class="text-xs font-medium">"Scroll to explore"</span>
                 <i class="fas fa-chevron-down text-sm"></i>

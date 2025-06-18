@@ -110,6 +110,28 @@ dependencies = [
 ]
 
 [[package]]
+name = "async-stream"
+version = "0.3.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0b5a71a6f37880a80d1d7f19efd781e4b5de42c88f0722cc13bcb6cc2cfe8476"
+dependencies = [
+ "async-stream-impl",
+ "futures-core",
+ "pin-project-lite",
+]
+
+[[package]]
+name = "async-stream-impl"
+version = "0.3.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c7c24de15d275a1ecfd47a380fb4d5ec9bfe0933f309ed5e705b775596a3574d"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
 name = "atomic-waker"
 version = "1.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -424,6 +446,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "datastar"
+version = "0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4eb60801236126cffa4869900fcf7ee21fef4ddfb215896ec0d5c2875b9ba40e"
+dependencies = [
+ "futures-util",
+]
+
+[[package]]
 name = "deranged"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -459,10 +490,12 @@ checksum = "77c90badedccf4105eca100756a0b1289e191f6fcbdadd3cee1d2f614f97da8f"
 name = "elcharitas"
 version = "0.1.0"
 dependencies = [
+ "async-stream",
  "cached",
  "chrono",
  "comrak",
  "cookie",
+ "datastar",
  "dotenv",
  "lazy_static",
  "momenta",
@@ -1080,7 +1113,7 @@ dependencies = [
 [[package]]
 name = "momenta"
 version = "0.2.0"
-source = "git+https://github.com/elcharitas/momenta.git?branch=main#5d2b031373160597f1f690833c7e837a4844227a"
+source = "git+https://github.com/elcharitas/momenta.git?branch=main#e62117521479481e8d640e83883bff710211bef5"
 dependencies = [
  "momenta-macros",
  "paste",
@@ -1090,7 +1123,7 @@ dependencies = [
 [[package]]
 name = "momenta-macros"
 version = "0.2.0"
-source = "git+https://github.com/elcharitas/momenta.git?branch=main#5d2b031373160597f1f690833c7e837a4844227a"
+source = "git+https://github.com/elcharitas/momenta.git?branch=main#e62117521479481e8d640e83883bff710211bef5"
 dependencies = [
  "proc-macro2",
  "quote",

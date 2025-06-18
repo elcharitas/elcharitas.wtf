@@ -9,6 +9,7 @@ mod home;
 mod newsletter;
 mod projects;
 
+use blog::page::infinite_scroll;
 use home::HomePage;
 use ngyn::prelude::*;
 
@@ -18,6 +19,7 @@ pub fn register_routes(app: &mut HyperApplication) {
     // Pages
     app.get("/", route_handler(HomePage));
     app.get("/essays", route_handler(blog::page::BlogPage));
+    app.get("/essays/infinite_scroll", async_wrap(infinite_scroll));
     app.get("/essays/{slug}", route_handler(blog::slug::BlogDetailPage));
     app.get("/projects", route_handler(projects::ProjectsPage));
     app.get(

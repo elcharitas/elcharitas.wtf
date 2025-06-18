@@ -11,6 +11,20 @@ pub struct PageParams {
     pub slug: String,
 }
 
+#[derive(Default, Deserialize)]
+pub struct PageQuery {
+    pub has_next_page: bool,
+    pub cursor: String,
+}
+
+impl Transformer<'_> for PageQuery {
+    fn transform(cx: &mut NgynContext) -> Self {
+        let query = Query::transform(cx);
+        let datastar: String = query.get("datastar").unwrap_or_default();
+        serde_json::from_str(&datastar).unwrap_or_default()
+    }
+}
+
 impl PageLoader for PageParams {
     fn load(
         ctx: &mut NgynContext<'_>,
@@ -273,7 +287,7 @@ pub struct PostCoverImage {
 }
 
 /// Page info for pagination
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PageInfo {
     #[serde(rename = "endCursor")]
     pub end_cursor: Option<String>,

@@ -16,7 +16,7 @@ pub fn Article(
     let category = post.tags.first();
     rsx! {
         <a
-            href={format!("/writings/{}", post.slug)}
+            href={format!("/essays/{}", post.slug)}
             class="block group relative overflow-hidden flex flex-col relative bg-zinc-900 rounded-lg h-full"
         >
             {when!(let Some(cover_url) = &post.cover_image =>

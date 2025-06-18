@@ -45,7 +45,7 @@ impl PageLoader for BlogProps {
 #[component]
 pub fn BlogPage(BlogProps { posts, .. }: &BlogProps) -> Node {
     rsx! {
-        <PageLayout title="Writings">
+        <PageLayout title="Essays">
             <div class="container mx-auto px-4 py-12">
                 <div class="text-center mb-12">
                     <h1 class="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400 mb-4">

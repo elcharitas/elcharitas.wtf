@@ -148,7 +148,7 @@ pub fn BlogDetailPage(props: &BlogDetailProps) -> Node {
                                     {props.related_posts.iter().map(|related_post| {
                                         rsx! {
                                             <a
-                                                href={format!("/writings/{}", related_post.slug)}
+                                                href={format!("/essays/{}", related_post.slug)}
                                                 class="group block bg-zinc-900 rounded-lg overflow-hidden border border-zinc-700 hover:border-zinc-600 transition-colors"
                                             >
                                                 {when!(let Some(cover_url) = &related_post.cover_image =>
@@ -228,7 +228,7 @@ pub fn BlogDetailPage(props: &BlogDetailProps) -> Node {
                                 "The article you're looking for doesn't exist or has been moved."
                             </p>
                             <a
-                                href="/writings"
+                                href="/essays"
                                 class="inline-flex items-center space-x-2 px-6 py-3 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors font-medium"
                             >
                                 <i class="fas fa-arrow-left"></i>

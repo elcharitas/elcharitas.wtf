@@ -10,7 +10,7 @@ comrak = "0.39"
 cookie = "0.18"
 dotenv = "0.15"
 lazy_static = "1.5"
-ngyn = { version = "0.5.4", git = "https://github.com/ngyn-rs/ngyn.git", branch = "dev" }
+ngyn = { version = "0.5.4", git = "https://github.com/ngyn-rs/ngyn.git", branch = "feat--add-error-handling-and-improve-request-processing" }
 momenta = { version = "0.2", git = "https://github.com/elcharitas/momenta.git", branch = "main" }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"

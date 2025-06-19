@@ -1168,7 +1168,7 @@ dependencies = [
 [[package]]
 name = "ngyn"
 version = "0.5.4"
-source = "git+https://github.com/ngyn-rs/ngyn.git?branch=feat--add-error-handling-and-improve-request-processing#c1152b90ef8eb3e3b6f27311bf748cea5dab95c2"
+source = "git+https://github.com/ngyn-rs/ngyn.git?branch=feat--add-error-handling-and-improve-request-processing#b5f4cc82f5cff2f025329352b90da7a810538011"
 dependencies = [
  "http",
  "ngyn-hyper",
@@ -1179,7 +1179,7 @@ dependencies = [
 [[package]]
 name = "ngyn-hyper"
 version = "0.2.3"
-source = "git+https://github.com/ngyn-rs/ngyn.git?branch=feat--add-error-handling-and-improve-request-processing#c1152b90ef8eb3e3b6f27311bf748cea5dab95c2"
+source = "git+https://github.com/ngyn-rs/ngyn.git?branch=feat--add-error-handling-and-improve-request-processing#b5f4cc82f5cff2f025329352b90da7a810538011"
 dependencies = [
  "http-body-util",
  "hyper",
@@ -1191,7 +1191,7 @@ dependencies = [
 [[package]]
 name = "ngyn_macros"
 version = "0.5.3"
-source = "git+https://github.com/ngyn-rs/ngyn.git?branch=feat--add-error-handling-and-improve-request-processing#c1152b90ef8eb3e3b6f27311bf748cea5dab95c2"
+source = "git+https://github.com/ngyn-rs/ngyn.git?branch=feat--add-error-handling-and-improve-request-processing#b5f4cc82f5cff2f025329352b90da7a810538011"
 dependencies = [
  "http",
  "ngyn_shared",
@@ -1202,7 +1202,7 @@ dependencies = [
 [[package]]
 name = "ngyn_shared"
 version = "0.5.3"
-source = "git+https://github.com/ngyn-rs/ngyn.git?branch=feat--add-error-handling-and-improve-request-processing#c1152b90ef8eb3e3b6f27311bf748cea5dab95c2"
+source = "git+https://github.com/ngyn-rs/ngyn.git?branch=feat--add-error-handling-and-improve-request-processing#b5f4cc82f5cff2f025329352b90da7a810538011"
 dependencies = [
  "bytes",
  "futures-util",

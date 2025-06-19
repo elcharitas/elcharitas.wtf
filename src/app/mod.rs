@@ -46,5 +46,5 @@ pub fn register_routes(app: &mut HyperApplication) {
             "https://docs.google.com/document/d/1DwEEKQcO5RLs0bA55XTM-hOj4jYWQTTJlvZ7RD9tD-w/edit",
         ),
     );
-    app.any("/{path}", route_handler(error::ErrorPage));
+    app.any("/{*path}", route_handler(error::ErrorPage));
 }

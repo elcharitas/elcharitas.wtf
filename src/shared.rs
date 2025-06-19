@@ -1,3 +1,5 @@
+use std::future::Future;
+
 use crate::{graphql_query, requests::GraphQLQuery};
 
 use super::requests::GraphQLClient;
@@ -26,9 +28,7 @@ impl Transformer<'_> for PageQuery {
 }
 
 impl PageLoader for PageParams {
-    fn load(
-        ctx: &mut NgynContext<'_>,
-    ) -> impl std::future::Future<Output = Self> + std::marker::Send {
+    fn load(ctx: &mut NgynContext<'_>) -> impl Future<Output = Self> + Send {
         let param = Self::transform(ctx);
         Box::pin(async { param })
     }
@@ -387,9 +387,7 @@ pub struct Project {
 }
 
 pub trait PageLoader {
-    fn load(
-        ctx: &mut NgynContext<'_>,
-    ) -> impl std::future::Future<Output = Self> + std::marker::Send;
+    fn load(ctx: &mut NgynContext<'_>) -> impl Future<Output = Self> + Send;
 }
 
 pub fn route_handler<T: Component>(_: T) -> impl Into<RouteHandler>

@@ -9,6 +9,9 @@ mod error;
 mod home;
 mod newsletter;
 mod projects;
+mod resume {
+    pub mod page;
+}
 
 use home::HomePage;
 use ngyn::prelude::*;
@@ -18,6 +21,7 @@ use crate::shared::route_handler;
 pub fn register_routes(app: &mut HyperApplication) {
     // Pages
     app.get("/", route_handler(HomePage));
+    app.get("/resume", route_handler(resume::page::ResumePage));
     app.get("/essays", route_handler(blog::page::BlogPage));
     app.get(
         "/essays/infinite_scroll",
@@ -41,10 +45,12 @@ pub fn register_routes(app: &mut HyperApplication) {
     app.get("/mods/connect", redirect_permanent("/connect"));
     app.get("/connect", redirect_to("https://cal.com/elcharitas"));
     app.get(
-        "/resume",
+        "/resume.docx",
         redirect_to(
-            "https://docs.google.com/document/d/1DwEEKQcO5RLs0bA55XTM-hOj4jYWQTTJlvZ7RD9tD-w/edit",
+            "https://docs.google.com/document/d/e/2PACX-1vScEJP53Da_tdWTzCNBvfMDMCjy43udlv5YDhM81YowUOFxwDaEPyjuAXTZppupRoS0a9KVWUbaiy2p/pub?embedded=true",
         ),
     );
+
+    // 404
     app.any("/{*path}", route_handler(error::ErrorPage));
 }

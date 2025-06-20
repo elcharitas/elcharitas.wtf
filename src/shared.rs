@@ -69,6 +69,12 @@ lazy_static! {
         PostsByPublication,
         include_str!("../graphql/queries/PostsByPublication.graphql")
     );
+
+    // mutations
+    pub static ref NEWSLETTER_MUTATION: GraphQLQuery = graphql_query!(
+        SubscribeToNewsletter,
+        include_str!("../graphql/mutations/SubscribeToNewsletter.graphql")
+    );
 }
 
 /// Root query response type

@@ -186,6 +186,7 @@ pub async fn send_views_to_hashnode_analytics_dashboard(
     let response = client
         .post(&endpoint)
         .header("Content-Type", "application/json; charset=UTF-8")
+        .bearer_auth(env::var("HASHNODE_TOKEN").unwrap_or_default())
         .json(&request_body)
         .send()
         .await?;

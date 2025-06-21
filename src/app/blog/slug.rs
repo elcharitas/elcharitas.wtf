@@ -7,8 +7,10 @@ use crate::{
     shared::*,
 };
 use comrak::{markdown_to_html, Options};
+use cookie::Cookie;
 use momenta::prelude::*;
 use ngyn::{http::HeaderMap, prelude::*, shared::server::Transformer};
+use reqwest::header::SET_COOKIE;
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 
@@ -24,7 +26,14 @@ impl PageLoader for BlogDetailProps {
         let headers = ctx.request().headers().clone();
         let PageParams { slug } = PageParams::transform(ctx);
 
-        let post = fetch_post_by_slug(&slug, headers).await;
+        let (post, cookies) = fetch_post_by_slug(&slug, headers).await;
+
+        if let Some(cookies) = cookies {
+            ctx.response_mut()
+                .headers_mut()
+                .insert(SET_COOKIE, cookies.to_string().parse().unwrap());
+        }
+
         let related_posts = if post.is_some() {
             fetch_related_posts(&slug, 3).await
         } else {
@@ -242,7 +251,10 @@ pub fn BlogDetailPage(props: &BlogDetailProps) -> Node {
     }
 }
 
-async fn fetch_post_by_slug(slug: &str, headers: HeaderMap) -> Option<Post> {
+async fn fetch_post_by_slug(
+    slug: &str,
+    headers: HeaderMap,
+) -> (Option<Post>, Option<Cookie<'static>>) {
     if let Ok(SinglePostByPublicationQuery { publication }) = HASHNODE_CLIENT
         .execute_query::<SinglePostByPublicationQuery>(
             SINGLE_POST_QUERY.to_owned(),
@@ -253,7 +265,7 @@ async fn fetch_post_by_slug(slug: &str, headers: HeaderMap) -> Option<Post> {
         )
         .await
     {
-        let (device_id, _) = get_or_create_device_id("");
+        let (device_id, cookies) = get_or_create_device_id("");
 
         tokio::spawn(send_views_to_hashnode_internal_analytics(
             publication.clone(),
@@ -265,11 +277,15 @@ async fn fetch_post_by_slug(slug: &str, headers: HeaderMap) -> Option<Post> {
             publication.clone(),
             headers,
         ));
-        return publication.and_then(|publ| publ.post);
+
+        if let Some(SinglePostPublication { post, .. }) = publication {
+            return (post, cookies);
+        }
     }
-    None
+    (None, None)
 }
 
 async fn fetch_related_posts(_current_slug: &str, _limit: usize) -> Vec<Post> {
+    // TODO: Implement fetching related posts
     Vec::new()
 }

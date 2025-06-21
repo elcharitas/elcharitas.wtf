@@ -30,33 +30,8 @@ struct AnalyticsEventProperties {
 }
 
 #[derive(Debug, Serialize)]
-struct DashboardAnalyticsData {
-    #[serde(rename = "publicationId")]
-    publication_id: String,
-    #[serde(rename = "postId")]
-    post_id: String,
-    timestamp: u64,
-    url: String,
-    referrer: Option<String>,
-    title: String,
-    charset: String,
-    lang: String,
-    #[serde(rename = "userAgent")]
-    user_agent: String,
-    #[serde(rename = "historyLength")]
-    history_length: i32,
-    #[serde(rename = "timezoneOffset")]
-    timezone_offset: i32,
-}
-
-#[derive(Debug, Serialize)]
 struct HashnodeAnalyticsRequest {
     events: Vec<AnalyticsEvent>,
-}
-
-#[derive(Debug, Serialize)]
-struct HashnodeDashboardRequest {
-    data: DashboardAnalyticsData,
 }
 
 pub async fn send_views_to_hashnode_internal_analytics(
@@ -122,76 +97,104 @@ pub async fn send_views_to_hashnode_internal_analytics(
     Ok(())
 }
 
+#[derive(Serialize)]
+struct AnalyticsPayload {
+    #[serde(rename = "publicationId")]
+    publication_id: String,
+    #[serde(rename = "postId")]
+    post_id: Option<String>,
+    #[serde(rename = "seriesId")]
+    series_id: Option<String>,
+    #[serde(rename = "pageId")]
+    page_id: Option<String>,
+    url: String,
+    referrer: Option<String>,
+    language: Option<String>,
+    screen: Option<String>, // Will be null on server-side
+}
+
+#[derive(Serialize)]
+struct DashboardAnalyticsEvent {
+    payload: AnalyticsPayload,
+    #[serde(rename = "type")]
+    event_type: String,
+}
+
+#[derive(Serialize)]
+struct AnalyticsRequest {
+    events: Vec<DashboardAnalyticsEvent>,
+}
+
 pub async fn send_views_to_hashnode_analytics_dashboard(
     publication: Option<SinglePostPublication>,
     headers: HeaderMap,
 ) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     let publication = match publication {
         Some(pub_data) => pub_data,
-        None => return Ok(()),
+        None => {
+            eprintln!("Publication ID is missing; could not send analytics.");
+            return Ok(());
+        }
     };
 
-    let post = match &publication.post {
-        Some(post_data) => post_data,
-        None => return Ok(()),
-    };
+    let publication_id = publication.id;
+    let post_id = publication.post.as_ref().map(|p| p.id.to_string());
 
     let referrer = headers
         .get("referer")
         .and_then(|h| h.to_str().ok())
         .map(|s| s.to_string());
 
-    let user_agent = headers
-        .get("user-agent")
-        .and_then(|h| h.to_str().ok())
-        .unwrap_or("unknown")
-        .to_string();
-
-    let accept_charset = headers
-        .get("accept-charset")
-        .and_then(|h| h.to_str().ok())
-        .unwrap_or("UTF-8")
-        .to_string();
-
-    let accept_language = headers
+    let language = headers
         .get("accept-language")
         .and_then(|h| h.to_str().ok())
-        .unwrap_or("en-US")
-        .to_string();
+        .and_then(|lang| {
+            // Extract primary language from accept-language header
+            lang.split(',').next().map(|l| l.trim().to_string())
+        });
 
-    let data = DashboardAnalyticsData {
-        publication_id: publication.id.clone(),
-        post_id: post.id.clone(),
-        timestamp: SystemTime::now()
-            .duration_since(UNIX_EPOCH)
-            .unwrap()
-            .as_millis() as u64,
-        url: post.url.clone(),
+    let url = if let Some(post) = &publication.post {
+        post.url.clone()
+    } else {
+        "/".to_string()
+    };
+
+    let payload = AnalyticsPayload {
+        publication_id: publication_id.clone(),
+        post_id,
+        series_id: None,
+        page_id: None,
+        url,
         referrer,
-        title: post.title.clone(),
-        charset: accept_charset,
-        lang: accept_language,
-        user_agent,
-        history_length: 1,
-        timezone_offset: 0, // Default to 0 since we can't get client timezone on server
+        language,
+        screen: None, // Server-side can't determine screen size
+    };
+
+    let event = DashboardAnalyticsEvent {
+        payload,
+        event_type: "pageview".to_string(),
+    };
+
+    let request_body = AnalyticsRequest {
+        events: vec![event],
     };
 
     let client = Client::new();
+    let base_path = "https://hn-ping2.hashnode.com";
+    let endpoint = format!("{}/api/analytics", base_path);
+
     let response = client
-        .post("https://hn-ping2.hashnode.com/api/view")
-        .header("Content-Type", "application/json")
-        .header(
-            reqwest::header::AUTHORIZATION,
-            format!("Bearer {}", env::var("HASHNODE_TOKEN").unwrap_or_default()),
-        )
-        .json(&HashnodeDashboardRequest { data })
+        .post(&endpoint)
+        .header("Content-Type", "application/json; charset=UTF-8")
+        .json(&request_body)
         .send()
         .await?;
 
     if !response.status().is_success() {
         eprintln!(
-            "Failed to send to Hashnode Analytics Dashboard: {}",
-            response.status()
+            "Failed to send to Hashnode Analytics Dashboard: {} - {}",
+            response.status(),
+            response.text().await.unwrap_or_default()
         );
     }
 

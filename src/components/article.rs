@@ -53,7 +53,7 @@ pub fn Article(
                     <div class="flex flex-col items-end space-y-2 text-xs text-zinc-400 group-hover:text-zinc-300 transition-colors duration-300">
                         <div class="flex items-center space-x-1">
                             <i class="far fa-comment text-yellow-400/60"></i>
-                            <span class="font-medium">{post.comments.total_documents}</span>
+                            <span class="font-medium">{post.comments.as_ref().unwrap().total_documents}</span>
                         </div>
                         <div class="flex items-center space-x-1">
                             <i class="far fa-eye text-orange-400/60"></i>

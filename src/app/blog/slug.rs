@@ -100,7 +100,7 @@ pub fn BlogDetailPage(props: &BlogDetailProps) -> Node {
 
                                     <div class="flex items-center space-x-2">
                                         <i class="far fa-comment text-yellow-400/60"></i>
-                                        <span>{post.comments.total_documents} comments</span>
+                                        <span>{post.comments.as_ref().unwrap().total_documents} comments</span>
                                     </div>
                                 </div>
 
@@ -178,7 +178,7 @@ pub fn BlogDetailPage(props: &BlogDetailProps) -> Node {
                         // Comments Section
                         <section class="border-t border-zinc-700 pt-12">
                             <h2 class="text-2xl font-bold text-white mb-6">
-                               "Comments: "{post.comments.total_documents}
+                               "Comments: "{post.comments.as_ref().unwrap().total_documents}
                             </h2>
 
                             // Comment Form

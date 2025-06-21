@@ -313,7 +313,7 @@ pub struct Post {
     #[serde(rename = "ogMetaData")]
     pub og_meta_data: Option<OpenGraphMetaData>,
     pub tags: Vec<Tag>,
-    pub comments: PostCommentConnection,
+    pub comments: Option<PostCommentConnection>,
 }
 
 /// User type
@@ -455,4 +455,35 @@ where
             Box::new(body.to_string()) as Box<dyn ToBytes>
         })
     })
+}
+
+pub mod xml_elements {
+    pub mod dom {
+        pub mod elements {
+            use momenta::derive_elements;
+            extern crate alloc;
+
+            derive_elements! {
+                rss {}
+                channel {}
+                loc {}
+                title {}
+                description {}
+                link {}
+                lastmod {}
+                changefreq {}
+                priority {}
+                image {}
+                lastBuildDate {}
+                item {}
+                guid {}
+                pubDate {}
+                sitemapindex {
+                    xmlns: String,
+                }
+                sitemap {}
+
+            }
+        }
+    }
 }

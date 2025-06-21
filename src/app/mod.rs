@@ -42,8 +42,8 @@ pub fn register_routes(app: &mut HyperApplication) {
     app.any("/newsletter", route_handler(newsletter::NewsletterPage));
 
     // RSS and Sitemap
-    app.get("/rss.xml", async_wrap(rss::rss_handler));
-    app.get("/sitemap.xml", async_wrap(sitemap::sitemap_handler));
+    app.get("/rss.xml", route_handler(rss::RSSPage));
+    app.get("/sitemap.xml", route_handler(sitemap::SitemapPage));
 
     // Redirects
     app.get("/blog", redirect_permanent("/essays")); // Old blog URL

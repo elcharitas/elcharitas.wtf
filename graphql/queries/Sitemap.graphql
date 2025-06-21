@@ -10,9 +10,10 @@ query Sitemap($host: String!, $postsCount: Int!, $postsAfter: String, $staticPag
 			}
 		}
 		posts(first: $postsCount, after: $postsAfter) {
+			totalDocuments
 			edges {
 				node {
-					...RequiredSitemapPostFields
+					...Post
 				}
 			}
 			pageInfo {

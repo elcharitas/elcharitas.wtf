@@ -35,8 +35,8 @@ impl PageLoader for RSSProps {
                 .edges
                 .clone()
                 .unwrap_or_default()
-                .iter()
-                .map(|edge| edge.node.clone())
+                .into_iter()
+                .map(|edge| edge.node)
                 .collect::<Vec<_>>();
 
             return RSSProps {

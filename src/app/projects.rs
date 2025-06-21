@@ -33,13 +33,13 @@ pub async fn infinite_scroll(
 
     let fragment = rsx! {
         <>
-            {projects.iter().map(|project| {
+            {projects.into_iter().map(|project| {
                 rsx! {
                     <>
                         "event: datastar-merge-fragments\n"
                         "data: selector #click_to_load_rows\n"
                         "data: mergeMode append\n"
-                        "data: fragments " <ProjectArticle {..project.clone()} />
+                        "data: fragments " <ProjectArticle {..project} />
                         "\n\n"
                     </>
                 }
@@ -101,9 +101,8 @@ pub fn ProjectsPage(
                     </p>
                 </div>
                 <div id="click_to_load_rows" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" data_fragment_merge_target="$has_next_page">
-                    {projects.iter().map(|project| {
-                        let project = project.clone();
-                        rsx!{ <ProjectArticle {..project} />}
+                    {projects.into_iter().map(|project| {
+                        rsx!{ <ProjectArticle {..project.clone()} />}
                     })}
                 </div>
                 <ScrollCard intersect="@get('/projects/infinite_scroll')" />

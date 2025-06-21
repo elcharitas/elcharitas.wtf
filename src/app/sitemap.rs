@@ -54,28 +54,30 @@ impl PageLoader for SitemapProps {
             )
             .await
         {
-            let posts = publication
-                .posts
+            let SitemapPublication {
+                posts,
+                static_pages,
+                url,
+                ..
+            } = publication;
+            let posts = posts
                 .edges
-                .clone()
                 .unwrap_or_default()
-                .iter()
-                .map(|edge| edge.node.clone())
+                .into_iter()
+                .map(|edge| edge.node)
                 .collect();
 
-            let static_pages = publication
-                .static_pages
+            let static_pages = static_pages
                 .edges
-                .clone()
                 .unwrap_or_default()
-                .iter()
-                .map(|edge| edge.node.clone())
+                .into_iter()
+                .map(|edge| edge.node)
                 .collect();
 
             return SitemapProps {
                 posts,
                 static_pages,
-                base_url: publication.url,
+                base_url: url,
             };
         }
         SitemapProps::default()

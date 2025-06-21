@@ -1,4 +1,4 @@
-use crate::shared::SinglePostPublication;
+use crate::shared::{Post, SinglePostPublication};
 use cookie::Cookie;
 use ngyn::http::HeaderMap;
 use reqwest::Client;
@@ -44,7 +44,7 @@ pub async fn send_views_to_hashnode_internal_analytics(
         None => return Ok(()),
     };
 
-    let post = match &publication.post {
+    let Post { url, .. } = match publication.post {
         Some(post_data) => post_data,
         None => return Ok(()),
     };
@@ -64,9 +64,9 @@ pub async fn send_views_to_hashnode_internal_analytics(
         time: now,
         event_properties: AnalyticsEventProperties {
             hostname: "elcharitas.wtf".to_string(),
-            url: post.url.clone(),
+            url,
             event_type: "pageview".to_string(),
-            publication_id: publication.id.clone(),
+            publication_id: publication.id,
             date_added: now,
             referrer,
         },
@@ -153,14 +153,14 @@ pub async fn send_views_to_hashnode_analytics_dashboard(
             lang.split(',').next().map(|l| l.trim().to_string())
         });
 
-    let url = if let Some(post) = &publication.post {
-        post.url.clone()
+    let url = if let Some(post) = publication.post {
+        post.url
     } else {
         "/".to_string()
     };
 
     let payload = AnalyticsPayload {
-        publication_id: publication_id.clone(),
+        publication_id,
         post_id,
         series_id: None,
         page_id: None,

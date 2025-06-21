@@ -9,7 +9,7 @@ use serde_json::json;
 
 #[derive(Serialize, Deserialize)]
 pub struct BlogProps {
-    pub posts: Vec<Post>,
+    pub posts: Vec<PostEdge>,
     pub cursor: Option<String>,
     pub has_next_page: Option<bool>,
 }
@@ -27,19 +27,17 @@ impl PageLoader for BlogProps {
             )
             .await
         {
-            let posts = publication.posts;
+            let PublicationPostConnection {
+                edges, page_info, ..
+            } = publication.posts;
+
             let PageInfo {
                 end_cursor,
                 has_next_page,
-            } = posts.page_info.unwrap_or_default();
+            } = page_info.unwrap_or_default();
 
             return Self {
-                posts: posts
-                    .edges
-                    .unwrap_or_default()
-                    .iter()
-                    .map(|edge| edge.node.clone())
-                    .collect(),
+                posts: edges.unwrap_or_default(),
                 cursor: end_cursor,
                 has_next_page,
             };
@@ -73,8 +71,8 @@ pub fn BlogPage(
                     </p>
                 </div>
                 <div id="click_to_load_rows" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" data_fragment_merge_target="$has_next_page">
-                    {posts.iter().map(|post| {
-                        rsx! {<Article post={post.clone()} show_read_more />}
+                    {posts.into_iter().map(|post| {
+                        rsx! {<Article post={post.node.clone()} show_read_more />}
                     })}
                 </div>
                 <ScrollCard intersect="@get('/essays/infinite_scroll')" />

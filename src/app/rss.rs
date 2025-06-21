@@ -14,7 +14,7 @@ impl PageLoader for RSSProps {
     async fn load(ctx: &mut ngyn::shared::server::NgynContext<'_>) -> Self {
         ctx.response_mut().headers_mut().insert(
             "Content-Type",
-            "application/xml; charset=utf-8".parse().unwrap(),
+            "application/rss+xml; charset=utf-8".parse().unwrap(),
         );
         ctx.response_mut()
             .headers_mut()

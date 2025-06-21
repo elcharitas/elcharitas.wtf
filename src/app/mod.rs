@@ -12,6 +12,8 @@ mod projects;
 mod resume {
     pub mod page;
 }
+mod rss;
+mod sitemap;
 
 use home::HomePage;
 use ngyn::prelude::*;
@@ -38,6 +40,10 @@ pub fn register_routes(app: &mut HyperApplication) {
         route_handler(adventures::page::AdventuresPage),
     );
     app.any("/newsletter", route_handler(newsletter::NewsletterPage));
+
+    // RSS and Sitemap
+    app.get("/rss.xml", async_wrap(rss::rss_handler));
+    app.get("/sitemap.xml", async_wrap(sitemap::sitemap_handler));
 
     // Redirects
     app.get("/blog", redirect_permanent("/essays")); // Old blog URL

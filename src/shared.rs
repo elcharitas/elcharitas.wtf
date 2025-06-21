@@ -69,6 +69,14 @@ lazy_static! {
         PostsByPublication,
         include_str!("../graphql/queries/PostsByPublication.graphql")
     );
+    pub static ref RSS_QUERY: GraphQLQuery = graphql_query!(
+        RSSFeed,
+        include_str!("../graphql/queries/RSSFeed.graphql")
+    );
+    pub static ref SITEMAP_QUERY: GraphQLQuery = graphql_query!(
+        Sitemap,
+        include_str!("../graphql/queries/Sitemap.graphql")
+    );
 
     // mutations
     pub static ref NEWSLETTER_MUTATION: GraphQLQuery = graphql_query!(
@@ -87,6 +95,46 @@ pub struct PostsByPublicationQuery {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SinglePostByPublicationQuery {
     pub publication: Option<SinglePostPublication>,
+}
+
+/// Root query response type for RSS feed
+#[derive(Debug, Serialize, Deserialize)]
+pub struct RSSFeedQuery {
+    pub publication: Publication,
+}
+
+/// Root query response type for sitemap
+#[derive(Debug, Serialize, Deserialize)]
+pub struct SitemapQuery {
+    pub publication: SitemapPublication,
+}
+
+/// Publication type for sitemap query
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SitemapPublication {
+    pub id: String,
+    pub url: String,
+    #[serde(rename = "staticPages")]
+    pub static_pages: StaticPageConnection,
+    pub posts: PublicationPostConnection,
+}
+
+/// Static page connection for sitemap
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct StaticPageConnection {
+    pub edges: Option<Vec<StaticPageEdge>>,
+}
+
+/// Static page edge
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct StaticPageEdge {
+    pub node: StaticPage,
+}
+
+/// Static page
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct StaticPage {
+    pub slug: String,
 }
 
 /// Publication type for single post query

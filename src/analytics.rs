@@ -182,7 +182,7 @@ pub async fn send_views_to_hashnode_analytics_dashboard(
         .header("Content-Type", "application/json")
         .header(
             reqwest::header::AUTHORIZATION,
-            env::var("HASHNODE_TOKEN").unwrap_or_default(),
+            format!("Bearer {}", env::var("HASHNODE_TOKEN").unwrap_or_default()),
         )
         .json(&HashnodeDashboardRequest { data })
         .send()

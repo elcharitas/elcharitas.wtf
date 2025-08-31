@@ -18,13 +18,10 @@ RUN npx tailwindcss -i ./global.css -o ./public/styles.css --minify
 RUN cargo build --release
 RUN mv ./target/release/elcharitas .
 
-FROM debian:stable-slim AS runtime
 RUN apt update -y \
     && apt install -y libssl3 ca-certificates
 
-WORKDIR /app
-COPY --from=builder /app/elcharitas /usr/local/bin
-COPY --from=builder /app/public ./public
+COPY ./elcharitas /usr/local/bin
 
 EXPOSE 3000
 ENTRYPOINT ["/usr/local/bin/elcharitas"]

@@ -16,12 +16,14 @@ RUN cargo chef cook --release
 COPY . .
 RUN npx tailwindcss -i ./global.css -o ./public/styles.css --minify
 RUN cargo build --release
-RUN mv ./target/release/elcharitas .
+RUN mv ./target/release/elcharitas ./elcharitas
 
-RUN apt update -y \
-    && apt install -y libssl3 ca-certificates
-
-COPY ./elcharitas /usr/local/bin
+FROM debian:bookworm-slim AS final
+WORKDIR /app
+COPY --from=builder /app/elcharitas /usr/local/bin/elcharitas
+COPY --from=builder /app/public ./public
+# install runtime dependencies
+RUN apt update -y && apt install -y libssl3 ca-certificates
 
 EXPOSE 3000
 ENTRYPOINT ["/usr/local/bin/elcharitas"]

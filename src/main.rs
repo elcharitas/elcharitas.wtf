@@ -4,11 +4,12 @@ mod components;
 mod requests;
 mod shared;
 
-use app::register_routes;
-use ngyn::{prelude::*, shared::core::NgynPlatform};
+use app::create_router;
+use tower_http::services::ServeDir;
+use tower_http::trace::TraceLayer;
 
 #[tokio::main]
-async fn main() -> Result<(), std::io::Error> {
+async fn main() {
     let _ = dotenv::dotenv();
 
     // Initialize tracing subscriber for logging
@@ -18,18 +19,19 @@ async fn main() -> Result<(), std::io::Error> {
 
     tracing::info!("Starting elcharitas.wtf server");
 
-    let mut app = HyperApplication::default();
+    let app = create_router()
+        .fallback_service(ServeDir::new("public"))
+        .layer(TraceLayer::new_for_http());
 
-    register_routes(&mut app);
-
-    app.use_static(std::path::Path::new("public").to_path_buf())?;
     tracing::info!("Static files directory configured");
 
-    app.on_error(|err| {
-        tracing::error!("Server error: {:?}", err);
-    });
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000")
+        .await
+        .expect("Failed to bind to address");
 
     tracing::info!("Server listening on http://0.0.0.0:3000");
-    app.listen("0.0.0.0:3000").await;
-    Ok(())
+
+    axum::serve(listener, app)
+        .await
+        .expect("Server failed to start");
 }

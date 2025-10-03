@@ -6,10 +6,14 @@ use crate::{
     components::PageLayout,
     shared::*,
 };
-use comrak::{markdown_to_html, Options};
+use axum::{
+    extract::Path,
+    http::HeaderMap,
+    response::{Html, IntoResponse},
+};
+use comrak::{Options, markdown_to_html};
 use cookie::Cookie;
 use momenta::prelude::*;
-use ngyn::{http::HeaderMap, prelude::*, shared::server::Transformer};
 use reqwest::header::SET_COOKIE;
 use serde::{Deserialize, Serialize};
 use serde_json::json;
@@ -21,18 +25,9 @@ pub struct BlogDetailProps {
     pub slug: String,
 }
 
-impl PageLoader for BlogDetailProps {
-    async fn load(ctx: &mut NgynContext<'_>) -> Self {
-        let headers = ctx.request().headers().clone();
-        let PageParams { slug } = PageParams::transform(ctx);
-
+impl BlogDetailProps {
+    async fn load(slug: String, headers: HeaderMap) -> (Self, Option<Cookie<'static>>) {
         let (post, cookies) = fetch_post_by_slug(&slug, headers).await;
-
-        if let Some(cookies) = cookies {
-            ctx.response_mut()
-                .headers_mut()
-                .insert(SET_COOKIE, cookies.to_string().parse().unwrap());
-        }
 
         let related_posts = if post.is_some() {
             fetch_related_posts(&slug, 3).await
@@ -40,11 +35,28 @@ impl PageLoader for BlogDetailProps {
             Vec::new()
         };
 
-        Self {
-            post,
-            related_posts,
-            slug,
-        }
+        (
+            Self {
+                post,
+                related_posts,
+                slug,
+            },
+            cookies,
+        )
+    }
+}
+
+pub async fn blog_detail_handler(
+    Path(params): Path<PageParams>,
+    headers: HeaderMap,
+) -> impl IntoResponse {
+    let (props, cookies) = BlogDetailProps::load(params.slug, headers).await;
+    let html = Html(BlogDetailPage::render(&props).to_string());
+
+    if let Some(cookie) = cookies {
+        ([(SET_COOKIE, cookie.to_string())], html)
+    } else {
+        ([(SET_COOKIE, String::new())], html)
     }
 }
 

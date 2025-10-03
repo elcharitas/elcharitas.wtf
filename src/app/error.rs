@@ -1,19 +1,20 @@
-use crate::{components::AppLayout, shared::PageLoader};
+use crate::components::AppLayout;
+use axum::{
+    http::StatusCode,
+    response::{Html, IntoResponse},
+};
+use momenta::nodes::DefaultProps;
 use momenta::prelude::*;
-use reqwest::StatusCode;
 
-pub struct ErrorPageProps;
-
-impl PageLoader for ErrorPageProps {
-    async fn load(ctx: &mut ngyn::shared::server::NgynContext<'_>) -> Self {
-        *ctx.response_mut().status_mut() = StatusCode::NOT_FOUND;
-
-        ErrorPageProps {}
-    }
+pub async fn error_handler() -> impl IntoResponse {
+    (
+        StatusCode::NOT_FOUND,
+        Html(ErrorPage::render(&DefaultProps).to_string()),
+    )
 }
 
 #[component]
-pub fn ErrorPage(_: &ErrorPageProps) -> Node {
+pub fn ErrorPage() -> Node {
     rsx! {
         <AppLayout title="Page Not Found - 404">
             <div class="min-h-screen bg-zinc-800 bg-opacity-30 flex items-center justify-center p-4 sm:p-6 lg:p-8">

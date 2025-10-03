@@ -1,10 +1,12 @@
 use crate::components::card::ScrollCard;
-use crate::components::{article::ProjectArticle, PageLayout};
+use crate::components::{PageLayout, article::ProjectArticle};
 use crate::requests::get_all_projects;
-use crate::shared::{PageLoader, PageQuery, Project};
+use crate::shared::{PageQuery, Project};
+use axum::{
+    extract::Query,
+    response::{Html, IntoResponse},
+};
 use momenta::prelude::*;
-use ngyn::macros::handler;
-use ngyn::shared::server::{NgynContext, NgynResponse, Transformer};
 use serde::{Deserialize, Serialize};
 use std::cell::RefCell;
 
@@ -12,19 +14,16 @@ thread_local! {
     static PROJECTS: RefCell<Vec<Project>> = RefCell::new(Vec::new());
 }
 
-#[handler]
-pub async fn infinite_scroll(
-    PageQuery {
+pub async fn infinite_scroll(Query(query): Query<serde_json::Value>) -> impl IntoResponse {
+    let page_query = PageQuery::from_query(Query(query));
+    let PageQuery {
         cursor,
         has_next_page,
-    }: PageQuery,
-    res: &mut NgynResponse,
-) -> String {
-    res.headers_mut()
-        .insert("Content-Type", "text/event-stream".parse().unwrap());
+        ..
+    } = page_query;
 
     if !has_next_page {
-        return String::new();
+        return ([("Content-Type", "text/event-stream")], String::new());
     }
 
     let page: usize = cursor.parse().unwrap_or(1);
@@ -50,7 +49,10 @@ pub async fn infinite_scroll(
         </>
     };
 
-    fragment.to_string()
+    (
+        [("Content-Type", "text/event-stream")],
+        fragment.to_string(),
+    )
 }
 
 #[derive(Serialize, Deserialize)]
@@ -60,10 +62,8 @@ pub struct ProjectsProps {
     pub has_next_page: Option<bool>,
 }
 
-impl PageLoader for ProjectsProps {
-    async fn load(ctx: &mut NgynContext<'_>) -> Self {
-        let PageQuery { cursor, .. } = PageQuery::transform(ctx);
-        let page: usize = cursor.parse().unwrap_or(1);
+impl ProjectsProps {
+    async fn load() -> Self {
         let mut cached_projects = PROJECTS.with_borrow(|projects| projects.clone());
 
         if cached_projects.is_empty() {
@@ -75,10 +75,15 @@ impl PageLoader for ProjectsProps {
 
         Self {
             projects: cached_projects,
-            cursor: Some((page + 1).to_string()),
+            cursor: Some("2".to_string()),
             has_next_page: Some(true),
         }
     }
+}
+
+pub async fn projects_handler() -> impl IntoResponse {
+    let props = ProjectsProps::load().await;
+    Html(ProjectsPage::render(&props).to_string())
 }
 
 #[component]

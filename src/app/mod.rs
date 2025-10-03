@@ -15,48 +15,55 @@ mod resume {
 mod rss;
 mod sitemap;
 
-use home::HomePage;
-use ngyn::prelude::*;
+use axum::{
+    Router,
+    routing::{get, post},
+};
 
-use crate::shared::route_handler;
-
-pub fn register_routes(app: &mut HyperApplication) {
-    // Pages
-    app.get("/", route_handler(HomePage));
-    app.get("/resume", route_handler(resume::page::ResumePage));
-    app.get("/essays", route_handler(blog::page::BlogPage));
-    app.get(
-        "/essays/infinite_scroll",
-        async_wrap(blog::page::infinite_scroll),
-    );
-    app.get("/essays/{slug}", route_handler(blog::slug::BlogDetailPage));
-    app.get("/projects", route_handler(projects::ProjectsPage));
-    app.get(
-        "/projects/infinite_scroll",
-        async_wrap(projects::infinite_scroll),
-    );
-    app.get(
-        "/adventures",
-        route_handler(adventures::page::AdventuresPage),
-    );
-    app.any("/newsletter", route_handler(newsletter::NewsletterPage));
-
-    // RSS and Sitemap
-    app.get("/rss.xml", route_handler(rss::RSSPage));
-    app.get("/sitemap.xml", route_handler(sitemap::SitemapPage));
-
-    // Redirects
-    app.get("/blog", redirect_permanent("/essays")); // Old blog URL
-    app.get("/mods/resume", redirect_permanent("/resume")); // Old resume URL
-    app.get("/mods/connect", redirect_permanent("/connect"));
-    app.get("/connect", redirect_to("https://cal.com/elcharitas"));
-    app.get(
-        "/resume.docx",
-        redirect_to(
-            "https://docs.google.com/document/d/e/2PACX-1vScEJP53Da_tdWTzCNBvfMDMCjy43udlv5YDhM81YowUOFxwDaEPyjuAXTZppupRoS0a9KVWUbaiy2p/pub?embedded=true",
-        ),
-    );
-
-    // 404
-    app.any("/{*path}", route_handler(error::ErrorPage));
+pub fn create_router() -> Router {
+    Router::new()
+        // Pages
+        .route("/", get(home::home_handler))
+        .route("/resume", get(resume::page::resume_handler))
+        .route("/essays", get(blog::page::blog_handler))
+        .route("/essays/infinite_scroll", get(blog::page::infinite_scroll))
+        .route("/essays/{slug}", get(blog::slug::blog_detail_handler))
+        .route("/projects", get(projects::projects_handler))
+        .route(
+            "/projects/infinite_scroll",
+            get(projects::infinite_scroll),
+        )
+        .route("/adventures", get(adventures::page::adventures_handler))
+        .route("/newsletter", get(newsletter::newsletter_get_handler))
+        .route("/newsletter", post(newsletter::newsletter_post_handler))
+        // RSS and Sitemap
+        .route("/rss.xml", get(rss::rss_handler))
+        .route("/sitemap.xml", get(sitemap::sitemap_handler))
+        // Redirects
+        .route(
+            "/blog",
+            get(|| async { axum::response::Redirect::permanent("/essays") }),
+        )
+        .route(
+            "/mods/resume",
+            get(|| async { axum::response::Redirect::permanent("/resume") }),
+        )
+        .route(
+            "/mods/connect",
+            get(|| async { axum::response::Redirect::permanent("/connect") }),
+        )
+        .route(
+            "/connect",
+            get(|| async { axum::response::Redirect::temporary("https://cal.com/elcharitas") }),
+        )
+        .route(
+            "/resume.docx",
+            get(|| async {
+                axum::response::Redirect::temporary(
+                    "https://docs.google.com/document/d/e/2PACX-1vScEJP53Da_tdWTzCNBvfMDMCjy43udlv5YDhM81YowUOFxwDaEPyjuAXTZppupRoS0a9KVWUbaiy2p/pub?embedded=true",
+                )
+            }),
+        )
+        // 404
+        .fallback(error::error_handler)
 }

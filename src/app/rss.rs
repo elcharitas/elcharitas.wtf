@@ -1,4 +1,5 @@
 use crate::shared::*;
+use axum::response::IntoResponse;
 use chrono::{DateTime, Utc};
 use momenta::prelude::*;
 use serde::{Deserialize, Serialize};
@@ -10,16 +11,8 @@ pub struct RSSProps {
     pub publication: Option<Publication>,
 }
 
-impl PageLoader for RSSProps {
-    async fn load(ctx: &mut ngyn::shared::server::NgynContext<'_>) -> Self {
-        ctx.response_mut().headers_mut().insert(
-            "Content-Type",
-            "application/rss+xml; charset=utf-8".parse().unwrap(),
-        );
-        ctx.response_mut()
-            .headers_mut()
-            .insert("Cache-Control", "public, max-age=3600".parse().unwrap());
-
+impl RSSProps {
+    async fn load() -> Self {
         if let Ok(RSSFeedQuery { publication }) = HASHNODE_CLIENT
             .execute_query(
                 RSS_QUERY.to_owned(),
@@ -46,6 +39,17 @@ impl PageLoader for RSSProps {
         }
         RSSProps::default()
     }
+}
+
+pub async fn rss_handler() -> impl IntoResponse {
+    let props = RSSProps::load().await;
+    (
+        [
+            ("Content-Type", "application/rss+xml; charset=utf-8"),
+            ("Cache-Control", "public, max-age=3600"),
+        ],
+        RSSPage::render(&props).to_string(),
+    )
 }
 
 #[component]

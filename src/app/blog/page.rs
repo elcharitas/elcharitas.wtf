@@ -1,9 +1,11 @@
 use crate::components::card::ScrollCard;
-use crate::components::{article::Article, PageLayout};
+use crate::components::{PageLayout, article::Article};
 use crate::shared::*;
+use axum::{
+    extract::Query,
+    response::{Html, IntoResponse},
+};
 use momenta::prelude::*;
-use ngyn::macros::handler;
-use ngyn::shared::server::{NgynContext, NgynResponse, Transformer};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 
@@ -14,9 +16,8 @@ pub struct BlogProps {
     pub has_next_page: Option<bool>,
 }
 
-impl PageLoader for BlogProps {
-    async fn load(ctx: &mut NgynContext<'_>) -> Self {
-        let PageQuery { cursor, .. } = PageQuery::transform(ctx);
+impl BlogProps {
+    async fn load() -> Self {
         if let Ok(PostsByPublicationQuery { publication }) = HASHNODE_CLIENT
             .execute_query(
                 POSTS_QUERY.to_owned(),
@@ -45,10 +46,15 @@ impl PageLoader for BlogProps {
 
         Self {
             posts: Vec::new(),
-            cursor: Some(cursor),
+            cursor: None,
             has_next_page: Some(false),
         }
     }
+}
+
+pub async fn blog_handler() -> impl IntoResponse {
+    let props = BlogProps::load().await;
+    Html(BlogPage::render(&props).to_string())
 }
 
 #[component]
@@ -81,19 +87,16 @@ pub fn BlogPage(
     }
 }
 
-#[handler]
-pub async fn infinite_scroll(
-    PageQuery {
+pub async fn infinite_scroll(Query(query): Query<serde_json::Value>) -> impl IntoResponse {
+    let page_query = PageQuery::from_query(Query(query));
+    let PageQuery {
         cursor,
         has_next_page,
-    }: PageQuery,
-    res: &mut NgynResponse,
-) -> String {
-    res.headers_mut()
-        .insert("Content-Type", "text/event-stream".parse().unwrap());
+        ..
+    } = page_query;
 
     if !has_next_page {
-        return String::new();
+        return ([("Content-Type", "text/event-stream")], String::new());
     }
 
     if let Ok(PostsByPublicationQuery { publication }) = HASHNODE_CLIENT
@@ -138,7 +141,10 @@ pub async fn infinite_scroll(
             </>
         };
 
-        return fragment.to_string();
+        return (
+            [("Content-Type", "text/event-stream")],
+            fragment.to_string(),
+        );
     }
-    String::new()
+    ([("Content-Type", "text/event-stream")], String::new())
 }

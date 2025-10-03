@@ -1,12 +1,12 @@
 use crate::{
     components::PageLayout,
-    shared::{PageLoader, HASHNODE_CLIENT, NEWSLETTER_MUTATION},
+    shared::{HASHNODE_CLIENT, NEWSLETTER_MUTATION},
+};
+use axum::{
+    extract::Multipart,
+    response::{Html, IntoResponse},
 };
 use momenta::prelude::*;
-use ngyn::{
-    prelude::*,
-    shared::server::{transformer::FormData, Transformer},
-};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
@@ -15,15 +15,21 @@ pub struct NewsletterSubscription {
     pub email: String,
 }
 
-impl PageLoader for NewsletterSubscription {
-    async fn load(ctx: &mut NgynContext<'_>) -> Self {
-        let body = Body::transform(ctx);
-        if let Ok(multipart) = body.to_multipart() {
-            let form_data = FormData::from_multipart(multipart)
-                .await
-                .unwrap_or_default();
-            let email = form_data.get::<String>("email").unwrap_or_default();
+impl NewsletterSubscription {
+    async fn load(mut multipart: Multipart) -> Self {
+        let mut email = String::new();
 
+        while let Ok(Some(field)) = multipart.next_field().await {
+            if let Some(name) = field.name() {
+                if name == "email" {
+                    if let Ok(value) = field.text().await {
+                        email = value;
+                    }
+                }
+            }
+        }
+
+        if !email.is_empty() {
             let variables = serde_json::json!({
                 "input": {
                     "email": email,
@@ -40,6 +46,16 @@ impl PageLoader for NewsletterSubscription {
         }
         NewsletterSubscription::default()
     }
+}
+
+pub async fn newsletter_get_handler() -> impl IntoResponse {
+    let props = NewsletterSubscription::default();
+    Html(NewsletterPage::render(&props).to_string())
+}
+
+pub async fn newsletter_post_handler(multipart: Multipart) -> impl IntoResponse {
+    let props = NewsletterSubscription::load(multipart).await;
+    Html(NewsletterPage::render(&props).to_string())
 }
 
 #[component]

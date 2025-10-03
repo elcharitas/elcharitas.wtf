@@ -1,4 +1,5 @@
 use crate::shared::*;
+use axum::response::IntoResponse;
 use chrono::Utc;
 use momenta::prelude::*;
 use serde::{Deserialize, Serialize};
@@ -21,28 +22,8 @@ impl Default for SitemapProps {
     }
 }
 
-impl PageLoader for SitemapProps {
-    async fn load(ctx: &mut ngyn::shared::server::NgynContext<'_>) -> Self {
-        ctx.response_mut().headers_mut().insert(
-            "Content-Type",
-            "application/xml; charset=utf-8".parse().unwrap(),
-        );
-        ctx.response_mut()
-            .headers_mut()
-            .insert("Cache-Control", "public, max-age=3600".parse().unwrap());
-
-        HASHNODE_CLIENT
-            .execute_query::<SitemapQuery>(
-                SITEMAP_QUERY.to_owned(),
-                Some(json!({
-                    "host": "elcharitas.wtf/blog",
-                    "staticPagesCount": 20,
-                    "postsCount": 100,
-                })),
-            )
-            .await
-            .unwrap();
-
+impl SitemapProps {
+    async fn load() -> Self {
         if let Ok(SitemapQuery { publication }) = HASHNODE_CLIENT
             .execute_query(
                 SITEMAP_QUERY.to_owned(),
@@ -82,6 +63,17 @@ impl PageLoader for SitemapProps {
         }
         SitemapProps::default()
     }
+}
+
+pub async fn sitemap_handler() -> impl IntoResponse {
+    let props = SitemapProps::load().await;
+    (
+        [
+            ("Content-Type", "application/xml; charset=utf-8"),
+            ("Cache-Control", "public, max-age=3600"),
+        ],
+        SitemapPage::render(&props).to_string(),
+    )
 }
 
 #[component]

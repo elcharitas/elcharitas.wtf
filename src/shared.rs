@@ -1,14 +1,11 @@
-use std::future::Future;
-
 use crate::{graphql_query, requests::GraphQLQuery};
 
 use super::requests::GraphQLClient;
+use axum::extract::Query;
 use lazy_static::lazy_static;
-use momenta::nodes::Component;
-use ngyn::{prelude::*, shared::server::Transformer};
 use serde::{Deserialize, Serialize};
 
-#[derive(Param)]
+#[derive(Deserialize)]
 pub struct PageParams {
     pub slug: String,
 }
@@ -19,18 +16,15 @@ pub struct PageQuery {
     pub cursor: String,
 }
 
-impl Transformer<'_> for PageQuery {
-    fn transform(cx: &mut NgynContext) -> Self {
-        let query = Query::transform(cx);
-        let datastar: String = query.get("datastar").unwrap_or_default();
+impl PageQuery {
+    pub fn from_query(query: Query<serde_json::Value>) -> Self {
+        let datastar: String = query
+            .0
+            .get("datastar")
+            .and_then(|v| v.as_str())
+            .unwrap_or("")
+            .to_string();
         serde_json::from_str(&datastar).unwrap_or_default()
-    }
-}
-
-impl PageLoader for PageParams {
-    fn load(ctx: &mut NgynContext<'_>) -> impl Future<Output = Self> + Send {
-        let param = Self::transform(ctx);
-        Box::pin(async { param })
     }
 }
 
@@ -438,23 +432,6 @@ pub struct Project {
     pub updated_at: String,
     pub homepage: String,
     pub watching: f32,
-}
-
-pub trait PageLoader {
-    fn load(ctx: &mut NgynContext<'_>) -> impl Future<Output = Self> + Send;
-}
-
-pub fn route_handler<T: Component>(_: T) -> impl Into<RouteHandler>
-where
-    T::Props: PageLoader + Send + Sync,
-{
-    async_wrap(|ctx| {
-        Box::pin(async {
-            let props = T::Props::load(ctx).await;
-            let body = T::render(&props);
-            Box::new(body.to_string()) as Box<dyn ToBytes>
-        })
-    })
 }
 
 pub mod xml_elements {

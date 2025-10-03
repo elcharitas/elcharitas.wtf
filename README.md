@@ -1,7 +1,7 @@
 <div align="center">
     <a href="https://elcharitas.wtf"><h1 align="center">elcharitas.wtf</h1></a>
     
-My personal website, built with [Rust](https://www.rust-lang.org/) using [Ngyn](https://github.com/ngyn-rs/ngyn) framework and styled with [Tailwind CSS](https://tailwindcss.com/). The site uses [Momenta](https://github.com/elcharitas/momenta) for UI components and integrates with GitHub API for projects and Hashnode for blog posts.
+My personal website, built with [Rust](https://www.rust-lang.org/) using [Axum](https://github.com/tokio-rs/axum) and [Tower](https://github.com/tower-rs/tower), styled with [Tailwind CSS](https://tailwindcss.com/). The site uses [Momenta](https://github.com/elcharitas/momenta) for UI components, [Datastar](https://data-star.dev/) for reactivity, and integrates with GitHub API for projects and Hashnode for blog posts.
 
 </div>
 
@@ -14,11 +14,10 @@ cd elcharitas.wtf
 
 Create a `.env` file similar to [`.env.example`](https://github.com/elcharitas/elcharitas.wtf/blob/main/.env.example).
 
-Then install dependencies:
+Then install Tailwind CSS:
 
 ```sh-session
 npm install -g tailwindcss@3
-npm install @tailwindcss/typography@0.5.9
 ```
 
 and run the development server:

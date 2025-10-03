@@ -1,9 +1,15 @@
 use crate::components::AppLayout;
-use crate::shared::{PageParams, NAVIGATION};
+use crate::shared::NAVIGATION;
+use axum::response::{Html, IntoResponse};
+use momenta::nodes::DefaultProps;
 use momenta::prelude::*;
 
+pub async fn home_handler() -> impl IntoResponse {
+    Html(HomePage::render(&DefaultProps).to_string())
+}
+
 #[component]
-pub fn HomePage(_: &PageParams) -> Node {
+pub fn HomePage() -> Node {
     rsx! {
         <AppLayout title="Home">
             <div class="relative flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-br from-black via-zinc-900/50 to-black">
@@ -142,11 +148,11 @@ pub fn HomePage(_: &PageParams) -> Node {
                         <div
                             class="absolute w-1 h-1 bg-yellow-400/30 rounded-full animate-pulse"
                             style={format!("
-                                left: {}%; 
-                                top: {}%; 
-                                animation-delay: {}s; 
+                                left: {}%;
+                                top: {}%;
+                                animation-delay: {}s;
                                 animation-duration: {}s;
-                            ", 
+                            ",
                                 (i * 17) % 100,
                                 (i * 23) % 100,
                                 i as f32 * 0.5,
@@ -164,22 +170,22 @@ pub fn HomePage(_: &PageParams) -> Node {
                     from { opacity: 0; transform: translateY(20px); }
                     to { opacity: 1; transform: translateY(0); }
                 }
-                
+
                 @keyframes title {
                     from { opacity: 0; transform: scale(0.5) rotate(-10deg); }
                     to { opacity: 1; transform: scale(1) rotate(0deg); }
                 }
-                
+
                 .animate-fade-in {
                     animation: fade-in 1s ease-out forwards;
                 }
-                
+
                 .animate-title {
                     animation: title 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
                 }
-                
+
                 .text-edge-outline {
-                    text-shadow: 
+                    text-shadow:
                         0 0 10px rgba(234, 179, 8, 0.3),
                         0 0 20px rgba(234, 179, 8, 0.2),
                         0 0 30px rgba(234, 179, 8, 0.1);

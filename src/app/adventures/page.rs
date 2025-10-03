@@ -1,4 +1,6 @@
-use crate::{components::PageLayout, shared::PageParams};
+use crate::components::PageLayout;
+use axum::response::{Html, IntoResponse};
+use momenta::nodes::DefaultProps;
 use momenta::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
@@ -125,8 +127,12 @@ fn parse_adventures_from_json() -> Vec<Adventure> {
     adventures
 }
 
+pub async fn adventures_handler() -> impl IntoResponse {
+    Html(AdventuresPage::render(&DefaultProps).to_string())
+}
+
 #[component]
-pub fn AdventuresPage(_: &PageParams) -> Node {
+pub fn AdventuresPage() -> Node {
     let adventures = parse_adventures_from_json();
 
     rsx! {

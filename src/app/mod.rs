@@ -60,7 +60,7 @@ pub fn create_router() -> Router {
             "/resume.docx",
             get(|| async {
                 axum::response::Redirect::temporary(
-                    "https://docs.google.com/document/d/e/2PACX-1vScEJP53Da_tdWTzCNBvfMDMCjy43udlv5YDhM81YowUOFxwDaEPyjuAXTZppupRoS0a9KVWUbaiy2p/pub?embedded=true",
+                    "https://docs.google.com/document/d/14QvZPgD1Ahouu84Fc2HwPlXVP8rUGcy0lM0LuK5uc8s/edit",
                 )
             }),
         )

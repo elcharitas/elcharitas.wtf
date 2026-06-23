@@ -1,7 +1,7 @@
 name = "elcharitas-new"
 type = "javascript"
 main = "build/elcharitas.js"
-account_id = "YOUR_ACCOUNT_ID"
+account_id = "a1a3f41fdca34f8949f1933ee43d6323"
 workers_dev = true
 compatibility_date = "2024-12-16"
 

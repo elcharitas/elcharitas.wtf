@@ -24,6 +24,5 @@ routes = [
 vars = { ENVIRONMENT = "staging" }
 
 [build]
-command = "npm run build:css && cargo build --target wasm32-unknown-unknown --release && wasm-pack build --target bundler --out-dir build"
 cwd = "./"
-watch_paths = ["src/**/*.rs", "global.css"]
+upload = { format = "modules", dir = "build" }

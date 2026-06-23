@@ -1,0 +1,17 @@
+{
+  "name": "elcharitas-new",
+  "type": "module",
+  "version": "0.1.0",
+  "files": [
+    "elcharitas_new_bg.wasm",
+    "elcharitas_new.js",
+    "elcharitas_new_bg.js",
+    "elcharitas_new.d.ts"
+  ],
+  "main": "elcharitas_new.js",
+  "types": "elcharitas_new.d.ts",
+  "sideEffects": [
+    "./elcharitas_new.js",
+    "./snippets/*"
+  ]
+}

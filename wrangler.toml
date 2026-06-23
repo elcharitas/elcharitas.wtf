@@ -1,0 +1,29 @@
+name = "elcharitas-wtf"
+type = "javascript"
+main = "build/index.js"
+account_id = "YOUR_ACCOUNT_ID"
+workers_dev = true
+compatibility_date = "2024-12-16"
+
+routes = [
+  { pattern = "example.com/*", zone_name = "example.com" }
+]
+
+[env.production]
+name = "elcharitas-wtf-prod"
+routes = [
+  { pattern = "elcharitas.wtf/*", zone_name = "elcharitas.wtf" }
+]
+vars = { ENVIRONMENT = "production", HASHNODE_PUBLICATION_HOST = "blog.elcharitas.wtf" }
+
+[env.staging]
+name = "elcharitas-wtf-staging"
+routes = [
+  { pattern = "staging.elcharitas.wtf/*", zone_name = "elcharitas.wtf" }
+]
+vars = { ENVIRONMENT = "staging" }
+
+[build]
+command = "npm run build:css && cargo build --target wasm32-unknown-unknown --release && wasm-pack build --target bundler --out-dir build"
+cwd = "./"
+watch_paths = ["src/**/*.rs", "global.css"]

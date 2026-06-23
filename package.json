@@ -6,7 +6,7 @@
 		"dev": "wrangler dev",
 		"deploy": "npm run build && wrangler deploy",
 		"deploy:prod": "npm run build && wrangler deploy --env production",
-		"build": "cargo build --target wasm32-unknown-unknown --release && wasm-pack build --target bundler --out-dir build",
+		"build": "cargo build --target wasm32-unknown-unknown --release && wasm-pack build --target bundler --out-dir build && node ./scripts/fix-worker-entry.mjs",
 		"build:css": "tailwindcss -i ./global.css -o ./public/styles.css --minify",
 		"local": "cargo run"
 	},

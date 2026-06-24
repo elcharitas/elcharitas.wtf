@@ -1,7 +1,7 @@
 {
 	"header": {
-		"name": "Jonathan Irhodia",
-		"bio": "Software engineer with a passion for building resilient systems, clean APIs, and great developer experiences. Specialised in Rust, TypeScript, and cloud-native architectures.",
+		"name": "Kehinde Jonathan Irhodia",
+		"bio": "Biotechnology graduate, biodiagnostics researcher, and software engineer focused on affordable point-of-care diagnostics, microfluidic devices, and open-source systems tooling. I work across laboratory research and production software, with projects in Rust and Python totaling over 113,000 downloads.",
 		"links": [
 			{
 				"label": "Book a call",
@@ -24,52 +24,77 @@
 				"href": "https://linkedin.com/in/elcharitas",
 				"style": "ghost",
 				"external": true
+			},
+			{
+				"label": "ORCID",
+				"href": "https://orcid.org/0009-0006-6802-6663",
+				"style": "ghost",
+				"external": true
 			}
 		]
 	},
 	"experience": [
 		{
-			"period": "2023 – Present",
-			"title": "Senior Software Engineer",
-			"type": "Full-time · Remote",
-			"description": "Designing and shipping cloud-worker systems in Rust. Building internal tooling, improving DX across the stack, and leading architecture decisions for high-throughput APIs."
+			"period": "~2022 – Present",
+			"title": "Software / Systems Engineer, Alphaday (Alphabox Solutions)",
+			"type": "Engineering · Web3 Data Platform",
+			"description": "Core engineer on a crypto research and news dashboard. Built Python/Django market-data harvesters, sentiment and OHLCV pipelines, and AWS-backed data infrastructure."
 		},
 		{
-			"period": "2021 – 2023",
-			"title": "Software Engineer",
-			"type": "Full-time · Hybrid",
-			"description": "Built production-grade TypeScript services and React frontends. Introduced component libraries that reduced duplication across three product teams."
+			"period": "2024",
+			"title": "Undergraduate Research Associate, Biosensor & Biodiagnostics Lab (FUTA)",
+			"type": "Research · Aptamer Diagnostics",
+			"description": "Developed aptamers for Plasmodium falciparum lactate dehydrogenase detection, optimized EMSA workflows, and co-designed a microfluidic device for multiplex bacterial detection with gold-nanoparticle colorimetric readout."
 		},
 		{
-			"period": "2019 – 2021",
-			"title": "Junior Developer",
-			"type": "Contract · Remote",
-			"description": "Developed and maintained PHP/Laravel backends and Vue frontends for SaaS clients. Shipped features end-to-end across 10+ products."
+			"period": "2023/24",
+			"title": "Research Intern, National Biosafety Management Agency (NBMA)",
+			"type": "Research · Regulatory Biosafety",
+			"description": "Conducted biosafety risk assessments and regulatory-compliance checks for genetically modified organisms under technical supervision."
+		},
+		{
+			"period": "2023 – 2025",
+			"title": "Founder & Engineer, AuraPay",
+			"type": "Product Engineering",
+			"description": "Built a payments platform focused on seamless customer transactions and reliability across the payment flow."
+		},
+		{
+			"period": "Ongoing",
+			"title": "Creator & Maintainer, ngyn-rs",
+			"type": "Open Source · Rust",
+			"description": "Author and lead maintainer of the ngyn Rust web framework ecosystem, alongside related tooling including momenta and other OSS packages."
 		}
 	],
 	"skills": [
 		{
-			"category": "Languages",
-			"items": "Rust · TypeScript · JavaScript · Python · PHP"
+			"category": "Molecular Biology & Diagnostics",
+			"items": "Aptamer technology (SELEX, binding kinetics) · PCR/RT-PCR · DNA/RNA extraction · ELISA · assay optimization and validation"
 		},
 		{
-			"category": "Frameworks",
-			"items": "Axum · Next.js · React · Vue · Laravel"
+			"category": "Microfluidics & Nanotechnology",
+			"items": "Laser-printed uPADs · droplet microfluidics · photolithography · gold-nanoparticle synthesis and functionalization · colorimetric detection"
 		},
 		{
-			"category": "Infra & Tools",
-			"items": "Cloudflare Workers · Docker · PostgreSQL · Redis · GitHub Actions"
+			"category": "Computational Biology",
+			"items": "Python (BioPython, NumPy, Pandas) · R (Bioconductor) · BLAST · MEGA · SnapGene · statistical modeling and data visualization"
 		},
 		{
-			"category": "Practices",
-			"items": "API design · System design · DX tooling · Open source"
+			"category": "Software & Systems",
+			"items": "Rust · Python · TypeScript/JavaScript · React · Next.js · Svelte · Docker · Kubernetes · CI/CD · PostgreSQL/SQLite · distributed data pipelines"
 		}
+	],
+	"interests": [
+		"Point-of-care infectious disease diagnostics",
+		"Aptamer biosensors and assay miniaturization",
+		"Microfluidic paper devices for resource-limited settings",
+		"AI-enhanced diagnostics and translational research",
+		"Reproducible genomic and bioinformatics pipelines"
 	],
 	"education": [
 		{
-			"period": "2017 – 2021",
-			"degree": "B.Sc. Computer Science",
-			"school": "University — Nigeria"
+			"period": "2018 – 2024",
+			"degree": "B.Tech in Biotechnology (Second Class Honours, Upper Division) · CGPA 3.94/5.00",
+			"school": "Federal University of Technology, Akure (FUTA), Nigeria"
 		}
 	]
 }

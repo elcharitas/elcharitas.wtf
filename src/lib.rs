@@ -11,6 +11,8 @@ mod shared;
 
 #[cfg(target_arch = "wasm32")]
 use worker::*;
+#[cfg(target_arch = "wasm32")]
+use tower::ServiceExt;
 
 #[cfg(target_arch = "wasm32")]
 #[event(fetch)]
@@ -21,7 +23,7 @@ async fn main(req: HttpRequest, env: Env, _ctx: Context) -> Result<axum::respons
 
     let router = app::create_router();
     router
-        .call(req)
+        .oneshot(req)
         .await
         .map_err(|e| worker::Error::RustError(e.to_string()))
 }

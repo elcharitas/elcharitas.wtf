@@ -1,3 +1,4 @@
+mod assets;
 #[cfg(not(target_arch = "wasm32"))]
 mod adventures {
     pub mod page;
@@ -31,7 +32,11 @@ use axum::routing::post;
 pub fn create_router() -> Router {
     let router = Router::new()
         .route("/", get(home::home_handler))
-        .route("/resume", get(resume::page::resume_handler));
+        .route("/resume", get(resume::page::resume_handler))
+        .route("/styles.css", get(assets::styles_handler))
+        .route("/CalSans-SemiBold.woff2", get(assets::calsans_font_handler))
+        .route("/favicon.png", get(assets::favicon_handler))
+        .route("/og.png", get(assets::og_image_handler));
 
     #[cfg(not(target_arch = "wasm32"))]
     let router = router

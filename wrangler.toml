@@ -6,7 +6,7 @@ workers_dev = true
 compatibility_date = "2024-12-16"
 
 routes = [
-  { pattern = "example.com/*", zone_name = "example.com" }
+  { pattern = "elcharitas.wtf/*", zone_name = "elcharitas.wtf" }
 ]
 
 [env.production]

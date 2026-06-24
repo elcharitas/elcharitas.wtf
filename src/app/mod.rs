@@ -1,25 +1,19 @@
 mod assets;
-#[cfg(not(target_arch = "wasm32"))]
 mod adventures {
     pub mod page;
 }
-#[cfg(not(target_arch = "wasm32"))]
 mod blog {
     pub mod page;
     pub mod slug;
 }
 mod error;
 mod home;
-#[cfg(not(target_arch = "wasm32"))]
 mod newsletter;
-#[cfg(not(target_arch = "wasm32"))]
 mod projects;
 mod resume {
     pub mod page;
 }
-#[cfg(not(target_arch = "wasm32"))]
 mod rss;
-#[cfg(not(target_arch = "wasm32"))]
 mod sitemap;
 
 use axum::{
@@ -28,6 +22,12 @@ use axum::{
 };
 #[cfg(not(target_arch = "wasm32"))]
 use axum::routing::post;
+#[cfg(target_arch = "wasm32")]
+use axum::{
+    extract::{Path, Query},
+    http::{Method, Request},
+    response::{IntoResponse, Response},
+};
 
 pub fn create_router() -> Router {
     let router = Router::new()
@@ -86,4 +86,64 @@ pub fn create_router() -> Router {
             }),
         )
         .fallback(error::error_handler)
+}
+
+#[cfg(target_arch = "wasm32")]
+pub async fn wasm_dynamic_response<B>(req: &Request<B>) -> Option<Response> {
+    let method = req.method().clone();
+    let path = req.uri().path().to_string();
+    let headers = req.headers().clone();
+
+    let mut query_map = serde_json::Map::new();
+    if let Some(query) = req.uri().query() {
+        for (k, v) in url::form_urlencoded::parse(query.as_bytes()) {
+            query_map.insert(k.to_string(), serde_json::Value::String(v.to_string()));
+        }
+    }
+    let query_value = serde_json::Value::Object(query_map);
+
+    if method == Method::GET && path == "/essays" {
+        return Some(blog::page::blog_handler().await.into_response());
+    }
+    if method == Method::GET && path == "/essays/infinite_scroll" {
+        return Some(
+            blog::page::infinite_scroll(Query(query_value))
+                .await
+                .into_response(),
+        );
+    }
+    if method == Method::GET && path.starts_with("/essays/") {
+        let slug = path.trim_start_matches("/essays/").to_string();
+        return Some(
+            blog::slug::blog_detail_handler(Path(crate::shared::PageParams { slug }), headers)
+                .await
+                .into_response(),
+        );
+    }
+
+    if method == Method::GET && path == "/projects" {
+        return Some(projects::projects_handler().await.into_response());
+    }
+    if method == Method::GET && path == "/projects/infinite_scroll" {
+        return Some(
+            projects::infinite_scroll(Query(query_value))
+                .await
+                .into_response(),
+        );
+    }
+
+    if method == Method::GET && path == "/adventures" {
+        return Some(adventures::page::adventures_handler().await.into_response());
+    }
+    if method == Method::GET && path == "/newsletter" {
+        return Some(newsletter::newsletter_get_handler().await.into_response());
+    }
+    if method == Method::GET && path == "/rss.xml" {
+        return Some(rss::rss_handler().await.into_response());
+    }
+    if method == Method::GET && path == "/sitemap.xml" {
+        return Some(sitemap::sitemap_handler().await.into_response());
+    }
+
+    None
 }

@@ -21,6 +21,10 @@ async fn main(req: HttpRequest, env: Env, _ctx: Context) -> Result<axum::respons
 
     shared::init_env(&env);
 
+    if let Some(resp) = app::wasm_dynamic_response(&req).await {
+        return Ok(resp);
+    }
+
     let router = app::create_router();
     router
         .oneshot(req)

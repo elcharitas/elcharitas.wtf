@@ -7,6 +7,10 @@ rust-version = "1.86.0"
 [dependencies]
 wasm-bindgen = "0.2"
 
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+worker = { version = "0.5", default-features = false }
+console_error_panic_hook = "0.1"
+
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 async-stream = "0.3.6"
 axum = { version = "0.8", features = ["multipart"] }

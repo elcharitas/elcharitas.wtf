@@ -3,6 +3,7 @@ use crate::shared::get_env;
 use axum::response::{Html, IntoResponse};
 use momenta::prelude::*;
 use serde::{Deserialize, Serialize};
+#[cfg(not(target_arch = "wasm32"))]
 use serde_json::Value;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -186,6 +187,7 @@ fn normalize_orcid_id(orcid_id: &str) -> String {
         .to_string()
 }
 
+#[cfg(not(target_arch = "wasm32"))]
 async fn fetch_publications(orcid_id: &str) -> Result<Vec<PublicationEntry>, String> {
     let client = reqwest::Client::new();
     let url = format!("https://pub.orcid.org/v3.0/{orcid_id}/works");
@@ -214,6 +216,7 @@ async fn fetch_publications(orcid_id: &str) -> Result<Vec<PublicationEntry>, Str
     Ok(publications)
 }
 
+#[cfg(not(target_arch = "wasm32"))]
 fn extract_publication_entry(group: &Value) -> Option<PublicationEntry> {
     let summary = first_summary(group)?;
     let title = string_at(
@@ -247,6 +250,7 @@ fn extract_publication_entry(group: &Value) -> Option<PublicationEntry> {
     })
 }
 
+#[cfg(not(target_arch = "wasm32"))]
 fn first_summary(group: &Value) -> Option<&Value> {
     let summaries = group
         .get("work-summary")
@@ -256,6 +260,7 @@ fn first_summary(group: &Value) -> Option<&Value> {
     summaries.first()
 }
 
+#[cfg(not(target_arch = "wasm32"))]
 fn extract_publication_date(summary: &Value) -> Option<String> {
     let year = string_at(
         summary,
@@ -286,6 +291,7 @@ fn extract_publication_date(summary: &Value) -> Option<String> {
     })
 }
 
+#[cfg(not(target_arch = "wasm32"))]
 fn humanize_work_type(work_type: &str) -> String {
     work_type
         .split(['-', '_'])
@@ -301,6 +307,7 @@ fn humanize_work_type(work_type: &str) -> String {
         .join(" ")
 }
 
+#[cfg(not(target_arch = "wasm32"))]
 fn string_at(value: &Value, paths: &[&[&str]]) -> Option<String> {
     for path in paths {
         if let Some(found) = find_path(value, path).and_then(value_to_string) {
@@ -310,6 +317,7 @@ fn string_at(value: &Value, paths: &[&[&str]]) -> Option<String> {
     None
 }
 
+#[cfg(not(target_arch = "wasm32"))]
 fn find_path<'a>(value: &'a Value, path: &[&str]) -> Option<&'a Value> {
     let mut current = value;
     for key in path {
@@ -318,6 +326,7 @@ fn find_path<'a>(value: &'a Value, path: &[&str]) -> Option<&'a Value> {
     Some(current)
 }
 
+#[cfg(not(target_arch = "wasm32"))]
 fn value_to_string(value: &Value) -> Option<String> {
     match value {
         Value::String(text) => Some(text.clone()),

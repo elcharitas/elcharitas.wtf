@@ -107,13 +107,15 @@ impl GraphQLClient {
 
     /// Create a new GraphQL client with custom options
     pub fn with_options(options: QueryOptions) -> Result<Self, GraphQLClientError> {
-        let mut client_builder = reqwest::Client::builder();
+        let client_builder = reqwest::Client::builder();
 
         // Set timeout if specified (not supported in wasm32)
         #[cfg(not(target_arch = "wasm32"))]
-        if let Some(timeout) = options.timeout_seconds {
-            client_builder = client_builder.timeout(std::time::Duration::from_secs(timeout));
-        }
+        let client_builder = if let Some(timeout) = options.timeout_seconds {
+            client_builder.timeout(std::time::Duration::from_secs(timeout))
+        } else {
+            client_builder
+        };
 
         let client = client_builder
             .build()

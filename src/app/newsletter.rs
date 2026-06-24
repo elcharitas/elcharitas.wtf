@@ -1,13 +1,12 @@
-use crate::{
-    components::PageLayout,
-    shared::{HASHNODE_CLIENT, NEWSLETTER_MUTATION},
-};
-use axum::{
-    extract::Multipart,
-    response::{Html, IntoResponse},
-};
+use crate::components::PageLayout;
+#[cfg(not(target_arch = "wasm32"))]
+use crate::shared::{HASHNODE_CLIENT, NEWSLETTER_MUTATION};
+#[cfg(not(target_arch = "wasm32"))]
+use axum::extract::Multipart;
+use axum::response::{Html, IntoResponse};
 use momenta::prelude::*;
 use serde::{Deserialize, Serialize};
+#[cfg(not(target_arch = "wasm32"))]
 use serde_json::Value;
 
 #[derive(Debug, Default, Serialize, Deserialize)]
@@ -16,6 +15,7 @@ pub struct NewsletterSubscription {
 }
 
 impl NewsletterSubscription {
+    #[cfg(not(target_arch = "wasm32"))]
     async fn load(mut multipart: Multipart) -> Self {
         let mut email = String::new();
 
@@ -53,6 +53,7 @@ pub async fn newsletter_get_handler() -> impl IntoResponse {
     Html(NewsletterPage::render(&props).to_string())
 }
 
+#[cfg(not(target_arch = "wasm32"))]
 pub async fn newsletter_post_handler(multipart: Multipart) -> impl IntoResponse {
     let props = NewsletterSubscription::load(multipart).await;
     Html(NewsletterPage::render(&props).to_string())

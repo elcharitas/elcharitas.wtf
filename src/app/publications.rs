@@ -23,6 +23,7 @@ pub struct PublicationsProps {
 }
 
 impl PublicationsProps {
+    #[cfg(not(target_arch = "wasm32"))]
     async fn load() -> Self {
         let orcid_id = normalize_orcid_id(&get_env("ORCID_ID"));
         if orcid_id.is_empty() {
@@ -49,6 +50,31 @@ impl PublicationsProps {
                 publications: Vec::new(),
                 notice: Some(error),
             },
+        }
+    }
+
+    #[cfg(target_arch = "wasm32")]
+    async fn load() -> Self {
+        let orcid_id = normalize_orcid_id(&get_env("ORCID_ID"));
+        if orcid_id.is_empty() {
+            return Self {
+                notice: Some(
+                    "Set your publication profile ID in your environment to sync automatically."
+                        .to_string(),
+                ),
+                ..Default::default()
+            };
+        }
+
+        let orcid_url = format!("https://orcid.org/{orcid_id}");
+        Self {
+            orcid_id: Some(orcid_id),
+            orcid_url: Some(orcid_url),
+            publications: Vec::new(),
+            notice: Some(
+                "Publication syncing is unavailable in the wasm-only build; open the server build to fetch live ORCID entries."
+                    .to_string(),
+            ),
         }
     }
 }

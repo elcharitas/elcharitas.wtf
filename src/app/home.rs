@@ -1,8 +1,22 @@
-use crate::components::AppLayout;
-use crate::shared::NAVIGATION;
+use crate::components::PageLayout;
 use axum::response::{Html, IntoResponse};
 use momenta::nodes::DefaultProps;
 use momenta::prelude::*;
+use serde::{Deserialize, Serialize};
+
+#[derive(Deserialize, Serialize)]
+struct FeaturedProject {
+    name: String,
+    description: String,
+    url: String,
+    homepage: String,
+    tags: Vec<String>,
+}
+
+fn load_featured() -> FeaturedProject {
+    let json = include_str!("./featured.json");
+    serde_json::from_str(json).expect("featured.json is valid")
+}
 
 pub async fn home_handler() -> impl IntoResponse {
     Html(HomePage::render(&DefaultProps).to_string())
@@ -10,188 +24,78 @@ pub async fn home_handler() -> impl IntoResponse {
 
 #[component]
 pub fn HomePage() -> Node {
+    let featured = load_featured();
+
     rsx! {
-        <AppLayout title="Home">
-            <div class="relative flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-br from-black via-zinc-900/50 to-black">
-                // Animated background elements
-                <div class="absolute inset-0 overflow-hidden pointer-events-none">
-                    // Floating orbs
-                    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-yellow-500/10 rounded-full blur-3xl animate-pulse"></div>
-                    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-                    <div class="absolute top-3/4 left-1/2 w-64 h-64 bg-amber-500/10 rounded-full blur-2xl animate-pulse delay-500"></div>
-                </div>
-
-                // Enhanced navigation with better animations
-                <nav class="relative z-10 my-8 md:my-16 animate-fade-in">
-                    <div class="flex items-center justify-center gap-1 md:gap-4 px-6 py-3 rounded-full backdrop-blur-md bg-zinc-900/30 border border-zinc-800/50">
-                        {NAVIGATION.iter().enumerate().map(|(i, item)| rsx! {
-                            <a
-                                href={item.href}
-                                class="relative px-3 md:px-4 py-2 text-xs md:text-sm font-medium text-zinc-400 hover:text-white transition-all duration-500 rounded-full hover:bg-zinc-800/50 group"
-                                style={format!("animation-delay: {}ms", i * 100)}
-                            >
-                                <span class="relative z-10">{item.name}</span>
-                                // Hover effect background
-                                <div class="absolute inset-0 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                            </a>
-                        })}
-                    </div>
-                </nav>
-
-                // Enhanced main title with better effects
-                <div class="relative z-10 text-center mb-8">
-                    // Glowing backdrop for title
-                    <div class="absolute inset-0 blur-3xl bg-gradient-to-r from-yellow-400/20 via-orange-400/20 to-amber-400/20 rounded-full scale-150"></div>
-
-                    <h1 class="relative text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-bold text-white duration-1000 cursor-default font-display animate-title">
-                        "elch"
-                        <span class="inline-block text-yellow-400 drop-shadow-[0_0_15px_rgba(234,179,8,0.5)]">"🔥"</span>
-                        "rit"
-                        <span class="inline-block delay-150 text-orange-400 drop-shadow-[0_0_15px_rgba(251,146,60,0.5)]">"🔥"</span>
-                        "s"
-                    </h1>
-
-                    // Subtitle with typing effect
-                    <div class="mt-4 text-lg md:text-xl text-zinc-400 font-light tracking-wide">
-                        <span class="text-yellow-400">"{"</span>
-                        <span class="text-zinc-300">"Software Engineer"</span>
-                        <span class="text-yellow-400">"}"</span>
-                    </div>
-                </div>
-
-                // Enhanced description section
-                <div class="relative z-10 max-w-4xl mx-4 text-center animate-fade-in">
-                    <div class="backdrop-blur-md bg-zinc-900/20 rounded-2xl border border-zinc-800/30 p-6 md:p-8">
-                        <p class="text-sm md:text-base text-zinc-300 leading-relaxed mb-6">
-                            "Hi, I'm "
-                            <span class="font-semibold text-white">"Jonathan Irhodia"</span>
-                            ". Software engineer by day - Rust, books and manhwa - addict by night."
+        <PageLayout title="Home">
+            <section class="min-h-[70vh] flex items-center">
+                <div class="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 lg:gap-12 w-full items-center">
+                    <div class="space-y-6">
+                        <h2 class="text-3xl md:text-4xl font-semibold text-white">"I'm Jonathan Irhodia"</h2>
+                        <h1 class="text-4xl md:text-6xl xl:text-7xl font-bold text-white leading-none">
+                            "I build products"
+                            <span class="text-zinc-400 typed-caret">"|"</span>
+                        </h1>
+                        <p class="text-zinc-300 max-w-2xl leading-relaxed text-base md:text-lg">
+                            "Software engineer with a passion for building things. I work on Rust systems, write essays, and share what I learn while shipping."
                         </p>
-                    </div>
-                </div>
-
-                // Enhanced social links section
-                <div class="relative z-10 mt-8 md:mt-12 animate-fade-in">
-                    <div class="flex items-center justify-center gap-2 mb-4">
-                        <div class="h-px w-8 bg-gradient-to-r from-transparent to-zinc-600"></div>
-                        <span class="text-xs text-zinc-500 font-medium">"CONNECT"</span>
-                        <div class="h-px w-8 bg-gradient-to-l from-transparent to-zinc-600"></div>
+                        <div class="flex flex-wrap gap-3 pt-2">
+                            <a href="/projects" class="btn-accent px-5 py-3 text-sm font-semibold rounded-md">"My Portfolio"</a>
+                            <a href="/connect" class="btn-ghost px-5 py-3 text-sm font-semibold rounded-md">"Contact Me"</a>
+                        </div>
                     </div>
 
-                    <div class="flex justify-center items-center gap-4">
-                        // GitHub
-                        <a
-                            href="https://github.com/elcharitas"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="group relative p-3 rounded-full bg-zinc-800/50 border border-zinc-700 hover:border-zinc-600 hover:bg-zinc-700/50 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-zinc-400/20"
-                            title="I collaborate on github often"
-                        >
-                            <i class="fab fa-github text-xl text-zinc-400 group-hover:text-white transition-colors duration-300"></i>
-                            <div class="absolute inset-0 bg-gradient-to-r from-zinc-500/20 to-zinc-400/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        </a>
-
-                        // LinkedIn
-                        <a
-                            href="https://linkedin.com/in/elcharitas"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="group relative p-3 rounded-full bg-zinc-800/50 border border-zinc-700 hover:border-blue-500/50 hover:bg-blue-900/20 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-blue-400/20"
-                            title="Connect with me on linkedin"
-                        >
-                            <i class="fab fa-linkedin text-xl text-zinc-400 group-hover:text-blue-400 transition-colors duration-300"></i>
-                            <div class="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-blue-400/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        </a>
-
-                        // Instagram
-                        // <a
-                        //     href="https://instagram.com/iamelcharitas"
-                        //     target="_blank"
-                        //     rel="noopener noreferrer"
-                        //     class="group relative p-3 rounded-full bg-zinc-800/50 border border-zinc-700 hover:border-pink-500/50 hover:bg-pink-900/20 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-pink-400/20"
-                        //     title="Connect with me on instagram"
-                        // >
-                        //     <i class="fab fa-instagram text-xl text-zinc-400 group-hover:text-pink-400 transition-colors duration-300"></i>
-                        //     <div class="absolute inset-0 bg-gradient-to-r from-pink-500/20 via-purple-500/20 to-yellow-500/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        // </a>
-
-                        // Twitter/X
-                        <a
-                            href="https://twitter.com/iamelcharitas"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="group relative p-3 rounded-full bg-zinc-800/50 border border-zinc-700 hover:border-sky-500/50 hover:bg-sky-900/20 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-sky-400/20"
-                            title="Follow me on twitter"
-                        >
-                            <i class="fab fa-x-twitter text-xl text-zinc-400 group-hover:text-sky-400 transition-colors duration-300"></i>
-                            <div class="absolute inset-0 bg-gradient-to-r from-sky-500/20 to-blue-400/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        </a>
-
-                        // Substack
-                        <a
-                            href="https://elcharitas.substack.com"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="group relative p-3 rounded-full bg-zinc-800/50 border border-zinc-700 hover:border-orange-500/50 hover:bg-orange-900/20 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-orange-400/20"
-                            title="Read Substack"
-                        >
-                            <i class="fa fa-book text-xl text-zinc-400 group-hover:text-orange-400 transition-colors duration-300"></i>
-                            <div class="absolute inset-0 bg-gradient-to-r from-orange-600/20 to-orange-400/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        </a>
-
+                    <div class="space-y-4">
+                        <div class="border border-zinc-800/60 rounded-2xl p-5 bg-zinc-950/50 space-y-4">
+                            <p class="text-xs uppercase tracking-[0.1em] text-zinc-500">"Featured Project"</p>
+                            <div>
+                                <div class="flex items-start justify-between gap-3">
+                                    <p class="font-semibold text-zinc-100 text-base">{&featured.name}</p>
+                                    <div class="flex items-center gap-2 shrink-0">
+                                        <a href={&featured.url} target="_blank" rel="noopener noreferrer" class="social-link text-xs hover:text-zinc-300" aria_label="Source">
+                                            <i class="fab fa-github text-base"></i>
+                                        </a>
+                                        {if !featured.homepage.is_empty() {
+                                            rsx! {
+                                                <a href={&featured.homepage} target="_blank" rel="noopener noreferrer" class="social-link text-xs hover:text-zinc-300" aria_label="Website">
+                                                    <i class="fas fa-arrow-up-right-from-square text-sm"></i>
+                                                </a>
+                                            }
+                                        } else {
+                                            rsx! { <></> }
+                                        }}
+                                    </div>
+                                </div>
+                                <p class="mt-2 text-sm text-zinc-400 leading-relaxed">{&featured.description}</p>
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                {featured.tags.iter().map(|tag| {
+                                    rsx! {
+                                        <span class="text-xs px-2 py-0.5 rounded-full border border-zinc-700 text-zinc-400">{tag}</span>
+                                    }
+                                })}
+                            </div>
+                        </div>
+                        <div class="border border-zinc-800 rounded-2xl p-5 bg-zinc-950/60">
+                            <p class="text-xs uppercase tracking-[0.1em] text-zinc-500 mb-3">"Now"</p>
+                            <p class="text-sm text-zinc-300 leading-relaxed">"Building and writing in public. Subscribe to the newsletter for weekly updates on what ships next."</p>
+                        </div>
                     </div>
                 </div>
-
-                // Floating particles effect
-                <div class="absolute inset-0 pointer-events-none overflow-hidden">
-                    {(0..20).map(|i| rsx! {
-                        <div
-                            class="absolute w-1 h-1 bg-yellow-400/30 rounded-full animate-pulse"
-                            style={format!("
-                                left: {}%;
-                                top: {}%;
-                                animation-delay: {}s;
-                                animation-duration: {}s;
-                            ",
-                                (i * 17) % 100,
-                                (i * 23) % 100,
-                                i as f32 * 0.5,
-                                3.0 + (i as f32 * 0.2)
-                            )}
-                        ></div>
-                    })}
-                </div>
-            </div>
-
-            // Custom CSS for enhanced animations
+            </section>
             <style>
                 {r#"
-                @keyframes fade-in {
-                    from { opacity: 0; transform: translateY(20px); }
-                    to { opacity: 1; transform: translateY(0); }
+                .typed-caret {
+                    display: inline-block;
+                    animation: caret-blink 1s steps(1, end) infinite;
                 }
 
-                @keyframes title {
-                    from { opacity: 0; transform: scale(0.5) rotate(-10deg); }
-                    to { opacity: 1; transform: scale(1) rotate(0deg); }
-                }
-
-                .animate-fade-in {
-                    animation: fade-in 1s ease-out forwards;
-                }
-
-                .animate-title {
-                    animation: title 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-                }
-
-                .text-edge-outline {
-                    text-shadow:
-                        0 0 10px rgba(234, 179, 8, 0.3),
-                        0 0 20px rgba(234, 179, 8, 0.2),
-                        0 0 30px rgba(234, 179, 8, 0.1);
+                @keyframes caret-blink {
+                    0%, 45% { opacity: 1; }
+                    46%, 100% { opacity: 0; }
                 }
                 "#}
             </style>
-        </AppLayout>
+        </PageLayout>
     }
 }

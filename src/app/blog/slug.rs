@@ -82,7 +82,7 @@ pub fn BlogDetailPage(props: &BlogDetailProps) -> Node {
                                     alt={format!("Cover image for {}", post.title)}
                                     class="w-full h-full object-cover"
                                 />
-                                <div class="absolute inset-0 bg-gradient-to-t from-zinc-900/60 to-transparent"></div>
+                                <div class="absolute inset-0 bg-zinc-950/45"></div>
                             </div>
                         )}
 
@@ -117,12 +117,12 @@ pub fn BlogDetailPage(props: &BlogDetailProps) -> Node {
                                     )}
 
                                     <div class="flex items-center space-x-2">
-                                        <i class="far fa-eye text-orange-400/60"></i>
+                                        <i class="far fa-eye text-zinc-400"></i>
                                         <span>{post.views} views</span>
                                     </div>
 
                                     <div class="flex items-center space-x-2">
-                                        <i class="far fa-comment text-yellow-400/60"></i>
+                                        <i class="far fa-comment text-zinc-400"></i>
                                         <span>{post.comments.as_ref().unwrap().total_documents} comments</span>
                                     </div>
                                 </div>
@@ -184,7 +184,7 @@ pub fn BlogDetailPage(props: &BlogDetailProps) -> Node {
                                                     </div>
                                                 )}
                                                 <div class="p-4">
-                                                    <h3 class="font-semibold text-white group-hover:text-yellow-400 transition-colors mb-2 line-clamp-2">
+                                                    <h3 class="font-semibold text-white group-hover:text-zinc-200 transition-colors mb-2 line-clamp-2">
                                                         {&related_post.title}
                                                     </h3>
                                                     <p class="text-sm text-zinc-400 line-clamp-2">
@@ -215,7 +215,7 @@ pub fn BlogDetailPage(props: &BlogDetailProps) -> Node {
                                             id="comment"
                                             name="comment"
                                             rows={4}
-                                            class="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                                            class="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:border-transparent"
                                             placeholder="Share your thoughts..."
                                         ></textarea>
                                     </div>
@@ -225,7 +225,7 @@ pub fn BlogDetailPage(props: &BlogDetailProps) -> Node {
                                         </p>
                                         <button
                                             type="submit"
-                                            class="px-6 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors font-medium"
+                                            class="px-6 py-2 bg-zinc-800 text-white rounded-lg hover:bg-zinc-700 transition-colors font-medium border border-zinc-700"
                                         >
                                             Post Comment
                                         </button>
@@ -252,7 +252,7 @@ pub fn BlogDetailPage(props: &BlogDetailProps) -> Node {
                             </p>
                             <a
                                 href="/essays"
-                                class="inline-flex items-center space-x-2 px-6 py-3 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors font-medium"
+                                class="inline-flex items-center space-x-2 px-6 py-3 bg-zinc-800 text-white rounded-lg hover:bg-zinc-700 transition-colors font-medium border border-zinc-700"
                             >
                                 <i class="fas fa-arrow-left"></i>
                                 <span>Go back</span>

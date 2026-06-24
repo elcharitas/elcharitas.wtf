@@ -65,18 +65,20 @@ pub fn BlogPage(
         has_next_page,
     }: &BlogProps,
 ) -> Node {
+    let total_posts = posts.len() as u32;
     rsx! {
         <PageLayout title="Essays">
-            <div class="container mx-auto px-4 py-12" data_signals={format!("{{'cursor': '{}', 'has_next_page': {}}}", cursor.as_ref().map_or("", |v| v), has_next_page.unwrap_or(false))}>
-                <div class="text-center mb-12">
-                    <h1 class="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400 mb-4">
-                        "Essays"
-                    </h1>
-                    <p class="text-base text-zinc-300 max-w-2xl mx-auto">
-                        "I write about my experiences and thoughts on how to do software development, productivity, and life."
+            <div class="py-4 md:py-8 space-y-8" data_signals={format!("{{'cursor': '{}', 'has_next_page': {}}}", cursor.as_ref().map_or("", |v| v), has_next_page.unwrap_or(false))}>
+                <section class="space-y-4">
+                    <h1 class="text-4xl md:text-5xl font-semibold text-white">"Essays"</h1>
+                    <div class="section-rule"></div>
+                    <p class="text-base text-zinc-300 max-w-3xl">
+                        "I write about software development, product decisions, productivity, and the realities of shipping. "
+                        <span class="text-sm" style="color: var(--accent); opacity: 0.7;">"("{total_posts}" loaded)"</span>
                     </p>
-                </div>
-                <div id="click_to_load_rows" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" data_fragment_merge_target="$has_next_page">
+                </section>
+
+                <div id="click_to_load_rows" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4" data_fragment_merge_target="$has_next_page">
                     {posts.into_iter().map(|post| {
                         rsx! {<Article post={post.node.clone()} show_read_more />}
                     })}

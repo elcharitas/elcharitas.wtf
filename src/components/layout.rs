@@ -124,7 +124,7 @@ pub struct LayoutProps {
 pub fn AppLayout(props: &LayoutProps) -> Node {
     let page_title = METADATA.title.template.replace("%s", &props.title);
     rsx! {
-        <html lang="en-US" class="font-plus-jakarta-sans font-calsans scroll-smooth">
+        <html lang="en-US" class="scroll-smooth" style="font-family: 'DM Sans', sans-serif;">
             <head>
                 <title>{&page_title}</title>
                 <meta charset="utf-8" />
@@ -160,59 +160,105 @@ pub fn AppLayout(props: &LayoutProps) -> Node {
 
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-                <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap" rel="stylesheet" />
+                <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.css"/>
 
-                // Enhanced custom styles
+                // Shared UI styles
                 <style>
                     {r#"
-                    .glow-effect {
-                        box-shadow: 0 0 20px rgba(234, 179, 8, 0.3);
+                    :root {
+                        --accent: #ff5f1f;
+                        --accent-dim: rgba(255, 95, 31, 0.12);
+                        --accent-border: rgba(255, 95, 31, 0.38);
                     }
                     .nav-blur {
-                        backdrop-filter: blur(20px);
-                        -webkit-backdrop-filter: blur(20px);
+                        backdrop-filter: blur(10px);
+                        -webkit-backdrop-filter: blur(10px);
                     }
-                    .gradient-border {
-                        position: relative;
-                        background: linear-gradient(45deg, #000, #1f2937);
-                        border-radius: 12px;
+                    .glass-panel {
+                        background: rgba(24, 24, 27, 0.65);
+                        border: 1px solid rgba(82, 82, 91, 0.6);
+                        backdrop-filter: blur(12px);
+                        -webkit-backdrop-filter: blur(12px);
                     }
-                    .gradient-border::before {
-                        content: '';
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        right: 0;
-                        bottom: 0;
-                        border-radius: 12px;
-                        padding: 1px;
-                        background: linear-gradient(45deg, #eab308, #f59e0b, #d97706);
-                        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-                        mask-composite: exclude;
-                        -webkit-mask-composite: xor;
+                    .soft-lift {
+                        transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
                     }
-                    .hover-lift {
-                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                    }
-                    .hover-lift:hover {
+                    .soft-lift:hover {
                         transform: translateY(-2px);
+                        border-color: var(--accent-border);
+                        box-shadow: 0 0 0 1px var(--accent-border), 0 10px 30px rgba(0, 0, 0, 0.28);
                     }
-                    .text-gradient {
-                        background: linear-gradient(135deg, #eab308, #f59e0b);
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent;
-                        background-clip: text;
+                    .menu-panel {
+                        transition: transform 220ms ease, opacity 220ms ease;
+                    }
+                    .section-rule {
+                        width: 100%;
+                        height: 1px;
+                        background: rgba(63, 63, 70, 0.8);
+                        margin: 4px 0 12px;
+                    }
+                    h1, h2, h3 {
+                        font-family: 'Raleway', sans-serif;
+                    }
+                    .accent { color: var(--accent); }
+                    .btn-accent {
+                        background: var(--accent-dim);
+                        border: 1px solid var(--accent-border);
+                        color: var(--accent);
+                        transition: background 160ms ease, box-shadow 160ms ease;
+                    }
+                    .btn-accent:hover {
+                        background: rgba(255, 95, 31, 0.22);
+                        box-shadow: 0 0 14px rgba(255, 95, 31, 0.22);
+                    }
+                    .btn-ghost {
+                        background: transparent;
+                        border: 1px solid rgba(82,82,91,0.7);
+                        color: #d4d4d8;
+                        transition: border-color 160ms ease, color 160ms ease;
+                    }
+                    .btn-ghost:hover {
+                        border-color: var(--accent-border);
+                        color: var(--accent);
+                    }
+                    .social-link { color: #52525b; transition: color 150ms ease; }
+                    .social-link:hover { color: var(--accent); }
+                    .nav-link { color: #a1a1aa; transition: color 150ms ease; }
+                    .nav-link:hover { color: var(--accent); }
+                    .card-item {
+                        border: 1px solid rgba(39,39,42,0.9);
+                        background: rgba(12,12,13,0.6);
+                        transition: border-color 180ms ease, background 180ms ease;
+                    }
+                    .card-item:hover {
+                        border-color: var(--accent-border);
+                        background: rgba(255, 95, 31, 0.05);
+                    }
+                    .entrance-up {
+                        animation: entrance-up 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+                    }
+                    .entrance-delayed {
+                        animation: entrance-up 900ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+                    }
+                    @keyframes entrance-up {
+                        from {
+                            opacity: 0;
+                            transform: translateY(18px);
+                        }
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
                     }
                     "#}
                 </style>
             </head>
-            <body class="bg-black overflow-x-hidden">
-                // Animated background elements
+            <body class="bg-[#0a0a0a] overflow-x-hidden">
+                // Ambient background blobs
                 <div class="fixed inset-0 overflow-hidden pointer-events-none">
-                    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-yellow-500/5 rounded-full blur-3xl animate-pulse"></div>
-                    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
-                    <div class="absolute top-3/4 left-1/2 w-64 h-64 bg-amber-500/5 rounded-full blur-2xl animate-pulse delay-500"></div>
+                    <div class="absolute top-[-4rem] left-[-8rem] w-[32rem] h-[32rem] rounded-full blur-3xl" style="background: rgba(255,95,31,0.07);"></div>
+                    <div class="absolute bottom-[-8rem] right-[-8rem] w-[28rem] h-[28rem] rounded-full blur-3xl" style="background: rgba(255,95,31,0.05);"></div>
                 </div>
 
                 {&props.children}
@@ -251,48 +297,39 @@ pub fn AppLayout(props: &LayoutProps) -> Node {
 #[component]
 pub fn Navigation() -> Node {
     rsx! {
-        <header data_signals="{'mobileMenu': window.screen.width > 768}" class="fixed top-0 left-0 right-0 z-50 nav-blur bg-black/60 border-b border-zinc-800/50 transition-all duration-300">
-            <div class="container mx-auto px-6 py-2 flex items-center justify-between">
-                <a
-                    href="/"
-                    class="group flex items-center hover-lift text-white"
-                >
-                    "elch"
-                    <span class="inline-block text-yellow-400 drop-shadow-[0_0_15px_rgba(234,179,8,0.5)]">"🔥"</span>
+        <header data_signals="{'mobileMenu': false}" class="fixed top-0 left-0 right-0 z-50 nav-blur bg-[#0a0a0a]/80 border-b border-zinc-800/30">
+            <div class="max-w-7xl mx-auto px-4 md:px-6 py-4 flex items-center justify-between">
+                <a href="/" class="text-xl font-bold tracking-tight text-white">"elch"
+                    <span class="text-2xl" style="line-height:1">"🔥"</span>
                     "rit"
-                    <span class="inline-block delay-150 text-orange-400 drop-shadow-[0_0_15px_rgba(251,146,60,0.5)]">"🔥"</span>
+                    <span class="text-2xl" style="line-height:1">"🔥"</span>
                     "s"
                 </a>
 
-                <nav data_show="$mobileMenu" class="absolute md:relative top-full left-0 right-0 md:top-auto min-h-[calc(100vh-4rem)] md:min-h-0 bg-black md:bg-transparent border-b border-zinc-800/50 md:border-none flex flex-col md:flex-row items-center md:space-x-1 py-4 md:py-0 transform transition-all duration-300 ease-in-out md:translate-y-0 md:opacity-100" style="transform: translateY($mobileMenu ? '0' : '-100%'); opacity: $mobileMenu ? '1' : '0';">
+                <div class="hidden md:flex items-center gap-5">
                     {NAVIGATION.iter().map(|nav| {
                         rsx! {
-                            <a
-                                href={nav.href}
-                                class="md:w-auto px-4 py-3 md:py-2 text-sm font-medium text-zinc-400 hover:text-white md:hover:bg-zinc-800/50 rounded-lg transition-all duration-200 hover-lift relative group text-center md:text-left"
-                            >
-                                <span class="relative z-10">{nav.name}</span>
-                                <div class="absolute inset-0 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 rounded-lg opacity-0 md:group-hover:opacity-100 transition-opacity duration-200"></div>
-                            </a>
+                            <a href={nav.href} class="nav-link text-sm">{nav.name}</a>
                         }
                     })}
+                    <a href="/newsletter" class="btn-accent text-sm rounded-md px-3 py-1.5">"Newsletter"</a>
+                </div>
 
-                    <div class="mt-4 md:mt-0 md:ml-4 flex justify-center px-4 md:px-0">
-                        <a
-                            href="/newsletter"
-                            class="gradient-border md:w-auto px-6 py-3 md:py-2.5 text-sm font-semibold text-white hover:text-yellow-300 transition-all duration-300 hover-lift inline-flex items-center justify-center md:justify-start space-x-2 group"
-                            title="Newsletter"
-                        >
-                            <i class="fas fa-envelope text-xs"></i>
-                            <span>"SUBSCRIBE"</span>
-                        </a>
-                    </div>
-                </nav>
-
-                <button class="md:hidden p-2 text-zinc-400 hover:text-white transition-colors" data_on_click="$mobileMenu = !$mobileMenu">
-                    <i data_show="!$mobileMenu" class="fas fa-bars text-lg"></i>
-                    <i data_show="$mobileMenu" class="fas fa-x text-lg"></i>
+                    <button class="md:hidden p-2 social-link" data_on_click="$mobileMenu = !$mobileMenu" aria_label="Toggle Menu">
+                    <i data_show="!$mobileMenu" class="fas fa-bars"></i>
+                    <i data_show="$mobileMenu" class="fas fa-x"></i>
                 </button>
+            </div>
+
+            <div data_show="$mobileMenu" class="menu-panel md:hidden border-t border-zinc-800 bg-black/95 px-4 pb-4">
+                <div class="pt-3 space-y-2">
+                    {NAVIGATION.iter().map(|nav| {
+                        rsx! {
+                            <a href={nav.href} class="block px-3 py-2 text-zinc-300 border border-zinc-800 rounded-lg hover:bg-zinc-900">{nav.name}</a>
+                        }
+                    })}
+                    <a href="/newsletter" class="block px-3 py-2 text-zinc-200 border border-zinc-700 rounded-lg hover:bg-zinc-900">"Newsletter"</a>
+                </div>
             </div>
         </header>
     }
@@ -302,58 +339,67 @@ pub fn Navigation() -> Node {
 pub fn PageLayout(props: &LayoutProps) -> Node {
     rsx! {
         <AppLayout title={&props.title}>
-            <div class="relative min-h-screen bg-gradient-to-br from-black via-zinc-900/50 to-black">
-                // Enhanced gradient overlay
-                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/50 pointer-events-none"></div>
-
+            <div class="relative min-h-screen bg-[#0a0a0a]">
                 <div class="relative">
                     <Navigation />
 
-                    // Main content area with improved spacing and styling
-                    <main class="px-6 pt-20 md:mx-auto space-y-12 max-w-7xl lg:px-8 md:space-y-20 md:pt-32 lg:pt-40 min-h-[85vh]">
-                        <div class="relative">
+                    <main class="px-4 md:px-6 pt-28 md:pt-32 max-w-7xl mx-auto min-h-[85vh]">
+                        <section class="relative entrance-delayed space-y-10 md:space-y-12 lg:pr-28">
                             {&props.children}
-                        </div>
+                        </section>
                     </main>
 
-                    // Enhanced footer with better styling
+                    <aside class="hidden lg:flex fixed right-8 top-1/2 -translate-y-1/2 flex-col items-center gap-4">
+                        <a href="https://twitter.com/iamelcharitas" class="social-link" aria_label="Twitter">
+                            <i class="fab fa-x-twitter text-base"></i>
+                        </a>
+                        <a href="https://github.com/elcharitas" class="social-link" aria_label="GitHub">
+                            <i class="fab fa-github text-base"></i>
+                        </a>
+                        <a href="https://facebook.com" class="social-link" aria_label="Facebook">
+                            <i class="fab fa-facebook text-base"></i>
+                        </a>
+                        <a href="https://linkedin.com/in/elcharitas" class="social-link" aria_label="LinkedIn">
+                            <i class="fab fa-linkedin text-base"></i>
+                        </a>
+                        <span class="text-[11px] tracking-[0.2em] uppercase text-zinc-600 [writing-mode:vertical-rl]">"Follow Me"</span>
+                    </aside>
+
                     <footer class="relative mt-20 border-t border-zinc-800/50 bg-zinc-900/20 backdrop-blur-sm">
                         <div class="container mx-auto px-6 py-12">
-                            <div class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
-                                // Footer content
-                                <div class="flex items-center text-sm text-zinc-400">
+                            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
+                                <div class="flex items-center text-sm text-zinc-400 flex-wrap">
                                     <span>"Built on "</span>
                                     <a
                                         href="https://ngyn.rs"
-                                        class="font-semibold text-orange-400 hover:text-orange-300 mx-1 transition-colors duration-200 hover-lift"
+                                        class="font-semibold text-zinc-200 hover:text-white mx-1 transition-colors duration-200"
                                     >
                                         "Ngyn"
                                     </a>
                                     "and "
                                     <a
                                         href="https://elcharitas.github.io/momenta"
-                                        class="font-semibold text-blue-400 hover:text-blue-300 mx-1 transition-colors duration-200 hover-lift"
+                                        class="font-semibold text-zinc-200 hover:text-white mx-1 transition-colors duration-200"
                                     >
                                         "Momenta"
                                     </a>
                                     <span>" by "</span>
                                     <a
                                         href="https://elcharitas.wtf"
-                                        class="font-semibold text-yellow-400 hover:text-yellow-300 mx-1 transition-colors duration-200 hover-lift"
+                                        class="font-semibold text-zinc-200 hover:text-white mx-1 transition-colors duration-200"
                                     >
                                         "Jonathan Irhodia"
                                     </a>
                                 </div>
 
-                                // Social links
-                                <div class="flex items-center space-x-4">
-                                    <a href="https://twitter.com/iamelcharitas" class="text-zinc-400 hover:text-blue-400 transition-colors duration-200 hover-lift">
+                                <div class="flex items-center gap-4">
+                                    <a href="https://twitter.com/iamelcharitas" class="text-zinc-400 hover:text-zinc-200 transition-colors duration-200">
                                         <i class="fab fa-x-twitter text-lg"></i>
                                     </a>
-                                    <a href="https://github.com/elcharitas" class="text-zinc-400 hover:text-white transition-colors duration-200 hover-lift">
+                                    <a href="https://github.com/elcharitas" class="text-zinc-400 hover:text-white transition-colors duration-200">
                                         <i class="fab fa-github text-lg"></i>
                                     </a>
-                                    <a href="https://linkedin.com/in/elcharitas" class="text-zinc-400 hover:text-blue-500 transition-colors duration-200 hover-lift">
+                                    <a href="https://linkedin.com/in/elcharitas" class="text-zinc-400 hover:text-zinc-200 transition-colors duration-200">
                                         <i class="fab fa-linkedin text-lg"></i>
                                     </a>
                                 </div>

@@ -135,83 +135,61 @@ pub async fn adventures_handler() -> impl IntoResponse {
 pub fn AdventuresPage() -> Node {
     let adventures = parse_adventures_from_json();
 
+    // Collect unique years sorted descending
+    let mut years: Vec<String> = adventures
+        .iter()
+        .map(|a| a.year.clone())
+        .collect::<std::collections::HashSet<_>>()
+        .into_iter()
+        .collect();
+    years.sort_by(|a, b| b.cmp(a));
+
     rsx! {
         <PageLayout title="Timeline">
-            <div class="text-center mb-12">
-                <h1 class="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400 mb-4">
-                    "Journey Timeline"
-                </h1>
-                <p class="text-base text-zinc-300 max-w-2xl mx-auto">
-                    "Over a decade of coding adventures, from first HTML tag to leading engineering teams."
+            <section class="space-y-3 mb-10">
+                <h1 class="text-4xl md:text-5xl font-semibold text-white">"Timeline"</h1>
+                <div class="section-rule"></div>
+                <p class="text-base text-zinc-300 max-w-3xl">
+                    "A decade of engineering milestones, product pivots, and experiments — in chronological order."
                 </p>
+            </section>
 
-                <div class="flex justify-center gap-6 mt-6 text-sm">
-                    <div class="text-yellow-400 font-semibold">{adventures.len() as u32}" Milestones"</div>
-                    <div class="text-blue-400 font-semibold">"10+ Years"</div>
-                    <div class="text-purple-400 font-semibold">"50+ Projects"</div>
-                </div>
-            </div>
+            <div class="space-y-14">
+                {years.iter().map(|year| {
+                    let year_adventures: Vec<&Adventure> = adventures
+                        .iter()
+                        .filter(|a| &a.year == year)
+                        .collect();
 
-            <div class="max-w-4xl mx-auto">
-                <div class="relative">
-                    <div class="absolute left-4 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-yellow-400 via-blue-400 to-gray-600"></div>
+                    rsx! {
+                        <div class="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-4 md:gap-8">
+                            <div class="md:pt-1">
+                                <span class="text-4xl md:text-5xl font-bold" style="color: var(--accent); opacity: 0.35;">{year.as_str()}</span>
+                            </div>
+                            <ul class="space-y-3">
+                                {year_adventures.iter().map(|adventure| {
+                                    let is_major = adventure.title.len() > 60
+                                        || adventure.title.contains("Framework")
+                                        || adventure.title.contains("Joined")
+                                        || adventure.title.contains("Started work");
 
-                    <div class="space-y-6">
-                        {adventures.iter().enumerate().map(|(index, adventure)| {
-                            let is_major = adventure.title.len() > 60 ||
-                                          adventure.title.contains("Framework") ||
-                                          adventure.title.contains("Joined") ||
-                                          adventure.title.contains("Started work");
-
-                            rsx! {
-                                <div class="relative flex items-start group">
-                                    <div class="absolute left-4 md:left-8 w-3 h-3 rounded-full border-2 border-zinc-900 bg-gradient-to-r from-yellow-400 to-orange-400 transform -translate-x-1.5 z-10 group-hover:scale-125 transition-transform"></div>
-
-                                    <div class="ml-12 md:ml-20 flex-1">
-                                        <div class={format!("p-4 rounded-lg border border-zinc-800 bg-zinc-900/60 hover:border-zinc-600 hover:bg-zinc-900/80 transition-all duration-200 {}",
-                                            if is_major { "border-l-4 border-l-yellow-500/50" } else { "" })}>
-
-                                            <div class="flex items-center justify-between mb-2">
-                                                <div class="flex items-center gap-2">
-                                                    <span class="text-lg">{&adventure.icon}</span>
-                                                    <div class="flex flex-col justify-between gap-2">
-                                                        <div class="text-sm font-semibold text-yellow-400">
-                                                            {&adventure.date}
-                                                        </div>
-                                                        <div class="text-xs text-zinc-500 flex items-center gap-1">
-                                                            <i class="fas fa-calendar"></i>
-                                                            {&adventure.quarter}
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                {when!(is_major =><div class="px-2 py-1 bg-yellow-500/20 text-yellow-400 text-xs rounded-full font-medium">
-                                                    "Major"
-                                                </div>)}
+                                    rsx! {
+                                        <li class="flex items-start gap-3 group">
+                                            <span class="mt-1 text-base shrink-0">{adventure.icon.as_str()}</span>
+                                            <div class="space-y-0.5">
+                                                <p class={format!("text-sm md:text-base leading-snug {}",
+                                                    if is_major { "text-zinc-100 font-medium" } else { "text-zinc-300" })}>
+                                                    {adventure.title.as_str()}
+                                                </p>
+                                                <p class="text-xs" style="color: var(--accent); opacity: 0.6;">{adventure.date.as_str()}" · "{adventure.quarter.as_str()}</p>
                                             </div>
-
-                                            <p class="text-zinc-200 text-sm leading-relaxed group-hover:text-white transition-colors">
-                                                {&adventure.title}
-                                            </p>
-                                        </div>
-
-                                        {when!(index < adventures.len() - 1 => <div class="ml-2 mt-2 w-px h-4 bg-zinc-700"></div>)}
-                                    </div>
-                                </div>
-                            }
-                        })}
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-12 text-center">
-                <div class="inline-flex items-center gap-3 px-6 py-3 bg-zinc-900/60 border border-zinc-700 rounded-lg">
-                    <span class="text-2xl">"🚀"</span>
-                    <div>
-                        <div class="text-white font-semibold">"The journey continues..."</div>
-                        <div class="text-zinc-400 text-sm">"Building the future, one line of code at a time"</div>
-                    </div>
-                </div>
+                                        </li>
+                                    }
+                                })}
+                            </ul>
+                        </div>
+                    }
+                })}
             </div>
         </PageLayout>
     }

@@ -1,0 +1,12 @@
+{
+	"name": "Ngyn Framework",
+	"description": "A next-generation backend framework for Rust — built for ergonomics, speed, and developer joy. Inspired by NestJS but designed ground-up for the Rust ecosystem.",
+	"url": "https://github.com/ngyn-rs/ngyn",
+	"homepage": "https://ngyn.rs",
+	"tags": [
+		"Rust",
+		"Framework",
+		"Open Source",
+		"Backend"
+	]
+}

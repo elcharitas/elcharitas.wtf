@@ -1,9 +1,9 @@
 use reqwest;
 use serde::{Deserialize, Serialize};
-use std::{collections::HashMap, env};
+use std::collections::HashMap;
 use thiserror::Error;
 
-use crate::shared::Project;
+use crate::shared::{get_env, Project};
 
 // GraphQL fragments (these would typically be loaded from .graphql files)
 const PAGE_INFO_FRAGMENT: &str = include_str!("../graphql/fragments/PageInfo.graphql");
@@ -109,7 +109,8 @@ impl GraphQLClient {
     pub fn with_options(options: QueryOptions) -> Result<Self, GraphQLClientError> {
         let mut client_builder = reqwest::Client::builder();
 
-        // Set timeout if specified
+        // Set timeout if specified (not supported in wasm32)
+        #[cfg(not(target_arch = "wasm32"))]
         if let Some(timeout) = options.timeout_seconds {
             client_builder = client_builder.timeout(std::time::Duration::from_secs(timeout));
         }
@@ -168,10 +169,9 @@ impl GraphQLClient {
         );
         headers.insert(
             reqwest::header::AUTHORIZATION,
-            env::var("HASHNODE_TOKEN")
-                .unwrap_or_default()
+            get_env("HASHNODE_TOKEN")
                 .parse()
-                .unwrap(),
+                .unwrap_or(reqwest::header::HeaderValue::from_static("")),
         );
 
         // Add custom headers
@@ -243,7 +243,6 @@ struct GitHubOwner {
 #[derive(Debug)]
 pub enum GitHubError {
     RequestError(reqwest::Error),
-    EnvError(env::VarError),
     JsonError(reqwest::Error),
 }
 
@@ -251,7 +250,6 @@ impl std::fmt::Display for GitHubError {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
             GitHubError::RequestError(e) => write!(f, "Request error: {}", e),
-            GitHubError::EnvError(e) => write!(f, "Environment variable error: {}", e),
             GitHubError::JsonError(e) => write!(f, "JSON parsing error: {}", e),
         }
     }
@@ -265,14 +263,8 @@ impl From<reqwest::Error> for GitHubError {
     }
 }
 
-impl From<env::VarError> for GitHubError {
-    fn from(error: env::VarError) -> Self {
-        GitHubError::EnvError(error)
-    }
-}
-
 pub async fn get_all_projects(page: u32) -> Result<Vec<Project>, GitHubError> {
-    let github_token = env::var("GITHUB_TOKEN").unwrap_or("".to_string());
+    let github_token = get_env("GITHUB_TOKEN");
     let client = reqwest::Client::builder().build()?;
 
     let url = format!(
@@ -342,7 +334,7 @@ mod tests {
     #[tokio::test]
     async fn test_get_all_projects() {
         // This test requires GITHUB_TOKEN environment variable
-        if env::var("GITHUB_TOKEN").is_ok() {
+        if !std::env::var("GITHUB_TOKEN").unwrap_or_default().is_empty() {
             let result = get_all_projects(1).await;
             match result {
                 Ok(projects) => {

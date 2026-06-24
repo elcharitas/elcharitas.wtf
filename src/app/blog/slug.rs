@@ -17,6 +17,8 @@ use momenta::prelude::*;
 use reqwest::header::SET_COOKIE;
 use serde::{Deserialize, Serialize};
 use serde_json::json;
+#[cfg(target_arch = "wasm32")]
+use futures::FutureExt;
 
 #[derive(Default, Serialize, Deserialize)]
 pub struct BlogDetailProps {
@@ -279,16 +281,30 @@ async fn fetch_post_by_slug(
     {
         let (device_id, cookies) = get_or_create_device_id("");
 
-        tokio::spawn(send_views_to_hashnode_internal_analytics(
-            publication.clone(),
-            headers.clone(),
-            device_id,
-        ));
-
-        tokio::spawn(send_views_to_hashnode_analytics_dashboard(
-            publication.clone(),
-            headers,
-        ));
+        #[cfg(not(target_arch = "wasm32"))]
+        {
+            tokio::spawn(send_views_to_hashnode_internal_analytics(
+                publication.clone(),
+                headers.clone(),
+                device_id,
+            ));
+            tokio::spawn(send_views_to_hashnode_analytics_dashboard(
+                publication.clone(),
+                headers,
+            ));
+        }
+        #[cfg(target_arch = "wasm32")]
+        {
+            wasm_bindgen_futures::spawn_local(send_views_to_hashnode_internal_analytics(
+                publication.clone(),
+                headers.clone(),
+                device_id,
+            ).map(|_| ()));
+            wasm_bindgen_futures::spawn_local(send_views_to_hashnode_analytics_dashboard(
+                publication.clone(),
+                headers,
+            ).map(|_| ()));
+        }
 
         if let Some(SinglePostPublication { post, .. }) = publication {
             return (post, cookies);

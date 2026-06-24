@@ -5,6 +5,48 @@ use axum::extract::Query;
 use lazy_static::lazy_static;
 use serde::{Deserialize, Serialize};
 
+// ------ env var abstraction ------
+
+#[cfg(target_arch = "wasm32")]
+use std::cell::RefCell;
+
+#[cfg(target_arch = "wasm32")]
+thread_local! {
+    static ENV_VARS: RefCell<std::collections::HashMap<String, String>> = RefCell::new(std::collections::HashMap::new());
+}
+
+/// Initialise worker env at the start of each request (wasm32 only).
+#[cfg(target_arch = "wasm32")]
+pub fn init_env(env: &worker::Env) {
+    ENV_VARS.with(|vars| {
+        let mut map = vars.borrow_mut();
+        for key in ["HASHNODE_TOKEN", "GITHUB_TOKEN", "HASHNODE_PUBLICATION_HOST", "ENVIRONMENT"] {
+            let value = env.secret(key)
+                .map(|s| s.to_string())
+                .or_else(|_| env.var(key).map(|v| v.to_string()))
+                .unwrap_or_default();
+            map.insert(key.to_string(), value);
+        }
+    });
+}
+
+/// Get an environment variable. Uses thread-local storage on wasm32,
+/// falls back to `std::env::var` on native.
+pub fn get_env(key: &str) -> String {
+    #[cfg(target_arch = "wasm32")]
+    {
+        ENV_VARS.with(|vars| {
+            vars.borrow().get(key).cloned().unwrap_or_default()
+        })
+    }
+    #[cfg(not(target_arch = "wasm32"))]
+    {
+        std::env::var(key).unwrap_or_default()
+    }
+}
+
+// ------ end env var abstraction ------
+
 #[derive(Deserialize)]
 pub struct PageParams {
     pub slug: String,

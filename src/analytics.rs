@@ -1,12 +1,9 @@
-use crate::shared::{Post, SinglePostPublication};
+use crate::shared::{get_env, Post, SinglePostPublication};
 use axum::http::HeaderMap;
 use cookie::Cookie;
 use reqwest::Client;
 use serde::Serialize;
-use std::{
-    env,
-    time::{SystemTime, UNIX_EPOCH},
-};
+use std::time::{SystemTime, UNIX_EPOCH};
 
 #[derive(Debug, Serialize)]
 struct AnalyticsEvent {
@@ -79,7 +76,7 @@ pub async fn send_views_to_hashnode_internal_analytics(
         .header("Content-Type", "application/json")
         .header(
             reqwest::header::AUTHORIZATION,
-            env::var("HASHNODE_TOKEN").unwrap_or_default(),
+            get_env("HASHNODE_TOKEN"),
         )
         .json(&HashnodeAnalyticsRequest {
             events: vec![event],
@@ -186,7 +183,7 @@ pub async fn send_views_to_hashnode_analytics_dashboard(
     let response = client
         .post(&endpoint)
         .header("Content-Type", "application/json; charset=UTF-8")
-        .bearer_auth(env::var("HASHNODE_TOKEN").unwrap_or_default())
+        .bearer_auth(get_env("HASHNODE_TOKEN"))
         .json(&request_body)
         .send()
         .await?;

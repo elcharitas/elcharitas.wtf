@@ -10,6 +10,7 @@ mod error;
 mod home;
 mod newsletter;
 mod projects;
+mod publications;
 mod resume {
     pub mod page;
 }
@@ -33,6 +34,7 @@ pub fn create_router() -> Router {
     let router = Router::new()
         .route("/", get(home::home_handler))
         .route("/resume", get(resume::page::resume_handler))
+        .route("/publications", get(publications::publications_handler))
         .route("/styles.css", get(assets::styles_handler))
         .route("/CalSans-SemiBold.woff2", get(assets::calsans_font_handler))
         .route("/favicon.png", get(assets::favicon_handler))
@@ -130,6 +132,10 @@ pub async fn wasm_dynamic_response<B>(req: &Request<B>) -> Option<Response> {
                 .await
                 .into_response(),
         );
+    }
+
+    if method == Method::GET && path == "/publications" {
+        return Some(publications::publications_handler().await.into_response());
     }
 
     if method == Method::GET && path == "/adventures" {

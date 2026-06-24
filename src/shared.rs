@@ -20,7 +20,13 @@ thread_local! {
 pub fn init_env(env: &worker::Env) {
     ENV_VARS.with(|vars| {
         let mut map = vars.borrow_mut();
-        for key in ["HASHNODE_TOKEN", "GITHUB_TOKEN", "HASHNODE_PUBLICATION_HOST", "ENVIRONMENT"] {
+        for key in [
+            "HASHNODE_TOKEN",
+            "GITHUB_TOKEN",
+            "HASHNODE_PUBLICATION_HOST",
+            "ORCID_ID",
+            "ENVIRONMENT",
+        ] {
             let value = env.secret(key)
                 .map(|s| s.to_string())
                 .or_else(|_| env.var(key).map(|v| v.to_string()))
@@ -84,6 +90,10 @@ lazy_static! {
         NavigationInfo {
             name: "Essays",
             href: "/essays"
+        },
+        NavigationInfo {
+            name: "Publications",
+            href: "/publications"
         },
         NavigationInfo {
             name: "Resume",

@@ -37,10 +37,11 @@ pub fn HomePage() -> Node {
                             <span class="text-zinc-400 typed-caret">"|"</span>
                         </h1>
                         <p class="text-zinc-300 max-w-2xl leading-relaxed text-base md:text-lg">
-                            "Software engineer with a passion for building things. I work on Rust systems, write essays, and share what I learn while shipping."
+                            "Software engineer with a passion for building things. I work on Rust systems, write essays, and publish around biodiagnostics, AI, and microfluidics."
                         </p>
                         <div class="flex flex-wrap gap-3 pt-2">
                             <a href="/projects" class="btn-accent px-5 py-3 text-sm font-semibold rounded-md">"My Portfolio"</a>
+                            <a href="/publications" class="btn-ghost px-5 py-3 text-sm font-semibold rounded-md">"Publications"</a>
                             <a href="/connect" class="btn-ghost px-5 py-3 text-sm font-semibold rounded-md">"Contact Me"</a>
                         </div>
                     </div>
@@ -76,9 +77,14 @@ pub fn HomePage() -> Node {
                                 })}
                             </div>
                         </div>
-                        <div class="border border-zinc-800 rounded-2xl p-5 bg-zinc-950/60">
-                            <p class="text-xs uppercase tracking-[0.1em] text-zinc-500 mb-3">"Now"</p>
-                            <p class="text-sm text-zinc-300 leading-relaxed">"Building and writing in public. Subscribe to the newsletter for weekly updates on what ships next."</p>
+                        <div class="border border-zinc-800 rounded-2xl p-5 bg-zinc-950/60 space-y-3">
+                            <p class="text-xs uppercase tracking-[0.1em] text-zinc-500">"Research / Publications"</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs px-2 py-0.5 rounded-full border border-zinc-700 text-zinc-400">"Biodiagnostics"</span>
+                                <span class="text-xs px-2 py-0.5 rounded-full border border-zinc-700 text-zinc-400">"AI"</span>
+                                <span class="text-xs px-2 py-0.5 rounded-full border border-zinc-700 text-zinc-400">"Microfluidics"</span>
+                            </div>
+                            <p class="text-sm text-zinc-300 leading-relaxed">"I write technical pieces and keep an ORCID-backed list of publications here as it grows."</p>
                         </div>
                     </div>
                 </div>

@@ -47,6 +47,7 @@ pub struct ResumeData {
     pub header: ResumeHeader,
     pub experience: Vec<ExperienceEntry>,
     pub skills: Vec<SkillEntry>,
+    pub interests: Vec<String>,
     pub education: Vec<EducationEntry>,
 }
 
@@ -119,6 +120,20 @@ pub fn ResumePage() -> Node {
                                 <div class="card-item rounded-xl p-4 space-y-2">
                                     <p class="text-xs uppercase tracking-[0.1em]" style="color: var(--accent);">{&skill.category}</p>
                                     <p class="text-sm text-zinc-300">{&skill.items}</p>
+                                </div>
+                            }
+                        })}
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold text-white uppercase tracking-[0.1em]">"Research Interests"</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        {data.interests.iter().map(|interest| {
+                            rsx! {
+                                <div class="card-item rounded-xl p-4 space-y-2">
+                                    <p class="text-xs uppercase tracking-[0.1em]" style="color: var(--accent);">"Publication focus"</p>
+                                    <p class="text-sm text-zinc-300">{interest}</p>
                                 </div>
                             }
                         })}

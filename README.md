@@ -1,7 +1,7 @@
 <div align="center">
     <a href="https://elcharitas.wtf"><h1 align="center">elcharitas.wtf</h1></a>
     
-My personal website, built with [Rust](https://www.rust-lang.org/) using [Axum](https://github.com/tokio-rs/axum) and [Tower](https://github.com/tower-rs/tower), styled with [Tailwind CSS](https://tailwindcss.com/). The site uses [Momenta](https://github.com/elcharitas/momenta) for UI components, [Datastar](https://data-star.dev/) for reactivity, and integrates with GitHub API for projects and Hashnode for blog posts.
+My personal website, built with [Rust](https://www.rust-lang.org/) using [Axum](https://github.com/tokio-rs/axum) and [Tower](https://github.com/tower-rs/tower), styled with [Tailwind CSS](https://tailwindcss.com/). The site uses [Momenta](https://github.com/elcharitas/momenta) for UI components, [Datastar](https://data-star.dev/) for reactivity, and integrates with GitHub API for projects, Hashnode for blog posts, and ORCID for publications.
 
 </div>
 

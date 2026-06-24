@@ -356,9 +356,6 @@ pub fn PageLayout(props: &LayoutProps) -> Node {
                         <a href="https://github.com/elcharitas" class="social-link" aria_label="GitHub">
                             <i class="fab fa-github text-base"></i>
                         </a>
-                        <a href="https://facebook.com" class="social-link" aria_label="Facebook">
-                            <i class="fab fa-facebook text-base"></i>
-                        </a>
                         <a href="https://linkedin.com/in/elcharitas" class="social-link" aria_label="LinkedIn">
                             <i class="fab fa-linkedin text-base"></i>
                         </a>

@@ -150,9 +150,6 @@ pub fn BlogDetailPage(props: &BlogDetailProps) -> Node {
                                         <button class="p-2 rounded-lg bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white transition-colors">
                                             <i class="fab fa-linkedin text-sm"></i>
                                         </button>
-                                        <button class="p-2 rounded-lg bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white transition-colors">
-                                            <i class="fab fa-facebook text-sm"></i>
-                                        </button>
                                     </div>
                                 </div>
 

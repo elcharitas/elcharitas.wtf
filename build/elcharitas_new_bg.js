@@ -1049,12 +1049,12 @@ export function __wbindgen_cb_drop(arg0) {
     return ret;
 };
 
-export function __wbindgen_closure_wrapper1866(arg0, arg1, arg2) {
+export function __wbindgen_closure_wrapper1868(arg0, arg1, arg2) {
     const ret = makeMutClosure(arg0, arg1, 620, __wbg_adapter_26);
     return ret;
 };
 
-export function __wbindgen_closure_wrapper1950(arg0, arg1, arg2) {
+export function __wbindgen_closure_wrapper1952(arg0, arg1, arg2) {
     const ret = makeMutClosure(arg0, arg1, 665, __wbg_adapter_29);
     return ret;
 };

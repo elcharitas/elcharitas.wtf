@@ -9,13 +9,13 @@ Now, down to business... Chakra UI-Svelte is an open-source component library fo
     
 * New documentation site powered by [Histoire](http://histoire.dev): The new documentation site will make it easier for developers to find and learn about the various components and features offered by Chakra UI-Svelte. It will include detailed documentation, examples, and code snippets to help developers get up and running with the library quickly and easily.
     
-    ![A preview of what's cooking up 🤩](https://cdn.hashnode.com/res/hashnode/image/upload/v1672608083535/4f8d0967-558f-4e55-9a75-877254875794.png align="center")
+    ![A preview of what's cooking up 🤩](https://cdn.hashnode.com/res/hashnode/image/upload/v1672608083535/4f8d0967-558f-4e55-9a75-877254875794.png)
     
 * New components: I am working on adding new and useful components to the library. In the next release, users can expect to see several new components that will help them build even more powerful and feature-rich applications. The goal is to have 40 ready reusable components by the end of the first quarter.
     
 * Better accessibility support 😳: Accessibility is a top priority for the Chakra UI-Svelte, and I am also working to improve the library's support for users with disabilities. In the next release, users can expect to see even better support for screen readers and other accessibility tools.
     
-    ![black and white brick wall](https://images.unsplash.com/photo-1600202751116-3e0226e1e7a0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YWNjZXNzaWJpbGl0eXxlbnwwfHwwfHw%3D&w=1000&q=80 align="left")
+    ![black and white brick wall](https://images.unsplash.com/photo-1600202751116-3e0226e1e7a0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YWNjZXNzaWJpbGl0eXxlbnwwfHwwfHw%3D&w=1000&q=80)
     
 * Other improvements and enhancements 👌: In addition to the major updates listed above, users can expect several other improvements and enhancements to the library. These include new features and functionality, as well as bug fixes and other enhancements to make the library even better.
     

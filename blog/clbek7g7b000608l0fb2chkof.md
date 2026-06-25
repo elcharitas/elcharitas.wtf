@@ -8,7 +8,7 @@ Software engineering practices can be traced back to the early days of computing
 
 The advent of software engineering practices can be attributed to several factors, including the increasing complexity and size of software systems, the need for improved reliability and maintainability of software systems, and the growing importance of software in various industries.
 
-![yellow concrete building](https://images.unsplash.com/photo-1545110333-c40d8bd01891?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y29tcGxleCUyMHNvZnR3YXJlJTIwc3lzdGVtc3xlbnwwfHwwfHw%3D&w=1000&q=80 align="left")
+![yellow concrete building](https://images.unsplash.com/photo-1545110333-c40d8bd01891?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y29tcGxleCUyMHNvZnR3YXJlJTIwc3lzdGVtc3xlbnwwfHwwfHw%3D&w=1000&q=80)
 
 One of the key factors that led to the advent of software engineering practices was the increasing complexity and size of software systems. With the advent of the internet and the proliferation of computing devices, software systems have grown in size and complexity. This has made it increasingly difficult to develop and maintain software systems using traditional ad-hoc approaches.
 
@@ -19,20 +19,20 @@ To address this challenge, software engineers have developed several techniques 
 1.  **Modular/Compartmental Design**
     
 
-![photo of stackable cube](https://images.unsplash.com/photo-1471679984494-b1491dff4144?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDV8fG1vZHVsYXIlMjBkZXNpZ258ZW58MHx8MHx8&w=1000&q=80 align="left")
+![photo of stackable cube](https://images.unsplash.com/photo-1471679984494-b1491dff4144?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDV8fG1vZHVsYXIlMjBkZXNpZ258ZW58MHx8MHx8&w=1000&q=80)
 
 Modular design is a software design approach that involves dividing a software system into smaller, independent modules that can be developed and tested independently. This approach allows software engineers to manage the complexity of large software systems by breaking them down into smaller, more manageable components.
 
 2.  **OOP Paradigm**
     
-    ![black flat screen computer monitor](https://images.unsplash.com/photo-1587929651402-ce54a2b3af41?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8M3wzODU0MDk2M3x8ZW58MHx8fHw%3D&w=1000&q=80 align="left")
+    ![black flat screen computer monitor](https://images.unsplash.com/photo-1587929651402-ce54a2b3af41?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8M3wzODU0MDk2M3x8ZW58MHx8fHw%3D&w=1000&q=80)
     
 
 Object-oriented programming is a programming paradigm that is based on the concept of objects. In object-oriented programming, a software system is composed of objects that interact with each other to perform various tasks. This approach allows software engineers to model real-world concepts and scenarios more intuitively and effectively.
 
 3.  **Software Testing**
     
-    ![person writing on white paper](https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8NXw5NjYyMTE1MHx8ZW58MHx8fHw%3D&w=1000&q=80 align="left")
+    ![person writing on white paper](https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8NXw5NjYyMTE1MHx8ZW58MHx8fHw%3D&w=1000&q=80)
     
 
 Software testing is a process that involves the execution of a software system to identify and fix defects or errors. This is an essential part of the software development process, as it helps to ensure that the software system is reliable and meets the requirements of the users.

@@ -46,13 +46,13 @@ const useSaline = (initial) => {
 
 GPT-4 had this to say. I should admit, it does have a point. However, its point is invalid here since the hook does not expose any API for updating the state aside the `update` and `forceUpdate` methods respectively 👍.
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1680642214170/1a6c5e8f-ca2c-4e44-a55f-63a00adc23b4.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1680642214170/1a6c5e8f-ca2c-4e44-a55f-63a00adc23b4.png)
 
 So, I went on to correct the AI and it did accept that adding an effect would be unnecessary. However, this is not the point here. The interesting part is what comes next. I now asked GPT-4 if it wrote the code snippet I had initially sent to it and the response was shocking as you can see below 😅.
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1680642650314/ead28b8c-9082-495d-879a-9101123f267b.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1680642650314/ead28b8c-9082-495d-879a-9101123f267b.png)
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1680642585921/7518d0d2-6377-47bc-bb84-ec1c95608db7.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1680642585921/7518d0d2-6377-47bc-bb84-ec1c95608db7.png)
 
 ### Clarifying Misconceptions
 

@@ -16,7 +16,7 @@ So about six weeks ago, I started planning out how the new portfolio would be an
 
 ### **The Site:** [**elcharitas.wtf**](https://elcharitas.wtf)
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1695588611721/bd0b9372-6c64-4e5e-b351-a6cf8dd1d072.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1695588611721/bd0b9372-6c64-4e5e-b351-a6cf8dd1d072.png)
 
 A few things before we jump in, I would love to say a big shout-out to Andreas who made his portfolio available - [https://github.com/chronark/chronark.com](https://github.com/chronark/chronark.com). If you're familiar with [https://chronark.com/](https://chronark.com/), you'll realize my portfolio is based on his. His great work allowed me to build what's necessary and only modify the UI to suit my desires. And so, I created three basic sections on my portfolio which I will explain shortly and these are:
 
@@ -35,7 +35,7 @@ This formed a foundation for how the new one would not only retrieve the posts b
 
 Here's a preview of how the blog listing looks like:
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1695642102787/1ef8a88f-6e29-4000-b883-3a7825eafd1f.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1695642102787/1ef8a88f-6e29-4000-b883-3a7825eafd1f.png)
 
 At this point, I should give some big shoutouts to my friends who helped in reviewing the design, look, feel and experience of the blog section in particular.
 
@@ -62,7 +62,7 @@ I decided on these constraints to allow me not only to validate the acceptance o
 
 Here's a preview of projects:
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1695643297863/0fb6a55c-7fec-4ed8-81ae-c744558f49bd.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1695643297863/0fb6a55c-7fec-4ed8-81ae-c744558f49bd.png)
 
 ### A Timeline for Everything Tech
 
@@ -72,6 +72,6 @@ The key thing about adventures is to keep track. I had to go over my old profile
 
 Here's a preview of adventures
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1695644216092/88f949f2-5232-49f6-8fea-66ddf3fe602d.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1695644216092/88f949f2-5232-49f6-8fea-66ddf3fe602d.png)
 
 That's it, folks. In case you've not given it a spin yet, you should. My newest and probably going to be the most stable for a long while portfolio is now live at https://elcharitas.wtf. Please note that I wrote this on a whim and would probably not edit it until I get the chance.

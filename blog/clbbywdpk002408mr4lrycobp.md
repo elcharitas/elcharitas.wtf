@@ -8,7 +8,7 @@ This distribution of power and control can bring numerous benefits, including in
 
 One of the key quirks of decentralizing traditional finance is the need to balance the benefits of decentralization with the need for regulatory compliance. In a traditional financial system, a central authority is responsible for enforcing regulations and ensuring compliance with various laws and regulations. In a decentralized system, this role is distributed among the various participants in the network, which can make it more difficult to ensure compliance.
 
-![white and red basketball hoop near white concrete building during daytime](https://images.unsplash.com/photo-1624700002386-293f8247c0bd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c3RvY2slMjBleGNoYW5nZSUyMGJ1aWxkaW5nfGVufDB8fDB8fA%3D%3D&w=1000&q=80 align="left")
+![white and red basketball hoop near white concrete building during daytime](https://images.unsplash.com/photo-1624700002386-293f8247c0bd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c3RvY2slMjBleGNoYW5nZSUyMGJ1aWxkaW5nfGVufDB8fDB8fA%3D%3D&w=1000&q=80)
 
 For example, consider a decentralized exchange (DEX) for trading securities. In a traditional financial system, a central authority, such as a stock exchange, is responsible for enforcing regulations and ensuring that all trades are conducted fairly and transparently. In a DEX, however, there is no central authority and no single entity is responsible for enforcing regulations. This means that it is up to the individual participants in the network to ensure that they are complying with all relevant regulations.
 
@@ -16,7 +16,7 @@ For example, consider a decentralized exchange (DEX) for trading securities. In 
 
 Another quirky aspect of decentralizing traditional finance is the need to address the issue of scalability. In a traditional financial system, a central authority is responsible for processing and settling transactions. This central authority has access to powerful computing resources and can therefore handle a large number of transactions without experiencing any significant delays. In a decentralized system, however, there is no central authority and transactions are processed and settled by the participants in the network. This means that the scalability of the system is limited by the combined computing power of the participants.
 
-![Every node is required for a fool-proof transaction](https://images.unsplash.com/photo-1655720855348-a5eeeddd1bc4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fG5ldHdvcmslMjBjb21wdXRpbmd8ZW58MHx8MHx8&w=1000&q=80 align="left")
+![Every node is required for a fool-proof transaction](https://images.unsplash.com/photo-1655720855348-a5eeeddd1bc4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fG5ldHdvcmslMjBjb21wdXRpbmd8ZW58MHx8MHx8&w=1000&q=80)
 
 For example, consider a decentralized payment network based on blockchain technology. In a traditional payment network, a central authority is responsible for processing and settling transactions, which allows the network to handle a large number of transactions without experiencing any significant delays. In a decentralized payment network, however, transactions are processed and settled by the participants in the network. This means that the network's scalability is limited by the combined computing power of the participants, which can result in slower transaction processing times and higher fees.
 

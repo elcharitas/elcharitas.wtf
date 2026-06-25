@@ -3,7 +3,6 @@ use crate::shared::get_env;
 use axum::response::{Html, IntoResponse};
 use momenta::prelude::*;
 use serde::{Deserialize, Serialize};
-#[cfg(not(target_arch = "wasm32"))]
 use serde_json::Value;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -24,7 +23,6 @@ pub struct PublicationsProps {
 }
 
 impl PublicationsProps {
-    #[cfg(not(target_arch = "wasm32"))]
     async fn load() -> Self {
         let orcid_id = normalize_orcid_id(&get_env("ORCID_ID"));
         if orcid_id.is_empty() {
@@ -51,25 +49,6 @@ impl PublicationsProps {
                 publications: Vec::new(),
                 notice: Some(error),
             },
-        }
-    }
-
-    #[cfg(target_arch = "wasm32")]
-    async fn load() -> Self {
-        let mut orcid_id = normalize_orcid_id(&get_env("ORCID_ID"));
-        if orcid_id.is_empty() {
-            orcid_id = "0009-0006-6802-6663".to_string();
-        }
-
-        let orcid_url = format!("https://orcid.org/{orcid_id}");
-        Self {
-            orcid_id: Some(orcid_id),
-            orcid_url: Some(orcid_url),
-            publications: Vec::new(),
-            notice: Some(
-                "Publication syncing is unavailable in the wasm-only build; open the server build to fetch live ORCID entries."
-                    .to_string(),
-            ),
         }
     }
 }
@@ -181,7 +160,6 @@ fn normalize_orcid_id(orcid_id: &str) -> String {
         .to_string()
 }
 
-#[cfg(not(target_arch = "wasm32"))]
 async fn fetch_publications(orcid_id: &str) -> Result<Vec<PublicationEntry>, String> {
     let client = reqwest::Client::new();
     let url = format!("https://pub.orcid.org/v3.0/{orcid_id}/works");
@@ -210,7 +188,6 @@ async fn fetch_publications(orcid_id: &str) -> Result<Vec<PublicationEntry>, Str
     Ok(publications)
 }
 
-#[cfg(not(target_arch = "wasm32"))]
 fn extract_publication_entry(group: &Value) -> Option<PublicationEntry> {
     let summary = first_summary(group)?;
     let title = string_at(
@@ -244,7 +221,6 @@ fn extract_publication_entry(group: &Value) -> Option<PublicationEntry> {
     })
 }
 
-#[cfg(not(target_arch = "wasm32"))]
 fn first_summary(group: &Value) -> Option<&Value> {
     let summaries = group
         .get("work-summary")
@@ -254,7 +230,6 @@ fn first_summary(group: &Value) -> Option<&Value> {
     summaries.first()
 }
 
-#[cfg(not(target_arch = "wasm32"))]
 fn extract_publication_date(summary: &Value) -> Option<String> {
     let year = string_at(
         summary,
@@ -285,7 +260,6 @@ fn extract_publication_date(summary: &Value) -> Option<String> {
     })
 }
 
-#[cfg(not(target_arch = "wasm32"))]
 fn humanize_work_type(work_type: &str) -> String {
     work_type
         .split(['-', '_'])
@@ -301,7 +275,6 @@ fn humanize_work_type(work_type: &str) -> String {
         .join(" ")
 }
 
-#[cfg(not(target_arch = "wasm32"))]
 fn string_at(value: &Value, paths: &[&[&str]]) -> Option<String> {
     for path in paths {
         if let Some(found) = find_path(value, path).and_then(value_to_string) {
@@ -311,7 +284,6 @@ fn string_at(value: &Value, paths: &[&[&str]]) -> Option<String> {
     None
 }
 
-#[cfg(not(target_arch = "wasm32"))]
 fn find_path<'a>(value: &'a Value, path: &[&str]) -> Option<&'a Value> {
     let mut current = value;
     for key in path {
@@ -320,7 +292,6 @@ fn find_path<'a>(value: &'a Value, path: &[&str]) -> Option<&'a Value> {
     Some(current)
 }
 
-#[cfg(not(target_arch = "wasm32"))]
 fn value_to_string(value: &Value) -> Option<String> {
     match value {
         Value::String(text) => Some(text.clone()),

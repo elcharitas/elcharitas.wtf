@@ -14,13 +14,13 @@ Overall, [Alphaday](https://app.alphaday.com) is an essential tool for anyone lo
 
 One of the standout features of Alphaday is its clean and intuitive interface. The platform has been designed to be as user-friendly as possible, allowing users to easily navigate their way around the various features and tools. This makes it perfect for both beginners and more experienced users, allowing them to easily access the information and tools they need to manage their investments.
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1670258604811/5iZydS6fH.png align="left")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1670258604811/5iZydS6fH.png)
 
 **2\. Portfolio Management 📈**
 
 Another key feature of Alphaday is its portfolio management tools. These tools allow users to easily track their gains and losses, and provide valuable insights into the performance of their investments over time. With this information, users can make informed decisions about their portfolio, and take steps to optimize its performance.
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1670258667881/Vg4phkzuU.png align="left")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1670258667881/Vg4phkzuU.png)
 
 One of the most useful features of Alphaday is its real-time updates on the performance of individual assets. With these updates, users can quickly and easily see how their investments are performing, allowing them to make informed decisions about their portfolios. The platform also provides users with a range of other useful information, including market data, news, and educational resources. You can check this out right now at [https://app.alphaday.com/b/beginner](https://app.alphaday.com/b/beginner)
 
@@ -28,7 +28,7 @@ One of the most useful features of Alphaday is its real-time updates on the perf
 
 Another key feature of Alphaday is its newsfeed. This feature keeps users up-to-date with the latest developments in the world of cryptocurrency, providing them with valuable insights and information that can help them make informed decisions about their investments
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1670258707007/gP_Ea4IFw.png align="left")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1670258707007/gP_Ea4IFw.png)
 
 There are many other dashboards out there though. And some of my other favorites include:
 

@@ -34,10 +34,6 @@ pub fn create_router() -> Router {
     let router = Router::new()
         .route("/", get(home::home_handler))
         .route("/resume", get(resume::page::resume_handler))
-        .route(
-            "/publications",
-            get(|| async { publications::publications_handler().await }),
-        )
         .route("/styles.css", get(assets::styles_handler))
         .route("/CalSans-SemiBold.woff2", get(assets::calsans_font_handler))
         .route("/favicon.png", get(assets::favicon_handler))
@@ -45,6 +41,10 @@ pub fn create_router() -> Router {
 
     #[cfg(not(target_arch = "wasm32"))]
     let router = router
+        .route(
+            "/publications",
+            get(|| async { publications::publications_handler().await }),
+        )
         .route("/essays", get(blog::page::blog_handler))
         .route("/essays/infinite_scroll", get(blog::page::infinite_scroll))
         .route("/essays/{slug}", get(blog::slug::blog_detail_handler))

@@ -18,7 +18,7 @@ As I mentioned, I've been working and reworking my portfolio for a long while. H
 
 What I did was copy over the graphql queries and `schema.grapghl` to my [github repository](https://github.com/elcharitas/elcharitas.wtf). You can do the same or if you'd prefer you can make use of the starter kit and just tweak it to your likes. I didn't want to do this since I was hell-bent on making use of NextJS 13.5 unique features and more importantly, I had targeted `serverActions` in an attempt to truly make my portfolio as fast as possible with every technology available to spare. And so, I ended up with a structure similar to this after much tinkering of course.
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1698709649887/5a767288-076e-41a6-a261-ae71e9254355.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1698709649887/5a767288-076e-41a6-a261-ae71e9254355.png)
 
 At this point, I should give a big shout-out to Sandeep and the rest of the Hashnode team who were really helpful and quite responsive. I was stuck a few times, but the [discord channel](https://discord.gg/hashnode) has great support, I was able to navigate my way around both the docs and the API in total.
 
@@ -124,11 +124,11 @@ const { data } = await executeQuery<PostsByPublicationQuery>(
 
 One key thing to note here is the handling of pagination. The Queries return a `cursor` field which can be used to get the next set of posts. Implementing this was not an easy task and this is primarily because I wanted to ensure the `Load more` button does not appear as shown in the following transitions:
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1698711411490/535183ec-f854-4903-b790-bf2d8d86f937.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1698711411490/535183ec-f854-4903-b790-bf2d8d86f937.png)
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1698711429308/579cf842-2465-4ef2-b157-08beb735ef82.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1698711429308/579cf842-2465-4ef2-b157-08beb735ef82.png)
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1698711472388/0a4655f6-11ad-46bc-843a-1a0113afe417.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1698711472388/0a4655f6-11ad-46bc-843a-1a0113afe417.png)
 
 It's clear to me already that this would be difficult. So what I did was to track the cursor returned by the current query. And as such I was able to write a logic similar to this
 
@@ -155,7 +155,7 @@ await executeQuery<SubscribeToNewsletterMutation>(
 
 The frontend looks much like this image below and I'm hoping you would [subscribe](https://elcharitas.wtf/newsletter) to be alerted the next time I drop an interesting read.
 
-[![](https://cdn.hashnode.com/res/hashnode/image/upload/v1698712081967/89be28f5-6ce5-4cbf-963e-a814f26d4344.png align="center")](https://elcharitas.wtf/newsletter)
+[![](https://cdn.hashnode.com/res/hashnode/image/upload/v1698712081967/89be28f5-6ce5-4cbf-963e-a814f26d4344.png)](https://elcharitas.wtf/newsletter)
 
 ### Analytics
 
@@ -163,7 +163,7 @@ This is the final feature I would talk about. It's a groundbreaking one also ðŸ˜
 
 As you can see from the insights below, it was a poor choice. I only made use of it for a few days and already accumulated this much ðŸ˜­.
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1698712286626/bf0bbef5-e283-4c84-acb1-711bffba4d12.png align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1698712286626/bf0bbef5-e283-4c84-acb1-711bffba4d12.png)
 
 I reached out on [Hashnode's Discord](https://discord.gg/hashnode) and I was informed via chat how the starter kit handles analytics such as page views, blog post views etc by making additional requests to hashnode's analytics.
 

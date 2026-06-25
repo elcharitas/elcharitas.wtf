@@ -1,5 +1,4 @@
 name = "elcharitas-new"
-type = "javascript"
 main = "build/elcharitas_new.js"
 account_id = "a1a3f41fdca34f8949f1933ee43d6323"
 workers_dev = true
@@ -14,18 +13,14 @@ name = "elcharitas-wtf-prod"
 routes = [
   { pattern = "elcharitas.wtf/*", zone_name = "elcharitas.wtf" }
 ]
-vars = { ENVIRONMENT = "production", HASHNODE_PUBLICATION_HOST = "blog.elcharitas.wtf" }
+vars = { ENVIRONMENT = "production", HASHNODE_PUBLICATION_HOST = "blog.elcharitas.wtf", ORCID_ID = "0009-0006-6802-6663" }
 
 [env.staging]
 name = "elcharitas-wtf-staging"
 routes = [
   { pattern = "staging.elcharitas.wtf/*", zone_name = "elcharitas.wtf" }
 ]
-vars = { ENVIRONMENT = "staging" }
-
-[build]
-cwd = "./"
-upload = { format = "modules", dir = "build" }
+vars = { ENVIRONMENT = "staging", HASHNODE_PUBLICATION_HOST = "blog.elcharitas.wtf", ORCID_ID = "0009-0006-6802-6663" }
 
 [observability]
 enabled = false

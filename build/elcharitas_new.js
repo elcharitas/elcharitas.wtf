@@ -9,9 +9,8 @@ instance.exports.__wbindgen_start();
 
 export default {
   async fetch(request, env, ctx) {
-    const fn = __wbg.fetch ?? __wbg.handle;
-    if (typeof fn === "function") {
-      return fn(request, env, ctx);
+    if (typeof __wbg.fetch === "function") {
+      return __wbg.fetch(request, env, ctx);
     }
     return new Response("Worker not initialised", { status: 503 });
   },

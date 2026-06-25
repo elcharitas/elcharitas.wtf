@@ -242,19 +242,197 @@ pub fn AppLayout(props: &LayoutProps) -> Node {
                         animation: entrance-up 900ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
                     }
                     @keyframes entrance-up {
-                        from {
-                            opacity: 0;
-                            transform: translateY(18px);
-                        }
-                        to {
-                            opacity: 1;
-                            transform: translateY(0);
-                        }
+                        from { opacity: 0; transform: translateY(18px); }
+                        to   { opacity: 1; transform: translateY(0); }
+                    }
+
+                    .essay-body { color: #d4d4d8; line-height: 1.85; font-size: 1.05rem; }
+                    .essay-body h1,.essay-body h2,.essay-body h3,.essay-body h4 {
+                        font-family: 'Raleway', sans-serif;
+                        color: #fff;
+                        font-weight: 700;
+                        margin: 2.2rem 0 0.8rem;
+                        line-height: 1.3;
+                    }
+                    .essay-body h1 { font-size: 2rem; }
+                    .essay-body h2 { font-size: 1.5rem; border-bottom: 1px solid rgba(63,63,70,0.7); padding-bottom: 0.4rem; }
+                    .essay-body h3 { font-size: 1.2rem; }
+                    .essay-body p  { margin: 1.1rem 0; }
+                    .essay-body a  {
+                        color: var(--accent);
+                        text-decoration: underline;
+                        text-underline-offset: 3px;
+                        text-decoration-color: var(--accent-border);
+                        transition: text-decoration-color 150ms ease, color 150ms ease;
+                    }
+                    .essay-body a:hover { color: #ff8050; text-decoration-color: #ff8050; }
+                    .essay-body strong { color: #fff; font-weight: 600; }
+                    .essay-body em { color: #a1a1aa; font-style: italic; }
+                    .essay-body ul,.essay-body ol { margin: 1rem 0 1rem 1.5rem; }
+                    .essay-body ul { list-style: disc; }
+                    .essay-body ol { list-style: decimal; }
+                    .essay-body li { margin: 0.4rem 0; }
+                    .essay-body blockquote {
+                        border-left: 3px solid var(--accent);
+                        margin: 1.6rem 0;
+                        padding: 0.8rem 1.2rem;
+                        background: rgba(255,95,31,0.06);
+                        border-radius: 0 8px 8px 0;
+                        color: #a1a1aa;
+                        font-style: italic;
+                    }
+                    .essay-body blockquote p { margin: 0; }
+                    .essay-body code {
+                        font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+                        font-size: 0.875em;
+                        background: rgba(255,255,255,0.07);
+                        color: #fbbf24;
+                        padding: 0.15em 0.45em;
+                        border-radius: 4px;
+                        border: 1px solid rgba(255,255,255,0.08);
+                    }
+                    .essay-body pre {
+                        background: #0d0d0f;
+                        border: 1px solid rgba(63,63,70,0.7);
+                        border-radius: 10px;
+                        padding: 1.25rem 1.5rem;
+                        overflow-x: auto;
+                        margin: 1.6rem 0;
+                        position: relative;
+                    }
+                    .essay-body pre code {
+                        background: transparent;
+                        color: #e4e4e7;
+                        padding: 0;
+                        border: none;
+                        font-size: 0.88rem;
+                        line-height: 1.7;
+                    }
+                    .essay-body hr {
+                        border: none;
+                        border-top: 1px solid rgba(63,63,70,0.6);
+                        margin: 2.5rem 0;
+                    }
+                    .essay-body img {
+                        max-width: 100%;
+                        border-radius: 10px;
+                        border: 1px solid rgba(63,63,70,0.6);
+                        margin: 1.5rem 0;
+                    }
+                    .essay-body table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin: 1.5rem 0;
+                        font-size: 0.9rem;
+                    }
+                    .essay-body th {
+                        background: rgba(255,95,31,0.1);
+                        color: #fff;
+                        font-weight: 600;
+                        text-align: left;
+                        padding: 0.6rem 1rem;
+                        border: 1px solid rgba(63,63,70,0.6);
+                    }
+                    .essay-body td {
+                        padding: 0.55rem 1rem;
+                        border: 1px solid rgba(63,63,70,0.5);
+                        color: #d4d4d8;
+                    }
+                    .essay-body tr:nth-child(even) td { background: rgba(255,255,255,0.025); }
+
+                    #comments-section { font-family: 'DM Sans', sans-serif; }
+                    #HCB_comment_box * { box-sizing: border-box; }
+                    #HCB_comment_box { background: transparent !important; color: #d4d4d8 !important; border: none !important; padding: 0 !important; }
+                    #HCB_comment_box .hcb-comment-area,
+                    #HCB_comment_box .HCB_widget,
+                    #HCB_comment_box .well,
+                    #HCB_comment_box .panel,
+                    #HCB_comment_box .panel-body { background: transparent !important; border: none !important; box-shadow: none !important; padding: 0 !important; }
+                    #HCB_comment_box input[type="text"],
+                    #HCB_comment_box input[type="email"],
+                    #HCB_comment_box input[type="url"],
+                    #HCB_comment_box textarea {
+                        background: rgba(24,24,27,0.85) !important;
+                        color: #e4e4e7 !important;
+                        border: 1px solid rgba(63,63,70,0.7) !important;
+                        border-radius: 8px !important;
+                        padding: 0.6rem 0.9rem !important;
+                        font-family: 'DM Sans', sans-serif !important;
+                        font-size: 0.9rem !important;
+                        outline: none !important;
+                        transition: border-color 150ms ease, box-shadow 150ms ease !important;
+                        width: 100% !important;
+                        margin-bottom: 0.5rem !important;
+                    }
+                    #HCB_comment_box input::placeholder,
+                    #HCB_comment_box textarea::placeholder { color: #52525b !important; }
+                    #HCB_comment_box input:focus,
+                    #HCB_comment_box textarea:focus {
+                        border-color: var(--accent-border) !important;
+                        box-shadow: 0 0 0 2px rgba(255,95,31,0.12) !important;
+                    }
+                    #HCB_comment_box button,
+                    #HCB_comment_box input[type="submit"],
+                    #HCB_comment_box .btn,
+                    #HCB_comment_box .btn-primary,
+                    #HCB_comment_box .btn-default {
+                        background: var(--accent-dim) !important;
+                        color: var(--accent) !important;
+                        border: 1px solid var(--accent-border) !important;
+                        border-radius: 8px !important;
+                        padding: 0.5rem 1.4rem !important;
+                        font-family: 'DM Sans', sans-serif !important;
+                        font-size: 0.875rem !important;
+                        font-weight: 600 !important;
+                        cursor: pointer !important;
+                        transition: background 150ms ease, box-shadow 150ms ease !important;
+                        text-shadow: none !important;
+                        box-shadow: none !important;
+                        letter-spacing: 0.01em !important;
+                    }
+                    #HCB_comment_box button:hover,
+                    #HCB_comment_box input[type="submit"]:hover,
+                    #HCB_comment_box .btn:hover,
+                    #HCB_comment_box .btn-primary:hover,
+                    #HCB_comment_box .btn-default:hover {
+                        background: rgba(255,95,31,0.22) !important;
+                        box-shadow: 0 0 14px rgba(255,95,31,0.18) !important;
+                    }
+                    #HCB_comment_box a { color: var(--accent) !important; text-decoration: none !important; }
+                    #HCB_comment_box a:hover { color: #ff8050 !important; text-decoration: underline !important; }
+                    #HCB_comment_box .hcb-comment {
+                        background: rgba(24,24,27,0.55) !important;
+                        border: 1px solid rgba(63,63,70,0.5) !important;
+                        border-radius: 12px !important;
+                        padding: 1rem 1.25rem !important;
+                        margin-bottom: 0.75rem !important;
+                        color: #d4d4d8 !important;
+                        transition: border-color 150ms ease !important;
+                    }
+                    #HCB_comment_box .hcb-comment:hover { border-color: var(--accent-border) !important; }
+                    #HCB_comment_box .hcb-comment-meta,
+                    #HCB_comment_box .hcb-author,
+                    #HCB_comment_box .hcb-date { color: #71717a !important; font-size: 0.78rem !important; }
+                    #HCB_comment_box .hcb-author { color: #a1a1aa !important; font-weight: 600 !important; }
+                    #HCB_comment_box .hcb-comment-text { color: #d4d4d8 !important; margin-top: 0.5rem !important; line-height: 1.65 !important; }
+                    #HCB_comment_box label { color: #a1a1aa !important; font-size: 0.82rem !important; margin-bottom: 0.3rem !important; display: block !important; font-weight: 500 !important; }
+                    #HCB_comment_box .hcb-header,
+                    #HCB_comment_box h3,
+                    #HCB_comment_box h4 { color: #fff !important; font-family: 'Raleway', sans-serif !important; margin-top: 1.5rem !important; margin-bottom: 0.75rem !important; }
+                    #HCB_comment_box .form-group,
+                    #HCB_comment_box .form-horizontal .control-group { margin-bottom: 0.75rem !important; }
+                    #HCB_comment_box .control-label { color: #a1a1aa !important; font-size: 0.82rem !important; font-weight: 500 !important; }
+                    #HCB_comment_box .form-control { background: rgba(24,24,27,0.85) !important; color: #e4e4e7 !important; border: 1px solid rgba(63,63,70,0.7) !important; border-radius: 8px !important; }
+                    #HCB_comment_box hr { border-color: rgba(63,63,70,0.5) !important; margin: 1.25rem 0 !important; }
+                    #HCB_comment_box .hcb-avatar,
+                    #HCB_comment_box .hcb-gravatar {
+                        border-radius: 50% !important;
+                        border: 2px solid var(--accent-border) !important;
                     }
                     "#}
                 </style>
             </head>
-            <body class="bg-[#0a0a0a] overflow-x-hidden">
+            <body class="bg-[#0a0a0a] overflow-x-hidden text-white scheme-dark">
                 // Ambient background blobs
                 <div class="fixed inset-0 overflow-hidden pointer-events-none">
                     <div class="absolute top-[-4rem] left-[-8rem] w-[32rem] h-[32rem] rounded-full blur-3xl" style="background: rgba(255,95,31,0.07);"></div>

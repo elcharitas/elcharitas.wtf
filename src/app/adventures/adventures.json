@@ -11,7 +11,6 @@
 			"Published research article: [From Gut to Brain: The Neurohormonal Basis of Appetite Suppression and Gastric Emptying Delay by Semaglutide in Non-Diabetic Obesity](https://doi.org/10.56557/jirmeps/2026/v21i310654)"
 		],
 		"june": [
-			"Submitted [PR #1732](https://github.com/agenda/agenda/pull/1732) in agenda/agenda to fix PostgreSQL single-job upsert conflict handling",
 			"Published research article: [Rapid colorimetric detection of pathogenic bacteria by antibiotic-conjugated gold nanoparticles in a laser-printed uPAD](https://doi.org/10.1039/d6ay00167j)",
 			"Shipped sustained updates to [elcharitas.wtf](https://github.com/elcharitas/elcharitas.wtf) with high commit activity in June"
 		]

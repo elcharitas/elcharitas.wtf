@@ -3,6 +3,127 @@ use serde::Deserialize;
 
 use crate::shared::{get_env, Content, Post, Project};
 
+// ---- post index embedded at compile time ----
+
+#[derive(Debug, Deserialize)]
+struct PostMeta {
+    slug: String,
+    title: String,
+    brief: String,
+    read_time_in_minutes: i32,
+}
+
+fn post_meta_to_post(m: PostMeta) -> Post {
+    Post {
+        id: m.slug.clone(),
+        url: format!("https://elcharitas.wtf/essays/{}", m.slug),
+        slug: m.slug,
+        title: m.title,
+        brief: m.brief,
+        subtitle: None,
+        published_at: None,
+        updated_at: None,
+        read_time_in_minutes: m.read_time_in_minutes,
+        reaction_count: None,
+        response_count: None,
+        views: None,
+        seo: None,
+        cover_image: None,
+        author: None,
+        content: None,
+        og_meta_data: None,
+        tags: Vec::new(),
+        comments: None,
+    }
+}
+
+pub async fn fetch_all_posts() -> Vec<Post> {
+    let json = include_str!("../blog/posts.json");
+    serde_json::from_str::<Vec<PostMeta>>(json)
+        .unwrap_or_default()
+        .into_iter()
+        .map(post_meta_to_post)
+        .collect()
+}
+
+fn strip_frontmatter(markdown: &str) -> &str {
+    if markdown.starts_with("---") {
+        if let Some(end) = markdown[3..].find("\n---") {
+            return markdown[3 + end + 4..].trim_start();
+        }
+    }
+    markdown
+}
+
+fn parse_title_from_frontmatter(markdown: &str) -> Option<String> {
+    if !markdown.starts_with("---") {
+        return None;
+    }
+    let end = markdown[3..].find("\n---")?;
+    let fm = &markdown[3..3 + end];
+    for line in fm.lines() {
+        if let Some(rest) = line.strip_prefix("title:") {
+            return Some(rest.trim().trim_matches('"').to_string());
+        }
+    }
+    None
+}
+
+pub fn parse_post_from_markdown(slug: &str, raw: &str) -> Post {
+    let title = parse_title_from_frontmatter(raw).unwrap_or_else(|| {
+        let body = strip_frontmatter(raw);
+        body.lines()
+            .find_map(|l| l.trim().strip_prefix("# ").map(|t| t.trim().to_string()))
+            .unwrap_or_else(|| slug.to_string())
+    });
+
+    let body = strip_frontmatter(raw);
+    let brief = body
+        .lines()
+        .map(|l| l.trim())
+        .filter(|l| !l.is_empty() && !l.starts_with('#') && !l.starts_with("```") && !l.starts_with('!'))
+        .next()
+        .unwrap_or("")
+        .chars()
+        .take(200)
+        .collect::<String>();
+
+    let word_count = body.split_whitespace().count();
+    let read_time = ((word_count as f32) / 200.0).ceil() as i32;
+
+    Post {
+        id: slug.to_string(),
+        slug: slug.to_string(),
+        url: format!("https://elcharitas.wtf/essays/{}", slug),
+        title,
+        brief,
+        subtitle: None,
+        published_at: None,
+        updated_at: None,
+        read_time_in_minutes: read_time.max(1),
+        reaction_count: None,
+        response_count: None,
+        views: None,
+        seo: None,
+        cover_image: None,
+        author: None,
+        content: Some(Content {
+            markdown: body.to_string(),
+            html: String::new(),
+        }),
+        og_meta_data: None,
+        tags: Vec::new(),
+        comments: None,
+    }
+}
+
+pub async fn fetch_post_by_slug_from_github(slug: &str) -> Option<Post> {
+    let raw = crate::blog_posts::get_post_content(slug)?;
+    Some(parse_post_from_markdown(slug, raw))
+}
+
+// ---- GitHub projects API ----
+
 #[derive(Debug)]
 pub enum GitHubError {
     RequestError(reqwest::Error),
@@ -44,169 +165,6 @@ struct GitHubRepo {
 #[derive(Debug, Deserialize)]
 struct GitHubOwner {
     login: String,
-}
-
-#[derive(Debug, Deserialize)]
-struct GitHubFile {
-    name: String,
-    download_url: Option<String>,
-}
-
-pub fn parse_post_from_markdown(slug: &str, markdown: &str) -> Post {
-    let mut title = slug.to_string();
-    let mut found_title = false;
-    let mut content_after_title = String::new();
-
-    for line in markdown.lines() {
-        if !found_title {
-            if let Some(t) = line.strip_prefix("# ") {
-                title = t.trim().to_string();
-                found_title = true;
-            }
-        } else {
-            content_after_title.push_str(line);
-            content_after_title.push('\n');
-        }
-    }
-
-    let brief = content_after_title
-        .lines()
-        .map(|l| l.trim())
-        .filter(|l| !l.is_empty() && !l.starts_with('#') && !l.starts_with("```"))
-        .next()
-        .unwrap_or("")
-        .chars()
-        .take(200)
-        .collect::<String>();
-
-    let word_count = markdown.split_whitespace().count();
-    let read_time = ((word_count as f32) / 200.0).ceil() as i32;
-
-    Post {
-        id: slug.to_string(),
-        slug: slug.to_string(),
-        url: format!("https://elcharitas.wtf/essays/{}", slug),
-        title,
-        brief,
-        subtitle: None,
-        published_at: None,
-        updated_at: None,
-        read_time_in_minutes: read_time.max(1),
-        reaction_count: None,
-        response_count: None,
-        views: None,
-        seo: None,
-        cover_image: None,
-        author: None,
-        content: Some(Content {
-            markdown: markdown.to_string(),
-            html: String::new(),
-        }),
-        og_meta_data: None,
-        tags: Vec::new(),
-        comments: None,
-    }
-}
-
-fn github_headers(token: &str) -> reqwest::header::HeaderMap {
-    let mut headers = reqwest::header::HeaderMap::new();
-    if let Ok(v) = format!("token {}", token).parse() {
-        headers.insert(reqwest::header::AUTHORIZATION, v);
-    }
-    headers.insert(
-        reqwest::header::USER_AGENT,
-        reqwest::header::HeaderValue::from_static("elcharitas-wtf"),
-    );
-    headers.insert(
-        reqwest::header::ACCEPT,
-        reqwest::header::HeaderValue::from_static("application/vnd.github+json"),
-    );
-    headers
-}
-
-pub async fn fetch_all_posts() -> Vec<Post> {
-    let token = get_env("GITHUB_TOKEN");
-    let client = match reqwest::Client::builder().build() {
-        Ok(c) => c,
-        Err(_) => return Vec::new(),
-    };
-
-    let resp = match client
-        .get("https://api.github.com/repos/elcharitas/hashnode-blog-backup/contents")
-        .headers(github_headers(&token))
-        .send()
-        .await
-    {
-        Ok(r) => r,
-        Err(_) => return Vec::new(),
-    };
-
-    let text = match resp.text().await {
-        Ok(t) => t,
-        Err(_) => return Vec::new(),
-    };
-
-    let files: Vec<GitHubFile> = match serde_json::from_str(&text) {
-        Ok(f) => f,
-        Err(_) => return Vec::new(),
-    };
-
-    let md_files: Vec<GitHubFile> = files
-        .into_iter()
-        .filter(|f| f.name.ends_with(".md"))
-        .collect();
-
-    let mut posts = Vec::new();
-
-    for file in md_files {
-        let slug = file.name.trim_end_matches(".md").to_string();
-        let download_url = match file.download_url {
-            Some(u) => u,
-            None => continue,
-        };
-        let resp = match client
-            .get(&download_url)
-            .headers(github_headers(&token))
-            .send()
-            .await
-        {
-            Ok(r) => r,
-            Err(_) => continue,
-        };
-        let markdown = match resp.text().await {
-            Ok(c) => c,
-            Err(_) => continue,
-        };
-        let mut post = parse_post_from_markdown(&slug, &markdown);
-        post.content = None;
-        posts.push(post);
-    }
-
-    posts.reverse();
-    posts
-}
-
-pub async fn fetch_post_by_slug_from_github(slug: &str) -> Option<Post> {
-    let token = get_env("GITHUB_TOKEN");
-    let client = reqwest::Client::builder().build().ok()?;
-
-    let url = format!(
-        "https://raw.githubusercontent.com/elcharitas/hashnode-blog-backup/main/{}.md",
-        slug
-    );
-    let resp = client
-        .get(&url)
-        .headers(github_headers(&token))
-        .send()
-        .await
-        .ok()?;
-
-    if !resp.status().is_success() {
-        return None;
-    }
-
-    let markdown = resp.text().await.ok()?;
-    Some(parse_post_from_markdown(slug, &markdown))
 }
 
 pub async fn get_all_projects(page: u32) -> Result<Vec<Project>, GitHubError> {

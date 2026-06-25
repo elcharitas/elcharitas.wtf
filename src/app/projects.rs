@@ -103,7 +103,6 @@ pub fn ProjectsPage(
                     <div class="section-rule"></div>
                     <p class="text-base text-zinc-300 max-w-3xl">
                         "Open-source contributions and personal experiments across backend systems, tools, and product prototypes. "
-                        <span class="text-sm" style="color: var(--accent); opacity: 0.7;">"("{total_projects}" loaded)"</span>
                     </p>
                 </section>
 

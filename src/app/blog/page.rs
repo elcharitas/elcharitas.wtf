@@ -37,7 +37,6 @@ pub fn BlogPage(BlogProps { posts }: &BlogProps) -> Node {
                     <div class="section-rule"></div>
                     <p class="text-base text-zinc-300 max-w-3xl">
                         "I write about software development, product decisions, productivity, and the realities of shipping. "
-                        <span class="text-sm" style="color: var(--accent); opacity: 0.7;">"("{total_posts}" loaded)"</span>
                     </p>
                 </section>
 

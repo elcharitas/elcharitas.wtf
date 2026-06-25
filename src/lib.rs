@@ -3,6 +3,8 @@ mod analytics;
 #[cfg(target_arch = "wasm32")]
 mod app;
 #[cfg(target_arch = "wasm32")]
+mod blog_posts;
+#[cfg(target_arch = "wasm32")]
 mod components;
 #[cfg(target_arch = "wasm32")]
 mod requests;

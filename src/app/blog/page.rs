@@ -18,7 +18,7 @@ pub struct BlogProps {
 
 impl BlogProps {
     async fn load() -> Self {
-        if let Ok(PostsByPublicationQuery { publication }) = HASHNODE_CLIENT
+        match HASHNODE_CLIENT
             .execute_query(
                 POSTS_QUERY.to_owned(),
                 Some(json!({
@@ -28,26 +28,46 @@ impl BlogProps {
             )
             .await
         {
-            let PublicationPostConnection {
-                edges, page_info, ..
-            } = publication.posts;
+            Ok(PostsByPublicationQuery { publication: Some(publication) }) => {
+                let PublicationPostConnection {
+                    edges, page_info, ..
+                } = publication.posts;
 
-            let PageInfo {
-                end_cursor,
-                has_next_page,
-            } = page_info.unwrap_or_default();
+                let PageInfo {
+                    end_cursor,
+                    has_next_page,
+                } = page_info.unwrap_or_default();
 
-            return Self {
-                posts: edges.unwrap_or_default(),
-                cursor: end_cursor,
-                has_next_page,
-            };
-        }
+                Self {
+                    posts: edges.unwrap_or_default(),
+                    cursor: end_cursor,
+                    has_next_page,
+                }
+            }
+            Ok(PostsByPublicationQuery { publication: None }) => {
+                #[cfg(target_arch = "wasm32")]
+                worker::console_error!("[essays] Hashnode returned null publication");
+                #[cfg(not(target_arch = "wasm32"))]
+                eprintln!("[essays] Hashnode returned null publication");
 
-        Self {
-            posts: Vec::new(),
-            cursor: None,
-            has_next_page: Some(false),
+                Self {
+                    posts: Vec::new(),
+                    cursor: None,
+                    has_next_page: Some(false),
+                }
+            }
+            Err(e) => {
+                #[cfg(target_arch = "wasm32")]
+                worker::console_error!("[essays] Hashnode query error: {:?}", e);
+                #[cfg(not(target_arch = "wasm32"))]
+                eprintln!("[essays] Hashnode query error: {:?}", e);
+
+                Self {
+                    posts: Vec::new(),
+                    cursor: None,
+                    has_next_page: Some(false),
+                }
+            }
         }
     }
 }
@@ -101,7 +121,7 @@ pub async fn infinite_scroll(Query(query): Query<serde_json::Value>) -> impl Int
         return ([("Content-Type", "text/event-stream")], String::new());
     }
 
-    if let Ok(PostsByPublicationQuery { publication }) = HASHNODE_CLIENT
+    if let Ok(PostsByPublicationQuery { publication: Some(publication) }) = HASHNODE_CLIENT
         .execute_query(
             POSTS_QUERY.to_owned(),
             Some(json!({

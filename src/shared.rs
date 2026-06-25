@@ -134,7 +134,7 @@ lazy_static! {
 /// Root query response type
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PostsByPublicationQuery {
-    pub publication: Publication,
+    pub publication: Option<Publication>,
 }
 
 /// Root query response type for single post

@@ -7,12 +7,6 @@ compatibility_date = "2024-12-16"
 routes = [
   { pattern = "elcharitas.wtf/*", zone_name = "elcharitas.wtf" }
 ]
-
-[env.production]
-name = "elcharitas-wtf-prod"
-routes = [
-  { pattern = "elcharitas.wtf/*", zone_name = "elcharitas.wtf" }
-]
 vars = { ENVIRONMENT = "production", HASHNODE_PUBLICATION_HOST = "blog.elcharitas.wtf", ORCID_ID = "0009-0006-6802-6663" }
 
 [observability]

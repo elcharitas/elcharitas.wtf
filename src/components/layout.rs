@@ -540,42 +540,28 @@ pub fn PageLayout(props: &LayoutProps) -> Node {
                         <span class="text-[11px] tracking-[0.2em] uppercase text-zinc-600 [writing-mode:vertical-rl]">"Follow Me"</span>
                     </aside>
 
-                    <footer class="relative mt-20 border-t border-zinc-800/50 bg-zinc-900/20 backdrop-blur-sm">
-                        <div class="container mx-auto px-6 py-12">
-                            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
-                                <div class="flex items-center text-sm text-zinc-400 flex-wrap">
-                                    <span>"Built on "</span>
-                                    <a
-                                        href="https://ngyn.rs"
-                                        class="font-semibold text-zinc-200 hover:text-white mx-1 transition-colors duration-200"
-                                    >
-                                        "Ngyn"
-                                    </a>
-                                    "and "
-                                    <a
-                                        href="https://elcharitas.github.io/momenta"
-                                        class="font-semibold text-zinc-200 hover:text-white mx-1 transition-colors duration-200"
-                                    >
+                    <footer class="relative mt-20 border-t border-zinc-800/50">
+                        <div class="container mx-auto px-6 py-6">
+                            <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+                                <p class="text-xs text-zinc-500">
+                                    "Built with "
+                                    <a href="https://elcharitas.github.io/momenta" class="text-zinc-400 hover:text-white transition-colors">
                                         "Momenta"
                                     </a>
-                                    <span>" by "</span>
-                                    <a
-                                        href="https://elcharitas.wtf"
-                                        class="font-semibold text-zinc-200 hover:text-white mx-1 transition-colors duration-200"
-                                    >
+                                    " · "
+                                    <a href="https://elcharitas.wtf" class="text-zinc-400 hover:text-white transition-colors">
                                         "Jonathan Irhodia"
                                     </a>
-                                </div>
-
+                                </p>
                                 <div class="flex items-center gap-4">
-                                    <a href="https://twitter.com/iamelcharitas" class="text-zinc-400 hover:text-zinc-200 transition-colors duration-200">
-                                        <i class="fab fa-x-twitter text-lg"></i>
+                                    <a href="https://twitter.com/iamelcharitas" class="text-zinc-600 hover:text-zinc-300 transition-colors">
+                                        <i class="fab fa-x-twitter"></i>
                                     </a>
-                                    <a href="https://github.com/elcharitas" class="text-zinc-400 hover:text-white transition-colors duration-200">
-                                        <i class="fab fa-github text-lg"></i>
+                                    <a href="https://github.com/elcharitas" class="text-zinc-600 hover:text-white transition-colors">
+                                        <i class="fab fa-github"></i>
                                     </a>
-                                    <a href="https://linkedin.com/in/elcharitas" class="text-zinc-400 hover:text-zinc-200 transition-colors duration-200">
-                                        <i class="fab fa-linkedin text-lg"></i>
+                                    <a href="https://linkedin.com/in/elcharitas" class="text-zinc-600 hover:text-zinc-300 transition-colors">
+                                        <i class="fab fa-linkedin"></i>
                                     </a>
                                 </div>
                             </div>

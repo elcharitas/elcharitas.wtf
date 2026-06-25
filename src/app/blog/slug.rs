@@ -48,7 +48,26 @@ pub fn BlogDetailPage(props: &BlogDetailProps) -> Node {
                         extension: ExtensionOptions { table: true, strikethrough: true, autolink: true, tasklist: true, ..Default::default() },
                         ..Default::default()
                     };
-                    let html_content = post.content.as_ref().map(|c| markdown_to_html(&c.markdown, &md_opts)).unwrap_or_default();
+                    // Hashnode exports images as ![alt](url align="left") — strip the
+                    // trailing align attribute so comrak parses it as a valid image.
+                    let cleaned_markdown = post.content.as_ref().map(|c| {
+                        let mut out = String::with_capacity(c.markdown.len());
+                        for line in c.markdown.lines() {
+                            if line.trim_start().starts_with("![") {
+                                // remove ` align="..."` before the closing )
+                                let cleaned = line
+                                    .replace(r#" align="left""#, "")
+                                    .replace(r#" align="right""#, "")
+                                    .replace(r#" align="center""#, "");
+                                out.push_str(&cleaned);
+                            } else {
+                                out.push_str(line);
+                            }
+                            out.push('\n');
+                        }
+                        out
+                    }).unwrap_or_default();
+                    let html_content = markdown_to_html(&cleaned_markdown, &md_opts);
                     rsx! {
                         <article class="max-w-3xl mx-auto py-6 md:py-10">
                             <header class="mb-10 space-y-4">

@@ -1,12 +1,12 @@
 {
-	"name": "Ngyn Framework",
-	"description": "A next-generation backend framework for Rust — built for ergonomics, speed, and developer joy. Inspired by NestJS but designed ground-up for the Rust ecosystem.",
-	"url": "https://github.com/ngyn-rs/ngyn",
-	"homepage": "https://ngyn.rs",
+	"name": "Momenta",
+	"description": "A lightweight RSX-powered UI rendering library for Rust — ergonomic, zero-cost, and built for the modern web. Write component-based UIs directly in Rust with a JSX-like syntax.",
+	"url": "https://github.com/elcharitas/momenta",
+	"homepage": "https://elcharitas.github.io/momenta",
 	"tags": [
 		"Rust",
-		"Framework",
+		"UI",
 		"Open Source",
-		"Backend"
+		"WebAssembly"
 	]
 }

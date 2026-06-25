@@ -1,152 +1,170 @@
 [
-  {
-    "slug": "clodm4yeh000308mj06pkea2j",
-    "title": "Taking the Bull by the horn with Hashnode Headless",
-    "brief": "Sometime last year December, I began craving a way to effortlessly combine my portfolio and blog into one single app. This was a rather difficult task at the time. Luckily, Hashndoe had an API in WIP ",
-    "read_time_in_minutes": 8
-  },
-  {
-    "slug": "clo66lxjw000c09lc3i1jc3ak",
-    "title": "New Updates: Newsletters, Improved Blog Search, Bug Fixes",
-    "brief": "Alright, lovelies, as promised, today's the 25th which is the official release announcement date for my new portfolio website. Over the past month since the first release, so many changes have been ad",
-    "read_time_in_minutes": 3
-  },
-  {
-    "slug": "clmyur5s500010aif1vwyheci",
-    "title": "The start of a new adventure",
-    "brief": "I'll start with \"Aloha\" 😅. It's been a long while since I put something out here and this is primarily because my primary domain \"elcharitas.dev\" is no longer available. Sometimes late last year, I g",
-    "read_time_in_minutes": 5
-  },
-  {
-    "slug": "clg2rgka2000509lcc8ov6yk8",
-    "title": "The ChatGPT Authorship Dilemma: Is the AI Model a Thief?",
-    "brief": "The outburst of AI has changed various aspects of our lives, including how we communicate and interact with technology. OpenAI's ChatGPT, a powerful language model, has been making waves in the tech w",
-    "read_time_in_minutes": 4
-  },
-  {
-    "slug": "clg2756ld000009if794cd8qa",
-    "title": "5 Tips on how to interact with Smart Contracts",
-    "brief": "Smart contract programming can be a rather tedious thing to do. I recall how each time I wrote web integrations for smart contracts I would get frustrated. The issue is: there's almost no good docs fo",
-    "read_time_in_minutes": 2
-  },
-  {
-    "slug": "clckecu9p000608mkazoga8nl",
-    "title": "Amala and Ewedu: The Nigerian Yoruba Delicacy",
-    "brief": "If you're a fan of Nigerian cuisine, chances are you've come across the delicious combination of amala and ewedu. This traditional Yoruba dish is a staple in many Nigerian homes and is enjoyed by peop",
-    "read_time_in_minutes": 2
-  },
-  {
-    "slug": "clcdvwtm9000108me1zhecb65",
-    "title": "Chakra UI Svelte v0: What to look forward to this New Year",
-    "brief": "I'll start by saying a Happy New Year to you, my most esteemed reader 😎, the previous year was a blast thanks to your continual reading of my write ups. If this is your first time here or you're not ",
-    "read_time_in_minutes": 3
-  },
-  {
-    "slug": "clc7ibpld000a08mf40fpcvd0",
-    "title": "Dev Retro 2022: The Most Important Lessons I Learned as a Developer",
-    "brief": "As a developer, the year 2022 has been a rollercoaster ride of both challenges and victories. It has been a year of growth, both personally and professionally, as I've had the opportunity to work on a",
-    "read_time_in_minutes": 5
-  },
-  {
-    "slug": "clbkwt1jl000008l83o1ycjrk",
-    "title": "Profiling and Performance Testing 🤯",
-    "brief": "As a developer, I am always interested in optimizing the performance of my applications. In a previous article, I wrote about \"Improving the performance of python backends\" where I discussed various t",
-    "read_time_in_minutes": 6
-  },
-  {
-    "slug": "clbglihxk000908ky73aqgkiq",
-    "title": "What happens when you type google.com in the browser? 🤔",
-    "brief": "Yesterday, I came across the popular interview question - \"What happens when you type google.com into your browser and press enter?\". An attempt has been made by many such as this awesome answer by Al",
-    "read_time_in_minutes": 3
-  },
-  {
-    "slug": "clbel6p43000o08mib05g68c1",
-    "title": "Improving the performance of python backends",
-    "brief": "Improving the performance of Python backends is a topic of great importance to many organizations that rely on Python for the development of their web applications.",
-    "read_time_in_minutes": 6
-  },
-  {
-    "slug": "clbek7g7b000608l0fb2chkof",
-    "title": "The Advent of Software Engineering Practices",
-    "brief": "Software engineering is a discipline that focuses on the systematic and disciplined approach to the development, operation, and maintenance of software systems. It is concerned with the application of",
-    "read_time_in_minutes": 3
-  },
-  {
-    "slug": "clbe2hqpv000008la3r9g61sx",
-    "title": "Rediscovering React.memo 🤯",
-    "brief": "React is a popular and powerful JavaScript library for building user interfaces. However, as applications grow and become more complex, performance can become an issue. One effective way to optimize t",
-    "read_time_in_minutes": 3
-  },
-  {
-    "slug": "clbbywdpk002408mr4lrycobp",
-    "title": "Quirks of Decentralizing Traditional Finance",
-    "brief": "The concept of decentralization has been gaining traction in various industries, including traditional finance. Decentralization refers to the distribution of power or control away from a central auth",
-    "read_time_in_minutes": 4
-  },
-  {
-    "slug": "clbb1e6cc000408mf97uh6oc2",
-    "title": "Alphaday Crypto Dashboard 🚀",
-    "brief": "Alphaday is a sleek and user-friendly crypto dashboard that allows users to easily track, manage, and grow their digital asset portfolios. With a clean and intuitive interface, Alphaday makes it simpl",
-    "read_time_in_minutes": 4
-  },
-  {
-    "slug": "clbawfh5u000l08l59h0ne09z",
-    "title": "Superpowered JavaScript Pure Functions 😇",
-    "brief": "In JavaScript, a function is a block of code that is designed to perform a specific task. It can take input in the form of arguments and can return a value as output. Functions are an essential part o",
-    "read_time_in_minutes": 4
-  },
-  {
-    "slug": "clbaedgfp000h08ml2w0gcoac",
-    "title": "Developers, Light vs Dark Mode 💀",
-    "brief": "The question of why developers hate the light and prefer dark mode has been asked for years. Developers have always had a strong affinity for the dark, from its mysterious and alluring nature to the f",
-    "read_time_in_minutes": 3
-  },
-  {
-    "slug": "clb9tycsk000308kx5qaw6wnp",
-    "title": "JavaScript Arrow Functions 101",
-    "brief": "JavaScript arrow functions, also known as fat arrow functions, are a new feature introduced in ECMAScript 6 (ES6) that provides a more concise syntax for writing function expressions. They are a power",
-    "read_time_in_minutes": 4
-  },
-  {
-    "slug": "clb8qn8ka000108jr8ese54iw",
-    "title": "10 Importance of Sleep to Developers 🌚",
-    "brief": "As a developer, getting a good night's sleep is essential for maintaining your physical and mental health, as well as for maximizing your productivity and performance. In this article, we will explore",
-    "read_time_in_minutes": 4
-  },
-  {
-    "slug": "clb8a0h8x000908le3iclbxb5",
-    "title": "How to Land a Remote Job? 🤔",
-    "brief": "Landing a remote job can be a challenging process, but with the right approach, it is possible to find a rewarding and fulfilling position that allows you to work from anywhere. In this article, we wi",
-    "read_time_in_minutes": 3
-  },
-  {
-    "slug": "clb89uoo7000408l8dcba2n0n",
-    "title": "Remote Development: Localhost in the Cloud 🚀",
-    "brief": "The development of technology has revolutionized the way that people work and interact with one another. In recent years, the rise of remote work has allowed people to collaborate and share informatio",
-    "read_time_in_minutes": 3
-  },
-  {
-    "slug": "clb88hboo000408mk7p3v1nqp",
-    "title": "4 React Best practices in 2mins",
-    "brief": "React is a popular JavaScript library for building user interfaces, and is widely used by developers to create interactive and engaging web applications. To get the most out of React and ensure that y",
-    "read_time_in_minutes": 2
-  },
-  {
-    "slug": "clb885h6y000008l7ci3h077n",
-    "title": "What is OpenAI? 🤔",
-    "brief": "OpenAI is a leading research organization in the field of artificial intelligence, with a mission to ensure that AI is aligned with the best interests of humanity. Since its founding in 2015, OpenAI h",
-    "read_time_in_minutes": 2
-  },
-  {
-    "slug": "cl2vq1eq0039tu5nvgwm8gupz",
-    "title": "Announcing Chakra UI Svelte",
-    "brief": "I'm so excited to share what I spent the better part of April building - Chakra UI implementation in svelte. This is an implementation of the popular Chakra UI just as we have for Vue. I'm currently w",
-    "read_time_in_minutes": 3
-  },
-  {
-    "slug": "cl2m6ilsa045ug9nvaxxjfpmc",
-    "title": "How to Safely convert BigNumbers with ethers",
-    "brief": "Big numbers are an everyday use for web3 developers on EVM based blockchains. Consider a smart contract like the below:",
-    "read_time_in_minutes": 2
-  }
+	{
+		"slug": "clodm4yeh000308mj06pkea2j",
+		"title": "Taking the Bull by the horn with Hashnode Headless",
+		"brief": "Sometime last year December, I began craving a way to effortlessly combine my portfolio and blog into one single app. This was a rather difficult task at the time. Luckily, Hashndoe had an API in WIP ",
+		"read_time_in_minutes": 8,
+		"category": "web-dev"
+	},
+	{
+		"slug": "clo66lxjw000c09lc3i1jc3ak",
+		"title": "New Updates: Newsletters, Improved Blog Search, Bug Fixes",
+		"brief": "Alright, lovelies, as promised, today's the 25th which is the official release announcement date for my new portfolio website. Over the past month since the first release, so many changes have been ad",
+		"read_time_in_minutes": 3,
+		"category": "updates"
+	},
+	{
+		"slug": "clmyur5s500010aif1vwyheci",
+		"title": "The start of a new adventure",
+		"brief": "I'll start with \"Aloha\" 😅. It's been a long while since I put something out here and this is primarily because my primary domain \"elcharitas.dev\" is no longer available. Sometimes late last year, I g",
+		"read_time_in_minutes": 5,
+		"category": "personal"
+	},
+	{
+		"slug": "clg2rgka2000509lcc8ov6yk8",
+		"title": "The ChatGPT Authorship Dilemma: Is the AI Model a Thief?",
+		"brief": "The outburst of AI has changed various aspects of our lives, including how we communicate and interact with technology. OpenAI's ChatGPT, a powerful language model, has been making waves in the tech w",
+		"read_time_in_minutes": 4,
+		"category": "ai"
+	},
+	{
+		"slug": "clg2756ld000009if794cd8qa",
+		"title": "5 Tips on how to interact with Smart Contracts",
+		"brief": "Smart contract programming can be a rather tedious thing to do. I recall how each time I wrote web integrations for smart contracts I would get frustrated. The issue is: there's almost no good docs fo",
+		"read_time_in_minutes": 2,
+		"category": "web3"
+	},
+	{
+		"slug": "clcdvwtm9000108me1zhecb65",
+		"title": "Chakra UI Svelte v0: What to look forward to this New Year",
+		"brief": "I'll start by saying a Happy New Year to you, my most esteemed reader 😎, the previous year was a blast thanks to your continual reading of my write ups. If this is your first time here or you're not ",
+		"read_time_in_minutes": 3,
+		"category": "open-source"
+	},
+	{
+		"slug": "clc7ibpld000a08mf40fpcvd0",
+		"title": "Dev Retro 2022: The Most Important Lessons I Learned as a Developer",
+		"brief": "As a developer, the year 2022 has been a rollercoaster ride of both challenges and victories. It has been a year of growth, both personally and professionally, as I've had the opportunity to work on a",
+		"read_time_in_minutes": 5,
+		"category": "personal"
+	},
+	{
+		"slug": "clbkwt1jl000008l83o1ycjrk",
+		"title": "Profiling and Performance Testing 🤯",
+		"brief": "As a developer, I am always interested in optimizing the performance of my applications. In a previous article, I wrote about \"Improving the performance of python backends\" where I discussed various t",
+		"read_time_in_minutes": 6,
+		"category": "performance"
+	},
+	{
+		"slug": "clbglihxk000908ky73aqgkiq",
+		"title": "What happens when you type google.com in the browser? 🤔",
+		"brief": "Yesterday, I came across the popular interview question - \"What happens when you type google.com into your browser and press enter?\". An attempt has been made by many such as this awesome answer by Al",
+		"read_time_in_minutes": 3,
+		"category": "web-dev"
+	},
+	{
+		"slug": "clbel6p43000o08mib05g68c1",
+		"title": "Improving the performance of python backends",
+		"brief": "Improving the performance of Python backends is a topic of great importance to many organizations that rely on Python for the development of their web applications.",
+		"read_time_in_minutes": 6,
+		"category": "performance"
+	},
+	{
+		"slug": "clbek7g7b000608l0fb2chkof",
+		"title": "The Advent of Software Engineering Practices",
+		"brief": "Software engineering is a discipline that focuses on the systematic and disciplined approach to the development, operation, and maintenance of software systems. It is concerned with the application of",
+		"read_time_in_minutes": 3,
+		"category": "engineering"
+	},
+	{
+		"slug": "clbe2hqpv000008la3r9g61sx",
+		"title": "Rediscovering React.memo 🤯",
+		"brief": "React is a popular and powerful JavaScript library for building user interfaces. However, as applications grow and become more complex, performance can become an issue. One effective way to optimize t",
+		"read_time_in_minutes": 3,
+		"category": "react"
+	},
+	{
+		"slug": "clbbywdpk002408mr4lrycobp",
+		"title": "Quirks of Decentralizing Traditional Finance",
+		"brief": "The concept of decentralization has been gaining traction in various industries, including traditional finance. Decentralization refers to the distribution of power or control away from a central auth",
+		"read_time_in_minutes": 4,
+		"category": "web3"
+	},
+	{
+		"slug": "clbb1e6cc000408mf97uh6oc2",
+		"title": "Alphaday Crypto Dashboard 🚀",
+		"brief": "Alphaday is a sleek and user-friendly crypto dashboard that allows users to easily track, manage, and grow their digital asset portfolios. With a clean and intuitive interface, Alphaday makes it simpl",
+		"read_time_in_minutes": 4,
+		"category": "web3"
+	},
+	{
+		"slug": "clbawfh5u000l08l59h0ne09z",
+		"title": "Superpowered JavaScript Pure Functions 😇",
+		"brief": "In JavaScript, a function is a block of code that is designed to perform a specific task. It can take input in the form of arguments and can return a value as output. Functions are an essential part o",
+		"read_time_in_minutes": 4,
+		"category": "javascript"
+	},
+	{
+		"slug": "clbaedgfp000h08ml2w0gcoac",
+		"title": "Developers, Light vs Dark Mode 💀",
+		"brief": "The question of why developers hate the light and prefer dark mode has been asked for years. Developers have always had a strong affinity for the dark, from its mysterious and alluring nature to the f",
+		"read_time_in_minutes": 3,
+		"category": "personal"
+	},
+	{
+		"slug": "clb9tycsk000308kx5qaw6wnp",
+		"title": "JavaScript Arrow Functions 101",
+		"brief": "JavaScript arrow functions, also known as fat arrow functions, are a new feature introduced in ECMAScript 6 (ES6) that provides a more concise syntax for writing function expressions. They are a power",
+		"read_time_in_minutes": 4,
+		"category": "javascript"
+	},
+	{
+		"slug": "clb8qn8ka000108jr8ese54iw",
+		"title": "10 Importance of Sleep to Developers 🌚",
+		"brief": "As a developer, getting a good night's sleep is essential for maintaining your physical and mental health, as well as for maximizing your productivity and performance. In this article, we will explore",
+		"read_time_in_minutes": 4,
+		"category": "personal"
+	},
+	{
+		"slug": "clb8a0h8x000908le3iclbxb5",
+		"title": "How to Land a Remote Job? 🤔",
+		"brief": "Landing a remote job can be a challenging process, but with the right approach, it is possible to find a rewarding and fulfilling position that allows you to work from anywhere. In this article, we wi",
+		"read_time_in_minutes": 3,
+		"category": "career"
+	},
+	{
+		"slug": "clb89uoo7000408l8dcba2n0n",
+		"title": "Remote Development: Localhost in the Cloud 🚀",
+		"brief": "The development of technology has revolutionized the way that people work and interact with one another. In recent years, the rise of remote work has allowed people to collaborate and share informatio",
+		"read_time_in_minutes": 3,
+		"category": "devops"
+	},
+	{
+		"slug": "clb88hboo000408mk7p3v1nqp",
+		"title": "4 React Best practices in 2mins",
+		"brief": "React is a popular JavaScript library for building user interfaces, and is widely used by developers to create interactive and engaging web applications. To get the most out of React and ensure that y",
+		"read_time_in_minutes": 2,
+		"category": "react"
+	},
+	{
+		"slug": "clb885h6y000008l7ci3h077n",
+		"title": "What is OpenAI? 🤔",
+		"brief": "OpenAI is a leading research organization in the field of artificial intelligence, with a mission to ensure that AI is aligned with the best interests of humanity. Since its founding in 2015, OpenAI h",
+		"read_time_in_minutes": 2,
+		"category": "ai"
+	},
+	{
+		"slug": "cl2vq1eq0039tu5nvgwm8gupz",
+		"title": "Announcing Chakra UI Svelte",
+		"brief": "I'm so excited to share what I spent the better part of April building - Chakra UI implementation in svelte. This is an implementation of the popular Chakra UI just as we have for Vue. I'm currently w",
+		"read_time_in_minutes": 3,
+		"category": "open-source"
+	},
+	{
+		"slug": "cl2m6ilsa045ug9nvaxxjfpmc",
+		"title": "How to Safely convert BigNumbers with ethers",
+		"brief": "Big numbers are an everyday use for web3 developers on EVM based blockchains. Consider a smart contract like the below:",
+		"read_time_in_minutes": 2,
+		"category": "web3"
+	}
 ]

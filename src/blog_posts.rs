@@ -20,7 +20,6 @@ match slug {
         "clbkwt1jl000008l83o1ycjrk" => Some(include_str!("../blog/clbkwt1jl000008l83o1ycjrk.md")),
         "clc7ibpld000a08mf40fpcvd0" => Some(include_str!("../blog/clc7ibpld000a08mf40fpcvd0.md")),
         "clcdvwtm9000108me1zhecb65" => Some(include_str!("../blog/clcdvwtm9000108me1zhecb65.md")),
-        "clckecu9p000608mkazoga8nl" => Some(include_str!("../blog/clckecu9p000608mkazoga8nl.md")),
         "clg2756ld000009if794cd8qa" => Some(include_str!("../blog/clg2756ld000009if794cd8qa.md")),
         "clg2rgka2000509lcc8ov6yk8" => Some(include_str!("../blog/clg2rgka2000509lcc8ov6yk8.md")),
         "clmyur5s500010aif1vwyheci" => Some(include_str!("../blog/clmyur5s500010aif1vwyheci.md")),

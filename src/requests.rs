@@ -1,7 +1,7 @@
 use reqwest;
 use serde::Deserialize;
 
-use crate::shared::{get_env, Content, Post, Project};
+use crate::shared::{get_env, Content, Post, Project, Tag};
 
 // ---- post index embedded at compile time ----
 
@@ -11,9 +11,14 @@ struct PostMeta {
     title: String,
     brief: String,
     read_time_in_minutes: i32,
+    category: Option<String>,
 }
 
 fn post_meta_to_post(m: PostMeta) -> Post {
+    let tags = m
+        .category
+        .map(|c| vec![Tag { id: c.clone(), name: c.clone(), slug: c }])
+        .unwrap_or_default();
     Post {
         id: m.slug.clone(),
         url: format!("https://elcharitas.wtf/essays/{}", m.slug),
@@ -32,7 +37,7 @@ fn post_meta_to_post(m: PostMeta) -> Post {
         author: None,
         content: None,
         og_meta_data: None,
-        tags: Vec::new(),
+        tags,
         comments: None,
     }
 }

@@ -522,7 +522,7 @@ pub fn PageLayout(props: &LayoutProps) -> Node {
                     <Navigation />
 
                     <main class="px-4 md:px-6 pt-28 md:pt-32 max-w-7xl mx-auto min-h-[85vh]">
-                        <section class="relative entrance-delayed space-y-10 md:space-y-12 lg:pr-28">
+                        <section class="relative entrance-delayed space-y-10 md:space-y-12">
                             {&props.children}
                         </section>
                     </main>

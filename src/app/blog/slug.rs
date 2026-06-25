@@ -1,65 +1,34 @@
-use crate::{
-    analytics::{
-        get_or_create_device_id, send_views_to_hashnode_analytics_dashboard,
-        send_views_to_hashnode_internal_analytics,
-    },
-    components::PageLayout,
-    shared::*,
-};
+use crate::components::PageLayout;
+use crate::requests::fetch_post_by_slug_from_github;
+use crate::shared::*;
 use axum::{
     extract::Path,
     http::HeaderMap,
     response::{Html, IntoResponse},
 };
 use comrak::{Options, markdown_to_html};
-use cookie::Cookie;
 use momenta::prelude::*;
-use reqwest::header::SET_COOKIE;
 use serde::{Deserialize, Serialize};
-use serde_json::json;
-#[cfg(target_arch = "wasm32")]
-use futures::FutureExt;
 
 #[derive(Default, Serialize, Deserialize)]
 pub struct BlogDetailProps {
     pub post: Option<Post>,
-    pub related_posts: Vec<Post>,
     pub slug: String,
 }
 
 impl BlogDetailProps {
-    async fn load(slug: String, headers: HeaderMap) -> (Self, Option<Cookie<'static>>) {
-        let (post, cookies) = fetch_post_by_slug(&slug, headers).await;
-
-        let related_posts = if post.is_some() {
-            fetch_related_posts(&slug, 3).await
-        } else {
-            Vec::new()
-        };
-
-        (
-            Self {
-                post,
-                related_posts,
-                slug,
-            },
-            cookies,
-        )
+    async fn load(slug: String) -> Self {
+        let post = fetch_post_by_slug_from_github(&slug).await;
+        Self { post, slug }
     }
 }
 
 pub async fn blog_detail_handler(
     Path(params): Path<PageParams>,
-    headers: HeaderMap,
+    _headers: HeaderMap,
 ) -> impl IntoResponse {
-    let (props, cookies) = BlogDetailProps::load(params.slug, headers).await;
-    let html = Html(BlogDetailPage::render(&props).to_string());
-
-    if let Some(cookie) = cookies {
-        ([(SET_COOKIE, cookie.to_string())], html)
-    } else {
-        ([(SET_COOKIE, String::new())], html)
-    }
+    let props = BlogDetailProps::load(params.slug).await;
+    Html(BlogDetailPage::render(&props).to_string())
 }
 
 #[component]
@@ -74,243 +43,49 @@ pub fn BlogDetailPage(props: &BlogDetailProps) -> Node {
             {match &props.post {
                 Some(post) => rsx! {
                     <article class="max-w-4xl mx-auto">
-                        // Hero Section with Cover Image
-                        {when!(let Some(cover_url) = &post.cover_image =>
-                            <div class="relative w-full h-64 md:h-96 mb-8 rounded-xl overflow-hidden">
-                                <img
-                                    src={cover_url.url.as_deref().unwrap_or("")}
-                                    alt={format!("Cover image for {}", post.title)}
-                                    class="w-full h-full object-cover"
-                                />
-                                <div class="absolute inset-0 bg-zinc-950/45"></div>
-                            </div>
-                        )}
-
-                        // Article Header
                         <header class="mb-8">
-                            <div class="flex flex-wrap items-center gap-2 mb-4">
-                                {post.tags.iter().map(|tag| {
-                                    rsx! {
-                                        <span class="inline-flex items-center px-3 py-1 text-xs font-medium bg-zinc-800/60 text-zinc-300 rounded-full border border-zinc-700/50">
-                                            {&tag.name}
-                                        </span>
-                                    }
-                                })}
-                            </div>
-
                             <h1 class="text-3xl md:text-5xl font-bold text-white mb-4 leading-tight">
                                 {&post.title}
                             </h1>
-
-                            <div class="flex items-center justify-between text-sm text-zinc-400 mb-6">
-                                <div class="flex items-center space-x-6">
-                                    {when!(let Some(published_at) = &post.published_at =>
-                                        <time
-                                            datetime={&*published_at}
-                                            class="flex items-center space-x-2"
-                                        >
-                                            <i class="far fa-calendar-alt"></i>
-                                            <span>
-                                                {chrono::DateTime::parse_from_rfc3339(&published_at).unwrap_or_default().format("%B %d, %Y").to_string()}
-                                            </span>
-                                        </time>
-                                    )}
-
-                                    <div class="flex items-center space-x-2">
-                                        <i class="far fa-eye text-zinc-400"></i>
-                                        <span>{format!("{} views", post.views.unwrap_or(0))}</span>
-                                    </div>
-
-                                    <div class="flex items-center space-x-2">
-                                        <i class="far fa-comment text-zinc-400"></i>
-                                        <span>{format!("{} comments", post.comments.as_ref().map(|c| c.edges.as_ref().map(|e| e.len()).unwrap_or(0)).unwrap_or(0))}</span>
-                                    </div>
-                                </div>
-
-                                <span class="text-zinc-500">5 min read</span>
+                            <div class="flex items-center gap-4 text-sm text-zinc-400 mb-6">
+                                <span>{format!("{} min read", post.read_time_in_minutes)}</span>
                             </div>
                         </header>
 
-                        // Article Content
                         <div class="prose prose-invert prose-lg max-w-none mb-12">
                             <div class="text-zinc-200 leading-relaxed">
                                {when!(let Some(content) = &post.content => <p _dangerously_set_inner_html={markdown_to_html(&content.markdown, &Options::default())} />)}
                             </div>
                         </div>
 
-                        // Article Footer
                         <footer class="border-t border-zinc-700 pt-8 mb-12">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center space-x-4">
-                                    <span class="text-sm text-zinc-400">Share this article:</span>
-                                    <div class="flex space-x-3">
-                                        <button class="p-2 rounded-lg bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white transition-colors">
-                                            <i class="fab fa-twitter text-sm"></i>
-                                        </button>
-                                        <button class="p-2 rounded-lg bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white transition-colors">
-                                            <i class="fab fa-linkedin text-sm"></i>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <button class="flex items-center space-x-2 px-4 py-2 bg-zinc-800 text-zinc-300 rounded-lg hover:bg-zinc-700 hover:text-white transition-colors">
-                                    <i class="far fa-bookmark text-sm"></i>
-                                    <span class="text-sm">Save</span>
-                                </button>
-                            </div>
-                        </footer>
-
-                        // Related Posts Section
-                        {when!(!props.related_posts.is_empty() =>
-                            <section class="border-t border-zinc-700 pt-12">
-                                <h2 class="text-2xl font-bold text-white mb-6">Related Articles</h2>
-                                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                    {props.related_posts.iter().map(|related_post| {
-                                        rsx! {
-                                            <a
-                                                href={format!("/essays/{}", related_post.slug)}
-                                                class="group block bg-zinc-900 rounded-lg overflow-hidden border border-zinc-700 hover:border-zinc-600 transition-colors"
-                                            >
-                                                {when!(let Some(cover_url) = &related_post.cover_image =>
-                                                    <div class="aspect-video overflow-hidden">
-                                                        <img
-                                                            src={cover_url.url.as_deref().unwrap_or("")}
-                                                            alt={format!("Cover image for {}", related_post.title)}
-                                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                                        />
-                                                    </div>
-                                                )}
-                                                <div class="p-4">
-                                                    <h3 class="font-semibold text-white group-hover:text-zinc-200 transition-colors mb-2 line-clamp-2">
-                                                        {&related_post.title}
-                                                    </h3>
-                                                    <p class="text-sm text-zinc-400 line-clamp-2">
-                                                        {&related_post.brief}
-                                                    </p>
-                                                </div>
-                                            </a>
-                                        }
-                                    })}
-                                </div>
-                            </section>
-                        )}
-
-                        // Comments Section
-                        <section class="border-t border-zinc-700 pt-12">
-                            <h2 class="text-2xl font-bold text-white mb-6">
-                               {format!("Comments: {}", post.comments.as_ref().map(|c| c.edges.as_ref().map(|e| e.len()).unwrap_or(0)).unwrap_or(0))}
-                            </h2>
-
-                            // Comment Form
-                            <div class="bg-zinc-900/50 rounded-lg p-6 mb-8">
-                                <form class="space-y-4">
-                                    <div>
-                                        <label for="comment" class="block text-sm font-medium text-zinc-300 mb-2">
-                                            Leave a comment
-                                        </label>
-                                        <textarea
-                                            id="comment"
-                                            name="comment"
-                                            rows={4}
-                                            class="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:border-transparent"
-                                            placeholder="Share your thoughts..."
-                                        ></textarea>
-                                    </div>
-                                    <div class="flex items-center justify-between">
-                                        <p class="text-xs text-zinc-500">
-                                            Comments are moderated and will be published after review.
-                                        </p>
-                                        <button
-                                            type="submit"
-                                            class="px-6 py-2 bg-zinc-800 text-white rounded-lg hover:bg-zinc-700 transition-colors font-medium border border-zinc-700"
-                                        >
-                                            Post Comment
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-
-                            // TODO: Render existing comments here
-                            <div class="space-y-6">
-                                <p class="text-zinc-400 text-center py-8">
-                                    Be the first to comment on this article!
-                                </p>
-                            </div>
-                        </section>
-                    </article>
-                },
-                None => rsx! {
-                    <div class="max-w-2xl mx-auto text-center py-16">
-                        <div class="mb-8">
-                            <i class="fas fa-search text-6xl text-zinc-600 mb-4"></i>
-                            <h1 class="text-3xl font-bold text-white mb-4">Article Not Found</h1>
-                            <p class="text-zinc-400 mb-8">
-                                "The article you're looking for doesn't exist or has been moved."
-                            </p>
                             <a
                                 href="/essays"
                                 class="inline-flex items-center space-x-2 px-6 py-3 bg-zinc-800 text-white rounded-lg hover:bg-zinc-700 transition-colors font-medium border border-zinc-700"
                             >
                                 <i class="fas fa-arrow-left"></i>
-                                <span>Go back</span>
+                                <span>"Back to Essays"</span>
                             </a>
-                        </div>
+                        </footer>
+                    </article>
+                },
+                None => rsx! {
+                    <div class="max-w-2xl mx-auto text-center py-16">
+                        <i class="fas fa-search text-6xl text-zinc-600 mb-4"></i>
+                        <h1 class="text-3xl font-bold text-white mb-4">"Article Not Found"</h1>
+                        <p class="text-zinc-400 mb-8">
+                            "The article you're looking for doesn't exist or has been moved."
+                        </p>
+                        <a
+                            href="/essays"
+                            class="inline-flex items-center space-x-2 px-6 py-3 bg-zinc-800 text-white rounded-lg hover:bg-zinc-700 transition-colors font-medium border border-zinc-700"
+                        >
+                            <i class="fas fa-arrow-left"></i>
+                            <span>"Go back"</span>
+                        </a>
                     </div>
                 }
             }}
         </PageLayout>
     }
-}
-
-async fn fetch_post_by_slug(
-    slug: &str,
-    headers: HeaderMap,
-) -> (Option<Post>, Option<Cookie<'static>>) {
-    if let Ok(SinglePostByPublicationQuery { publication }) = HASHNODE_CLIENT
-        .execute_query::<SinglePostByPublicationQuery>(
-            SINGLE_POST_QUERY.to_owned(),
-            Some(json!({
-                "slug": slug,
-                "host": "elcharitas.wtf/blog",
-            })),
-        )
-        .await
-    {
-        let (device_id, cookies) = get_or_create_device_id("");
-
-        #[cfg(not(target_arch = "wasm32"))]
-        {
-            tokio::spawn(send_views_to_hashnode_internal_analytics(
-                publication.clone(),
-                headers.clone(),
-                device_id,
-            ));
-            tokio::spawn(send_views_to_hashnode_analytics_dashboard(
-                publication.clone(),
-                headers,
-            ));
-        }
-        #[cfg(target_arch = "wasm32")]
-        {
-            wasm_bindgen_futures::spawn_local(send_views_to_hashnode_internal_analytics(
-                publication.clone(),
-                headers.clone(),
-                device_id,
-            ).map(|_| ()));
-            wasm_bindgen_futures::spawn_local(send_views_to_hashnode_analytics_dashboard(
-                publication.clone(),
-                headers,
-            ).map(|_| ()));
-        }
-
-        if let Some(SinglePostPublication { post, .. }) = publication {
-            return (post, cookies);
-        }
-    }
-    (None, None)
-}
-
-async fn fetch_related_posts(_current_slug: &str, _limit: usize) -> Vec<Post> {
-    // TODO: Implement fetching related posts
-    Vec::new()
 }

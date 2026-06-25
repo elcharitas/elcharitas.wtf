@@ -1,5 +1,5 @@
-use crate::components::card::ScrollCard;
 use crate::components::{PageLayout, article::Article};
+use crate::requests::fetch_all_posts;
 use crate::shared::*;
 use axum::{
     extract::Query,
@@ -7,67 +7,16 @@ use axum::{
 };
 use momenta::prelude::*;
 use serde::{Deserialize, Serialize};
-use serde_json::json;
 
 #[derive(Serialize, Deserialize)]
 pub struct BlogProps {
-    pub posts: Vec<PostEdge>,
-    pub cursor: Option<String>,
-    pub has_next_page: Option<bool>,
+    pub posts: Vec<Post>,
 }
 
 impl BlogProps {
     async fn load() -> Self {
-        match HASHNODE_CLIENT
-            .execute_query(
-                POSTS_QUERY.to_owned(),
-                Some(json!({
-                    "host": "elcharitas.wtf/blog",
-                    "first": 15,
-                })),
-            )
-            .await
-        {
-            Ok(PostsByPublicationQuery { publication: Some(publication) }) => {
-                let PublicationPostConnection {
-                    edges, page_info, ..
-                } = publication.posts;
-
-                let PageInfo {
-                    end_cursor,
-                    has_next_page,
-                } = page_info.unwrap_or_default();
-
-                Self {
-                    posts: edges.unwrap_or_default(),
-                    cursor: end_cursor,
-                    has_next_page,
-                }
-            }
-            Ok(PostsByPublicationQuery { publication: None }) => {
-                #[cfg(target_arch = "wasm32")]
-                worker::console_error!("[essays] Hashnode returned null publication");
-                #[cfg(not(target_arch = "wasm32"))]
-                eprintln!("[essays] Hashnode returned null publication");
-
-                Self {
-                    posts: Vec::new(),
-                    cursor: None,
-                    has_next_page: Some(false),
-                }
-            }
-            Err(e) => {
-                #[cfg(target_arch = "wasm32")]
-                worker::console_error!("[essays] Hashnode query error: {:?}", e);
-                #[cfg(not(target_arch = "wasm32"))]
-                eprintln!("[essays] Hashnode query error: {:?}", e);
-
-                Self {
-                    posts: Vec::new(),
-                    cursor: None,
-                    has_next_page: Some(false),
-                }
-            }
+        Self {
+            posts: fetch_all_posts().await,
         }
     }
 }
@@ -78,17 +27,11 @@ pub async fn blog_handler() -> impl IntoResponse {
 }
 
 #[component]
-pub fn BlogPage(
-    BlogProps {
-        posts,
-        cursor,
-        has_next_page,
-    }: &BlogProps,
-) -> Node {
+pub fn BlogPage(BlogProps { posts }: &BlogProps) -> Node {
     let total_posts = posts.len() as u32;
     rsx! {
         <PageLayout title="Essays">
-            <div class="py-4 md:py-8 space-y-8" data_signals={format!("{{'cursor': '{}', 'has_next_page': {}}}", cursor.as_ref().map_or("", |v| v), has_next_page.unwrap_or(false))}>
+            <div class="py-4 md:py-8 space-y-8">
                 <section class="space-y-4">
                     <h1 class="text-4xl md:text-5xl font-semibold text-white">"Essays"</h1>
                     <div class="section-rule"></div>
@@ -98,75 +41,16 @@ pub fn BlogPage(
                     </p>
                 </section>
 
-                <div id="click_to_load_rows" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4" data_fragment_merge_target="$has_next_page">
+                <div id="click_to_load_rows" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                     {posts.into_iter().map(|post| {
-                        rsx! {<Article post={post.node.clone()} show_read_more />}
+                        rsx! {<Article post={post.clone()} show_read_more />}
                     })}
                 </div>
-                <ScrollCard intersect="@get('/essays/infinite_scroll')" />
             </div>
         </PageLayout>
     }
 }
 
-pub async fn infinite_scroll(Query(query): Query<serde_json::Value>) -> impl IntoResponse {
-    let page_query = PageQuery::from_query(Query(query));
-    let PageQuery {
-        cursor,
-        has_next_page,
-        ..
-    } = page_query;
-
-    if !has_next_page {
-        return ([("Content-Type", "text/event-stream")], String::new());
-    }
-
-    if let Ok(PostsByPublicationQuery { publication: Some(publication) }) = HASHNODE_CLIENT
-        .execute_query(
-            POSTS_QUERY.to_owned(),
-            Some(json!({
-                "host": "elcharitas.wtf/blog",
-                "first": 15,
-                "after": cursor
-            })),
-        )
-        .await
-    {
-        let posts = publication.posts;
-        let PageInfo {
-            end_cursor,
-            has_next_page,
-        } = posts.page_info.unwrap_or_default();
-
-        let posts: Vec<Post> = posts
-            .edges
-            .unwrap_or_default()
-            .iter()
-            .map(|edge| edge.node.clone())
-            .collect();
-        let fragment = rsx! {
-            <>
-                {posts.iter().map(|post| {
-                    rsx! {
-                        <>
-                            "event: datastar-merge-fragments\n"
-                            "data: selector #click_to_load_rows\n"
-                            "data: mergeMode append\n"
-                            "data: fragments " <Article post={post.clone()} show_read_more />
-                            "\n\n"
-                        </>
-                    }
-                })}
-                "event: datastar-merge-signals\n"
-                "data: onlyIfMissing false\n"
-                {format!("data: signals {{'cursor': '{}', 'has_next_page': {}}}\n\n", end_cursor.as_ref().map_or("", |v| v), has_next_page.unwrap_or(false))}
-            </>
-        };
-
-        return (
-            [("Content-Type", "text/event-stream")],
-            fragment.to_string(),
-        );
-    }
+pub async fn infinite_scroll(Query(_query): Query<serde_json::Value>) -> impl IntoResponse {
     ([("Content-Type", "text/event-stream")], String::new())
 }

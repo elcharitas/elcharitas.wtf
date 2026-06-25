@@ -1,14 +1,13 @@
+use crate::requests::fetch_all_posts;
 use crate::shared::*;
 use axum::response::IntoResponse;
 use chrono::Utc;
 use momenta::prelude::*;
 use serde::{Deserialize, Serialize};
-use serde_json::json;
 
 #[derive(Serialize, Deserialize)]
 pub struct SitemapProps {
     pub posts: Vec<Post>,
-    pub static_pages: Vec<StaticPage>,
     pub base_url: String,
 }
 
@@ -16,7 +15,6 @@ impl Default for SitemapProps {
     fn default() -> Self {
         Self {
             posts: Vec::new(),
-            static_pages: Vec::new(),
             base_url: String::from("https://elcharitas.wtf"),
         }
     }
@@ -24,44 +22,10 @@ impl Default for SitemapProps {
 
 impl SitemapProps {
     async fn load() -> Self {
-        if let Ok(SitemapQuery { publication }) = HASHNODE_CLIENT
-            .execute_query(
-                SITEMAP_QUERY.to_owned(),
-                Some(json!({
-                    "host": "elcharitas.wtf/blog",
-                    "staticPagesCount": 20,
-                    "postsCount": 100,
-                })),
-            )
-            .await
-        {
-            let SitemapPublication {
-                posts,
-                static_pages,
-                url,
-                ..
-            } = publication;
-            let posts = posts
-                .edges
-                .unwrap_or_default()
-                .into_iter()
-                .map(|edge| edge.node)
-                .collect();
-
-            let static_pages = static_pages
-                .edges
-                .unwrap_or_default()
-                .into_iter()
-                .map(|edge| edge.node)
-                .collect();
-
-            return SitemapProps {
-                posts,
-                static_pages,
-                base_url: url,
-            };
+        Self {
+            posts: fetch_all_posts().await,
+            base_url: "https://elcharitas.wtf".to_string(),
         }
-        SitemapProps::default()
     }
 }
 
@@ -81,7 +45,6 @@ pub fn SitemapPage(props: &SitemapProps) -> Node {
     use xml_elements as momenta;
     let now = Utc::now().format("%Y-%m-%dT%H:%M:%S+00:00").to_string();
 
-    // Static pages from the application
     let app_pages = vec![
         ("/", "1.0", "daily"),
         ("/essays", "0.9", "daily"),
@@ -94,37 +57,23 @@ pub fn SitemapPage(props: &SitemapProps) -> Node {
 
     rsx! {
         <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-            <sitemap>
-                <loc>{&props.base_url}/sitemap.xml</loc>
-                <lastmod>{&now}</lastmod>
-            </sitemap>
-            {app_pages.iter().map(|(loc, priority, changefreq)| {
-                 rsx! {
+            {app_pages.iter().map(|(path, priority, changefreq)| {
+                rsx! {
                     <sitemap>
-                        <loc>{&props.base_url}{loc}</loc>
+                        <loc>{format!("{}{}", &props.base_url, path)}</loc>
                         <lastmod>{&now}</lastmod>
                         <changefreq>{changefreq}</changefreq>
                         <priority>{priority}</priority>
                     </sitemap>
-                 }
-             })}
+                }
+            })}
             {props.posts.iter().map(|post| {
                 rsx! {
                     <sitemap>
-                        <loc>{&props.base_url}/essays/{&post.slug}</loc>
-                        <lastmod>{post.updated_at.as_ref().map_or("", |v| v)}</lastmod>
-                        <changefreq>"daily"</changefreq>
-                        <priority>"0.5"</priority>
-                    </sitemap>
-                }
-            })}
-            {props.static_pages.iter().map(|page| {
-                rsx! {
-                    <sitemap>
-                        <loc>{&props.base_url}{&page.slug}</loc>
+                        <loc>{format!("{}/essays/{}", &props.base_url, &post.slug)}</loc>
                         <lastmod>{&now}</lastmod>
                         <changefreq>"monthly"</changefreq>
-                        <priority>"0.5"</priority>
+                        <priority>"0.7"</priority>
                     </sitemap>
                 }
             })}

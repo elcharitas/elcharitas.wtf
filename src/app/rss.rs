@@ -1,43 +1,20 @@
+use crate::requests::fetch_all_posts;
 use crate::shared::*;
 use axum::response::IntoResponse;
-use chrono::{DateTime, Utc};
+use chrono::Utc;
 use momenta::prelude::*;
 use serde::{Deserialize, Serialize};
-use serde_json::json;
 
 #[derive(Default, Serialize, Deserialize)]
 pub struct RSSProps {
     pub posts: Vec<Post>,
-    pub publication: Option<Publication>,
 }
 
 impl RSSProps {
     async fn load() -> Self {
-        if let Ok(RSSFeedQuery { publication }) = HASHNODE_CLIENT
-            .execute_query(
-                RSS_QUERY.to_owned(),
-                Some(json!({
-                    "host": "elcharitas.wtf/blog",
-                    "first": 50,
-                })),
-            )
-            .await
-        {
-            let posts = publication
-                .posts
-                .edges
-                .clone()
-                .unwrap_or_default()
-                .into_iter()
-                .map(|edge| edge.node)
-                .collect::<Vec<_>>();
-
-            return RSSProps {
-                posts,
-                publication: Some(publication),
-            };
+        Self {
+            posts: fetch_all_posts().await,
         }
-        RSSProps::default()
     }
 }
 
@@ -60,34 +37,21 @@ pub fn RSSPage(props: &RSSProps) -> Node {
     rsx! {
         <rss>
             <channel>
-                <title>{&props.publication.as_ref().map(|p| p.title.to_string()).unwrap_or_default()}</title>
-                <link>{&props.publication.as_ref().and_then(|p| p.url.as_deref()).unwrap_or_default()}</link>
-                <description>
-                    {&props
-                        .publication.as_ref().and_then(|p| p.description_seo.clone()).unwrap_or_default()}
-                </description>
+                <title>"elcharitas.wtf — Essays"</title>
+                <link>"https://elcharitas.wtf/essays"</link>
+                <description>"Software development, product decisions, and the realities of shipping."</description>
                 <lastBuildDate>{&now}</lastBuildDate>
-                {&props
-                    .posts
-                    .iter()
-                    .map(|post| {
-                        let pub_date = post
-                            .published_at
-                            .as_ref()
-                            .and_then(|date_str| DateTime::parse_from_rfc3339(date_str).ok())
-                            .map(|dt| dt.format("%a, %d %b %Y %H:%M:%S GMT").to_string())
-                            .unwrap_or_else(|| now.clone());
-
-                        rsx! {
-                            <item>
-                                <title>{&post.title}</title>
-                                <link>{&post.url}</link>
-                                <guid>{&post.url}</guid>
-                                <description>{&post.brief}</description>
-                                <pubDate>{&pub_date}</pubDate>
-                            </item>
-                        }
-                    })}
+                {&props.posts.iter().map(|post| {
+                    rsx! {
+                        <item>
+                            <title>{&post.title}</title>
+                            <link>{&post.url}</link>
+                            <guid>{&post.url}</guid>
+                            <description>{&post.brief}</description>
+                            <pubDate>{&now}</pubDate>
+                        </item>
+                    }
+                })}
             </channel>
         </rss>
     }

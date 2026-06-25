@@ -110,11 +110,6 @@ function isLikeNone(x) {
     return x === undefined || x === null;
 }
 
-function getArrayU8FromWasm0(ptr, len) {
-    ptr = ptr >>> 0;
-    return getUint8ArrayMemory0().subarray(ptr / 1, ptr / 1 + len);
-}
-
 const CLOSURE_DTORS = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
     : new FinalizationRegistry(state => {
@@ -227,11 +222,11 @@ function __wbg_adapter_26(arg0, arg1) {
 }
 
 function __wbg_adapter_29(arg0, arg1, arg2) {
-    wasm.closure663_externref_shim(arg0, arg1, arg2);
+    wasm.closure475_externref_shim(arg0, arg1, arg2);
 }
 
-function __wbg_adapter_179(arg0, arg1, arg2, arg3) {
-    wasm.closure694_externref_shim(arg0, arg1, arg2, arg3);
+function __wbg_adapter_175(arg0, arg1, arg2, arg3) {
+    wasm.closure511_externref_shim(arg0, arg1, arg2, arg3);
 }
 
 /**
@@ -657,10 +652,6 @@ export function __wbg_fetch_509096533071c657(arg0, arg1) {
     return ret;
 };
 
-export function __wbg_getRandomValues_38097e921c2494c3() { return handleError(function (arg0, arg1) {
-    globalThis.crypto.getRandomValues(getArrayU8FromWasm0(arg0, arg1));
-}, arguments) };
-
 export function __wbg_getReader_48e00749fe3f6089() { return handleError(function (arg0) {
     const ret = arg0.getReader();
     return ret;
@@ -746,10 +737,6 @@ export function __wbg_length_a446193dc22c12f8(arg0) {
     return ret;
 };
 
-export function __wbg_log_c222819a41e063d3(arg0) {
-    console.log(arg0);
-};
-
 export function __wbg_method_3dcc854b644c5a56(arg0, arg1) {
     const ret = arg1.method;
     const ptr1 = passStringToWasm0(ret, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
@@ -780,7 +767,7 @@ export function __wbg_new_23a2665fac83c611(arg0, arg1) {
             const a = state0.a;
             state0.a = 0;
             try {
-                return __wbg_adapter_179(a, state0.b, arg0, arg1);
+                return __wbg_adapter_175(a, state0.b, arg0, arg1);
             } finally {
                 state0.a = a;
             }
@@ -1053,13 +1040,13 @@ export function __wbindgen_cb_drop(arg0) {
     return ret;
 };
 
-export function __wbindgen_closure_wrapper1865(arg0, arg1, arg2) {
-    const ret = makeMutClosure(arg0, arg1, 619, __wbg_adapter_26);
+export function __wbindgen_closure_wrapper1177(arg0, arg1, arg2) {
+    const ret = makeMutClosure(arg0, arg1, 439, __wbg_adapter_26);
     return ret;
 };
 
-export function __wbindgen_closure_wrapper1949(arg0, arg1, arg2) {
-    const ret = makeMutClosure(arg0, arg1, 664, __wbg_adapter_29);
+export function __wbindgen_closure_wrapper1250(arg0, arg1, arg2) {
+    const ret = makeMutClosure(arg0, arg1, 476, __wbg_adapter_29);
     return ret;
 };
 

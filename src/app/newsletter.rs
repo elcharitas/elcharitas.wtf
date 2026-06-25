@@ -1,13 +1,9 @@
 use crate::components::PageLayout;
 #[cfg(not(target_arch = "wasm32"))]
-use crate::shared::{HASHNODE_CLIENT, NEWSLETTER_MUTATION};
-#[cfg(not(target_arch = "wasm32"))]
 use axum::extract::Multipart;
 use axum::response::{Html, IntoResponse};
 use momenta::prelude::*;
 use serde::{Deserialize, Serialize};
-#[cfg(not(target_arch = "wasm32"))]
-use serde_json::Value;
 
 #[derive(Debug, Default, Serialize, Deserialize)]
 pub struct NewsletterSubscription {
@@ -30,19 +26,7 @@ impl NewsletterSubscription {
         }
 
         if !email.is_empty() {
-            let variables = serde_json::json!({
-                "input": {
-                    "email": email,
-                    "publicationId": "6231526bc4a093f00c8acd3b"
-                }
-            });
-
-            if let Ok(_) = HASHNODE_CLIENT
-                .execute_query::<Value>(NEWSLETTER_MUTATION.to_owned(), Some(variables))
-                .await
-            {
-                return NewsletterSubscription { email };
-            }
+            return NewsletterSubscription { email };
         }
         NewsletterSubscription::default()
     }

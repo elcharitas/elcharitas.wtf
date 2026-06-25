@@ -15,13 +15,6 @@ routes = [
 ]
 vars = { ENVIRONMENT = "production", HASHNODE_PUBLICATION_HOST = "blog.elcharitas.wtf", ORCID_ID = "0009-0006-6802-6663" }
 
-[env.staging]
-name = "elcharitas-wtf-staging"
-routes = [
-  { pattern = "staging.elcharitas.wtf/*", zone_name = "elcharitas.wtf" }
-]
-vars = { ENVIRONMENT = "staging", HASHNODE_PUBLICATION_HOST = "blog.elcharitas.wtf", ORCID_ID = "0009-0006-6802-6663" }
-
 [observability]
 enabled = false
 head_sampling_rate = 1

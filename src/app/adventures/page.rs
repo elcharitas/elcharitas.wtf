@@ -1,5 +1,6 @@
 use crate::components::PageLayout;
 use axum::response::{Html, IntoResponse};
+use comrak::{Options, markdown_to_html};
 use momenta::nodes::DefaultProps;
 use momenta::prelude::*;
 use serde::{Deserialize, Serialize};
@@ -16,6 +17,7 @@ pub struct Adventure {
     pub date: String,
     pub month: String,
     pub year: String,
+    pub month_index: usize,
     pub quarter: String,
     pub title: String,
     pub icon: String,
@@ -36,31 +38,31 @@ impl Adventure {
     fn get_icon(title: &str) -> String {
         let title_lower = title.to_lowercase();
         if title_lower.contains("chakra") || title_lower.contains("ui") {
-            "🎨".to_string()
+            "fas fa-palette".to_string()
         } else if title_lower.contains("rust") || title_lower.contains("ngyn") {
-            "🦀".to_string()
+            "fas fa-gears".to_string()
         } else if title_lower.contains("web3") || title_lower.contains("blockchain") {
-            "🌐".to_string()
+            "fas fa-globe".to_string()
         } else if title_lower.contains("community") || title_lower.contains("hangout") {
-            "🤝".to_string()
+            "fas fa-people-group".to_string()
         } else if title_lower.contains("bot") || title_lower.contains("telegram") {
-            "🤖".to_string()
+            "fas fa-robot".to_string()
         } else if title_lower.contains("app") || title_lower.contains("mobile") {
-            "📱".to_string()
+            "fas fa-mobile-screen-button".to_string()
         } else if title_lower.contains("framework") || title_lower.contains("library") {
-            "🔧".to_string()
+            "fas fa-screwdriver-wrench".to_string()
         } else if title_lower.contains("game") || title_lower.contains("engine") {
-            "🎮".to_string()
+            "fas fa-gamepad".to_string()
         } else if title_lower.contains("php") || title_lower.contains("laravel") {
-            "💡".to_string()
+            "fas fa-lightbulb".to_string()
         } else if title_lower.contains("open source") || title_lower.contains("pull request") {
-            "🔓".to_string()
+            "fas fa-code-branch".to_string()
         } else if title_lower.contains("business") || title_lower.contains("sold") {
-            "💰".to_string()
+            "fas fa-sack-dollar".to_string()
         } else if title_lower.contains("programming") || title_lower.contains("html") {
-            "🌱".to_string()
+            "fas fa-seedling".to_string()
         } else {
-            "⚡".to_string()
+            "fas fa-bolt".to_string()
         }
     }
 }
@@ -74,7 +76,7 @@ fn parse_adventures_from_json() -> Vec<Adventure> {
 
     for (year, months) in data.years {
         for (month, activities) in months {
-            for activity in activities {
+            for (month_index, activity) in activities.into_iter().enumerate() {
                 let quarter = Adventure::get_quarter(&month);
                 adventures.push(Adventure {
                     date: format!(
@@ -90,6 +92,7 @@ fn parse_adventures_from_json() -> Vec<Adventure> {
                     ),
                     month: month.clone(),
                     year: year.clone(),
+                    month_index,
                     quarter,
                     icon: Adventure::get_icon(&activity),
                     // location: String::new(),
@@ -99,9 +102,9 @@ fn parse_adventures_from_json() -> Vec<Adventure> {
         }
     }
 
-    // Sort by year and month
+    // Sort by year and month (latest first)
     adventures.sort_by(|a, b| {
-        let year_cmp = a.year.cmp(&b.year);
+        let year_cmp = b.year.cmp(&a.year);
         if year_cmp == std::cmp::Ordering::Equal {
             let month_order = |m: &str| match m {
                 "january" => 1,
@@ -118,7 +121,12 @@ fn parse_adventures_from_json() -> Vec<Adventure> {
                 "december" => 12,
                 _ => 0,
             };
-            month_order(&a.month).cmp(&month_order(&b.month))
+            let month_cmp = month_order(&b.month).cmp(&month_order(&a.month));
+            if month_cmp == std::cmp::Ordering::Equal {
+                b.month_index.cmp(&a.month_index)
+            } else {
+                month_cmp
+            }
         } else {
             year_cmp
         }
@@ -164,7 +172,7 @@ pub fn AdventuresPage() -> Node {
                     rsx! {
                         <div class="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-4 md:gap-8">
                             <div class="md:pt-1">
-                                <span class="text-4xl md:text-5xl font-bold" style="color: var(--accent); opacity: 0.35;">{year.as_str()}</span>
+                                <span class="text-4xl md:text-5xl font-bold text-white">{year.as_str()}</span>
                             </div>
                             <ul class="space-y-3">
                                 {year_adventures.iter().map(|adventure| {
@@ -175,12 +183,12 @@ pub fn AdventuresPage() -> Node {
 
                                     rsx! {
                                         <li class="flex items-start gap-3 group">
-                                            <span class="mt-1 text-base shrink-0">{adventure.icon.as_str()}</span>
+                                            <i class={format!("{} mt-1 text-sm shrink-0 text-zinc-400 group-hover:text-zinc-200 transition-colors", adventure.icon)}></i>
                                             <div class="space-y-0.5">
-                                                <p class={format!("text-sm md:text-base leading-snug {}",
+                                                <div class={format!("text-sm md:text-base leading-snug {}",
                                                     if is_major { "text-zinc-100 font-medium" } else { "text-zinc-300" })}>
-                                                    {adventure.title.as_str()}
-                                                </p>
+                                                    <div _dangerously_set_inner_html={markdown_to_html(&adventure.title, &Options::default())} />
+                                                </div>
                                                 <p class="text-xs" style="color: var(--accent); opacity: 0.6;">{adventure.date.as_str()}" · "{adventure.quarter.as_str()}</p>
                                             </div>
                                         </li>

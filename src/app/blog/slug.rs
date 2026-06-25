@@ -78,7 +78,7 @@ pub fn BlogDetailPage(props: &BlogDetailProps) -> Node {
                         {when!(let Some(cover_url) = &post.cover_image =>
                             <div class="relative w-full h-64 md:h-96 mb-8 rounded-xl overflow-hidden">
                                 <img
-                                    src={&cover_url.url}
+                                    src={cover_url.url.as_deref().unwrap_or("")}
                                     alt={format!("Cover image for {}", post.title)}
                                     class="w-full h-full object-cover"
                                 />
@@ -118,12 +118,12 @@ pub fn BlogDetailPage(props: &BlogDetailProps) -> Node {
 
                                     <div class="flex items-center space-x-2">
                                         <i class="far fa-eye text-zinc-400"></i>
-                                        <span>{post.views} views</span>
+                                        <span>{format!("{} views", post.views.unwrap_or(0))}</span>
                                     </div>
 
                                     <div class="flex items-center space-x-2">
                                         <i class="far fa-comment text-zinc-400"></i>
-                                        <span>{post.comments.as_ref().unwrap().total_documents} comments</span>
+                                        <span>{format!("{} comments", post.comments.as_ref().map(|c| c.edges.as_ref().map(|e| e.len()).unwrap_or(0)).unwrap_or(0))}</span>
                                     </div>
                                 </div>
 
@@ -174,7 +174,7 @@ pub fn BlogDetailPage(props: &BlogDetailProps) -> Node {
                                                 {when!(let Some(cover_url) = &related_post.cover_image =>
                                                     <div class="aspect-video overflow-hidden">
                                                         <img
-                                                            src={&cover_url.url}
+                                                            src={cover_url.url.as_deref().unwrap_or("")}
                                                             alt={format!("Cover image for {}", related_post.title)}
                                                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                                         />
@@ -198,7 +198,7 @@ pub fn BlogDetailPage(props: &BlogDetailProps) -> Node {
                         // Comments Section
                         <section class="border-t border-zinc-700 pt-12">
                             <h2 class="text-2xl font-bold text-white mb-6">
-                               "Comments: "{post.comments.as_ref().unwrap().total_documents}
+                               {format!("Comments: {}", post.comments.as_ref().map(|c| c.edges.as_ref().map(|e| e.len()).unwrap_or(0)).unwrap_or(0))}
                             </h2>
 
                             // Comment Form

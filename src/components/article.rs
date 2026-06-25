@@ -45,7 +45,7 @@ pub fn Article(
                 </p>
 
                 <div class="pt-2 flex items-center justify-between">
-                    <span class="text-xs text-zinc-500">{post.views}" views • "{post.comments.as_ref().unwrap().total_documents}" comments"</span>
+                    <span class="text-xs text-zinc-500">{format!("{} views", post.views.unwrap_or(0))}</span>
                     {when!(show_read_more =>
                         <span class="text-sm" style="color: var(--accent);">"view project"</span>
                     )}

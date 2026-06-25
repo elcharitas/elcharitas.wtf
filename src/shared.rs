@@ -190,7 +190,7 @@ pub struct SinglePostPublication {
     pub title: String,
     #[serde(rename = "displayTitle")]
     pub display_title: Option<String>,
-    pub url: String,
+    pub url: Option<String>,
     #[serde(rename = "metaTags")]
     pub meta_tags: Option<String>,
     pub favicon: Option<String>,
@@ -260,8 +260,6 @@ pub struct PostPreferences {
 /// Post comment connection
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PostCommentConnection {
-    #[serde(rename = "totalDocuments")]
-    pub total_documents: i32,
     pub edges: Option<Vec<PostCommentEdge>>,
 }
 
@@ -288,7 +286,7 @@ pub struct Publication {
     pub title: String,
     #[serde(rename = "displayTitle")]
     pub display_title: Option<String>,
-    pub url: String,
+    pub url: Option<String>,
     #[serde(rename = "metaTags")]
     pub meta_tags: Option<String>,
     pub favicon: Option<String>,
@@ -301,7 +299,7 @@ pub struct Publication {
     pub posts: PublicationPostConnection,
     pub author: User,
     #[serde(rename = "ogMetaData")]
-    pub og_meta_data: OpenGraphMetaData,
+    pub og_meta_data: Option<OpenGraphMetaData>,
     pub preferences: Preferences,
     pub links: Option<PublicationLinks>,
     pub integrations: Option<PublicationIntegrations>,
@@ -311,7 +309,7 @@ pub struct Publication {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PublicationPostConnection {
     #[serde(rename = "totalDocuments")]
-    pub total_documents: i32,
+    pub total_documents: Option<i32>,
     pub edges: Option<Vec<PostEdge>>,
     #[serde(rename = "pageInfo")]
     pub page_info: Option<PageInfo>,
@@ -350,7 +348,7 @@ pub struct Post {
     pub reaction_count: Option<i32>,
     #[serde(rename = "responseCount")]
     pub response_count: Option<i32>,
-    pub views: i32,
+    pub views: Option<i32>,
     pub seo: Option<SEO>,
     #[serde(rename = "coverImage")]
     pub cover_image: Option<PostCoverImage>,
@@ -383,7 +381,7 @@ pub struct CommentsConnection {
 /// Post cover image
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PostCoverImage {
-    pub url: String,
+    pub url: Option<String>,
 }
 
 /// Page info for pagination
@@ -422,20 +420,9 @@ pub struct DarkModePreferences {
 pub struct PublicationNavbarItem {
     pub id: String,
     #[serde(rename = "type")]
-    pub item_type: PublicationNavigationType,
+    pub item_type: String,
     pub label: Option<String>,
     pub url: Option<String>,
-}
-
-/// Publication navigation type enum
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
-pub enum PublicationNavigationType {
-    Home,
-    Page,
-    Link,
-    #[serde(other)]
-    Unknown,
 }
 
 /// Publication social links
@@ -450,8 +437,6 @@ pub struct PublicationLinks {
 /// Publication integrations
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PublicationIntegrations {
-    #[serde(rename = "umamiWebsiteUUID")]
-    pub umami_website_uuid: Option<String>,
     #[serde(rename = "gaTrackingID")]
     pub ga_tracking_id: Option<String>,
     #[serde(rename = "fbPixelID")]

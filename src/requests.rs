@@ -50,7 +50,7 @@ pub struct QueryOptions {
 impl Default for QueryOptions {
     fn default() -> Self {
         Self {
-            base_url: "https://gql.hashnode.com".to_string(),
+            base_url: "https://gql-beta.hashnode.com".to_string(),
             headers: HashMap::new(),
             timeout_seconds: Some(30), // 30 second default timeout
         }
@@ -167,6 +167,10 @@ impl GraphQLClient {
         let mut headers = reqwest::header::HeaderMap::new();
         headers.insert(
             reqwest::header::CONTENT_TYPE,
+            reqwest::header::HeaderValue::from_static("application/json"),
+        );
+        headers.insert(
+            reqwest::header::ACCEPT,
             reqwest::header::HeaderValue::from_static("application/json"),
         );
         headers.insert(

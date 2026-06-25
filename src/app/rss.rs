@@ -61,7 +61,7 @@ pub fn RSSPage(props: &RSSProps) -> Node {
         <rss>
             <channel>
                 <title>{&props.publication.as_ref().map(|p| p.title.to_string()).unwrap_or_default()}</title>
-                <link>{&props.publication.as_ref().map(|p| p.url.to_string()).unwrap_or_default()}</link>
+                <link>{&props.publication.as_ref().and_then(|p| p.url.as_deref()).unwrap_or_default()}</link>
                 <description>
                     {&props
                         .publication.as_ref().and_then(|p| p.description_seo.clone()).unwrap_or_default()}

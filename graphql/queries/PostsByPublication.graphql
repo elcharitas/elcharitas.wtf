@@ -6,9 +6,6 @@ query PostsByPublication($host: String!, $first: Int!, $after: String) {
 			edges {
 				node {
 					...Post
-					comments(first: 0) {
-						totalDocuments
-					}
 				}
 			}
 			pageInfo {
@@ -24,9 +21,6 @@ query MorePostsByPublication($host: String!, $first: Int!, $after: String) {
 			edges {
 				node {
 					...Post
-					comments(first: 0) {
-						totalDocuments
-					}
 				}
 			}
 			pageInfo {

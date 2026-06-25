@@ -56,15 +56,9 @@ impl PublicationsProps {
 
     #[cfg(target_arch = "wasm32")]
     async fn load() -> Self {
-        let orcid_id = normalize_orcid_id(&get_env("ORCID_ID"));
+        let mut orcid_id = normalize_orcid_id(&get_env("ORCID_ID"));
         if orcid_id.is_empty() {
-            return Self {
-                notice: Some(
-                    "Set your publication profile ID in your environment to sync automatically."
-                        .to_string(),
-                ),
-                ..Default::default()
-            };
+            orcid_id = "0009-0006-6802-6663".to_string();
         }
 
         let orcid_url = format!("https://orcid.org/{orcid_id}");

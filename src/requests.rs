@@ -195,8 +195,15 @@ impl GraphQLClient {
             .send()
             .await?;
 
+        let status = response.status();
+        let body = response.text().await?;
+
+        #[cfg(target_arch = "wasm32")]
+        worker::console_log!("[graphql] status={} body_preview={}", status, &body[..body.len().min(500)]);
+
         // Parse response
-        let api_response: ApiResponse<T> = response.json().await?;
+        let api_response: ApiResponse<T> = serde_json::from_str(&body)
+            .map_err(GraphQLClientError::SerializationError)?;
 
         // Handle GraphQL errors
         if let Some(errors) = api_response.errors {

@@ -230,7 +230,7 @@ function __wbg_adapter_29(arg0, arg1, arg2) {
     wasm.closure665_externref_shim(arg0, arg1, arg2);
 }
 
-function __wbg_adapter_177(arg0, arg1, arg2, arg3) {
+function __wbg_adapter_179(arg0, arg1, arg2, arg3) {
     wasm.closure696_externref_shim(arg0, arg1, arg2, arg3);
 }
 
@@ -746,6 +746,10 @@ export function __wbg_length_a446193dc22c12f8(arg0) {
     return ret;
 };
 
+export function __wbg_log_c222819a41e063d3(arg0) {
+    console.log(arg0);
+};
+
 export function __wbg_method_3dcc854b644c5a56(arg0, arg1) {
     const ret = arg1.method;
     const ptr1 = passStringToWasm0(ret, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
@@ -776,7 +780,7 @@ export function __wbg_new_23a2665fac83c611(arg0, arg1) {
             const a = state0.a;
             state0.a = 0;
             try {
-                return __wbg_adapter_177(a, state0.b, arg0, arg1);
+                return __wbg_adapter_179(a, state0.b, arg0, arg1);
             } finally {
                 state0.a = a;
             }
@@ -1049,12 +1053,12 @@ export function __wbindgen_cb_drop(arg0) {
     return ret;
 };
 
-export function __wbindgen_closure_wrapper1873(arg0, arg1, arg2) {
+export function __wbindgen_closure_wrapper1871(arg0, arg1, arg2) {
     const ret = makeMutClosure(arg0, arg1, 621, __wbg_adapter_26);
     return ret;
 };
 
-export function __wbindgen_closure_wrapper1957(arg0, arg1, arg2) {
+export function __wbindgen_closure_wrapper1955(arg0, arg1, arg2) {
     const ret = makeMutClosure(arg0, arg1, 666, __wbg_adapter_29);
     return ret;
 };

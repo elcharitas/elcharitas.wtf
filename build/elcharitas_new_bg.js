@@ -206,6 +206,17 @@ function debugString(val) {
     return className;
 }
 /**
+ * @param {any} event
+ * @param {any} env
+ * @param {any} ctx
+ * @returns {Promise<void>}
+ */
+export function scheduled(event, env, ctx) {
+    const ret = wasm.scheduled(event, env, ctx);
+    return ret;
+}
+
+/**
  * @param {Request} req
  * @param {any} env
  * @param {any} ctx
@@ -217,27 +228,16 @@ function fetch2(req, env, ctx) {
 }
 export { fetch2 as fetch };
 
-/**
- * @param {any} event
- * @param {any} env
- * @param {any} ctx
- * @returns {Promise<void>}
- */
-export function scheduled(event, env, ctx) {
-    const ret = wasm.scheduled(event, env, ctx);
-    return ret;
-}
-
 function __wbg_adapter_50(arg0, arg1) {
     wasm._dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__ha44151d564aae8af(arg0, arg1);
 }
 
 function __wbg_adapter_53(arg0, arg1, arg2) {
-    wasm.closure1174_externref_shim(arg0, arg1, arg2);
+    wasm.closure1185_externref_shim(arg0, arg1, arg2);
 }
 
-function __wbg_adapter_206(arg0, arg1, arg2, arg3) {
-    wasm.closure1209_externref_shim(arg0, arg1, arg2, arg3);
+function __wbg_adapter_208(arg0, arg1, arg2, arg3) {
+    wasm.closure1220_externref_shim(arg0, arg1, arg2, arg3);
 }
 
 /**
@@ -808,6 +808,10 @@ export function __wbg_length_e2d2a49132c1b256(arg0) {
     return ret;
 };
 
+export function __wbg_log_c222819a41e063d3(arg0) {
+    console.log(arg0);
+};
+
 export function __wbg_method_3dcc854b644c5a56(arg0, arg1) {
     const ret = arg1.method;
     const ptr1 = passStringToWasm0(ret, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
@@ -838,7 +842,7 @@ export function __wbg_new_23a2665fac83c611(arg0, arg1) {
             const a = state0.a;
             state0.a = 0;
             try {
-                return __wbg_adapter_206(a, state0.b, arg0, arg1);
+                return __wbg_adapter_208(a, state0.b, arg0, arg1);
             } finally {
                 state0.a = a;
             }
@@ -1157,13 +1161,13 @@ export function __wbindgen_cb_drop(arg0) {
     return ret;
 };
 
-export function __wbindgen_closure_wrapper2293(arg0, arg1, arg2) {
-    const ret = makeMutClosure(arg0, arg1, 1135, __wbg_adapter_50);
+export function __wbindgen_closure_wrapper2298(arg0, arg1, arg2) {
+    const ret = makeMutClosure(arg0, arg1, 1141, __wbg_adapter_50);
     return ret;
 };
 
-export function __wbindgen_closure_wrapper2370(arg0, arg1, arg2) {
-    const ret = makeMutClosure(arg0, arg1, 1175, __wbg_adapter_53);
+export function __wbindgen_closure_wrapper2381(arg0, arg1, arg2) {
+    const ret = makeMutClosure(arg0, arg1, 1186, __wbg_adapter_53);
     return ret;
 };
 

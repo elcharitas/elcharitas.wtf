@@ -28,10 +28,18 @@ pub async fn newsletter_post_handler(body: String) -> impl IntoResponse {
 
     #[cfg(target_arch = "wasm32")]
     if !props.email.is_empty() {
+        let email = props.email.clone();
+        let api_key = crate::shared::get_env("RESEND_API_KEY");
         if let Some(kv) = crate::shared::get_newsletter_kv() {
-            if let Ok(builder) = kv.put(&format!("subscriber:{}", props.email), "1") {
+            if let Ok(builder) = kv.put(&format!("subscriber:{}", email), "1") {
                 wasm_bindgen_futures::spawn_local(async move {
-                    let _ = builder.execute().await;
+                    match builder.execute().await {
+                        Ok(_) => worker::console_log!("newsletter: subscriber {} saved to KV", email),
+                        Err(e) => worker::console_log!("newsletter: failed to save {} to KV: {:?}", email, e),
+                    }
+                    if !api_key.is_empty() {
+                        send_welcome_email(&email, &api_key).await;
+                    }
                 });
             }
         }
@@ -58,6 +66,52 @@ fn render_email(title: &str, brief: &str, url: &str) -> String {
                  <p><a href=\"https://elcharitas.wtf/newsletter\">Unsubscribe</a></p>"
             )
         })
+}
+
+#[cfg(target_arch = "wasm32")]
+fn render_welcome_email() -> String {
+    let template = include_str!("../emails/welcome.mrml");
+    let opts = mrml::prelude::render::RenderOptions::default();
+    mrml::parse(template)
+        .ok()
+        .and_then(|root| root.element.render(&opts).ok())
+        .unwrap_or_else(|| {
+            "<h2>Welcome aboard.</h2>\
+             <p>Thanks for subscribing to weekly field notes from the build process.</p>\
+             <p><a href=\"https://elcharitas.wtf/essays\">Read latest essays →</a></p>\
+             <p><a href=\"https://elcharitas.wtf/newsletter\">Unsubscribe</a></p>"
+                .to_string()
+        })
+}
+
+#[cfg(target_arch = "wasm32")]
+async fn send_welcome_email(email: &str, api_key: &str) {
+    let html = render_welcome_email();
+    let client = reqwest::Client::new();
+    let payload = serde_json::json!({
+        "from": "Jonathan <newsletter@elcharitas.wtf>",
+        "to": [email],
+        "subject": "Welcome to the newsletter",
+        "html": html,
+    });
+    match client
+        .post("https://api.resend.com/emails")
+        .header("Authorization", format!("Bearer {}", api_key))
+        .json(&payload)
+        .send()
+        .await
+    {
+        Ok(resp) => worker::console_log!(
+            "newsletter: welcome email sent to {} (status {})",
+            email,
+            resp.status().as_u16()
+        ),
+        Err(e) => worker::console_log!(
+            "newsletter: failed to send welcome email to {}: {:?}",
+            email,
+            e
+        ),
+    }
 }
 
 #[cfg(target_arch = "wasm32")]

@@ -5,6 +5,8 @@ My personal website, built with [Rust](https://www.rust-lang.org/) using [Axum](
 
 </div>
 
+![Preview](./PREVIEW.png)
+
 ## Running Locally
 
 ```sh-session

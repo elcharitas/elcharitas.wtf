@@ -11,7 +11,7 @@ vars = { ENVIRONMENT = "production", HASHNODE_PUBLICATION_HOST = "elcharitas.wtf
 
 [[kv_namespaces]]
 binding = "NEWSLETTER_SUBSCRIBERS"
-id = ""
+id = "6eba1c9c02d44614ad60b5ac668aab87"
 
 [triggers]
 crons = ["0 9 * * 5"]

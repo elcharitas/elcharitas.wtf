@@ -161,6 +161,9 @@ pub fn ProjectsPage(
                 (function(){
                   var q='',activeTag=null;
                   function filter(){
+                    var hasFilter=q||activeTag;
+                    var sc=document.querySelector('[data-intersect]');
+                    if(sc)sc.style.display=hasFilter?'none':'';
                     document.querySelectorAll('[data-searchtext]').forEach(function(el){
                       var text=(el.getAttribute('data-searchtext')||'').toLowerCase();
                       var tags=(el.getAttribute('data-tags')||'').toLowerCase();
@@ -183,8 +186,6 @@ pub fn ProjectsPage(
                     });
                   });
                   setPill(document.querySelector('[data-tag-filter=""]'));
-                  var grid=document.getElementById('click_to_load_rows');
-                  if(grid){new MutationObserver(function(){filter();}).observe(grid,{childList:true});}
                 })();
                 "#}</script>
             </div>

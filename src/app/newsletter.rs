@@ -28,16 +28,21 @@ pub async fn newsletter_post_handler(body: String) -> impl IntoResponse {
 
     #[cfg(target_arch = "wasm32")]
     if !props.email.is_empty() {
+        worker::console_log!("newsletter: handling subscription for {}", props.email);
         let api_key = crate::shared::get_env("RESEND_API_KEY");
-        if let Some(kv) = crate::shared::get_newsletter_kv() {
-            if let Ok(builder) = kv.put(&format!("subscriber:{}", props.email), "1") {
-                match builder.execute().await {
-                    Ok(_) => worker::console_log!("newsletter: subscriber {} saved to KV", props.email),
-                    Err(e) => worker::console_log!("newsletter: failed to save {} to KV: {:?}", props.email, e),
-                }
-            }
+        match crate::shared::get_newsletter_kv() {
+            None => worker::console_log!("newsletter: KV not available, skipping insert"),
+            Some(kv) => match kv.put(&format!("subscriber:{}", props.email), "1") {
+                Err(e) => worker::console_log!("newsletter: kv.put() error: {:?}", e),
+                Ok(builder) => match builder.execute().await {
+                    Ok(_) => worker::console_log!("newsletter: {} saved to KV", props.email),
+                    Err(e) => worker::console_log!("newsletter: kv.execute() error: {:?}", e),
+                },
+            },
         }
-        if !api_key.is_empty() {
+        if api_key.is_empty() {
+            worker::console_log!("newsletter: RESEND_API_KEY not set, skipping welcome email");
+        } else {
             send_welcome_email(&props.email, &api_key).await;
         }
     }

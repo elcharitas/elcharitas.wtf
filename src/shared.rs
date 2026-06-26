@@ -33,7 +33,16 @@ pub fn init_env(env: &worker::Env) {
 #[cfg(target_arch = "wasm32")]
 pub fn init_kv(env: &worker::Env) {
     NEWSLETTER_KV.with(|kv| {
-        *kv.borrow_mut() = env.kv("NEWSLETTER_SUBSCRIBERS").ok();
+        match env.kv("NEWSLETTER_SUBSCRIBERS") {
+            Ok(store) => {
+                worker::console_log!("newsletter: KV binding initialised");
+                *kv.borrow_mut() = Some(store);
+            }
+            Err(e) => {
+                worker::console_log!("newsletter: KV binding failed: {:?}", e);
+                *kv.borrow_mut() = None;
+            }
+        }
     });
 }
 

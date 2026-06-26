@@ -206,17 +206,6 @@ function debugString(val) {
     return className;
 }
 /**
- * @param {any} event
- * @param {any} env
- * @param {any} ctx
- * @returns {Promise<void>}
- */
-export function scheduled(event, env, ctx) {
-    const ret = wasm.scheduled(event, env, ctx);
-    return ret;
-}
-
-/**
  * @param {Request} req
  * @param {any} env
  * @param {any} ctx
@@ -227,6 +216,17 @@ function fetch2(req, env, ctx) {
     return ret;
 }
 export { fetch2 as fetch };
+
+/**
+ * @param {any} event
+ * @param {any} env
+ * @param {any} ctx
+ * @returns {Promise<void>}
+ */
+export function scheduled(event, env, ctx) {
+    const ret = wasm.scheduled(event, env, ctx);
+    return ret;
+}
 
 function __wbg_adapter_50(arg0, arg1) {
     wasm._dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__ha44151d564aae8af(arg0, arg1);
@@ -1161,12 +1161,12 @@ export function __wbindgen_cb_drop(arg0) {
     return ret;
 };
 
-export function __wbindgen_closure_wrapper2257(arg0, arg1, arg2) {
+export function __wbindgen_closure_wrapper2263(arg0, arg1, arg2) {
     const ret = makeMutClosure(arg0, arg1, 1102, __wbg_adapter_50);
     return ret;
 };
 
-export function __wbindgen_closure_wrapper2340(arg0, arg1, arg2) {
+export function __wbindgen_closure_wrapper2346(arg0, arg1, arg2) {
     const ret = makeMutClosure(arg0, arg1, 1147, __wbg_adapter_53);
     return ret;
 };

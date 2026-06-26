@@ -32,6 +32,7 @@ async fn main(req: HttpRequest, env: Env, _ctx: Context) -> Result<axum::respons
         use http_body_util::BodyExt;
         let bytes = body.collect().await.map(|c| c.to_bytes()).unwrap_or_default();
         let body_str = String::from_utf8_lossy(&bytes).to_string();
+        console_log!("newsletter: POST /newsletter — body length {}", body_str.len());
         return Ok(app::newsletter::newsletter_post_handler(body_str).await.into_response());
     }
 

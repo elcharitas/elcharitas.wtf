@@ -8,7 +8,7 @@ mod blog {
 }
 mod error;
 mod home;
-mod newsletter;
+pub mod newsletter;
 mod projects;
 mod publications;
 mod resume {
@@ -19,10 +19,8 @@ mod sitemap;
 
 use axum::{
     Router,
-    routing::get,
+    routing::{get, post},
 };
-#[cfg(not(target_arch = "wasm32"))]
-use axum::routing::post;
 #[cfg(target_arch = "wasm32")]
 use axum::{
     extract::{Path, Query},
@@ -64,10 +62,9 @@ pub fn create_router() -> Router {
         );
 
     #[cfg(target_arch = "wasm32")]
-    let router = router.route(
-        "/blog",
-        get(|| async { axum::response::Redirect::permanent("/") }),
-    );
+    let router = router
+        .route("/blog", get(|| async { axum::response::Redirect::permanent("/") }))
+        .route("/newsletter", post(newsletter::newsletter_post_handler));
 
     router
         .route(

@@ -2,6 +2,7 @@
 /* eslint-disable */
 export const memory: WebAssembly.Memory;
 export const fetch: (a: any, b: any, c: any) => any;
+export const scheduled: (a: any, b: any, c: any) => any;
 export const __wbg_get_minifyconfig_css: (a: number) => number;
 export const __wbg_get_minifyconfig_html: (a: number) => number;
 export const __wbg_get_minifyconfig_js: (a: number) => number;
@@ -37,6 +38,6 @@ export const __wbindgen_export_4: WebAssembly.Table;
 export const __wbindgen_free: (a: number, b: number, c: number) => void;
 export const __wbindgen_export_6: WebAssembly.Table;
 export const _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__ha44151d564aae8af: (a: number, b: number) => void;
-export const closure467_externref_shim: (a: number, b: number, c: any) => void;
-export const closure503_externref_shim: (a: number, b: number, c: any, d: any) => void;
+export const closure1171_externref_shim: (a: number, b: number, c: any) => void;
+export const closure1206_externref_shim: (a: number, b: number, c: any, d: any) => void;
 export const __wbindgen_start: () => void;

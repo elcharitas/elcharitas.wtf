@@ -22,6 +22,7 @@ async fn main(req: HttpRequest, env: Env, _ctx: Context) -> Result<axum::respons
     console_error_panic_hook::set_once();
 
     shared::init_env(&env);
+    shared::init_kv(&env);
 
     if let Some(resp) = app::wasm_dynamic_response(&req).await {
         return Ok(resp);
@@ -32,4 +33,13 @@ async fn main(req: HttpRequest, env: Env, _ctx: Context) -> Result<axum::respons
         .oneshot(req)
         .await
         .map_err(|e| worker::Error::RustError(e.to_string()))
+}
+
+#[cfg(target_arch = "wasm32")]
+#[event(scheduled)]
+async fn scheduled(_event: ScheduledEvent, env: Env, _ctx: ScheduleContext) {
+    console_error_panic_hook::set_once();
+    shared::init_env(&env);
+    shared::init_kv(&env);
+    app::newsletter::send_newsletter().await;
 }

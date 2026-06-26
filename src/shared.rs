@@ -8,15 +8,19 @@ use serde::{Deserialize, Serialize};
 use std::cell::RefCell;
 
 #[cfg(target_arch = "wasm32")]
+use worker::kv::KvStore;
+
+#[cfg(target_arch = "wasm32")]
 thread_local! {
     static ENV_VARS: RefCell<std::collections::HashMap<String, String>> = RefCell::new(std::collections::HashMap::new());
+    static NEWSLETTER_KV: RefCell<Option<KvStore>> = RefCell::new(None);
 }
 
 #[cfg(target_arch = "wasm32")]
 pub fn init_env(env: &worker::Env) {
     ENV_VARS.with(|vars| {
         let mut map = vars.borrow_mut();
-        for key in ["GITHUB_TOKEN", "ORCID_ID", "ENVIRONMENT"] {
+        for key in ["GITHUB_TOKEN", "ORCID_ID", "ENVIRONMENT", "RESEND_API_KEY"] {
             let value = env.secret(key)
                 .map(|s| s.to_string())
                 .or_else(|_| env.var(key).map(|v| v.to_string()))
@@ -24,6 +28,18 @@ pub fn init_env(env: &worker::Env) {
             map.insert(key.to_string(), value);
         }
     });
+}
+
+#[cfg(target_arch = "wasm32")]
+pub fn init_kv(env: &worker::Env) {
+    NEWSLETTER_KV.with(|kv| {
+        *kv.borrow_mut() = env.kv("NEWSLETTER_SUBSCRIBERS").ok();
+    });
+}
+
+#[cfg(target_arch = "wasm32")]
+pub fn get_newsletter_kv() -> Option<KvStore> {
+    NEWSLETTER_KV.with(|kv| kv.borrow().clone())
 }
 
 pub fn get_env(key: &str) -> String {

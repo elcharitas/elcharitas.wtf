@@ -1,6 +1,4 @@
 use crate::components::PageLayout;
-#[cfg(not(target_arch = "wasm32"))]
-use axum::extract::Multipart;
 use axum::response::{Html, IntoResponse};
 use momenta::prelude::*;
 use serde::{Deserialize, Serialize};
@@ -11,24 +9,12 @@ pub struct NewsletterSubscription {
 }
 
 impl NewsletterSubscription {
-    #[cfg(not(target_arch = "wasm32"))]
-    async fn load(mut multipart: Multipart) -> Self {
-        let mut email = String::new();
-
-        while let Ok(Some(field)) = multipart.next_field().await {
-            if let Some(name) = field.name() {
-                if name == "email" {
-                    if let Ok(value) = field.text().await {
-                        email = value;
-                    }
-                }
-            }
-        }
-
-        if !email.is_empty() {
-            return NewsletterSubscription { email };
-        }
-        NewsletterSubscription::default()
+    fn from_body(body: &str) -> Self {
+        let email = url::form_urlencoded::parse(body.as_bytes())
+            .find(|(k, _)| k == "email")
+            .map(|(_, v)| v.to_string())
+            .unwrap_or_default();
+        NewsletterSubscription { email }
     }
 }
 
@@ -37,10 +23,91 @@ pub async fn newsletter_get_handler() -> impl IntoResponse {
     Html(NewsletterPage::render(&props).to_string())
 }
 
-#[cfg(not(target_arch = "wasm32"))]
-pub async fn newsletter_post_handler(multipart: Multipart) -> impl IntoResponse {
-    let props = NewsletterSubscription::load(multipart).await;
+pub async fn newsletter_post_handler(body: String) -> impl IntoResponse {
+    let props = NewsletterSubscription::from_body(&body);
+
+    #[cfg(target_arch = "wasm32")]
+    if !props.email.is_empty() {
+        if let Some(kv) = crate::shared::get_newsletter_kv() {
+            if let Ok(builder) = kv.put(&format!("subscriber:{}", props.email), "1") {
+                wasm_bindgen_futures::spawn_local(async move {
+                    let _ = builder.execute().await;
+                });
+            }
+        }
+    }
+
     Html(NewsletterPage::render(&props).to_string())
+}
+
+#[cfg(target_arch = "wasm32")]
+fn render_email(title: &str, brief: &str, url: &str) -> String {
+    let template = include_str!("../emails/newsletter.mrml")
+        .replace("{{subject}}", &format!("Weekly: {title}"))
+        .replace("{{title}}", title)
+        .replace("{{brief}}", brief)
+        .replace("{{url}}", url);
+
+    let opts = mrml::prelude::render::RenderOptions::default();
+    mrml::parse(&template)
+        .ok()
+        .and_then(|root| root.element.render(&opts).ok())
+        .unwrap_or_else(|| {
+            format!(
+                "<h2>{title}</h2><p>{brief}</p><p><a href=\"{url}\">Read →</a></p>\
+                 <p><a href=\"https://elcharitas.wtf/newsletter\">Unsubscribe</a></p>"
+            )
+        })
+}
+
+#[cfg(target_arch = "wasm32")]
+pub async fn send_newsletter() {
+    let Some(kv) = crate::shared::get_newsletter_kv() else {
+        return;
+    };
+    let api_key = crate::shared::get_env("RESEND_API_KEY");
+    if api_key.is_empty() {
+        return;
+    }
+
+    let list = match kv.list().prefix("subscriber:".to_string()).execute().await {
+        Ok(l) => l,
+        Err(_) => return,
+    };
+
+    let emails: Vec<String> = list
+        .keys
+        .iter()
+        .map(|k| k.name.trim_start_matches("subscriber:").to_string())
+        .collect();
+
+    if emails.is_empty() {
+        return;
+    }
+
+    let posts = crate::requests::fetch_all_posts().await;
+    let Some(latest) = posts.first() else {
+        return;
+    };
+
+    let html = render_email(&latest.title, &latest.brief, &latest.url);
+    let subject = format!("Weekly: {}", latest.title);
+    let client = reqwest::Client::new();
+
+    for email in &emails {
+        let payload = serde_json::json!({
+            "from": "Jonathan <newsletter@elcharitas.wtf>",
+            "to": [email],
+            "subject": subject,
+            "html": html,
+        });
+        let _ = client
+            .post("https://api.resend.com/emails")
+            .header("Authorization", format!("Bearer {}", api_key))
+            .json(&payload)
+            .send()
+            .await;
+    }
 }
 
 #[component]
@@ -58,7 +125,7 @@ pub fn NewsletterPage(props: &NewsletterSubscription) -> Node {
                             </p>
                         </section>
 
-                        <form action="/newsletter" method="POST" class="space-y-3 max-w-md" enctype="multipart/form-data">
+                        <form action="/newsletter" method="POST" class="space-y-3 max-w-md">
                             <label class="sr-only" for="email">"Email Address"</label>
                             <input
                                 type="email"

@@ -9,6 +9,13 @@ routes = [
 ]
 vars = { ENVIRONMENT = "production", HASHNODE_PUBLICATION_HOST = "elcharitas.wtf/blog", ORCID_ID = "0009-0006-6802-6663" }
 
+[[kv_namespaces]]
+binding = "NEWSLETTER_SUBSCRIBERS"
+id = ""
+
+[triggers]
+crons = ["0 9 * * 5"]
+
 [observability]
 enabled = false
 head_sampling_rate = 1

@@ -71,6 +71,17 @@ pub fn ProjectArticle(project: &Project) -> Node {
                 <p class="text-sm md:text-base text-zinc-400 leading-relaxed">
                     {&brief[0..(brief.len().min(120))]}...
                 </p>
+                {if !project.tags.is_empty() {
+                    rsx! {
+                        <div class="flex flex-wrap gap-1.5">
+                            {project.tags.iter().take(4).map(|tag| rsx! {
+                                <span class="text-xs px-2 py-0.5 rounded-full border border-zinc-800 text-zinc-500">{tag.replace('-', " ")}</span>
+                            })}
+                        </div>
+                    }
+                } else {
+                    rsx! { <></> }
+                }}
                 <div class="flex items-center justify-between flex-wrap gap-2">
                     <span class="text-xs text-zinc-500">
                         "⭐ "{project.stargazers_count}" • 👀 "{project.watching}

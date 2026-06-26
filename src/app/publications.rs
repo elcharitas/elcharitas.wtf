@@ -87,6 +87,15 @@ pub fn PublicationsPage(props: &PublicationsProps) -> Node {
 
                 <div class="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 items-start">
                     <div class="space-y-4">
+                        <div class="relative">
+                            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 text-sm pointer-events-none"></i>
+                            <input
+                                id="search-input"
+                                type="text"
+                                placeholder="Search publications..."
+                                class="w-full bg-zinc-900/60 border border-zinc-800 rounded-xl pl-10 pr-4 py-3 text-sm text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-zinc-700 transition-colors"
+                            />
+                        </div>
                         {if props.publications.is_empty() {
                             rsx! {
                                 <div class="card-item rounded-2xl p-6 space-y-3">
@@ -98,8 +107,14 @@ pub fn PublicationsPage(props: &PublicationsProps) -> Node {
                             rsx! {
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     {props.publications.iter().map(|publication| {
+                                        let search_text = format!(
+                                            "{} {} {}",
+                                            publication.title,
+                                            publication.venue.as_deref().unwrap_or(""),
+                                            publication.work_type.as_deref().unwrap_or("")
+                                        );
                                         rsx! {
-                                            <article class="card-item rounded-2xl p-5 space-y-4 soft-lift">
+                                            <article data_searchtext={search_text.as_str()} class="card-item rounded-2xl p-5 space-y-4 soft-lift">
                                                 <div class="flex items-start justify-between gap-3">
                                                     <div class="space-y-2">
                                                         <p class="text-xs uppercase tracking-[0.1em] text-zinc-500">{publication.work_type.as_deref().unwrap_or("Publication")}</p>
@@ -133,6 +148,18 @@ pub fn PublicationsPage(props: &PublicationsProps) -> Node {
                                 </div>
                             }
                         }}
+                        <script>{r#"
+                        (function(){
+                          var s=document.getElementById('search-input');
+                          if(!s)return;
+                          s.addEventListener('input',function(){
+                            var q=s.value.toLowerCase().trim();
+                            document.querySelectorAll('[data-searchtext]').forEach(function(el){
+                              el.style.display=!q||(el.getAttribute('data-searchtext')||'').toLowerCase().includes(q)?'':'none';
+                            });
+                          });
+                        })();
+                        "#}</script>
                     </div>
 
                     <aside class="space-y-4">

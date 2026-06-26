@@ -33,12 +33,17 @@ pub async fn infinite_scroll(Query(query): Query<serde_json::Value>) -> impl Int
     let fragment = rsx! {
         <>
             {projects.into_iter().map(|project| {
+                let search_text = format!("{} {}", project.name, project.description);
+                let tags_str = project.tags.join(",");
                 rsx! {
                     <>
                         "event: datastar-merge-fragments\n"
                         "data: selector #click_to_load_rows\n"
                         "data: mergeMode append\n"
-                        "data: fragments " <ProjectArticle {..project} />
+                        "data: fragments "
+                        <div data_searchtext={search_text.as_str()} data_tags={tags_str.as_str()}>
+                            <ProjectArticle {..project} />
+                        </div>
                         "\n\n"
                     </>
                 }
@@ -161,7 +166,7 @@ pub fn ProjectsPage(
                       var tags=(el.getAttribute('data-tags')||'').toLowerCase();
                       var ms=!q||text.includes(q);
                       var mt=!activeTag||tags.split(',').some(function(t){return t.trim()===activeTag;});
-                      el.style.display=ms&&mt?'':'none';
+                      el.style.display=ms?(mt?'':'none'):'none';
                     });
                   }
                   var s=document.getElementById('search-input');
@@ -178,6 +183,8 @@ pub fn ProjectsPage(
                     });
                   });
                   setPill(document.querySelector('[data-tag-filter=""]'));
+                  var grid=document.getElementById('click_to_load_rows');
+                  if(grid){new MutationObserver(function(){filter();}).observe(grid,{childList:true});}
                 })();
                 "#}</script>
             </div>

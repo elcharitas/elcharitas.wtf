@@ -87,7 +87,7 @@ pub fn BlogPage(BlogProps { posts }: &BlogProps) -> Node {
                       var tags=(el.getAttribute('data-tags')||'').toLowerCase();
                       var ms=!q||text.includes(q);
                       var mt=!activeTag||tags.split(',').some(function(t){return t.trim()===activeTag;});
-                      el.style.display=ms&&mt?'':'none';
+                      el.style.display=ms?(mt?'':'none'):'none';
                     });
                   }
                   var s=document.getElementById('search-input');

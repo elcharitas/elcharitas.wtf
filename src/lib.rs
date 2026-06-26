@@ -24,6 +24,17 @@ async fn main(req: HttpRequest, env: Env, _ctx: Context) -> Result<axum::respons
     shared::init_env(&env);
     shared::init_kv(&env);
 
+    // Handle POST /newsletter before the axum router: KvBuilder is !Send so it cannot
+    // cross an await point inside an axum Handler future (which requires Send).
+    if req.method() == axum::http::Method::POST && req.uri().path() == "/newsletter" {
+        use axum::response::IntoResponse;
+        let (_, body) = req.into_parts();
+        use http_body_util::BodyExt;
+        let bytes = body.collect().await.map(|c| c.to_bytes()).unwrap_or_default();
+        let body_str = String::from_utf8_lossy(&bytes).to_string();
+        return Ok(app::newsletter::newsletter_post_handler(body_str).await.into_response());
+    }
+
     if let Some(resp) = app::wasm_dynamic_response(&req).await {
         return Ok(resp);
     }

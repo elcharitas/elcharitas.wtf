@@ -28,20 +28,17 @@ pub async fn newsletter_post_handler(body: String) -> impl IntoResponse {
 
     #[cfg(target_arch = "wasm32")]
     if !props.email.is_empty() {
-        let email = props.email.clone();
         let api_key = crate::shared::get_env("RESEND_API_KEY");
         if let Some(kv) = crate::shared::get_newsletter_kv() {
-            if let Ok(builder) = kv.put(&format!("subscriber:{}", email), "1") {
-                wasm_bindgen_futures::spawn_local(async move {
-                    match builder.execute().await {
-                        Ok(_) => worker::console_log!("newsletter: subscriber {} saved to KV", email),
-                        Err(e) => worker::console_log!("newsletter: failed to save {} to KV: {:?}", email, e),
-                    }
-                    if !api_key.is_empty() {
-                        send_welcome_email(&email, &api_key).await;
-                    }
-                });
+            if let Ok(builder) = kv.put(&format!("subscriber:{}", props.email), "1") {
+                match builder.execute().await {
+                    Ok(_) => worker::console_log!("newsletter: subscriber {} saved to KV", props.email),
+                    Err(e) => worker::console_log!("newsletter: failed to save {} to KV: {:?}", props.email, e),
+                }
             }
+        }
+        if !api_key.is_empty() {
+            send_welcome_email(&props.email, &api_key).await;
         }
     }
 

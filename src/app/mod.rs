@@ -19,8 +19,10 @@ mod sitemap;
 
 use axum::{
     Router,
-    routing::{get, post},
+    routing::get,
 };
+#[cfg(not(target_arch = "wasm32"))]
+use axum::routing::post;
 #[cfg(target_arch = "wasm32")]
 use axum::{
     extract::{Path, Query},
@@ -63,8 +65,7 @@ pub fn create_router() -> Router {
 
     #[cfg(target_arch = "wasm32")]
     let router = router
-        .route("/blog", get(|| async { axum::response::Redirect::permanent("/") }))
-        .route("/newsletter", post(newsletter::newsletter_post_handler));
+        .route("/blog", get(|| async { axum::response::Redirect::permanent("/") }));
 
     router
         .route(

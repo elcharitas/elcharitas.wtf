@@ -17,9 +17,9 @@ pub fn Article(
     rsx! {
         <a
             href={format!("/essays/{}", post.slug)}
-            class="group block card-item rounded-lg p-5 transition-all"
+            class="group flex flex-col h-full card-item rounded-lg p-5 transition-all"
         >
-            <div class="space-y-4">
+            <div class="flex flex-col gap-4 flex-1">
                 <div class="flex items-center justify-between gap-2">
                     <span class="inline-flex items-center px-2.5 py-1 text-[11px] uppercase tracking-[0.08em] font-semibold rounded-md" style="background: var(--accent-dim); border: 1px solid var(--accent-border); color: var(--accent);">
                         {category.map_or("general", |c| &c.name)}
@@ -44,7 +44,7 @@ pub fn Article(
                     {&post.brief[0..(post.brief.len().min(120))]}...
                 </p>
 
-                <div class="pt-2 flex items-center justify-between">
+                <div class="pt-2 flex items-center justify-between mt-auto">
                     <span class="text-xs text-zinc-500">{format!("{} views", post.views.unwrap_or(0))}</span>
                     {when!(show_read_more =>
                         <span class="text-sm" style="color: var(--accent);">"read essay"</span>
@@ -63,8 +63,8 @@ pub fn ProjectArticle(project: &Project) -> Node {
         .then(|| &project.name)
         .unwrap_or(&project.description);
     rsx! {
-        <article class="group card-item rounded-lg p-5 transition-all">
-            <div class="space-y-4">
+        <article class="group flex flex-col h-full card-item rounded-lg p-5 transition-all">
+            <div class="flex flex-col gap-4 flex-1">
                 <h2 class="text-xl md:text-2xl font-semibold text-zinc-100 group-hover:text-white">
                     {&project.name}
                 </h2>
@@ -82,7 +82,7 @@ pub fn ProjectArticle(project: &Project) -> Node {
                 } else {
                     rsx! { <></> }
                 }}
-                <div class="flex items-center justify-between flex-wrap gap-2">
+                <div class="flex items-center justify-between flex-wrap gap-2 mt-auto">
                     <span class="flex items-center gap-3 text-xs text-zinc-500">
                         <span><i class="fas fa-star mr-1"></i>{project.stargazers_count}</span>
                         {when!(let Some(lang) = &project.language =>

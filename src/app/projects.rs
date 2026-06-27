@@ -149,7 +149,7 @@ pub fn ProjectsPage(
                         let search_text = format!("{} {}", project.name, project.description);
                         let tags_str = project.tags.join(",");
                         rsx! {
-                            <div data_searchtext={search_text.as_str()} data_tags={tags_str.as_str()}>
+                            <div class="h-full" data_searchtext={search_text.as_str()} data_tags={tags_str.as_str()}>
                                 <ProjectArticle {..project.clone()} />
                             </div>
                         }

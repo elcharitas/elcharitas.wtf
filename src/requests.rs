@@ -3,8 +3,6 @@ use serde::Deserialize;
 
 use crate::shared::{get_env, Content, Post, Project, Tag};
 
-// ---- post index embedded at compile time ----
-
 #[derive(Debug, Deserialize)]
 struct PostMeta {
     slug: String,

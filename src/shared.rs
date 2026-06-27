@@ -2,8 +2,6 @@ use axum::extract::Query;
 use lazy_static::lazy_static;
 use serde::{Deserialize, Serialize};
 
-// ------ env var abstraction ------
-
 #[cfg(target_arch = "wasm32")]
 use std::cell::RefCell;
 
@@ -63,8 +61,6 @@ pub fn get_env(key: &str) -> String {
         std::env::var(key).unwrap_or_default()
     }
 }
-
-// ------ end env var abstraction ------
 
 #[derive(Deserialize)]
 pub struct PageParams {

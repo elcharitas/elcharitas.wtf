@@ -83,8 +83,11 @@ pub fn ProjectArticle(project: &Project) -> Node {
                     rsx! { <></> }
                 }}
                 <div class="flex items-center justify-between flex-wrap gap-2">
-                    <span class="text-xs text-zinc-500">
-                        "⭐ "{project.stargazers_count}" • 👀 "{project.watching}
+                    <span class="flex items-center gap-3 text-xs text-zinc-500">
+                        <span><i class="fas fa-star mr-1"></i>{project.stargazers_count}</span>
+                        {when!(let Some(lang) = &project.language =>
+                            <span><i class="fas fa-code mr-1"></i>{lang}</span>
+                        )}
                     </span>
                     <a href={&project.url} class="text-sm" style="color: var(--accent);">"view project"</a>
                 </div>

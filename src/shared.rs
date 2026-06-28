@@ -18,8 +18,16 @@ thread_local! {
 pub fn init_env(env: &worker::Env) {
     ENV_VARS.with(|vars| {
         let mut map = vars.borrow_mut();
-        for key in ["GITHUB_TOKEN", "ORCID_ID", "ENVIRONMENT", "RESEND_API_KEY"] {
-            let value = env.secret(key)
+        for key in [
+            "GITHUB_TOKEN",
+            "ORCID_ID",
+            "RESEND_FROM_NAME",
+            "RESEND_FROM_EMAIL",
+            "ENVIRONMENT",
+            "RESEND_API_KEY",
+        ] {
+            let value = env
+                .secret(key)
                 .map(|s| s.to_string())
                 .or_else(|_| env.var(key).map(|v| v.to_string()))
                 .unwrap_or_default();
@@ -30,16 +38,14 @@ pub fn init_env(env: &worker::Env) {
 
 #[cfg(target_arch = "wasm32")]
 pub fn init_kv(env: &worker::Env) {
-    NEWSLETTER_KV.with(|kv| {
-        match env.kv("NEWSLETTER_SUBSCRIBERS") {
-            Ok(store) => {
-                worker::console_log!("newsletter: KV binding initialised");
-                *kv.borrow_mut() = Some(store);
-            }
-            Err(e) => {
-                worker::console_log!("newsletter: KV binding failed: {:?}", e);
-                *kv.borrow_mut() = None;
-            }
+    NEWSLETTER_KV.with(|kv| match env.kv("NEWSLETTER_SUBSCRIBERS") {
+        Ok(store) => {
+            worker::console_log!("newsletter: KV binding initialised");
+            *kv.borrow_mut() = Some(store);
+        }
+        Err(e) => {
+            worker::console_log!("newsletter: KV binding failed: {:?}", e);
+            *kv.borrow_mut() = None;
         }
     });
 }
@@ -52,9 +58,7 @@ pub fn get_newsletter_kv() -> Option<KvStore> {
 pub fn get_env(key: &str) -> String {
     #[cfg(target_arch = "wasm32")]
     {
-        ENV_VARS.with(|vars| {
-            vars.borrow().get(key).cloned().unwrap_or_default()
-        })
+        ENV_VARS.with(|vars| vars.borrow().get(key).cloned().unwrap_or_default())
     }
     #[cfg(not(target_arch = "wasm32"))]
     {
@@ -92,11 +96,26 @@ pub struct NavigationInfo {
 
 lazy_static! {
     pub static ref NAVIGATION: Vec<NavigationInfo> = vec![
-        NavigationInfo { name: "Projects", href: "/projects" },
-        NavigationInfo { name: "Essays", href: "/essays" },
-        NavigationInfo { name: "Publications", href: "/publications" },
-        NavigationInfo { name: "Resume", href: "/resume" },
-        NavigationInfo { name: "Timeline", href: "/adventures" },
+        NavigationInfo {
+            name: "Projects",
+            href: "/projects"
+        },
+        NavigationInfo {
+            name: "Essays",
+            href: "/essays"
+        },
+        NavigationInfo {
+            name: "Publications",
+            href: "/publications"
+        },
+        NavigationInfo {
+            name: "Resume",
+            href: "/resume"
+        },
+        NavigationInfo {
+            name: "Timeline",
+            href: "/adventures"
+        },
     ];
 }
 

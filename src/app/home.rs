@@ -77,8 +77,8 @@ pub fn HomePage() -> Node {
                             </div>
                         </div>
                         <div class="border border-zinc-800 rounded-2xl p-5 bg-zinc-950/60 space-y-3">
-						<p class="text-xs uppercase tracking-[0.1em] text-zinc-500 mb-3">"Now"</p>
-						<p class="text-sm text-zinc-300 leading-relaxed">"Building and writing in public. Subscribe to the newsletter for weekly updates on what ships next."</p>
+                        <p class="text-xs uppercase tracking-[0.1em] text-zinc-500 mb-3">"Now"</p>
+                        <p class="text-sm text-zinc-300 leading-relaxed">"Building and writing in public. Subscribe to the newsletter for weekly updates on what ships next."</p>
                         </div>
                     </div>
                 </div>

@@ -10,9 +10,9 @@ mod requests;
 mod shared;
 
 #[cfg(target_arch = "wasm32")]
-use worker::*;
-#[cfg(target_arch = "wasm32")]
 use tower::ServiceExt;
+#[cfg(target_arch = "wasm32")]
+use worker::*;
 
 #[cfg(target_arch = "wasm32")]
 #[event(fetch)]
@@ -28,10 +28,19 @@ async fn main(req: HttpRequest, env: Env, _ctx: Context) -> Result<axum::respons
         use axum::response::IntoResponse;
         let (_, body) = req.into_parts();
         use http_body_util::BodyExt;
-        let bytes = body.collect().await.map(|c| c.to_bytes()).unwrap_or_default();
+        let bytes = body
+            .collect()
+            .await
+            .map(|c| c.to_bytes())
+            .unwrap_or_default();
         let body_str = String::from_utf8_lossy(&bytes).to_string();
-        console_log!("newsletter: POST /newsletter — body length {}", body_str.len());
-        return Ok(app::newsletter::newsletter_post_handler(body_str).await.into_response());
+        console_log!(
+            "newsletter: POST /newsletter — body length {}",
+            body_str.len()
+        );
+        return Ok(app::newsletter::newsletter_post_handler(body_str)
+            .await
+            .into_response());
     }
 
     if let Some(resp) = app::wasm_dynamic_response(&req).await {

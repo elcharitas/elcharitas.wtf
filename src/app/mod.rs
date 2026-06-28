@@ -17,12 +17,9 @@ mod resume {
 mod rss;
 mod sitemap;
 
-use axum::{
-    Router,
-    routing::get,
-};
 #[cfg(not(target_arch = "wasm32"))]
 use axum::routing::post;
+use axum::{Router, routing::get};
 #[cfg(target_arch = "wasm32")]
 use axum::{
     extract::{Path, Query},
@@ -49,10 +46,7 @@ pub fn create_router() -> Router {
         .route("/essays/infinite_scroll", get(blog::page::infinite_scroll))
         .route("/essays/{slug}", get(blog::slug::blog_detail_handler))
         .route("/projects", get(projects::projects_handler))
-        .route(
-            "/projects/infinite_scroll",
-            get(projects::infinite_scroll),
-        )
+        .route("/projects/infinite_scroll", get(projects::infinite_scroll))
         .route("/adventures", get(adventures::page::adventures_handler))
         .route("/newsletter", get(newsletter::newsletter_get_handler))
         .route("/newsletter", post(newsletter::newsletter_post_handler))
@@ -64,8 +58,10 @@ pub fn create_router() -> Router {
         );
 
     #[cfg(target_arch = "wasm32")]
-    let router = router
-        .route("/blog", get(|| async { axum::response::Redirect::permanent("/") }));
+    let router = router.route(
+        "/blog",
+        get(|| async { axum::response::Redirect::permanent("/") }),
+    );
 
     router
         .route(

@@ -1,7 +1,4 @@
-use axum::{
-    http::header,
-    response::IntoResponse,
-};
+use axum::{http::header, response::IntoResponse};
 
 pub async fn styles_handler() -> impl IntoResponse {
     (

@@ -50,6 +50,17 @@ pub async fn newsletter_post_handler(body: String) -> impl IntoResponse {
     Html(NewsletterPage::render(&props).to_string())
 }
 
+fn from_data() -> String {
+    let from_email = crate::shared::get_env("RESEND_FROM_EMAIL");
+    let from_name = crate::shared::get_env("RESEND_FROM_NAME");
+    let from = if !from_name.is_empty() {
+        format!("{} <{}>", from_name, from_email)
+    } else {
+        "Jonathan Irhodia <newsletter@elcharitas.wtf>".to_string()
+    };
+    from
+}
+
 #[cfg(target_arch = "wasm32")]
 fn render_email(title: &str, brief: &str, url: &str) -> String {
     let template = include_str!("../emails/newsletter.mrml")
@@ -79,7 +90,7 @@ fn render_welcome_email() -> String {
         .and_then(|root| root.element.render(&opts).ok())
         .unwrap_or_else(|| {
             "<h2>Welcome aboard.</h2>\
-             <p>Thanks for subscribing to weekly field notes from the build process.</p>\
+             <p>Thanks for subscribing to my weekly field notes from the build process.</p>\
              <p><a href=\"https://elcharitas.wtf/essays\">Read latest essays →</a></p>\
              <p><a href=\"https://elcharitas.wtf/newsletter\">Unsubscribe</a></p>"
                 .to_string()
@@ -91,7 +102,7 @@ async fn send_welcome_email(email: &str, api_key: &str) {
     let html = render_welcome_email();
     let client = reqwest::Client::new();
     let payload = serde_json::json!({
-        "from": "Jonathan <newsletter@elcharitas.wtf>",
+        "from": from_data(),
         "to": [email],
         "subject": "Welcome to the newsletter",
         "html": html,
@@ -152,7 +163,7 @@ pub async fn send_newsletter() {
 
     for email in &emails {
         let payload = serde_json::json!({
-            "from": "Jonathan <newsletter@elcharitas.wtf>",
+            "from": from_data(),
             "to": [email],
             "subject": subject,
             "html": html,

@@ -1,7 +1,7 @@
 use reqwest;
 use serde::Deserialize;
 
-use crate::shared::{get_env, Content, Post, Project, Tag};
+use crate::shared::{Content, Post, Project, Tag, get_env};
 
 #[derive(Debug, Deserialize)]
 struct PostMeta {
@@ -15,7 +15,13 @@ struct PostMeta {
 fn post_meta_to_post(m: PostMeta) -> Post {
     let tags = m
         .category
-        .map(|c| vec![Tag { id: c.clone(), name: c.clone(), slug: c }])
+        .map(|c| {
+            vec![Tag {
+                id: c.clone(),
+                name: c.clone(),
+                slug: c,
+            }]
+        })
         .unwrap_or_default();
     Post {
         id: m.slug.clone(),
@@ -111,7 +117,9 @@ pub fn parse_post_from_markdown(slug: &str, raw: &str) -> Post {
     let brief = body
         .lines()
         .map(|l| l.trim())
-        .filter(|l| !l.is_empty() && !l.starts_with('#') && !l.starts_with("```") && !l.starts_with('!'))
+        .filter(|l| {
+            !l.is_empty() && !l.starts_with('#') && !l.starts_with("```") && !l.starts_with('!')
+        })
         .next()
         .unwrap_or("")
         .chars()

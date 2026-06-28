@@ -6,7 +6,7 @@ use axum::{
     http::HeaderMap,
     response::{Html, IntoResponse},
 };
-use comrak::{Options, markdown_to_html, ExtensionOptions, RenderOptions};
+use comrak::{ExtensionOptions, Options, RenderOptions, markdown_to_html};
 use momenta::prelude::*;
 use serde::{Deserialize, Serialize};
 

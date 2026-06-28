@@ -40,9 +40,36 @@ fn post_meta_to_post(m: PostMeta) -> Post {
     }
 }
 
+#[cfg(target_arch = "wasm32")]
+async fn http_get_text(url: &str) -> Option<String> {
+    use worker::{Fetch, Method, Request, RequestInit};
+    let req = Request::new_with_init(url, RequestInit::new().with_method(Method::Get)).ok()?;
+    let mut resp = Fetch::Request(req).send().await.ok()?;
+    if resp.status_code() >= 400 {
+        return None;
+    }
+    resp.text().await.ok()
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+async fn http_get_text(url: &str) -> Option<String> {
+    let client = reqwest::Client::builder().build().ok()?;
+    let resp = client
+        .get(url)
+        .header("User-Agent", "elcharitas-wtf")
+        .send()
+        .await
+        .ok()?;
+    if !resp.status().is_success() {
+        return None;
+    }
+    resp.text().await.ok()
+}
+
 pub async fn fetch_all_posts() -> Vec<Post> {
-    let json = include_str!("../blog/posts.json");
-    serde_json::from_str::<Vec<PostMeta>>(json)
+    let url = "https://raw.githubusercontent.com/elcharitas/elcharitas.wtf/main/blog/posts.json";
+    let json = http_get_text(url).await.unwrap_or_default();
+    serde_json::from_str::<Vec<PostMeta>>(&json)
         .unwrap_or_default()
         .into_iter()
         .map(post_meta_to_post)
@@ -121,8 +148,12 @@ pub fn parse_post_from_markdown(slug: &str, raw: &str) -> Post {
 }
 
 pub async fn fetch_post_by_slug_from_github(slug: &str) -> Option<Post> {
-    let raw = crate::blog_posts::get_post_content(slug)?;
-    Some(parse_post_from_markdown(slug, raw))
+    let url = format!(
+        "https://raw.githubusercontent.com/elcharitas/elcharitas.wtf/main/blog/{}.md",
+        slug
+    );
+    let raw = http_get_text(&url).await?;
+    Some(parse_post_from_markdown(slug, &raw))
 }
 
 // ---- GitHub projects API ----

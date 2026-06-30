@@ -50,6 +50,7 @@ pub async fn newsletter_post_handler(body: String) -> impl IntoResponse {
     Html(NewsletterPage::render(&props).to_string())
 }
 
+#[cfg(target_arch = "wasm32")]
 fn from_data() -> String {
     let from_email = crate::shared::get_env("RESEND_FROM_EMAIL");
     let from_name = crate::shared::get_env("RESEND_FROM_NAME");

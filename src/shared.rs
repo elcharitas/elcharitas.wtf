@@ -138,14 +138,6 @@ pub struct PostCoverImage {
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct PageInfo {
-    #[serde(rename = "endCursor")]
-    pub end_cursor: Option<String>,
-    #[serde(rename = "hasNextPage")]
-    pub has_next_page: Option<bool>,
-}
-
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct OpenGraphMetaData {
     pub image: Option<String>,
 }

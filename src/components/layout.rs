@@ -109,7 +109,7 @@ lazy_static! {
             card: "summary_large_image".into(),
         },
         icons: Icons {
-            shortcut: "/favicon.png".into(),
+            shortcut: "/icon.png".into(),
         },
     };
 }
@@ -154,7 +154,9 @@ pub fn AppLayout(props: &LayoutProps) -> Node {
                         if METADATA.robots.follow { ", follow" } else { ", nofollow" }
                     )
                 } />
-                <link rel="shortcut icon" href={&METADATA.icons.shortcut} />
+                <link rel="icon" href={&METADATA.icons.shortcut} />
+				<link rel="shortcut icon" href={&METADATA.icons.shortcut} />
+				<link rel="apple-touch-icon" href={&METADATA.icons.shortcut} />
                 <link rel="stylesheet" href="/styles.css" />
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
 

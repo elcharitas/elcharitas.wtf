@@ -17,7 +17,7 @@ pub async fn calsans_font_handler() -> impl IntoResponse {
 pub async fn favicon_handler() -> impl IntoResponse {
     (
         [(header::CONTENT_TYPE, "image/png")],
-        include_bytes!("../../public/favicon.png").as_slice(),
+        include_bytes!("../../public/icon.png").as_slice(),
     )
 }
 

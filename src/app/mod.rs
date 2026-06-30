@@ -32,7 +32,6 @@ pub fn create_router() -> Router {
         .route("/", get(home::home_handler))
         .route("/resume", get(resume::page::resume_handler))
         .route("/styles.css", get(assets::styles_handler))
-        .route("/CalSans-SemiBold.woff2", get(assets::calsans_font_handler))
         .route("/icon.png", get(assets::favicon_handler))
         .route("/og.png", get(assets::og_image_handler));
 

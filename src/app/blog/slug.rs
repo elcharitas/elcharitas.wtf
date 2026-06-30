@@ -101,7 +101,7 @@ pub fn BlogDetailPage(props: &BlogDetailProps) -> Node {
                                     <script _dangerously_set_inner_html={r#"
 (function() {
     var HIDE = [
-        '.home-desc', '#hcb-footer', '.hcb-footer', '.hcb-branding',
+        '.home-desc', '#hcb-footer', '.hcb-footer', '.hcb-branding', '.hcb-icon',
         '[class*="powered"]', '[class*="htmlcommentbox"]'
     ];
     function purge(root) {

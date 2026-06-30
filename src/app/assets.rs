@@ -7,13 +7,6 @@ pub async fn styles_handler() -> impl IntoResponse {
     )
 }
 
-pub async fn calsans_font_handler() -> impl IntoResponse {
-    (
-        [(header::CONTENT_TYPE, "font/woff2")],
-        include_bytes!("../../public/CalSans-SemiBold.woff2").as_slice(),
-    )
-}
-
 pub async fn favicon_handler() -> impl IntoResponse {
     (
         [(header::CONTENT_TYPE, "image/png")],

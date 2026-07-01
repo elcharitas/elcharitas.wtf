@@ -134,8 +134,13 @@ h3 {
 	color: #a1a1aa;
 	transition: color 150ms ease;
 }
-.nav-link:hover {
+.nav-link:hover,
+.nav-link.active {
 	color: var(--accent);
+}
+[data-mobile-nav-href].active {
+	color: var(--accent);
+	border-color: var(--accent-border);
 }
 .card-item {
 	border: 1px solid rgba(39, 39, 42, 0.9);

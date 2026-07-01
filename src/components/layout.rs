@@ -175,6 +175,7 @@ pub fn AppLayout(props: &LayoutProps) -> Node {
                 {&props.children}
 
                 <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0-beta.11/bundles/datastar.js"></script>
+                <script>{r#"(function(){var p=location.pathname;['data-nav-href','data-mobile-nav-href'].forEach(function(attr){document.querySelectorAll('['+attr+']').forEach(function(a){var h=a.getAttribute(attr);if(p===h||p.startsWith(h+'/')){a.classList.add('active');}});});})();"#}</script>
                 <script src="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.js.iife.js">
                     {r#"
                     const driver = window.driver.js.driver;
@@ -220,7 +221,7 @@ pub fn Navigation() -> Node {
 
                 <div class="hidden md:flex items-center gap-5">
                     {NAVIGATION.iter().map(|nav| {
-                        <a href={nav.href} class="nav-link text-sm">{nav.name}</a>
+                        <a href={nav.href} class="nav-link text-sm" data_nav_href={nav.href}>{nav.name}</a>
                     })}
                     <a href="/newsletter" class="btn-accent text-sm rounded-md px-3 py-1.5">"Newsletter"</a>
                 </div>
@@ -234,7 +235,7 @@ pub fn Navigation() -> Node {
             <div data_show="$mobileMenu" class="menu-panel md:hidden border-t border-zinc-800 bg-black/95 px-4 pb-4">
                 <div class="pt-3 space-y-2">
                     {NAVIGATION.iter().map(|nav| {
-                        <a href={nav.href} class="block px-3 py-2 text-zinc-300 border border-zinc-800 rounded-lg hover:bg-zinc-900">{nav.name}</a>
+                        <a href={nav.href} class="block px-3 py-2 text-zinc-300 border border-zinc-800 rounded-lg hover:bg-zinc-900" data_mobile_nav_href={nav.href}>{nav.name}</a>
                     })}
                     <a href="/newsletter" class="block px-3 py-2 text-zinc-200 border border-zinc-700 rounded-lg hover:bg-zinc-900">"Newsletter"</a>
                 </div>

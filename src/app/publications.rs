@@ -113,37 +113,35 @@ pub fn PublicationsPage(props: &PublicationsProps) -> Node {
                                             publication.venue.as_deref().unwrap_or(""),
                                             publication.work_type.as_deref().unwrap_or("")
                                         );
-                                        rsx! {
-                                            <article data_searchtext={search_text.as_str()} class="card-item rounded-2xl p-5 space-y-4 soft-lift">
-                                                <div class="flex items-start justify-between gap-3">
-                                                    <div class="space-y-2">
-                                                        <p class="text-xs uppercase tracking-[0.1em] text-zinc-500">{publication.work_type.as_deref().unwrap_or("Publication")}</p>
-                                                        <h2 class="text-xl font-semibold text-zinc-100 leading-snug">{&publication.title}</h2>
-                                                    </div>
-                                                    {if let Some(url) = &publication.url {
-                                                        rsx! {
-                                                            <a href={url} target="_blank" rel="noopener noreferrer" class="social-link shrink-0" aria_label="Open publication">
-                                                                <i class="fas fa-arrow-up-right-from-square text-sm"></i>
-                                                            </a>
-                                                        }
-                                                    } else {
-                                                        rsx! { <></> }
-                                                    }}
+                                        <article data_searchtext={search_text.as_str()} class="card-item rounded-2xl p-5 space-y-4 soft-lift">
+                                            <div class="flex items-start justify-between gap-3">
+                                                <div class="space-y-2">
+                                                    <p class="text-xs uppercase tracking-[0.1em] text-zinc-500">{publication.work_type.as_deref().unwrap_or("Publication")}</p>
+                                                    <h2 class="text-xl font-semibold text-zinc-100 leading-snug">{&publication.title}</h2>
                                                 </div>
-                                                <div class="space-y-1 text-sm text-zinc-400">
-                                                    {if let Some(venue) = &publication.venue {
-                                                        rsx! { <p>{venue}</p> }
-                                                    } else {
-                                                        rsx! { <></> }
-                                                    }}
-                                                    {if let Some(published_on) = &publication.published_on {
-                                                        rsx! { <p>{published_on}</p> }
-                                                    } else {
-                                                        rsx! { <></> }
-                                                    }}
-                                                </div>
-                                            </article>
-                                        }
+                                                {if let Some(url) = &publication.url {
+                                                    rsx! {
+                                                        <a href={url} target="_blank" rel="noopener noreferrer" class="social-link shrink-0" aria_label="Open publication">
+                                                            <i class="fas fa-arrow-up-right-from-square text-sm"></i>
+                                                        </a>
+                                                    }
+                                                } else {
+                                                    rsx! { <></> }
+                                                }}
+                                            </div>
+                                            <div class="space-y-1 text-sm text-zinc-400">
+                                                {if let Some(venue) = &publication.venue {
+                                                    rsx! { <p>{venue}</p> }
+                                                } else {
+                                                    rsx! { <></> }
+                                                }}
+                                                {if let Some(published_on) = &publication.published_on {
+                                                    rsx! { <p>{published_on}</p> }
+                                                } else {
+                                                    rsx! { <></> }
+                                                }}
+                                            </div>
+                                        </article>
                                     })}
                                 </div>
                             }

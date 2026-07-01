@@ -56,27 +56,23 @@ pub fn SitemapPage(props: &SitemapProps) -> Node {
     ];
 
     rsx! {
-        <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+        <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
             {app_pages.iter().map(|(path, priority, changefreq)| {
-                rsx! {
-                    <sitemap>
-                        <loc>{format!("{}{}", &props.base_url, path)}</loc>
-                        <lastmod>{&now}</lastmod>
-                        <changefreq>{changefreq}</changefreq>
-                        <priority>{priority}</priority>
-                    </sitemap>
-                }
+                <url>
+                    <loc>{format!("{}{}", &props.base_url, path)}</loc>
+                    <lastmod>{&now}</lastmod>
+                    <changefreq>{changefreq}</changefreq>
+                    <priority>{priority}</priority>
+                </url>
             })}
             {props.posts.iter().map(|post| {
-                rsx! {
-                    <sitemap>
-                        <loc>{format!("{}/essays/{}", &props.base_url, &post.slug)}</loc>
-                        <lastmod>{&now}</lastmod>
-                        <changefreq>"monthly"</changefreq>
-                        <priority>"0.7"</priority>
-                    </sitemap>
-                }
+                <url>
+                    <loc>{format!("{}/essays/{}", &props.base_url, &post.slug)}</loc>
+                    <lastmod>{&now}</lastmod>
+                    <changefreq>"monthly"</changefreq>
+                    <priority>"0.7"</priority>
+                </url>
             })}
-        </sitemapindex>
+        </urlset>
     }
 }

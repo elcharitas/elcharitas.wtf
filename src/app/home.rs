@@ -70,9 +70,7 @@ pub fn HomePage() -> Node {
                             </div>
                             <div class="flex flex-wrap gap-2">
                                 {featured.tags.iter().map(|tag| {
-                                    rsx! {
-                                        <span class="text-xs px-2 py-0.5 rounded-full border border-zinc-700 text-zinc-400">{tag}</span>
-                                    }
+                                    <span class="text-xs px-2 py-0.5 rounded-full border border-zinc-700 text-zinc-400">{tag}</span>
                                 })}
                             </div>
                         </div>

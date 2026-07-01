@@ -42,15 +42,13 @@ pub fn RSSPage(props: &RSSProps) -> Node {
                 <description>"Software development, product decisions, and the realities of shipping."</description>
                 <lastBuildDate>{&now}</lastBuildDate>
                 {&props.posts.iter().map(|post| {
-                    rsx! {
-                        <item>
-                            <title>{&post.title}</title>
-                            <link>{&post.url}</link>
-                            <guid>{&post.url}</guid>
-                            <description>{&post.brief}</description>
-                            <pubDate>{&now}</pubDate>
-                        </item>
-                    }
+                    <item>
+                        <title>{&post.title}</title>
+                        <link>{&post.url}</link>
+                        <guid>{&post.url}</guid>
+                        <description>{&post.brief}</description>
+                        <pubDate>{&now}</pubDate>
+                    </item>
                 })}
             </channel>
         </rss>

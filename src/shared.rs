@@ -200,7 +200,7 @@ pub struct Project {
 pub mod xml_elements {
     pub mod dom {
         pub mod elements {
-            use momenta::derive_elements;
+            use momenta::dom::derive_elements;
             extern crate alloc;
 
             derive_elements! {
@@ -222,6 +222,10 @@ pub mod xml_elements {
                     xmlns: String,
                 }
                 sitemap {}
+                urlset {
+                    xmlns: String,
+                }
+                url {}
             }
         }
     }

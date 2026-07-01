@@ -1290,8 +1290,21 @@ dependencies = [
 
 [[package]]
 name = "momenta"
-version = "0.2.0"
-source = "git+https://github.com/elcharitas/momenta.git?branch=main#7a640700f2368ea706966a342b33f456c3d1908f"
+version = "0.3.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5eebcb21e67fd6315ffa49d0ca00b78e7dac5dfb75b715f56223060c4a5348d9"
+dependencies = [
+ "momenta-core",
+ "momenta-dom",
+ "momenta-macros",
+ "paste",
+]
+
+[[package]]
+name = "momenta-core"
+version = "0.3.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0c81bfb34e6cac66c18be9c0f366eca12801c2477787d3c19a9f065ddc512bed"
 dependencies = [
  "momenta-macros",
  "paste",
@@ -1299,9 +1312,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "momenta-dom"
+version = "0.3.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "887dfda063378a0fa755ab022c37827f372d7c5a4c8ae1dbef8f5ab28cd49ad9"
+dependencies = [
+ "momenta-core",
+ "momenta-macros",
+ "paste",
+]
+
+[[package]]
 name = "momenta-macros"
-version = "0.2.0"
-source = "git+https://github.com/elcharitas/momenta.git?branch=main#7a640700f2368ea706966a342b33f456c3d1908f"
+version = "0.3.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "77c1b2f4966814ded6d458fbf0798d056fd233b3286efc2bdd87258304f7676a"
 dependencies = [
  "proc-macro2",
  "quote",

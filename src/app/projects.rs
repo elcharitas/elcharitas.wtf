@@ -35,18 +35,16 @@ pub async fn infinite_scroll(Query(query): Query<serde_json::Value>) -> impl Int
             {projects.into_iter().map(|project| {
                 let search_text = format!("{} {}", project.name, project.description);
                 let tags_str = project.tags.join(",");
-                rsx! {
-                    <>
-                        "event: datastar-merge-fragments\n"
-                        "data: selector #click_to_load_rows\n"
-                        "data: mergeMode append\n"
-                        "data: fragments "
-                        <div data_searchtext={search_text.as_str()} data_tags={tags_str.as_str()}>
-                            <ProjectArticle {..project} />
-                        </div>
-                        "\n\n"
-                    </>
-                }
+                <>
+                    "event: datastar-merge-fragments\n"
+                    "data: selector #click_to_load_rows\n"
+                    "data: mergeMode append\n"
+                    "data: fragments "
+                    <div data_searchtext={search_text.as_str()} data_tags={tags_str.as_str()}>
+                        <ProjectArticle {..project} />
+                    </div>
+                    "\n\n"
+                </>
             })}
             "event: datastar-merge-signals\n"
             "data: onlyIfMissing false\n"
@@ -133,9 +131,7 @@ pub fn ProjectsPage(
                             <div class="flex flex-wrap gap-2">
                                 <button data_tag_filter="" class="text-xs px-3 py-1.5 rounded-full border border-zinc-700 text-zinc-400 hover:border-zinc-500 cursor-pointer transition-colors">"All"</button>
                                 {all_tags.iter().map(|tag| {
-                                    rsx! {
-                                        <button data_tag_filter={tag.as_str()} class="text-xs px-3 py-1.5 rounded-full border border-zinc-700 text-zinc-500 hover:border-zinc-500 cursor-pointer transition-colors">{tag.replace('-', " ")}</button>
-                                    }
+                                    <button data_tag_filter={tag.as_str()} class="text-xs px-3 py-1.5 rounded-full border border-zinc-700 text-zinc-500 hover:border-zinc-500 cursor-pointer transition-colors">{tag.replace('-', " ")}</button>
                                 })}
                             </div>
                         }
@@ -148,11 +144,9 @@ pub fn ProjectsPage(
                     {projects.into_iter().map(|project| {
                         let search_text = format!("{} {}", project.name, project.description);
                         let tags_str = project.tags.join(",");
-                        rsx! {
-                            <div class="h-full" data_searchtext={search_text.as_str()} data_tags={tags_str.as_str()}>
-                                <ProjectArticle {..project.clone()} />
-                            </div>
-                        }
+                        <div class="h-full" data_searchtext={search_text.as_str()} data_tags={tags_str.as_str()}>
+                            <ProjectArticle {..project.clone()} />
+                        </div>
                     })}
                 </div>
                 <ScrollCard intersect="@get('/projects/infinite_scroll')" />

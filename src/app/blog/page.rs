@@ -59,9 +59,7 @@ pub fn BlogPage(BlogProps { posts }: &BlogProps) -> Node {
                     <div class="flex flex-wrap gap-2">
                         <button data_tag_filter="" class="text-xs px-3 py-1.5 rounded-full border border-zinc-700 text-zinc-400 hover:border-zinc-500 cursor-pointer transition-colors">"All"</button>
                         {categories.iter().map(|cat| {
-                            rsx! {
-                                <button data_tag_filter={cat.as_str()} class="text-xs px-3 py-1.5 rounded-full border border-zinc-700 text-zinc-500 hover:border-zinc-500 cursor-pointer transition-colors capitalize">{cat.replace('-', " ")}</button>
-                            }
+                            <button data_tag_filter={cat.as_str()} class="text-xs px-3 py-1.5 rounded-full border border-zinc-700 text-zinc-500 hover:border-zinc-500 cursor-pointer transition-colors capitalize">{cat.replace('-', " ")}</button>
                         })}
                     </div>
                 </div>
@@ -70,11 +68,9 @@ pub fn BlogPage(BlogProps { posts }: &BlogProps) -> Node {
                     {posts.into_iter().map(|post| {
                         let tag_name = post.tags.first().map_or_else(String::new, |t| t.name.clone());
                         let search_text = format!("{} {}", post.title, post.brief);
-                        rsx! {
-                            <div data_searchtext={search_text.as_str()} data_tags={tag_name.as_str()}>
-                                <Article post={post.clone()} show_read_more />
-                            </div>
-                        }
+                        <div data_searchtext={search_text.as_str()} data_tags={tag_name.as_str()}>
+                            <Article post={post.clone()} show_read_more />
+                        </div>
                     })}
                 </div>
 

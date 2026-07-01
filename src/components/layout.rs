@@ -220,9 +220,7 @@ pub fn Navigation() -> Node {
 
                 <div class="hidden md:flex items-center gap-5">
                     {NAVIGATION.iter().map(|nav| {
-                        rsx! {
-                            <a href={nav.href} class="nav-link text-sm">{nav.name}</a>
-                        }
+                        <a href={nav.href} class="nav-link text-sm">{nav.name}</a>
                     })}
                     <a href="/newsletter" class="btn-accent text-sm rounded-md px-3 py-1.5">"Newsletter"</a>
                 </div>
@@ -236,9 +234,7 @@ pub fn Navigation() -> Node {
             <div data_show="$mobileMenu" class="menu-panel md:hidden border-t border-zinc-800 bg-black/95 px-4 pb-4">
                 <div class="pt-3 space-y-2">
                     {NAVIGATION.iter().map(|nav| {
-                        rsx! {
-                            <a href={nav.href} class="block px-3 py-2 text-zinc-300 border border-zinc-800 rounded-lg hover:bg-zinc-900">{nav.name}</a>
-                        }
+                        <a href={nav.href} class="block px-3 py-2 text-zinc-300 border border-zinc-800 rounded-lg hover:bg-zinc-900">{nav.name}</a>
                     })}
                     <a href="/newsletter" class="block px-3 py-2 text-zinc-200 border border-zinc-700 rounded-lg hover:bg-zinc-900">"Newsletter"</a>
                 </div>

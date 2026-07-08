@@ -49,6 +49,7 @@ pub fn create_router() -> Router {
         .route("/adventures", get(adventures::page::adventures_handler))
         .route("/newsletter", get(newsletter::newsletter_get_handler))
         .route("/newsletter", post(newsletter::newsletter_post_handler))
+        .route("/newsletter/send", post(newsletter::newsletter_send_handler))
         .route("/rss.xml", get(rss::rss_handler))
         .route("/sitemap.xml", get(sitemap::sitemap_handler))
         .route(

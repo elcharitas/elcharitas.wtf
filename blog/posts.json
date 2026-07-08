@@ -4,35 +4,40 @@
 		"title": "Taking the Bull by the horn with Hashnode Headless",
 		"brief": "Sometime last year December, I began craving a way to effortlessly combine my portfolio and blog into one single app. This was a rather difficult task at the time. Luckily, Hashndoe had an API in WIP ",
 		"read_time_in_minutes": 8,
-		"category": "web-dev"
+		"category": "web-dev",
+		"published_at": "2023-10-31"
 	},
 	{
 		"slug": "new-updates-newsletters-improved-blog-search-bug-fixes",
 		"title": "New Updates: Newsletters, Improved Blog Search, Bug Fixes",
 		"brief": "Alright, lovelies, as promised, today's the 25th which is the official release announcement date for my new portfolio website. Over the past month since the first release, so many changes have been ad",
 		"read_time_in_minutes": 3,
-		"category": "updates"
+		"category": "updates",
+		"published_at": "2023-10-25"
 	},
 	{
 		"slug": "the-start-of-a-new-adventure",
 		"title": "The start of a new adventure",
 		"brief": "I'll start with \"Aloha\" 😅. It's been a long while since I put something out here and this is primarily because my primary domain \"elcharitas.dev\" is no longer available. Sometimes late last year, I g",
 		"read_time_in_minutes": 5,
-		"category": "personal"
+		"category": "personal",
+		"published_at": "2023-09-25"
 	},
 	{
 		"slug": "the-chatgpt-authorship-dilemma-is-the-ai-model-a-thief",
 		"title": "The ChatGPT Authorship Dilemma: Is the AI Model a Thief?",
 		"brief": "The outburst of AI has changed various aspects of our lives, including how we communicate and interact with technology. OpenAI's ChatGPT, a powerful language model, has been making waves in the tech w",
 		"read_time_in_minutes": 4,
-		"category": "ai"
+		"category": "ai",
+		"published_at": "2023-04-04"
 	},
 	{
 		"slug": "5-tips-on-how-to-interact-with-smart-contracts",
 		"title": "5 Tips on how to interact with Smart Contracts",
 		"brief": "Smart contract programming can be a rather tedious thing to do. I recall how each time I wrote web integrations for smart contracts I would get frustrated. The issue is: there's almost no good docs fo",
 		"read_time_in_minutes": 2,
-		"category": "web3"
+		"category": "web3",
+		"published_at": "2023-04-04"
 	},
 	{
 		"slug": "chakra-ui-svelte-v0-what-to-look-forward-to-this-new-year",

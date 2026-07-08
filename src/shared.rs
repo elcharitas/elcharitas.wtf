@@ -25,6 +25,7 @@ pub fn init_env(env: &worker::Env) {
             "RESEND_FROM_EMAIL",
             "ENVIRONMENT",
             "RESEND_API_KEY",
+            "NEWSLETTER_SEND_TOKEN",
         ] {
             let value = env
                 .secret(key)

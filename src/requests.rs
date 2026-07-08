@@ -10,6 +10,7 @@ struct PostMeta {
     brief: String,
     read_time_in_minutes: i32,
     category: Option<String>,
+    published_at: Option<String>,
 }
 
 fn post_meta_to_post(m: PostMeta) -> Post {
@@ -30,7 +31,7 @@ fn post_meta_to_post(m: PostMeta) -> Post {
         title: m.title,
         brief: m.brief,
         subtitle: None,
-        published_at: None,
+        published_at: m.published_at,
         updated_at: None,
         read_time_in_minutes: m.read_time_in_minutes,
         reaction_count: None,
@@ -91,15 +92,37 @@ fn strip_frontmatter(markdown: &str) -> &str {
     markdown
 }
 
-fn parse_title_from_frontmatter(markdown: &str) -> Option<String> {
+fn parse_frontmatter_field<'a>(markdown: &'a str, key: &str) -> Option<&'a str> {
     if !markdown.starts_with("---") {
         return None;
     }
     let end = markdown[3..].find("\n---")?;
     let fm = &markdown[3..3 + end];
     for line in fm.lines() {
-        if let Some(rest) = line.strip_prefix("title:") {
-            return Some(rest.trim().trim_matches('"').to_string());
+        if let Some(rest) = line.strip_prefix(&format!("{key}:")) {
+            return Some(rest.trim().trim_matches('"'));
+        }
+    }
+    None
+}
+
+fn parse_title_from_frontmatter(markdown: &str) -> Option<String> {
+    parse_frontmatter_field(markdown, "title").map(|s| s.to_string())
+}
+
+fn parse_date_from_frontmatter(markdown: &str) -> Option<String> {
+    let raw = parse_frontmatter_field(markdown, "datePublished")?;
+    // format: "Tue Apr 04 2023 11:48:14 GMT+0000 ..."
+    let parts: Vec<&str> = raw.split_whitespace().collect();
+    if parts.len() >= 4 {
+        let reconstructed = format!("{} {} {} {}", parts[0], parts[1], parts[2], parts[3]);
+        if let Ok(dt) = chrono::NaiveDateTime::parse_from_str(&reconstructed, "%a %b %d %Y") {
+            return Some(dt.format("%Y-%m-%d").to_string());
+        }
+        // Try without weekday
+        let without_weekday = format!("{} {} {}", parts[1], parts[2], parts[3]);
+        if let Ok(dt) = chrono::NaiveDate::parse_from_str(&without_weekday, "%b %d %Y") {
+            return Some(dt.format("%Y-%m-%d").to_string());
         }
     }
     None

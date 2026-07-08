@@ -185,7 +185,23 @@ fn normalize_orcid_id(orcid_id: &str) -> String {
         .to_string()
 }
 
+lazy_static::lazy_static! {
+    static ref ORCID_CACHE: std::sync::Mutex<Option<(Vec<PublicationEntry>, i64)>> =
+        std::sync::Mutex::new(None);
+}
+
 async fn fetch_publications(orcid_id: &str) -> Result<Vec<PublicationEntry>, String> {
+    const TTL: i64 = 86400;
+    let now = chrono::Utc::now().timestamp();
+
+    if let Ok(guard) = ORCID_CACHE.lock() {
+        if let Some((ref pubs, expiry)) = *guard {
+            if now < expiry {
+                return Ok(pubs.clone());
+            }
+        }
+    }
+
     let client = reqwest::Client::new();
     let url = format!("https://pub.orcid.org/v3.0/{orcid_id}/works");
     let response = client
@@ -205,10 +221,14 @@ async fn fetch_publications(orcid_id: &str) -> Result<Vec<PublicationEntry>, Str
         .cloned()
         .unwrap_or_default();
 
-    let publications = groups
+    let publications: Vec<PublicationEntry> = groups
         .iter()
         .filter_map(|group| extract_publication_entry(group))
         .collect();
+
+    if let Ok(mut guard) = ORCID_CACHE.lock() {
+        *guard = Some((publications.clone(), now + TTL));
+    }
 
     Ok(publications)
 }

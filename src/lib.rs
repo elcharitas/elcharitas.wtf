@@ -24,6 +24,14 @@ async fn main(req: HttpRequest, env: Env, _ctx: Context) -> Result<axum::respons
 
     // Handle POST /newsletter before the axum router: KvBuilder is !Send so it cannot
     // cross an await point inside an axum Handler future (which requires Send).
+    if req.method() == axum::http::Method::POST && req.uri().path() == "/newsletter/send" {
+        use axum::response::IntoResponse;
+        let headers = req.headers().clone();
+        return Ok(app::newsletter::newsletter_send_handler(headers)
+            .await
+            .into_response());
+    }
+
     if req.method() == axum::http::Method::POST && req.uri().path() == "/newsletter" {
         use axum::response::IntoResponse;
         let (_, body) = req.into_parts();

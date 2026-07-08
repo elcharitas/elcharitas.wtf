@@ -18,6 +18,22 @@ impl NewsletterSubscription {
     }
 }
 
+pub async fn newsletter_send_handler(
+    headers: axum::http::HeaderMap,
+) -> impl IntoResponse {
+    let token = crate::shared::get_env("NEWSLETTER_SEND_TOKEN");
+    let auth = headers
+        .get("authorization")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("");
+    if !token.is_empty() && auth != format!("Bearer {token}") {
+        return axum::http::StatusCode::UNAUTHORIZED.into_response();
+    }
+    #[cfg(target_arch = "wasm32")]
+    send_newsletter().await;
+    axum::http::StatusCode::OK.into_response()
+}
+
 pub async fn newsletter_get_handler() -> impl IntoResponse {
     let props = NewsletterSubscription::default();
     Html(NewsletterPage::render(&props).to_string())
@@ -154,10 +170,24 @@ pub async fn send_newsletter() {
     }
 
     let posts = crate::requests::fetch_all_posts().await;
-    let Some(latest) = posts.first() else {
-        return;
-    };
+    let one_week_ago = chrono::Utc::now() - chrono::Duration::days(7);
+    let recent: Vec<_> = posts
+        .iter()
+        .filter(|p| {
+            p.published_at
+                .as_deref()
+                .and_then(|d| chrono::NaiveDate::parse_from_str(d, "%Y-%m-%d").ok())
+                .map(|d| d.and_hms_opt(0, 0, 0).unwrap().and_utc() >= one_week_ago)
+                .unwrap_or(false)
+        })
+        .take(3)
+        .collect();
 
+    if recent.is_empty() {
+        return;
+    }
+
+    let latest = recent[0];
     let html = render_email(&latest.title, &latest.brief, &latest.url);
     let subject = format!("Weekly: {}", latest.title);
     let client = reqwest::Client::new();

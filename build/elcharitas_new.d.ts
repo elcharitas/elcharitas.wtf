@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
-export function scheduled(event: any, env: any, ctx: any): Promise<void>;
 export function fetch(req: Request, env: any, ctx: any): Promise<Response>;
+export function scheduled(event: any, env: any, ctx: any): Promise<void>;
 /**
  * Configuration options for Cloudflare's image optimization feature:
  * <https://blog.cloudflare.com/introducing-polish-automatic-image-optimizati/>

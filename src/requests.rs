@@ -110,24 +110,6 @@ fn parse_title_from_frontmatter(markdown: &str) -> Option<String> {
     parse_frontmatter_field(markdown, "title").map(|s| s.to_string())
 }
 
-fn parse_date_from_frontmatter(markdown: &str) -> Option<String> {
-    let raw = parse_frontmatter_field(markdown, "datePublished")?;
-    // format: "Tue Apr 04 2023 11:48:14 GMT+0000 ..."
-    let parts: Vec<&str> = raw.split_whitespace().collect();
-    if parts.len() >= 4 {
-        let reconstructed = format!("{} {} {} {}", parts[0], parts[1], parts[2], parts[3]);
-        if let Ok(dt) = chrono::NaiveDateTime::parse_from_str(&reconstructed, "%a %b %d %Y") {
-            return Some(dt.format("%Y-%m-%d").to_string());
-        }
-        // Try without weekday
-        let without_weekday = format!("{} {} {}", parts[1], parts[2], parts[3]);
-        if let Ok(dt) = chrono::NaiveDate::parse_from_str(&without_weekday, "%b %d %Y") {
-            return Some(dt.format("%Y-%m-%d").to_string());
-        }
-    }
-    None
-}
-
 pub fn parse_post_from_markdown(slug: &str, raw: &str) -> Post {
     let title = parse_title_from_frontmatter(raw).unwrap_or_else(|| {
         let body = strip_frontmatter(raw);

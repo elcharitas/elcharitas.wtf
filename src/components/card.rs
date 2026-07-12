@@ -1,9 +1,5 @@
 use momenta::prelude::*;
 
-pub struct CardProps {
-    pub children: Vec<Node>,
-}
-
 pub struct ScrollCardProps {
     pub intersect: String,
 }

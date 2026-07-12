@@ -15,10 +15,7 @@
     <mj-section background-color="#09090b" padding="20px 0">
       <mj-column>
         <mj-text align="center" color="#ffffff" font-size="18px" font-weight="700" letter-spacing="0.02em" padding="0">
-          elcharitas.wtf
-        </mj-text>
-        <mj-text align="center" color="#71717a" font-size="12px" padding-top="4px" padding-bottom="0">
-          weekly field notes
+          <a href="https://elcharitas.wtf" style="color:#ffffff;text-decoration:none;">elch<img src="https://elcharitas.wtf/icon.png" alt="a" width="20" height="20" style="vertical-align:middle;margin:0 -2px;" />rit<img src="https://elcharitas.wtf/icon.png" alt="a" width="20" height="20" style="vertical-align:middle;margin:0 -2px;" />s</a>
         </mj-text>
       </mj-column>
     </mj-section>
@@ -30,22 +27,35 @@
       </mj-column>
     </mj-section>
 
-    <!-- Main content card -->
-    <mj-section background-color="#ffffff" padding="40px 0 32px" border-radius="0 0 8px 8px">
+    <!-- Intro -->
+    <mj-section background-color="#ffffff" padding="32px 0 8px" border-radius="8px 8px 0 0">
+      <mj-column padding="0 32px">
+        <mj-text font-size="16px" color="#3f3f46" padding-bottom="0">
+          {{intro}}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Featured post -->
+    <mj-section background-color="#ffffff" padding="16px 0 32px" border-radius="{{card_radius}}">
       <mj-column padding="0 32px">
 
         <mj-text font-size="11px" color="#a1a1aa" font-weight="600" letter-spacing="0.1em" text-transform="uppercase" padding-bottom="12px">
-          Latest Post
+          This Week's Pick
         </mj-text>
 
-        <mj-text font-size="28px" font-weight="700" color="#09090b" line-height="1.25" padding-bottom="20px">
+        <mj-text font-size="26px" font-weight="700" color="#09090b" line-height="1.25" padding-bottom="16px">
           {{title}}
         </mj-text>
 
-        <mj-divider border-color="#e4e4e7" border-width="1px" padding-bottom="20px" />
-
-        <mj-text padding-bottom="32px">
+        <mj-text color="#71717a" font-size="15px" padding-bottom="20px">
           {{brief}}
+        </mj-text>
+
+        <mj-divider border-color="#e4e4e7" border-width="1px" padding-bottom="24px" />
+
+        <mj-text padding-bottom="28px">
+          {{content}}
         </mj-text>
 
         <mj-button
@@ -59,11 +69,13 @@
           inner-padding="14px 28px"
           align="left"
         >
-          Read article →
+          Read the full post →
         </mj-button>
 
       </mj-column>
     </mj-section>
+
+    {{more_posts_section}}
 
     <!-- Footer -->
     <mj-section padding="28px 0 20px">

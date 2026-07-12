@@ -79,12 +79,62 @@ fn from_data() -> String {
 }
 
 #[cfg(target_arch = "wasm32")]
-fn render_email(title: &str, brief: &str, url: &str) -> String {
+fn render_more_posts_section(posts: &[&crate::shared::Post]) -> String {
+    if posts.is_empty() {
+        return String::new();
+    }
+
+    let items: String = posts
+        .iter()
+        .map(|p| {
+            format!(
+                r##"<mj-text padding-bottom="4px">
+                  <a href="{url}" style="color:#09090b;text-decoration:none;font-weight:600;font-size:15px;">{title}</a>
+                </mj-text>
+                <mj-text color="#71717a" font-size="13px" padding-bottom="16px">
+                  {brief}
+                </mj-text>"##,
+                url = p.url,
+                title = p.title,
+                brief = p.brief,
+            )
+        })
+        .collect();
+
+    format!(
+        r##"<mj-section background-color="#ffffff" padding="0 0 32px" border-radius="0 0 8px 8px">
+      <mj-column padding="0 32px">
+        <mj-divider border-color="#e4e4e7" border-width="1px" padding-bottom="24px" />
+        <mj-text font-size="11px" color="#a1a1aa" font-weight="600" letter-spacing="0.1em" text-transform="uppercase" padding-bottom="16px">
+          Also This Week
+        </mj-text>
+        {items}
+      </mj-column>
+    </mj-section>"##
+    )
+}
+
+#[cfg(target_arch = "wasm32")]
+fn render_email(
+    title: &str,
+    brief: &str,
+    content: &str,
+    url: &str,
+    intro: &str,
+    more_posts: &[&crate::shared::Post],
+) -> String {
+    let more_posts_section = render_more_posts_section(more_posts);
+    let card_radius = if more_posts.is_empty() { "0 0 8px 8px" } else { "0" };
+
     let template = include_str!("../emails/newsletter.mrml")
         .replace("{{subject}}", &format!("Weekly: {title}"))
+        .replace("{{intro}}", intro)
         .replace("{{title}}", title)
         .replace("{{brief}}", brief)
-        .replace("{{url}}", url);
+        .replace("{{content}}", content)
+        .replace("{{url}}", url)
+        .replace("{{card_radius}}", card_radius)
+        .replace("{{more_posts_section}}", &more_posts_section);
 
     let opts = mrml::prelude::render::RenderOptions::default();
     mrml::parse(&template)
@@ -180,15 +230,54 @@ pub async fn send_newsletter() {
                 .map(|d| d.and_hms_opt(0, 0, 0).unwrap().and_utc() >= one_week_ago)
                 .unwrap_or(false)
         })
-        .take(3)
         .collect();
 
     if recent.is_empty() {
         return;
     }
 
+    let count = recent.len();
     let latest = recent[0];
-    let html = render_email(&latest.title, &latest.brief, &latest.url);
+    let more_posts: Vec<_> = recent.iter().skip(1).take(3).copied().collect();
+
+    let content_html = crate::requests::fetch_post_by_slug_from_github(&latest.slug)
+        .await
+        .and_then(|p| p.content)
+        .map(|c| {
+            let opts = comrak::Options {
+                render: comrak::RenderOptions {
+                    unsafe_: true,
+                    ..Default::default()
+                },
+                extension: comrak::ExtensionOptions {
+                    table: true,
+                    strikethrough: true,
+                    autolink: true,
+                    tasklist: true,
+                    ..Default::default()
+                },
+                ..Default::default()
+            };
+            comrak::markdown_to_html(&c.markdown, &opts)
+        })
+        .unwrap_or_default();
+
+    let intro = if count == 1 {
+        "This past week I shipped one new post. Here's what it's about:".to_string()
+    } else {
+        format!(
+            "This past week I shipped {count} new posts. Here's the one I'd start with:"
+        )
+    };
+
+    let html = render_email(
+        &latest.title,
+        &latest.brief,
+        &content_html,
+        &latest.url,
+        &intro,
+        &more_posts,
+    );
     let subject = format!("Weekly: {}", latest.title);
     let client = reqwest::Client::new();
 

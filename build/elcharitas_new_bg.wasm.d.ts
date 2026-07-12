@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export const memory: WebAssembly.Memory;
-export const scheduled: (a: any, b: any, c: any) => any;
 export const fetch: (a: any, b: any, c: any) => any;
+export const scheduled: (a: any, b: any, c: any) => any;
 export const __wbg_get_minifyconfig_css: (a: number) => number;
 export const __wbg_get_minifyconfig_html: (a: number) => number;
 export const __wbg_get_minifyconfig_js: (a: number) => number;

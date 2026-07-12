@@ -14,10 +14,7 @@
     <mj-section background-color="#09090b" padding="20px 0">
       <mj-column>
         <mj-text align="center" color="#ffffff" font-size="18px" font-weight="700" letter-spacing="0.02em" padding="0">
-          elcharitas.wtf
-        </mj-text>
-        <mj-text align="center" color="#71717a" font-size="12px" padding-top="4px" padding-bottom="0">
-          weekly field notes
+          <a href="https://elcharitas.wtf" style="color:#ffffff;text-decoration:none;">elch<img src="https://elcharitas.wtf/icon.png" alt="a" width="20" height="20" style="vertical-align:middle;margin:0 -2px;" />rit<img src="https://elcharitas.wtf/icon.png" alt="a" width="20" height="20" style="vertical-align:middle;margin:0 -2px;" />s</a>
         </mj-text>
       </mj-column>
     </mj-section>

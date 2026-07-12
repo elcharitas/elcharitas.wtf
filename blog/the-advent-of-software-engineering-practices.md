@@ -1,4 +1,9 @@
-# The Advent of Software Engineering Practices
+---
+title: "The Advent of Software Engineering Practices"
+slug: the-advent-of-software-engineering-practices
+tags: engineering
+
+---
 
 Software engineering is a discipline that focuses on the *systematic* and *disciplined* approach to the development, operation, and maintenance of software systems. It is concerned with the application of engineering principles and practices to the development of **software systems.**
 

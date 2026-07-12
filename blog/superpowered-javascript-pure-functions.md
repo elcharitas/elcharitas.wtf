@@ -1,4 +1,9 @@
-# Superpowered JavaScript Pure Functions 😇
+---
+title: "Superpowered JavaScript Pure Functions 😇"
+slug: superpowered-javascript-pure-functions
+tags: javascript
+
+---
 
 In JavaScript, a function is a block of code that is designed to perform a specific task. It can take input in the form of arguments and can return a value as output. Functions are an essential part of JavaScript, and they are used to make the code more modular and reusable.
 

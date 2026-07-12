@@ -1,4 +1,9 @@
-# Alphaday Crypto Dashboard 🚀
+---
+title: "Alphaday Crypto Dashboard 🚀"
+slug: alphaday-crypto-dashboard
+tags: web3
+
+---
 
 [Alphaday](https://app.alphaday.com) is a sleek and user-friendly crypto dashboard that allows users to easily track, manage, and grow their digital asset portfolios. With a clean and intuitive interface, Alphaday makes it simple for users to stay on top of their investments, providing them with real-time updates and valuable insights into the performance of their assets.
 

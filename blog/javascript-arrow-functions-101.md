@@ -1,4 +1,9 @@
-# JavaScript Arrow Functions 101
+---
+title: "JavaScript Arrow Functions 101"
+slug: javascript-arrow-functions-101
+tags: javascript
+
+---
 
 JavaScript arrow functions, also known as fat arrow functions, are a new feature introduced in ECMAScript 6 (ES6) that provides a more concise syntax for writing function expressions. They are a powerful tool that can help improve the readability and maintainability of your code.
 

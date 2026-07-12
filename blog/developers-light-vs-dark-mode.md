@@ -1,4 +1,9 @@
-# Developers, Light vs Dark Mode 💀
+---
+title: "Developers, Light vs Dark Mode 💀"
+slug: developers-light-vs-dark-mode
+tags: personal
+
+---
 
 The question of why developers hate the light and prefer dark mode has been asked for years. Developers have always had a strong affinity for the dark, from its mysterious and alluring nature to the fact that the light just seems so…bright. But why do developers feel this way? Well, let me tell you a tale.
 

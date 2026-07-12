@@ -1,4 +1,9 @@
-# Remote Development: Localhost in the Cloud 🚀
+---
+title: "Remote Development: Localhost in the Cloud 🚀"
+slug: remote-development-localhost-in-the-cloud
+tags: devops
+
+---
 
 The development of technology has revolutionized the way that people work and interact with one another. In recent years, the rise of remote work has allowed people to collaborate and share information without being in the same physical location. The ability to work remotely has also opened up new possibilities for software development and has led to the emergence of new tools and platforms that enable developers to write code remotely.
 

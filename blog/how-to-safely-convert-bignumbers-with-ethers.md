@@ -1,4 +1,9 @@
-# How to Safely convert BigNumbers with ethers
+---
+title: "How to Safely convert BigNumbers with ethers"
+slug: how-to-safely-convert-bignumbers-with-ethers
+tags: web3
+
+---
 
 ## The Problem?
 Big numbers are an everyday use for web3 developers on EVM based blockchains. Consider a smart contract like the below:

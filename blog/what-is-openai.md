@@ -1,4 +1,9 @@
-# What is OpenAI? 🤔
+---
+title: "What is OpenAI? 🤔"
+slug: what-is-openai
+tags: ai
+
+---
 
 OpenAI is a leading research organization in the field of artificial intelligence, with a mission to ensure that AI is aligned with the best interests of humanity. Since its founding in 2015, OpenAI has made significant contributions to the field of AI, including developing advanced AI algorithms and building powerful AI-powered systems.
 

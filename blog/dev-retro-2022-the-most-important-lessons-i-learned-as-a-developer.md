@@ -1,4 +1,9 @@
-# Dev Retro 2022: The Most Important Lessons I Learned as a Developer
+---
+title: "Dev Retro 2022: The Most Important Lessons I Learned as a Developer"
+slug: dev-retro-2022-the-most-important-lessons-i-learned-as-a-developer
+tags: personal
+
+---
 
 As a developer, the year 2022 has been a rollercoaster ride of both challenges and victories. It has been a year of growth, both personally and professionally, as I've had the opportunity to work on a wide range of projects and learn many new skills.
 

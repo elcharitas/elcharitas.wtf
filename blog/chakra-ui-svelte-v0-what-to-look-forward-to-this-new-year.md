@@ -1,4 +1,9 @@
-# Chakra UI Svelte v0: What to look forward to this New Year
+---
+title: "Chakra UI Svelte v0: What to look forward to this New Year"
+slug: chakra-ui-svelte-v0-what-to-look-forward-to-this-new-year
+tags: open-source
+
+---
 
 I'll start by saying a **Happy New Year** to you, my most esteemed reader 😎, the previous year was a blast thanks to your continual reading of my write ups. If this is your first time here or you're not yet subscribed to this blog, then you really should 😩.  
 It's what keeps me going 😌.

@@ -1,4 +1,9 @@
-# Announcing Chakra UI Svelte
+---
+title: "Announcing Chakra UI Svelte"
+slug: announcing-chakra-ui-svelte
+tags: open-source
+
+---
 
 ## Introduction
 I'm so excited to share what I spent the better part of April building - Chakra UI implementation in svelte. This is an implementation of the popular [Chakra UI](https://chakra-ui.com) just as we have for [Vue](https://vue.chakra-ui.com). I'm currently working on proper documentation for it. However, the package follows the Chakra UI React style guide.

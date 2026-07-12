@@ -1,4 +1,9 @@
-# 4 React Best practices in 2mins
+---
+title: "4 React Best practices in 2mins"
+slug: 4-react-best-practices-in-2mins
+tags: react
+
+---
 
 React is a popular JavaScript library for building user interfaces, and is widely used by developers to create interactive and engaging web applications. To get the most out of React and ensure that your applications are of high quality and perform well, it is important to follow best practices when using the library.
 

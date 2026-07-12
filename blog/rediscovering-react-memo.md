@@ -1,4 +1,9 @@
-# Rediscovering React.memo 🤯
+---
+title: "Rediscovering React.memo 🤯"
+slug: rediscovering-react-memo
+tags: react
+
+---
 
 React is a popular and powerful JavaScript library for building user interfaces. However, as applications grow and become more complex, performance can become an issue. One effective way to optimize the performance of React applications is to use the `React.memo` higher-order component, which allows components to skip rendering when their props don't change.
 

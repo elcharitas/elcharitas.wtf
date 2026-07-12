@@ -1,4 +1,9 @@
-# 10 Importance of Sleep to Developers 🌚
+---
+title: "10 Importance of Sleep to Developers 🌚"
+slug: 10-importance-of-sleep-to-developers
+tags: personal
+
+---
 
 As a developer, getting a good night's sleep is essential for maintaining your physical and mental health, as well as for maximizing your productivity and performance. In this article, we will explore the importance of sleep to a developer, and will discuss some of the key reasons why it is essential to prioritize sleep in your daily routine.
 

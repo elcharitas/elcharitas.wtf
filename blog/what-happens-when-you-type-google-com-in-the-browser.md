@@ -1,4 +1,9 @@
-# What happens when you type google.com in the browser? 🤔
+---
+title: "What happens when you type google.com in the browser? 🤔"
+slug: what-happens-when-you-type-google-com-in-the-browser
+tags: web-dev
+
+---
 
 Yesterday, I came across the popular interview question - "What happens when you type [google.com](http://google.com) into your browser and press enter?". An attempt has been made by many such as [this awesome answer by Alex](https://github.com/alex/what-happens-when) and this [other by Tyrrrz](https://github.com/Tyrrrz/interview-questions/blob/master/!-%20General/What%20happens%20when%20you%20type%20google.com%20in%20your%20browser.md). This article simply attempts to offer my answer to this same question.
 

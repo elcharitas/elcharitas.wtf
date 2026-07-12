@@ -1,4 +1,9 @@
-# How to Land a Remote Job? 🤔
+---
+title: "How to Land a Remote Job? 🤔"
+slug: how-to-land-a-remote-job
+tags: career
+
+---
 
 Landing a remote job can be a challenging process, but with the right approach, it is possible to find a rewarding and fulfilling position that allows you to work from anywhere. In this article, we will explore some of the key steps and strategies that you can use to land a remote job, and we will provide a list of some of the best platforms and resources to consult when searching for remote work.
 

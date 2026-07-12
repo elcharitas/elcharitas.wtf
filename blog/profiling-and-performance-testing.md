@@ -1,4 +1,9 @@
-# Profiling and Performance Testing 🤯
+---
+title: "Profiling and Performance Testing 🤯"
+slug: profiling-and-performance-testing
+tags: performance
+
+---
 
 As a developer, I am always interested in optimizing the performance of my applications. In a previous article, I wrote about "[Improving the performance of python backends](https://blog.elcharitas.dev/improving-the-performance-of-python-backends)" where I discussed various techniques and tools that can be used to improve the performance of python applications.
 

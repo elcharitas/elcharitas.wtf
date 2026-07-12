@@ -1,4 +1,9 @@
-# Quirks of Decentralizing Traditional Finance
+---
+title: "Quirks of Decentralizing Traditional Finance"
+slug: quirks-of-decentralizing-traditional-finance
+tags: web3
+
+---
 
 The concept of decentralization has been gaining traction in various industries, including traditional finance. Decentralization refers to the distribution of power or control away from a central authority or entity and towards a network of individuals or entities.
 

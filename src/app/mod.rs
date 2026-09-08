@@ -7,6 +7,7 @@ mod blog {
     pub mod slug;
 }
 mod error;
+mod graveyard;
 mod home;
 pub mod newsletter;
 mod projects;
@@ -46,6 +47,7 @@ pub fn create_router() -> Router {
         .route("/essays/{slug}", get(blog::slug::blog_detail_handler))
         .route("/projects", get(projects::projects_handler))
         .route("/projects/infinite_scroll", get(projects::infinite_scroll))
+        .route("/graveyard", get(graveyard::graveyard_handler))
         .route("/adventures", get(adventures::page::adventures_handler))
         .route("/newsletter", get(newsletter::newsletter_get_handler))
         .route("/newsletter", post(newsletter::newsletter_post_handler))
@@ -129,6 +131,10 @@ pub async fn wasm_dynamic_response<B>(req: &Request<B>) -> Option<Response> {
                 .await
                 .into_response(),
         );
+    }
+
+    if method == Method::GET && path == "/graveyard" {
+        return Some(graveyard::graveyard_handler().await.into_response());
     }
 
     if method == Method::GET && path == "/publications" {

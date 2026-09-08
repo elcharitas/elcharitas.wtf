@@ -49,6 +49,7 @@ pub fn SitemapPage(props: &SitemapProps) -> Node {
         ("/", "1.0", "daily"),
         ("/essays", "0.9", "daily"),
         ("/projects", "0.8", "weekly"),
+        ("/graveyard", "0.7", "monthly"),
         ("/publications", "0.8", "monthly"),
         ("/resume", "0.7", "monthly"),
         ("/adventures", "0.7", "weekly"),

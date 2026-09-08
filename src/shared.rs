@@ -102,6 +102,10 @@ lazy_static! {
             href: "/projects"
         },
         NavigationInfo {
+            name: "Graveyard",
+            href: "/graveyard"
+        },
+        NavigationInfo {
             name: "Essays",
             href: "/essays"
         },

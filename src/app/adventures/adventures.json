@@ -13,6 +13,13 @@
 		"june": [
 			"Published research article: [Rapid colorimetric detection of pathogenic bacteria by antibiotic-conjugated gold nanoparticles in a laser-printed uPAD](https://doi.org/10.1039/d6ay00167j)",
 			"Shipped sustained updates to [elcharitas.wtf](https://github.com/elcharitas/elcharitas.wtf) with high commit activity in June"
+		],
+		"july": [
+			"Added newsletter delivery, refreshed essay metadata, and improved newsletter layouts on [elcharitas.wtf](https://github.com/elcharitas/elcharitas.wtf)"
+		],
+		"august": [
+			"Built a family email page for [irhodia.com](https://github.com/elcharitas/irhodia.com)",
+			"Fixed parameter-chain generation and TypeScript 7 compatibility in [Elysia Treaty Docs](https://github.com/elcharitas/elysia-treaty-docs)"
 		]
 	},
 	"2025": {

@@ -158,7 +158,7 @@ pub fn AdventuresPage() -> Node {
                 <h1 class="text-4xl md:text-5xl font-semibold text-white">"Timeline"</h1>
                 <div class="section-rule"></div>
                 <p class="text-base text-zinc-300 max-w-3xl">
-                    "A decade of engineering milestones, product pivots, and experiments — in chronological order."
+                    "Engineering milestones, product pivots, and experiments since 2014, in reverse chronological order."
                 </p>
             </section>
 

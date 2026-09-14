@@ -39,9 +39,9 @@ pub fn BlogPage(BlogProps { posts }: &BlogProps) -> Node {
         <PageLayout title="Essays">
             <div class="py-4 md:py-8 space-y-8">
                 <section class="space-y-4">
-                    <h1 class="text-4xl md:text-5xl font-semibold text-white">"Essays"</h1>
+                    <h1 class="text-4xl md:text-5xl font-semibold text-zinc-950">"Essays"</h1>
                     <div class="section-rule"></div>
-                    <p class="text-base text-zinc-300 max-w-3xl">
+                    <p class="text-base text-zinc-700 max-w-3xl">
                         "I write about software development, product decisions, productivity, and the realities of shipping. "
                     </p>
                 </section>
@@ -53,18 +53,18 @@ pub fn BlogPage(BlogProps { posts }: &BlogProps) -> Node {
                             id="search-input"
                             type="text"
                             placeholder="Search essays..."
-                            class="w-full bg-zinc-900/60 border border-zinc-800 rounded-xl pl-10 pr-4 py-3 text-sm text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-zinc-700 transition-colors"
+                            class="w-full bg-white border border-zinc-200 rounded-xl pl-10 pr-4 py-3 text-sm text-zinc-800 placeholder-zinc-500 focus:outline-none focus:border-orange-400 transition-colors"
                         />
                     </div>
                     <div class="flex flex-wrap gap-2">
-                        <button data_tag_filter="" class="text-xs px-3 py-1.5 rounded-full border border-zinc-700 text-zinc-400 hover:border-zinc-500 cursor-pointer transition-colors">"All"</button>
+                        <button data_tag_filter="" class="text-xs px-3 py-1.5 rounded-full border border-zinc-300 text-zinc-600 hover:border-zinc-500 cursor-pointer transition-colors">"All"</button>
                         {categories.iter().map(|cat| {
-                            <button data_tag_filter={cat.as_str()} class="text-xs px-3 py-1.5 rounded-full border border-zinc-700 text-zinc-500 hover:border-zinc-500 cursor-pointer transition-colors capitalize">{cat.replace('-', " ")}</button>
+                            <button data_tag_filter={cat.as_str()} class="text-xs px-3 py-1.5 rounded-full border border-zinc-300 text-zinc-500 hover:border-zinc-500 cursor-pointer transition-colors capitalize">{cat.replace('-', " ")}</button>
                         })}
                     </div>
                 </div>
 
-                <div id="click_to_load_rows" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                <div id="click_to_load_rows" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
                     {posts.into_iter().map(|post| {
                         let tag_name = post.tags.first().map_or_else(String::new, |t| t.name.clone());
                         let search_text = format!("{} {}", post.title, post.brief);

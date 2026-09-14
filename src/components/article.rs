@@ -17,7 +17,7 @@ pub fn Article(
     rsx! {
         <a
             href={format!("/essays/{}", post.slug)}
-            class="group flex flex-col h-full card-item rounded-lg p-5 transition-all"
+            class="group flex flex-col h-full card-item rounded-2xl p-5 transition-all"
         >
             <div class="flex flex-col gap-4 flex-1">
                 <div class="flex items-center justify-between gap-2">
@@ -36,18 +36,20 @@ pub fn Article(
                     )}
                 </div>
 
-                <h2 class="text-xl md:text-2xl font-semibold text-zinc-100 group-hover:text-white leading-tight">
+                <h2 class="text-xl md:text-2xl font-semibold text-zinc-900 group-hover:text-zinc-950 leading-tight">
                     {&post.title}
                 </h2>
 
-                <p class="text-sm md:text-base text-zinc-400 leading-relaxed line-clamp-3">
+                <p class="text-sm md:text-base text-zinc-600 leading-relaxed line-clamp-3">
                     {&post.brief[0..(post.brief.len().min(120))]}...
                 </p>
 
                 <div class="pt-2 flex items-center justify-between mt-auto">
                     <span class="text-xs text-zinc-500">{format!("{} views", post.views.unwrap_or(0))}</span>
                     {when!(show_read_more =>
-                        <span class="text-sm" style="color: var(--accent);">"read essay"</span>
+                        <span class="icon-button" aria_label="Read essay">
+                            <i class="fas fa-arrow-right text-sm"></i>
+                        </span>
                     )}
                 </div>
             </div>
@@ -63,19 +65,19 @@ pub fn ProjectArticle(project: &Project) -> Node {
         .then(|| &project.name)
         .unwrap_or(&project.description);
     rsx! {
-        <article class="group flex flex-col h-full card-item rounded-lg p-5 transition-all">
+        <article class="group flex flex-col h-full card-item rounded-2xl p-5 transition-all">
             <div class="flex flex-col gap-4 flex-1">
-                <h2 class="text-xl md:text-2xl font-semibold text-zinc-100 group-hover:text-white">
+                <h2 class="text-xl md:text-2xl font-semibold text-zinc-900 group-hover:text-zinc-950">
                     {&project.name}
                 </h2>
-                <p class="text-sm md:text-base text-zinc-400 leading-relaxed">
+                <p class="text-sm md:text-base text-zinc-600 leading-relaxed">
                     {&brief[0..(brief.len().min(120))]}...
                 </p>
                 {if !project.tags.is_empty() {
                     rsx! {
                         <div class="flex flex-wrap gap-1.5">
                             {project.tags.iter().take(4).map(|tag| rsx! {
-                                <span class="text-xs px-2 py-0.5 rounded-full border border-zinc-800 text-zinc-500">{tag.replace('-', " ")}</span>
+                                <span class="text-xs px-2 py-0.5 rounded-full border border-zinc-200 text-zinc-500">{tag.replace('-', " ")}</span>
                             })}
                         </div>
                     }
@@ -89,7 +91,9 @@ pub fn ProjectArticle(project: &Project) -> Node {
                             <span><i class="fas fa-code mr-1"></i>{lang}</span>
                         )}
                     </span>
-                    <a href={&project.url} class="text-sm" style="color: var(--accent);">"view project"</a>
+                    <a href={&project.url} class="icon-button" aria_label="View project" title="View project">
+                        <i class="fas fa-arrow-up-right-from-square text-sm"></i>
+                    </a>
                 </div>
             </div>
         </article>

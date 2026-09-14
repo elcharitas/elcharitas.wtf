@@ -71,7 +71,7 @@ pub fn BlogDetailPage(props: &BlogDetailProps) -> Node {
                     rsx! {
                         <article class="max-w-3xl mx-auto py-6 md:py-10">
                             <header class="mb-10 space-y-4">
-                                <a href="/essays" class="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-white transition-colors mb-2">
+                                <a href="/essays" class="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-950 transition-colors mb-2">
                                     <i class="fas fa-arrow-left text-xs"></i>
                                     <span>"All Essays"</span>
                                 </a>
@@ -81,10 +81,10 @@ pub fn BlogDetailPage(props: &BlogDetailProps) -> Node {
                                     </span>
                                     <span class="text-xs text-zinc-500">{format!("{} min read", post.read_time_in_minutes)}</span>
                                 </div>
-                                <h1 class="text-3xl md:text-5xl font-bold text-white leading-tight">
+                                <h1 class="text-3xl md:text-5xl font-bold text-zinc-950 leading-tight">
                                     {&post.title}
                                 </h1>
-                                <p class="text-lg text-zinc-400 leading-relaxed">{&post.brief}</p>
+                                <p class="text-lg text-zinc-600 leading-relaxed">{&post.brief}</p>
                                 <div class="section-rule"></div>
                             </header>
 
@@ -92,9 +92,9 @@ pub fn BlogDetailPage(props: &BlogDetailProps) -> Node {
                                 <div _dangerously_set_inner_html={html_content} />
                             </div>
 
-                            <footer class="mt-16 pt-8 border-t border-zinc-800 space-y-12">
+                            <footer class="mt-16 pt-8 border-t border-zinc-200 space-y-12">
                                 <div id="comments-section">
-                                    <h2 class="text-xl font-semibold text-white mb-6">"Comments"</h2>
+                                    <h2 class="text-xl font-semibold text-zinc-950 mb-6">"Comments"</h2>
                                     <div id="HCB_comment_box"></div>
                                     <link rel="stylesheet" type="text/css" href="https://www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" />
                                     <script type="text/javascript" id="hcb" _dangerously_set_inner_html={r#"if(!window.hcb_user){hcb_user={};} (function(){var s=document.createElement("script"), l=hcb_user.PAGE || (""+window.location).replace(/'/g,"%27"), h="https://www.htmlcommentbox.com";s.setAttribute("type","text/javascript");s.setAttribute("src", h+"/jread?page="+encodeURIComponent(l).replace("+","%2B")+"&mod=%241%24wq1rdBcg%24Dxb22lGTzRNjgQtkjW3c4%2F"+"&opts=16798&num=10&ts=1782379931181");if (typeof s!="undefined") document.getElementsByTagName("head")[0].appendChild(s);})();"#} />
@@ -131,13 +131,13 @@ pub fn BlogDetailPage(props: &BlogDetailProps) -> Node {
                 None => rsx! {
                     <div class="max-w-2xl mx-auto text-center py-16">
                         <i class="fas fa-search text-6xl text-zinc-600 mb-4"></i>
-                        <h1 class="text-3xl font-bold text-white mb-4">"Article Not Found"</h1>
-                        <p class="text-zinc-400 mb-8">
+                        <h1 class="text-3xl font-bold text-zinc-950 mb-4">"Article Not Found"</h1>
+                        <p class="text-zinc-600 mb-8">
                             "The article you're looking for doesn't exist or has been moved."
                         </p>
                         <a
                             href="/essays"
-                            class="inline-flex items-center space-x-2 px-6 py-3 bg-zinc-800 text-white rounded-lg hover:bg-zinc-700 transition-colors font-medium border border-zinc-700"
+                            class="inline-flex items-center space-x-2 px-6 py-3 bg-zinc-100 text-zinc-950 rounded-lg hover:bg-zinc-200 transition-colors font-medium border border-zinc-300"
                         >
                             <i class="fas fa-arrow-left"></i>
                             <span>"Go back"</span>

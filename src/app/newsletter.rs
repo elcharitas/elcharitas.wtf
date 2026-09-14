@@ -305,9 +305,9 @@ pub fn NewsletterPage(props: &NewsletterSubscription) -> Node {
                 {when!(props.email.is_empty() =>
                     <>
                         <section class="space-y-4">
-                            <h1 class="text-4xl md:text-5xl font-semibold text-white">"Newsletter"</h1>
+                            <h1 class="text-4xl md:text-5xl font-semibold text-zinc-950">"Newsletter"</h1>
                             <div class="section-rule"></div>
-                            <p class="text-base text-zinc-300 max-w-2xl">
+                            <p class="text-base text-zinc-700 max-w-2xl">
                                 "A weekly field note from the build process — engineering, product decisions, and systems that hold up under pressure."
                             </p>
                         </section>
@@ -320,12 +320,13 @@ pub fn NewsletterPage(props: &NewsletterSubscription) -> Node {
                                 name="email"
                                 placeholder="you@domain.com"
                                 required
-                                class="w-full h-12 px-4 rounded-lg border border-zinc-700 bg-zinc-900/50 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-zinc-500/50 focus:border-zinc-500 transition-colors"
+                                class="w-full h-12 px-4 rounded-lg border border-zinc-300 bg-white text-zinc-950 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-orange-200 focus:border-orange-400 transition-colors"
                             />
                             <button
                                 type="submit"
                                 class="btn-accent w-full h-12 text-sm font-semibold rounded-lg"
                             >
+                                <i class="far fa-envelope"></i>
                                 "Subscribe for free"
                             </button>
                             <p class="text-xs text-zinc-500">"No spam. Unsubscribe anytime."</p>
@@ -333,14 +334,20 @@ pub fn NewsletterPage(props: &NewsletterSubscription) -> Node {
                     </>
                     else
                     <section class="space-y-4">
-                        <h2 class="text-3xl font-semibold text-white">"You're All Set"</h2>
+                        <h2 class="text-3xl font-semibold text-zinc-950">"You're All Set"</h2>
                         <div class="section-rule"></div>
-                        <p class="text-base text-zinc-300 max-w-2xl">
+                        <p class="text-base text-zinc-700 max-w-2xl">
                             "Thanks for subscribing! Check your email for a confirmation link. Your first newsletter will arrive next week."
                         </p>
                         <div class="flex flex-wrap gap-3 pt-2">
-                            <a href="/essays" class="btn-accent px-5 py-3 text-sm font-semibold rounded-md">"Read Latest Posts"</a>
-                            <a href="/projects" class="btn-ghost px-5 py-3 text-sm font-semibold rounded-md">"View Projects"</a>
+                            <a href="/essays" class="btn-accent px-5 py-3 text-sm font-semibold rounded-md">
+                                <i class="far fa-pen-to-square"></i>
+                                "Read latest posts"
+                            </a>
+                            <a href="/projects" class="btn-ghost px-5 py-3 text-sm font-semibold rounded-md">
+                                <i class="fas fa-cubes"></i>
+                                "View projects"
+                            </a>
                         </div>
                     </section>
                 )}

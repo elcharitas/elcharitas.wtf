@@ -165,13 +165,7 @@ pub fn AppLayout(props: &LayoutProps) -> Node {
                 <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.css"/>
             </head>
-            <body class="bg-[#0a0a0a] overflow-x-hidden text-white scheme-dark">
-                // Ambient background blobs
-                <div class="fixed inset-0 overflow-hidden pointer-events-none">
-                    <div class="absolute top-[-4rem] left-[-8rem] w-[32rem] h-[32rem] rounded-full blur-3xl" style="background: rgba(255,95,31,0.07);"></div>
-                    <div class="absolute bottom-[-8rem] right-[-8rem] w-[28rem] h-[28rem] rounded-full blur-3xl" style="background: rgba(255,95,31,0.05);"></div>
-                </div>
-
+            <body class="bg-[#f7f7f4] overflow-x-hidden text-zinc-950 scheme-light">
                 {&props.children}
 
                 <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0-beta.11/bundles/datastar.js"></script>
@@ -209,38 +203,70 @@ pub fn AppLayout(props: &LayoutProps) -> Node {
 #[component]
 pub fn Navigation() -> Node {
     rsx! {
-        <header data_signals="{'mobileMenu': false}" class="fixed top-0 left-0 right-0 z-50 nav-blur bg-[#0a0a0a]/80 border-b border-zinc-800/30">
-            <div class="max-w-7xl mx-auto px-4 md:px-6 py-4 flex items-center justify-between">
-                <a href="/" class="flex items-center gap-1 text-xl font-bold tracking-wide text-white">
+        <>
+        <header class="fixed top-0 left-0 right-0 z-40 nav-blur bg-[#f7f7f4]/90 border-b border-zinc-200/80">
+            <div class="max-w-[1728px] mx-auto px-4 md:px-8 lg:px-24 2xl:px-16 h-16 flex items-center justify-between">
+                <a href="/" class="flex items-center gap-1 text-lg font-bold tracking-wide text-zinc-950" aria_label="Home">
                     "elch"
-                    <img src="/icon.png" alt="" class="w-6 h-6 inline-block -m-1" style="vertical-align:middle" />
+                    <img src="/icon.png" alt="" class="w-5 h-5 inline-block -m-1" style="vertical-align:middle" />
                     "rit"
-                    <img src="/icon.png" alt="" class="w-6 h-6 inline-block -m-1" style="vertical-align:middle" />
+                    <img src="/icon.png" alt="" class="w-5 h-5 inline-block -m-1" style="vertical-align:middle" />
                     "s"
                 </a>
-
-                <div class="hidden md:flex items-center gap-5">
-                    {NAVIGATION.iter().map(|nav| {
-                        <a href={nav.href} class="nav-link text-sm" data_nav_href={nav.href}>{nav.name}</a>
-                    })}
-                    <a href="/newsletter" class="btn-accent text-sm rounded-md px-3 py-1.5">"Newsletter"</a>
-                </div>
-
-                    <button class="md:hidden p-2 social-link" data_on_click="$mobileMenu = !$mobileMenu" aria_label="Toggle Menu">
-                    <i data_show="!$mobileMenu" class="fas fa-bars"></i>
-                    <i data_show="$mobileMenu" class="fas fa-x"></i>
-                </button>
-            </div>
-
-            <div data_show="$mobileMenu" class="menu-panel md:hidden border-t border-zinc-800 bg-black/95 px-4 pb-4">
-                <div class="pt-3 space-y-2">
-                    {NAVIGATION.iter().map(|nav| {
-                        <a href={nav.href} class="block px-3 py-2 text-zinc-300 border border-zinc-800 rounded-lg hover:bg-zinc-900" data_mobile_nav_href={nav.href}>{nav.name}</a>
-                    })}
-                    <a href="/newsletter" class="block px-3 py-2 text-zinc-200 border border-zinc-700 rounded-lg hover:bg-zinc-900">"Newsletter"</a>
+                <div class="flex items-center gap-1">
+                    <a href="/newsletter" class="icon-button" aria_label="Newsletter" title="Newsletter">
+                        <i class="far fa-envelope"></i>
+                    </a>
+                    <a href="/connect" class="icon-button" aria_label="Contact" title="Contact">
+                        <i class="far fa-message"></i>
+                    </a>
                 </div>
             </div>
         </header>
+
+        <nav class="hidden lg:flex fixed left-5 xl:left-7 top-1/2 -translate-y-1/2 z-50 flex-col items-center gap-1 rounded-2xl border border-zinc-200 bg-white/95 p-2 shadow-sm" aria_label="Primary navigation">
+            <a href="/" class="nav-icon" data_nav_href="/" aria_label="Home">
+                <i class="fas fa-house"></i>
+                <span class="nav-tooltip">"Home"</span>
+            </a>
+            <span class="nav-divider"></span>
+            {NAVIGATION.iter().map(|nav| {
+                let icon = match nav.href {
+                    "/projects" => "fas fa-cubes",
+                    "/essays" => "far fa-pen-to-square",
+                    "/publications" => "fas fa-book-open",
+                    "/resume" => "far fa-file-lines",
+                    "/adventures" => "fas fa-route",
+                    _ => "far fa-circle",
+                };
+                <a href={nav.href} class="nav-icon" data_nav_href={nav.href} aria_label={nav.name}>
+                    <i class={icon}></i>
+                    <span class="nav-tooltip">{nav.name}</span>
+                </a>
+            })}
+            <span class="nav-divider"></span>
+            <a href="/newsletter" class="nav-icon" data_nav_href="/newsletter" aria_label="Newsletter">
+                <i class="far fa-envelope"></i>
+                <span class="nav-tooltip">"Newsletter"</span>
+            </a>
+        </nav>
+
+        <nav class="lg:hidden fixed bottom-3 left-3 right-3 z-50 mobile-dock" aria_label="Primary navigation">
+            <a href="/" class="nav-icon" data_nav_href="/" aria_label="Home"><i class="fas fa-house"></i></a>
+            {NAVIGATION.iter().map(|nav| {
+                let icon = match nav.href {
+                    "/projects" => "fas fa-cubes",
+                    "/essays" => "far fa-pen-to-square",
+                    "/publications" => "fas fa-book-open",
+                    "/resume" => "far fa-file-lines",
+                    "/adventures" => "fas fa-route",
+                    _ => "far fa-circle",
+                };
+                <a href={nav.href} class="nav-icon" data_mobile_nav_href={nav.href} aria_label={nav.name}><i class={icon}></i></a>
+            })}
+            <a href="/newsletter" class="nav-icon" data_mobile_nav_href="/newsletter" aria_label="Newsletter"><i class="far fa-envelope"></i></a>
+        </nav>
+        </>
     }
 }
 
@@ -248,50 +274,37 @@ pub fn Navigation() -> Node {
 pub fn PageLayout(props: &LayoutProps) -> Node {
     rsx! {
         <AppLayout title={&props.title}>
-            <div class="relative min-h-screen bg-[#0a0a0a]">
+            <div class="relative min-h-screen bg-[#f7f7f4]">
                 <div class="relative">
                     <Navigation />
 
-                    <main class="px-4 md:px-6 pt-28 md:pt-32 max-w-7xl mx-auto min-h-[85vh]">
-                        <section class="relative entrance-delayed space-y-10 md:space-y-12">
+                    <main class="px-4 md:px-8 lg:px-24 2xl:px-16 pt-24 md:pt-28 max-w-[1728px] mx-auto min-h-[85vh] pb-24 lg:pb-0">
+                        <section class="relative entrance-delayed space-y-8 md:space-y-10">
                             {&props.children}
                         </section>
                     </main>
 
-                    <aside class="hidden lg:flex fixed right-8 top-1/2 -translate-y-1/2 flex-col items-center gap-4">
-                        <a href="https://twitter.com/iamelcharitas" class="social-link" aria_label="Twitter">
-                            <i class="fab fa-x-twitter text-base"></i>
-                        </a>
-                        <a href="https://github.com/elcharitas" class="social-link" aria_label="GitHub">
-                            <i class="fab fa-github text-base"></i>
-                        </a>
-                        <a href="https://linkedin.com/in/elcharitas" class="social-link" aria_label="LinkedIn">
-                            <i class="fab fa-linkedin text-base"></i>
-                        </a>
-                        <span class="text-[11px] tracking-[0.2em] uppercase text-zinc-600 [writing-mode:vertical-rl]">"Follow Me"</span>
-                    </aside>
-
-                    <footer class="relative mt-20 border-t border-zinc-800/50">
-                        <div class="container mx-auto px-6 py-6">
+                    <footer class="relative mt-16 border-t border-zinc-200">
+                        <div class="max-w-[1728px] mx-auto px-4 md:px-8 lg:px-24 2xl:px-16 py-6 pb-24 lg:pb-6">
                             <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
                                 <p class="text-xs text-zinc-500">
                                     "Built with "
-                                    <a href="https://elcharitas.github.io/momenta" class="text-zinc-400 hover:text-white transition-colors">
+                                    <a href="https://elcharitas.github.io/momenta" class="text-zinc-600 hover:text-zinc-950 transition-colors">
                                         "Momenta"
                                     </a>
                                     " · "
-                                    <a href="https://elcharitas.wtf" class="text-zinc-400 hover:text-white transition-colors">
+                                    <a href="https://elcharitas.wtf" class="text-zinc-600 hover:text-zinc-950 transition-colors">
                                         "Jonathan Irhodia"
                                     </a>
                                 </p>
-                                <div class="flex items-center gap-4">
-                                    <a href="https://twitter.com/iamelcharitas" class="text-zinc-600 hover:text-zinc-300 transition-colors">
+                                <div class="flex items-center gap-1">
+                                    <a href="https://twitter.com/iamelcharitas" class="icon-button" aria_label="X">
                                         <i class="fab fa-x-twitter"></i>
                                     </a>
-                                    <a href="https://github.com/elcharitas" class="text-zinc-600 hover:text-white transition-colors">
+                                    <a href="https://github.com/elcharitas" class="icon-button" aria_label="GitHub">
                                         <i class="fab fa-github"></i>
                                     </a>
-                                    <a href="https://linkedin.com/in/elcharitas" class="text-zinc-600 hover:text-zinc-300 transition-colors">
+                                    <a href="https://linkedin.com/in/elcharitas" class="icon-button" aria_label="LinkedIn">
                                         <i class="fab fa-linkedin"></i>
                                     </a>
                                 </div>

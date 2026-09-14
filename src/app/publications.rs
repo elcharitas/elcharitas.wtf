@@ -76,16 +76,16 @@ pub fn PublicationsPage(props: &PublicationsProps) -> Node {
             <section class="py-4 md:py-8 space-y-8">
                 <div class="space-y-4 max-w-4xl">
                     <div class="flex items-center gap-3 flex-wrap">
-                        <h1 class="text-4xl md:text-5xl font-semibold text-white">"Publications"</h1>
+                        <h1 class="text-4xl md:text-5xl font-semibold text-zinc-950">"Publications"</h1>
                     </div>
                     <div class="section-rule"></div>
-                    <p class="text-base md:text-lg text-zinc-300 leading-relaxed max-w-3xl">
+                    <p class="text-base md:text-lg text-zinc-700 leading-relaxed max-w-3xl">
                         "Selected writing and research notes across biodiagnostics, AI, and microfluidics. "
                         <span class="text-sm" style="color: var(--accent); opacity: 0.7;">{sync_status.as_str()}</span>
                     </p>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 items-start">
+                <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] 2xl:grid-cols-[minmax(0,1fr)_360px] gap-6 items-start">
                     <div class="space-y-4">
                         <div class="relative">
                             <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 text-sm pointer-events-none"></i>
@@ -93,19 +93,19 @@ pub fn PublicationsPage(props: &PublicationsProps) -> Node {
                                 id="search-input"
                                 type="text"
                                 placeholder="Search publications..."
-                                class="w-full bg-zinc-900/60 border border-zinc-800 rounded-xl pl-10 pr-4 py-3 text-sm text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-zinc-700 transition-colors"
+                                class="w-full bg-white border border-zinc-200 rounded-xl pl-10 pr-4 py-3 text-sm text-zinc-800 placeholder-zinc-500 focus:outline-none focus:border-orange-400 transition-colors"
                             />
                         </div>
                         {if props.publications.is_empty() {
                             rsx! {
                                 <div class="card-item rounded-2xl p-6 space-y-3">
-                                    <p class="text-sm text-zinc-300">"No publications are synced yet."</p>
+                                    <p class="text-sm text-zinc-700">"No publications are synced yet."</p>
                                     <p class="text-sm text-zinc-500 leading-relaxed">{notice_text}</p>
                                 </div>
                             }
                         } else {
                             rsx! {
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4">
                                     {props.publications.iter().map(|publication| {
                                         let search_text = format!(
                                             "{} {} {}",
@@ -117,7 +117,7 @@ pub fn PublicationsPage(props: &PublicationsProps) -> Node {
                                             <div class="flex items-start justify-between gap-3">
                                                 <div class="space-y-2">
                                                     <p class="text-xs uppercase tracking-[0.1em] text-zinc-500">{publication.work_type.as_deref().unwrap_or("Publication")}</p>
-                                                    <h2 class="text-xl font-semibold text-zinc-100 leading-snug">{&publication.title}</h2>
+                                                    <h2 class="text-xl font-semibold text-zinc-900 leading-snug">{&publication.title}</h2>
                                                 </div>
                                                 {if let Some(url) = &publication.url {
                                                     rsx! {
@@ -129,7 +129,7 @@ pub fn PublicationsPage(props: &PublicationsProps) -> Node {
                                                     rsx! { <></> }
                                                 }}
                                             </div>
-                                            <div class="space-y-1 text-sm text-zinc-400">
+                                            <div class="space-y-1 text-sm text-zinc-600">
                                                 {if let Some(venue) = &publication.venue {
                                                     rsx! { <p>{venue}</p> }
                                                 } else {
@@ -164,9 +164,9 @@ pub fn PublicationsPage(props: &PublicationsProps) -> Node {
                         <div class="card-item rounded-2xl p-5 space-y-3">
                             <p class="text-xs uppercase tracking-[0.1em]" style="color: var(--accent);">"Focus areas"</p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="text-xs px-2.5 py-1 rounded-full border border-zinc-700 text-zinc-400">"Biodiagnostics"</span>
-                                <span class="text-xs px-2.5 py-1 rounded-full border border-zinc-700 text-zinc-400">"AI"</span>
-                                <span class="text-xs px-2.5 py-1 rounded-full border border-zinc-700 text-zinc-400">"Microfluidics"</span>
+                                <span class="text-xs px-2.5 py-1 rounded-full border border-zinc-300 text-zinc-600">"Biodiagnostics"</span>
+                                <span class="text-xs px-2.5 py-1 rounded-full border border-zinc-300 text-zinc-600">"AI"</span>
+                                <span class="text-xs px-2.5 py-1 rounded-full border border-zinc-300 text-zinc-600">"Microfluidics"</span>
                             </div>
                         </div>
                     </aside>

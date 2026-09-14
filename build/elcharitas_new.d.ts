@@ -25,18 +25,18 @@ type ReadableStreamType = "bytes";
 export class IntoUnderlyingByteSource {
   private constructor();
   free(): void;
-  pull(controller: ReadableByteStreamController): Promise<any>;
   start(controller: ReadableByteStreamController): void;
+  pull(controller: ReadableByteStreamController): Promise<any>;
   cancel(): void;
-  readonly autoAllocateChunkSize: number;
   readonly type: ReadableStreamType;
+  readonly autoAllocateChunkSize: number;
 }
 export class IntoUnderlyingSink {
   private constructor();
   free(): void;
-  abort(reason: any): Promise<any>;
-  close(): Promise<any>;
   write(chunk: any): Promise<any>;
+  close(): Promise<any>;
+  abort(reason: any): Promise<any>;
 }
 export class IntoUnderlyingSource {
   private constructor();

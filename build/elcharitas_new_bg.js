@@ -229,15 +229,15 @@ export function scheduled(event, env, ctx) {
 }
 
 function __wbg_adapter_50(arg0, arg1) {
-    wasm._dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__ha44151d564aae8af(arg0, arg1);
+    wasm._dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h51545ca574306fef(arg0, arg1);
 }
 
 function __wbg_adapter_53(arg0, arg1, arg2) {
-    wasm.closure1046_externref_shim(arg0, arg1, arg2);
+    wasm.closure1028_externref_shim(arg0, arg1, arg2);
 }
 
-function __wbg_adapter_226(arg0, arg1, arg2, arg3) {
-    wasm.closure1102_externref_shim(arg0, arg1, arg2, arg3);
+function __wbg_adapter_276(arg0, arg1, arg2, arg3) {
+    wasm.closure1092_externref_shim(arg0, arg1, arg2, arg3);
 }
 
 /**
@@ -285,6 +285,13 @@ export class IntoUnderlyingByteSource {
         wasm.__wbg_intounderlyingbytesource_free(ptr, 0);
     }
     /**
+     * @returns {ReadableStreamType}
+     */
+    get type() {
+        const ret = wasm.intounderlyingbytesource_type(this.__wbg_ptr);
+        return __wbindgen_enum_ReadableStreamType[ret];
+    }
+    /**
      * @returns {number}
      */
     get autoAllocateChunkSize() {
@@ -293,24 +300,17 @@ export class IntoUnderlyingByteSource {
     }
     /**
      * @param {ReadableByteStreamController} controller
-     * @returns {Promise<any>}
-     */
-    pull(controller) {
-        const ret = wasm.intounderlyingbytesource_pull(this.__wbg_ptr, controller);
-        return ret;
-    }
-    /**
-     * @param {ReadableByteStreamController} controller
      */
     start(controller) {
         wasm.intounderlyingbytesource_start(this.__wbg_ptr, controller);
     }
     /**
-     * @returns {ReadableStreamType}
+     * @param {ReadableByteStreamController} controller
+     * @returns {Promise<any>}
      */
-    get type() {
-        const ret = wasm.intounderlyingbytesource_type(this.__wbg_ptr);
-        return __wbindgen_enum_ReadableStreamType[ret];
+    pull(controller) {
+        const ret = wasm.intounderlyingbytesource_pull(this.__wbg_ptr, controller);
+        return ret;
     }
     cancel() {
         const ptr = this.__destroy_into_raw();
@@ -336,12 +336,11 @@ export class IntoUnderlyingSink {
         wasm.__wbg_intounderlyingsink_free(ptr, 0);
     }
     /**
-     * @param {any} reason
+     * @param {any} chunk
      * @returns {Promise<any>}
      */
-    abort(reason) {
-        const ptr = this.__destroy_into_raw();
-        const ret = wasm.intounderlyingsink_abort(ptr, reason);
+    write(chunk) {
+        const ret = wasm.intounderlyingsink_write(this.__wbg_ptr, chunk);
         return ret;
     }
     /**
@@ -353,11 +352,12 @@ export class IntoUnderlyingSink {
         return ret;
     }
     /**
-     * @param {any} chunk
+     * @param {any} reason
      * @returns {Promise<any>}
      */
-    write(chunk) {
-        const ret = wasm.intounderlyingsink_write(this.__wbg_ptr, chunk);
+    abort(reason) {
+        const ptr = this.__destroy_into_raw();
+        const ret = wasm.intounderlyingsink_abort(ptr, reason);
         return ret;
     }
 }
@@ -886,7 +886,7 @@ export function __wbg_new_23a2665fac83c611(arg0, arg1) {
             const a = state0.a;
             state0.a = 0;
             try {
-                return __wbg_adapter_226(a, state0.b, arg0, arg1);
+                return __wbg_adapter_276(a, state0.b, arg0, arg1);
             } finally {
                 state0.a = a;
             }
@@ -1218,13 +1218,13 @@ export function __wbindgen_cb_drop(arg0) {
     return ret;
 };
 
-export function __wbindgen_closure_wrapper2227(arg0, arg1, arg2) {
-    const ret = makeMutClosure(arg0, arg1, 1002, __wbg_adapter_50);
+export function __wbindgen_closure_wrapper2270(arg0, arg1, arg2) {
+    const ret = makeMutClosure(arg0, arg1, 1011, __wbg_adapter_50);
     return ret;
 };
 
-export function __wbindgen_closure_wrapper2310(arg0, arg1, arg2) {
-    const ret = makeMutClosure(arg0, arg1, 1047, __wbg_adapter_53);
+export function __wbindgen_closure_wrapper2313(arg0, arg1, arg2) {
+    const ret = makeMutClosure(arg0, arg1, 1029, __wbg_adapter_53);
     return ret;
 };
 

@@ -17,19 +17,19 @@ pub async fn error_handler() -> impl IntoResponse {
 pub fn ErrorPage() -> Node {
     rsx! {
         <PageLayout title="Page Not Found - 404">
-            <div class="py-4 md:py-8 space-y-6">
+            <div class="py-2 md:py-4 space-y-5">
                 <section class="space-y-3">
-                    <h1 class="text-4xl md:text-5xl font-semibold text-zinc-950">"Page Not Found"</h1>
+                    <h1 class="text-3xl md:text-4xl font-semibold text-zinc-950">"Page Not Found"</h1>
                     <div class="section-rule"></div>
-                    <p class="text-base text-zinc-600 max-w-2xl">
+                    <p class="text-sm md:text-base text-zinc-600 max-w-2xl">
                         "This page doesn't exist or has moved. Try one of these instead."
                     </p>
                 </section>
 
                 <div class="flex gap-3 flex-wrap">
-                    <a href="/" class="btn-accent px-6 py-2.5 text-sm font-medium rounded-lg"><i class="fas fa-house"></i>"Go home"</a>
-                    <a href="/essays" class="btn-ghost px-6 py-2.5 text-sm font-medium rounded-lg"><i class="far fa-pen-to-square"></i>"Essays"</a>
-                    <a href="/projects" class="btn-ghost px-6 py-2.5 text-sm font-medium rounded-lg"><i class="fas fa-cubes"></i>"Projects"</a>
+                    <a href="/" class="btn-accent px-4 py-2 text-sm font-medium rounded-lg"><i class="fas fa-house"></i>"Go home"</a>
+                    <a href="/essays" class="btn-ghost px-4 py-2 text-sm font-medium rounded-lg"><i class="far fa-pen-to-square"></i>"Essays"</a>
+                    <a href="/projects" class="btn-ghost px-4 py-2 text-sm font-medium rounded-lg"><i class="fas fa-cubes"></i>"Projects"</a>
                 </div>
             </div>
         </PageLayout>

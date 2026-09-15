@@ -301,13 +301,13 @@ pub async fn send_newsletter() {
 pub fn NewsletterPage(props: &NewsletterSubscription) -> Node {
     rsx! {
         <PageLayout title="Newsletter">
-            <div class="py-4 md:py-8 space-y-8">
+            <div class="py-2 md:py-4 space-y-6">
                 {when!(props.email.is_empty() =>
                     <>
-                        <section class="space-y-4">
-                            <h1 class="text-4xl md:text-5xl font-semibold text-zinc-950">"Newsletter"</h1>
+                        <section class="space-y-3">
+                            <h1 class="text-3xl md:text-4xl font-semibold text-zinc-950">"Newsletter"</h1>
                             <div class="section-rule"></div>
-                            <p class="text-base text-zinc-700 max-w-2xl">
+                            <p class="text-sm md:text-base text-zinc-700 max-w-2xl">
                                 "A weekly field note from the build process — engineering, product decisions, and systems that hold up under pressure."
                             </p>
                         </section>
@@ -320,11 +320,11 @@ pub fn NewsletterPage(props: &NewsletterSubscription) -> Node {
                                 name="email"
                                 placeholder="you@domain.com"
                                 required
-                                class="w-full h-12 px-4 rounded-lg border border-zinc-300 bg-white text-zinc-950 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-orange-200 focus:border-orange-400 transition-colors"
+                                class="w-full h-10 px-3 rounded-lg border border-zinc-300 bg-white text-sm text-zinc-950 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-orange-200 focus:border-orange-400 transition-colors"
                             />
                             <button
                                 type="submit"
-                                class="btn-accent w-full h-12 text-sm font-semibold rounded-lg"
+                                class="btn-accent w-full h-10 text-sm font-semibold rounded-lg"
                             >
                                 <i class="far fa-envelope"></i>
                                 "Subscribe for free"
@@ -333,18 +333,18 @@ pub fn NewsletterPage(props: &NewsletterSubscription) -> Node {
                         </form>
                     </>
                     else
-                    <section class="space-y-4">
-                        <h2 class="text-3xl font-semibold text-zinc-950">"You're All Set"</h2>
+                    <section class="space-y-3">
+                        <h2 class="text-2xl font-semibold text-zinc-950">"You're All Set"</h2>
                         <div class="section-rule"></div>
-                        <p class="text-base text-zinc-700 max-w-2xl">
+                        <p class="text-sm md:text-base text-zinc-700 max-w-2xl">
                             "Thanks for subscribing! Check your email for a confirmation link. Your first newsletter will arrive next week."
                         </p>
-                        <div class="flex flex-wrap gap-3 pt-2">
-                            <a href="/essays" class="btn-accent px-5 py-3 text-sm font-semibold rounded-md">
+                        <div class="flex flex-wrap gap-2 pt-1">
+                            <a href="/essays" class="btn-accent px-4 py-2.5 text-sm font-semibold rounded-md">
                                 <i class="far fa-pen-to-square"></i>
                                 "Read latest posts"
                             </a>
-                            <a href="/projects" class="btn-ghost px-5 py-3 text-sm font-semibold rounded-md">
+                            <a href="/projects" class="btn-ghost px-4 py-2.5 text-sm font-semibold rounded-md">
                                 <i class="fas fa-cubes"></i>
                                 "View projects"
                             </a>

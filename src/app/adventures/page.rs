@@ -154,36 +154,36 @@ pub fn AdventuresPage() -> Node {
 
     rsx! {
         <PageLayout title="Timeline">
-            <section class="space-y-3 mb-10">
-                <h1 class="text-4xl md:text-5xl font-semibold text-zinc-950">"Timeline"</h1>
+            <section class="space-y-3 mb-7">
+                <h1 class="text-3xl md:text-4xl font-semibold text-zinc-950">"Timeline"</h1>
                 <div class="section-rule"></div>
-                <p class="text-base text-zinc-700 max-w-3xl">
+                <p class="text-sm md:text-base text-zinc-700 max-w-3xl">
                     "A decade of engineering milestones, product pivots, and experiments — in chronological order."
                 </p>
             </section>
 
-            <div class="space-y-14">
+            <div class="space-y-10">
                 {years.iter().map(|year| {
                     let year_adventures: Vec<&Adventure> = adventures
                         .iter()
                         .filter(|a| &a.year == year)
                         .collect();
 
-                    <div class="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-4 md:gap-8">
+                    <div class="grid grid-cols-1 md:grid-cols-[90px_1fr] gap-3 md:gap-5">
                         <div class="md:pt-1">
-                            <span class="text-4xl md:text-5xl font-bold text-zinc-950">{year.as_str()}</span>
+                            <span class="text-3xl md:text-4xl font-bold text-zinc-950">{year.as_str()}</span>
                         </div>
-                        <ul class="space-y-3">
+                        <ul class="space-y-2.5">
                             {year_adventures.iter().map(|adventure| {
                                 let is_major = adventure.title.len() > 60
                                     || adventure.title.contains("Framework")
                                     || adventure.title.contains("Joined")
                                     || adventure.title.contains("Started work");
 
-                                <li class="flex items-start gap-3 group">
+                                <li class="flex items-start gap-2.5 group">
                                     <i class={format!("{} mt-1 text-sm shrink-0 text-zinc-600 group-hover:text-zinc-800 transition-colors", adventure.icon)}></i>
                                     <div class="space-y-0.5">
-                                        <div class={format!("text-sm md:text-base leading-snug {}",
+                                        <div class={format!("text-sm leading-snug {}",
                                             if is_major { "text-zinc-900 font-medium" } else { "text-zinc-700" })}>
                                             <div _dangerously_set_inner_html={markdown_to_html(&adventure.title, &Options::default())} />
                                         </div>

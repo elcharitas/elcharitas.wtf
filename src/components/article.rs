@@ -17,9 +17,9 @@ pub fn Article(
     rsx! {
         <a
             href={format!("/essays/{}", post.slug)}
-            class="group flex flex-col h-full card-item rounded-2xl p-5 transition-all"
+            class="group flex flex-col h-full card-item rounded-xl p-4 transition-all"
         >
-            <div class="flex flex-col gap-4 flex-1">
+            <div class="flex flex-col gap-3 flex-1">
                 <div class="flex items-center justify-between gap-2">
                     <span class="inline-flex items-center px-2.5 py-1 text-[11px] uppercase tracking-[0.08em] font-semibold rounded-md" style="background: var(--accent-dim); border: 1px solid var(--accent-border); color: var(--accent);">
                         {category.map_or("general", |c| &c.name)}
@@ -36,15 +36,15 @@ pub fn Article(
                     )}
                 </div>
 
-                <h2 class="text-xl md:text-2xl font-semibold text-zinc-900 group-hover:text-zinc-950 leading-tight">
+                <h2 class="text-lg md:text-xl font-semibold text-zinc-900 group-hover:text-zinc-950 leading-tight">
                     {&post.title}
                 </h2>
 
-                <p class="text-sm md:text-base text-zinc-600 leading-relaxed line-clamp-3">
+                <p class="text-sm text-zinc-600 leading-relaxed line-clamp-3">
                     {&post.brief[0..(post.brief.len().min(120))]}...
                 </p>
 
-                <div class="pt-2 flex items-center justify-between mt-auto">
+                <div class="flex items-center justify-between mt-auto">
                     <span class="text-xs text-zinc-500">{format!("{} views", post.views.unwrap_or(0))}</span>
                     {when!(show_read_more =>
                         <span class="icon-button" aria_label="Read essay">
@@ -65,12 +65,12 @@ pub fn ProjectArticle(project: &Project) -> Node {
         .then(|| &project.name)
         .unwrap_or(&project.description);
     rsx! {
-        <article class="group flex flex-col h-full card-item rounded-2xl p-5 transition-all">
-            <div class="flex flex-col gap-4 flex-1">
-                <h2 class="text-xl md:text-2xl font-semibold text-zinc-900 group-hover:text-zinc-950">
+        <article class="group flex flex-col h-full card-item rounded-xl p-4 transition-all">
+            <div class="flex flex-col gap-3 flex-1">
+                <h2 class="text-lg md:text-xl font-semibold text-zinc-900 group-hover:text-zinc-950">
                     {&project.name}
                 </h2>
-                <p class="text-sm md:text-base text-zinc-600 leading-relaxed">
+                <p class="text-sm text-zinc-600 leading-relaxed">
                     {&brief[0..(brief.len().min(120))]}...
                 </p>
                 {if !project.tags.is_empty() {

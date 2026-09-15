@@ -205,8 +205,8 @@ pub fn Navigation() -> Node {
     rsx! {
         <>
         <header class="fixed top-0 left-0 right-0 z-40 nav-blur bg-[#f7f7f4]/90 border-b border-zinc-200/80">
-            <div class="max-w-[1728px] mx-auto px-4 md:px-8 lg:px-24 2xl:px-16 h-16 flex items-center justify-between">
-                <a href="/" class="flex items-center gap-1 text-lg font-bold tracking-wide text-zinc-950" aria_label="Home">
+            <div class="max-w-[1728px] mx-auto px-4 md:px-8 lg:px-24 2xl:px-16 h-14 flex items-center justify-between">
+                <a href="/" class="flex items-center gap-1 text-base font-bold tracking-wide text-zinc-950" aria_label="Home">
                     "elch"
                     <img src="/icon.png" alt="" class="w-5 h-5 inline-block -m-1" style="vertical-align:middle" />
                     "rit"
@@ -224,7 +224,7 @@ pub fn Navigation() -> Node {
             </div>
         </header>
 
-        <nav class="hidden lg:flex fixed left-5 xl:left-7 top-1/2 -translate-y-1/2 z-50 flex-col items-center gap-1 rounded-2xl border border-zinc-200 bg-white/95 p-2 shadow-sm" aria_label="Primary navigation">
+        <nav class="hidden lg:flex fixed left-5 xl:left-7 top-1/2 -translate-y-1/2 z-50 flex-col items-center gap-0.5 rounded-xl border border-zinc-200 bg-white/95 p-1.5 shadow-sm" aria_label="Primary navigation">
             <a href="/" class="nav-icon" data_nav_href="/" aria_label="Home">
                 <i class="fas fa-house"></i>
                 <span class="nav-tooltip">"Home"</span>
@@ -251,7 +251,7 @@ pub fn Navigation() -> Node {
             </a>
         </nav>
 
-        <nav class="lg:hidden fixed bottom-3 left-3 right-3 z-50 mobile-dock" aria_label="Primary navigation">
+        <nav class="lg:hidden fixed bottom-2 left-2 right-2 z-50 mobile-dock" aria_label="Primary navigation">
             <a href="/" class="nav-icon" data_nav_href="/" aria_label="Home"><i class="fas fa-house"></i></a>
             {NAVIGATION.iter().map(|nav| {
                 let icon = match nav.href {
@@ -278,15 +278,15 @@ pub fn PageLayout(props: &LayoutProps) -> Node {
                 <div class="relative">
                     <Navigation />
 
-                    <main class="px-4 md:px-8 lg:px-24 2xl:px-16 pt-24 md:pt-28 max-w-[1728px] mx-auto min-h-[85vh] pb-24 lg:pb-0">
-                        <section class="relative entrance-delayed space-y-8 md:space-y-10">
+                    <main class="px-4 md:px-8 lg:px-24 2xl:px-16 pt-20 md:pt-24 max-w-[1728px] mx-auto min-h-[82vh] pb-20 lg:pb-0">
+                        <section class="relative entrance-delayed space-y-6 md:space-y-8">
                             {&props.children}
                         </section>
                     </main>
 
-                    <footer class="relative mt-16 border-t border-zinc-200">
-                        <div class="max-w-[1728px] mx-auto px-4 md:px-8 lg:px-24 2xl:px-16 py-6 pb-24 lg:pb-6">
-                            <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <footer class="relative mt-10 border-t border-zinc-200">
+                        <div class="max-w-[1728px] mx-auto px-4 md:px-8 lg:px-24 2xl:px-16 py-4 pb-20 lg:pb-4">
+                            <div class="flex flex-col sm:flex-row items-center justify-between gap-2">
                                 <p class="text-xs text-zinc-500">
                                     "Built with "
                                     <a href="https://elcharitas.github.io/momenta" class="text-zinc-600 hover:text-zinc-950 transition-colors">
@@ -294,7 +294,7 @@ pub fn PageLayout(props: &LayoutProps) -> Node {
                                     </a>
                                     " · "
                                     <a href="https://elcharitas.wtf" class="text-zinc-600 hover:text-zinc-950 transition-colors">
-                                        "Jonathan Irhodia"
+                                        "K. Jonathan Irhodia"
                                     </a>
                                 </p>
                                 <div class="flex items-center gap-1">

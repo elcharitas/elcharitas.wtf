@@ -69,32 +69,28 @@ pub fn BlogDetailPage(props: &BlogDetailProps) -> Node {
                     }).unwrap_or_default();
                     let html_content = markdown_to_html(&cleaned_markdown, &md_opts);
                     rsx! {
-                        <article class="max-w-3xl mx-auto py-0 md:py-2">
-                            <header class="mb-5 space-y-2">
-                                <a href="/essays" class="inline-flex items-center gap-1.5 text-xs text-zinc-500 hover:text-zinc-950 transition-colors">
-                                    <i class="fas fa-arrow-left text-xs"></i>
-                                    <span>"All Essays"</span>
-                                </a>
+                        <article class="max-w-3xl mx-auto py-10 md:py-14">
+                            <header class="mb-10 pb-8 border-b border-zinc-900/15">
+                                <a href="/essays" class="text-link text-xs">"← All essays"</a>
                                 <div class="flex items-center gap-3">
-                                    <span class="inline-flex items-center px-2 py-0.5 text-[10px] uppercase tracking-[0.08em] font-semibold rounded" style="background: var(--accent-dim); border: 1px solid var(--accent-border); color: var(--accent);">
+                                    <span class="eyebrow mt-7">
                                         {category}
                                     </span>
-                                    <span class="text-xs text-zinc-500">{format!("{} min read", post.read_time_in_minutes)}</span>
+                                    <span class="mt-7 text-xs text-zinc-500">{format!("{} min read", post.read_time_in_minutes)}</span>
                                 </div>
-                                <h1 class="text-2xl md:text-3xl font-bold text-zinc-950 leading-tight">
+                                <h1 class="mt-4 text-4xl md:text-5xl font-semibold text-zinc-950 leading-tight tracking-[-0.035em]">
                                     {&post.title}
                                 </h1>
-                                <p class="text-sm text-zinc-600 leading-relaxed">{&post.brief}</p>
-                                <div class="section-rule"></div>
+                                <p class="mt-5 text-lg text-zinc-600 leading-relaxed">{&post.brief}</p>
                             </header>
 
                             <div class="essay-body">
                                 <div _dangerously_set_inner_html={html_content} />
                             </div>
 
-                            <footer class="mt-7 pt-4 border-t border-zinc-200 space-y-6">
+                            <footer class="mt-12 pt-8 border-t border-zinc-900/15 space-y-8">
                                 <div id="comments-section">
-                                    <h2 class="text-lg font-semibold text-zinc-950 mb-3">"Comments"</h2>
+                                    <h2 class="text-xl font-semibold text-zinc-950 mb-5">"Comments"</h2>
                                     <div id="HCB_comment_box"></div>
                                     <link rel="stylesheet" type="text/css" href="https://www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" />
                                     <script type="text/javascript" id="hcb" _dangerously_set_inner_html={r#"if(!window.hcb_user){hcb_user={};} (function(){var s=document.createElement("script"), l=hcb_user.PAGE || (""+window.location).replace(/'/g,"%27"), h="https://www.htmlcommentbox.com";s.setAttribute("type","text/javascript");s.setAttribute("src", h+"/jread?page="+encodeURIComponent(l).replace("+","%2B")+"&mod=%241%24wq1rdBcg%24Dxb22lGTzRNjgQtkjW3c4%2F"+"&opts=16798&num=10&ts=1782379931181");if (typeof s!="undefined") document.getElementsByTagName("head")[0].appendChild(s);})();"#} />
@@ -129,18 +125,17 @@ pub fn BlogDetailPage(props: &BlogDetailProps) -> Node {
                     }
                 },
                 None => rsx! {
-                    <div class="max-w-2xl mx-auto text-center py-6">
-                        <i class="fas fa-search text-4xl text-zinc-600 mb-3"></i>
-                        <h1 class="text-2xl font-bold text-zinc-950 mb-3">"Article Not Found"</h1>
-                        <p class="text-sm text-zinc-600 mb-4">
+                    <div class="max-w-2xl mx-auto py-16">
+                        <p class="eyebrow">"404"</p>
+                        <h1 class="mt-3 text-4xl font-semibold text-zinc-950">"Article not found"</h1>
+                        <p class="mt-4 text-base text-zinc-600">
                             "The article you're looking for doesn't exist or has been moved."
                         </p>
                         <a
                             href="/essays"
-                            class="inline-flex items-center space-x-2 px-3 py-2 text-sm bg-zinc-100 text-zinc-950 rounded-md hover:bg-zinc-200 transition-colors font-medium border border-zinc-300"
+                            class="primary-link mt-7"
                         >
-                            <i class="fas fa-arrow-left"></i>
-                            <span>"Go back"</span>
+                            "← Back to essays"
                         </a>
                     </div>
                 }

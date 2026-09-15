@@ -11,7 +11,7 @@ use serde::{Deserialize, Serialize};
 use std::cell::RefCell;
 
 thread_local! {
-    static PROJECTS: RefCell<Vec<Project>> = RefCell::new(Vec::new());
+    static PROJECTS: RefCell<Vec<Project>> = const { RefCell::new(Vec::new()) };
 }
 
 pub async fn infinite_scroll(Query(query): Query<serde_json::Value>) -> impl IntoResponse {
@@ -107,31 +107,31 @@ pub fn ProjectsPage(
 
     rsx! {
         <PageLayout title="Projects">
-            <div class="py-0 md:py-2 space-y-4" data_signals={format!("{{'cursor': '{}', 'has_next_page': {}}}", cursor.as_ref().map_or("1", |c| c), has_next_page.unwrap_or(false))}>
-                <section class="space-y-2">
-                    <h1 class="text-2xl md:text-3xl font-semibold text-zinc-950">"Projects"</h1>
-                    <div class="section-rule"></div>
-                    <p class="text-sm md:text-base text-zinc-700 max-w-3xl">
+            <div class="py-10 md:py-14 space-y-10" data_signals={format!("{{'cursor': '{}', 'has_next_page': {}}}", cursor.as_ref().map_or("1", |c| c), has_next_page.unwrap_or(false))}>
+                <section class="page-heading">
+                    <p class="eyebrow">"Selected work"</p>
+                    <h1 class="mt-3 text-4xl md:text-5xl font-semibold text-zinc-950">"Projects"</h1>
+                    <p class="mt-4 text-base text-zinc-600 max-w-3xl leading-relaxed">
                         "Open-source contributions and personal experiments across backend systems, tools, and product prototypes. "
                     </p>
                 </section>
 
-                <div class="space-y-2">
-                    <div class="relative">
-                        <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-xs pointer-events-none"></i>
+                <div class="space-y-4">
+                    <div>
+                        <label for="search-input" class="eyebrow">"Search"</label>
                         <input
                             id="search-input"
                             type="text"
                             placeholder="Search projects..."
-                            class="w-full bg-white border border-zinc-200 rounded-md pl-9 pr-3 py-2 text-sm text-zinc-800 placeholder-zinc-500 focus:outline-none focus:border-orange-400 transition-colors"
+                            class="minimal-input mt-2"
                         />
                     </div>
                     {if !all_tags.is_empty() {
                         rsx! {
-                            <div class="flex flex-wrap gap-1">
-                                <button data_tag_filter="" class="text-[11px] px-2 py-0.5 rounded-full border border-zinc-300 text-zinc-600 hover:border-zinc-500 cursor-pointer transition-colors">"All"</button>
+                            <div class="flex flex-wrap gap-x-4 gap-y-2">
+                                <button data_tag_filter="" class="filter-chip">"All"</button>
                                 {all_tags.iter().map(|tag| {
-                                    <button data_tag_filter={tag.as_str()} class="text-[11px] px-2 py-0.5 rounded-full border border-zinc-300 text-zinc-500 hover:border-zinc-500 cursor-pointer transition-colors">{tag.replace('-', " ")}</button>
+                                    <button data_tag_filter={tag.as_str()} class="filter-chip">{tag.replace('-', " ")}</button>
                                 })}
                             </div>
                         }
@@ -140,8 +140,8 @@ pub fn ProjectsPage(
                     }}
                 </div>
 
-                <div id="click_to_load_rows" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2.5" data_fragment_merge_target="$has_next_page">
-                    {projects.into_iter().map(|project| {
+                <div id="click_to_load_rows" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-0" data_fragment_merge_target="$has_next_page">
+                    {projects.iter().map(|project| {
                         let search_text = format!("{} {}", project.name, project.description);
                         let tags_str = project.tags.join(",");
                         <div class="h-full" data_searchtext={search_text.as_str()} data_tags={tags_str.as_str()}>
@@ -170,7 +170,7 @@ pub fn ProjectsPage(
                   if(s)s.addEventListener('input',function(){q=s.value.toLowerCase().trim();filter();});
                   function setPill(el){
                     document.querySelectorAll('[data-tag-filter]').forEach(function(p){p.removeAttribute('style');});
-                    if(el)el.style.cssText='background:var(--accent-dim);border-color:var(--accent-border);color:var(--accent);';
+                    if(el)el.style.cssText='border-color:var(--accent);color:var(--ink);';
                   }
                   document.querySelectorAll('[data-tag-filter]').forEach(function(pill){
                     pill.addEventListener('click',function(){

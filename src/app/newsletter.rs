@@ -301,53 +301,43 @@ pub async fn send_newsletter() {
 pub fn NewsletterPage(props: &NewsletterSubscription) -> Node {
     rsx! {
         <PageLayout title="Newsletter">
-            <div class="py-0 md:py-2 space-y-4">
+            <div class="py-10 md:py-14 space-y-10">
                 {when!(props.email.is_empty() =>
                     <>
-                        <section class="space-y-2">
-                            <h1 class="text-2xl md:text-3xl font-semibold text-zinc-950">"Newsletter"</h1>
-                            <div class="section-rule"></div>
-                            <p class="text-sm md:text-base text-zinc-700 max-w-2xl">
+                        <section class="page-heading max-w-3xl">
+                            <p class="eyebrow">"Field notes"</p>
+                            <h1 class="mt-3 text-4xl md:text-5xl font-semibold text-zinc-950">"Newsletter"</h1>
+                            <p class="mt-4 text-base text-zinc-600 max-w-2xl leading-relaxed">
                                 "A weekly field note from the build process — engineering, product decisions, and systems that hold up under pressure."
                             </p>
                         </section>
 
-                        <form action="/newsletter" method="POST" class="space-y-2 max-w-sm">
+                        <form action="/newsletter" method="POST" class="max-w-2xl">
                             <label class="sr-only" for="email">"Email Address"</label>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                placeholder="you@domain.com"
-                                required
-                                class="w-full h-9 px-3 rounded-md border border-zinc-300 bg-white text-sm text-zinc-950 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-orange-200 focus:border-orange-400 transition-colors"
-                            />
-                            <button
-                                type="submit"
-                                class="btn-accent w-full h-9 text-xs font-semibold rounded-md"
-                            >
-                                <i class="far fa-envelope"></i>
-                                "Subscribe for free"
-                            </button>
-                            <p class="text-xs text-zinc-500">"No spam. Unsubscribe anytime."</p>
+                            <div class="flex flex-col sm:flex-row gap-3">
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    placeholder="you@domain.com"
+                                    required
+                                    class="professional-input flex-1"
+                                />
+                                <button type="submit" class="primary-link whitespace-nowrap">"Subscribe →"</button>
+                            </div>
+                            <p class="mt-3 text-xs text-zinc-500">"One considered note each week. Unsubscribe anytime."</p>
                         </form>
                     </>
                     else
-                    <section class="space-y-2">
-                        <h2 class="text-xl font-semibold text-zinc-950">"You're All Set"</h2>
-                        <div class="section-rule"></div>
-                        <p class="text-sm md:text-base text-zinc-700 max-w-2xl">
+                    <section class="page-heading max-w-3xl">
+                        <p class="eyebrow">"Subscription confirmed"</p>
+                        <h2 class="mt-3 text-4xl md:text-5xl font-semibold text-zinc-950">"You're all set."</h2>
+                        <p class="mt-4 text-base text-zinc-600 max-w-2xl leading-relaxed">
                             "Thanks for subscribing! Check your email for a confirmation link. Your first newsletter will arrive next week."
                         </p>
-                        <div class="flex flex-wrap gap-2">
-                            <a href="/essays" class="btn-accent px-3 py-2 text-xs font-semibold rounded-md">
-                                <i class="far fa-pen-to-square"></i>
-                                "Read latest posts"
-                            </a>
-                            <a href="/projects" class="btn-ghost px-3 py-2 text-xs font-semibold rounded-md">
-                                <i class="fas fa-cubes"></i>
-                                "View projects"
-                            </a>
+                        <div class="mt-7 flex flex-wrap gap-5">
+                            <a href="/essays" class="primary-link">"Read latest essays →"</a>
+                            <a href="/projects" class="text-link">"View projects →"</a>
                         </div>
                     </section>
                 )}

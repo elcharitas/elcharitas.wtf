@@ -28,72 +28,79 @@ pub fn HomePage() -> Node {
 
     rsx! {
         <PageLayout title="Home">
-            <section>
-                <div class="grid grid-cols-1 xl:grid-cols-[minmax(0,1.6fr)_minmax(280px,0.4fr)] gap-6 xl:gap-10 w-full items-end">
-                    <div class="space-y-3 max-w-4xl">
-                        <div class="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.1em] font-semibold text-zinc-500">
-                            <span class="w-1.5 h-1.5 rounded-full" style="background: var(--accent);"></span>
-                            "Kehinde Jonathan Irhodia"
-                        </div>
-                        <h1 class="text-3xl md:text-5xl xl:text-6xl 2xl:text-7xl font-semibold text-zinc-950 leading-[0.94] tracking-[-0.045em]">
-                            "I build software that holds up."
+            <div class="py-12 md:py-16 lg:py-20">
+                <section class="grid grid-cols-1 lg:grid-cols-[minmax(0,1.45fr)_minmax(260px,0.55fr)] gap-12 lg:gap-20 items-end">
+                    <div class="max-w-4xl">
+                        <p class="eyebrow">"Kehinde Jonathan Irhodia"</p>
+                        <h1 class="mt-5 text-4xl md:text-6xl xl:text-7xl font-semibold text-zinc-950 leading-[0.98] tracking-[-0.05em]">
+                            "Engineering reliable systems. Researching better diagnostics."
                         </h1>
-                        <p class="text-zinc-600 max-w-2xl leading-relaxed text-sm md:text-base">
-                            "Software and systems engineer working across Rust, Python, AI, and biodiagnostics."
+                        <p class="mt-6 text-base md:text-lg text-zinc-600 max-w-2xl leading-relaxed">
+                            "I work across software, AI, and biodiagnostics, turning complex ideas into practical tools."
                         </p>
-                        <div class="flex flex-wrap gap-2">
-                            <a href="/projects" class="btn-accent px-3 py-2 text-xs font-semibold rounded-md">
-                                <i class="fas fa-cubes"></i>
-                                "Explore projects"
-                            </a>
-                            <a href="/connect" class="btn-ghost px-3 py-2 text-xs font-semibold rounded-md">
-                                <i class="far fa-message"></i>
-                                "Let's talk"
-                            </a>
+                        <div class="mt-7 flex flex-wrap items-center gap-5">
+                            <a href="/projects" class="primary-link">"View selected work ↗"</a>
+                            <a href="/resume" class="text-link">"Read my résumé →"</a>
                         </div>
                     </div>
 
-                    <div class="space-y-2">
-                        <div class="card-item rounded-lg p-3 space-y-2">
-                            <div class="flex items-center justify-between">
-                                <p class="text-[10px] uppercase tracking-[0.12em] font-semibold text-zinc-500">"Featured project"</p>
-                                <i class="fas fa-bolt text-[10px]" style="color: var(--accent);"></i>
+                    <aside class="border-l border-zinc-900/15 pl-6 md:pl-8">
+                        <p class="eyebrow">"Areas of focus"</p>
+                        <div class="mt-4">
+                            <div class="focus-row">
+                                <p class="focus-title">"Engineering"</p>
+                                <p class="focus-detail">"Rust, Python, infrastructure"</p>
                             </div>
-                            <div>
-                                <div class="flex items-start justify-between gap-3">
-                                    <p class="text-sm font-semibold text-zinc-950">{&featured.name}</p>
-                                    <div class="flex items-center shrink-0">
-                                        <a href={&featured.url} target="_blank" rel="noopener noreferrer" class="icon-button" aria_label="Source" title="View source">
-                                            <i class="fab fa-github text-base"></i>
-                                        </a>
-                                        {if !featured.homepage.is_empty() {
-                                            rsx! {
-                                                <a href={&featured.homepage} target="_blank" rel="noopener noreferrer" class="icon-button" aria_label="Website" title="Open website">
-                                                    <i class="fas fa-arrow-up-right-from-square text-sm"></i>
-                                                </a>
-                                            }
-                                        } else {
-                                            rsx! { <></> }
-                                        }}
-                                    </div>
+                            <div class="focus-row">
+                                <p class="focus-title">"Research"</p>
+                                <p class="focus-detail">"Biodiagnostics, microfluidics"</p>
+                            </div>
+                            <div class="focus-row">
+                                <p class="focus-title">"Writing"</p>
+                                <p class="focus-detail">"Systems, products, open source"</p>
+                            </div>
+                        </div>
+                    </aside>
+                </section>
+
+                <section class="mt-16 md:mt-20 pt-6 border-t border-zinc-900/15">
+                    <div class="flex items-baseline justify-between gap-4">
+                        <p class="eyebrow">"Selected work"</p>
+                        <a href="/projects" class="text-link text-xs">"All projects →"</a>
+                    </div>
+                    <div class="mt-5 grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_240px] gap-8 md:gap-12">
+                        <div>
+                            <div class="flex items-start justify-between gap-6">
+                                <div>
+                                    <h2 class="text-xl font-semibold text-zinc-950">{&featured.name}</h2>
+                                    <p class="mt-2 text-sm text-zinc-600 leading-relaxed max-w-3xl">{&featured.description}</p>
                                 </div>
-                                <p class="mt-1 text-xs text-zinc-600 leading-relaxed line-clamp-2">{&featured.description}</p>
+                                <div class="flex items-center gap-4 shrink-0 text-xs">
+                                    <a href={&featured.url} target="_blank" rel="noopener noreferrer" class="text-link">"Source ↗"</a>
+                                    {if !featured.homepage.is_empty() {
+                                        rsx! {
+                                            <a href={&featured.homepage} target="_blank" rel="noopener noreferrer" class="text-link">"Visit ↗"</a>
+                                        }
+                                    } else {
+                                        rsx! { <></> }
+                                    }}
+                                </div>
                             </div>
-                            <div class="flex flex-wrap gap-1">
-                                {featured.tags.iter().take(3).map(|tag| {
-                                    <span class="text-[10px] px-1.5 py-0.5 rounded-full border border-zinc-200 text-zinc-600 bg-white">{tag}</span>
+                            <div class="mt-4 flex flex-wrap gap-x-4 gap-y-1">
+                                {featured.tags.iter().take(4).map(|tag| {
+                                    <span class="meta-label">{tag}</span>
                                 })}
                             </div>
                         </div>
-                        <a href="/newsletter" class="group flex items-center justify-between gap-3 rounded-lg border border-zinc-200 bg-white/70 px-3 py-2 hover:border-orange-200 transition-colors">
-                            <p class="text-xs text-zinc-700">"Weekly field notes from the build."</p>
-                            <span class="icon-button shrink-0 group-hover:text-orange-600">
-                                <i class="fas fa-arrow-right text-xs"></i>
+                        <a href="/newsletter" class="group border-t md:border-t-0 md:border-l border-zinc-900/15 pt-5 md:pt-0 md:pl-6">
+                            <span class="eyebrow">"Field notes"</span>
+                            <span class="mt-2 block text-sm text-zinc-700 leading-relaxed group-hover:text-zinc-950 transition-colors">
+                                "Weekly notes on engineering, research, and the work in between. →"
                             </span>
                         </a>
                     </div>
-                </div>
-            </section>
+                </section>
+            </div>
         </PageLayout>
     }
 }

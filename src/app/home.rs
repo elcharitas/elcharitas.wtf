@@ -28,45 +28,41 @@ pub fn HomePage() -> Node {
 
     rsx! {
         <PageLayout title="Home">
-            <section class="min-h-[64vh] flex items-center py-4">
-                <div class="grid grid-cols-1 xl:grid-cols-[minmax(0,1.5fr)_minmax(320px,0.5fr)] gap-8 xl:gap-12 w-full items-end">
-                    <div class="space-y-5 max-w-5xl">
-                        <div class="inline-flex items-center gap-2 text-xs font-medium text-zinc-600">
-                            <span class="w-2 h-2 rounded-full" style="background: var(--accent);"></span>
-                            "Kehinde Jonathan Irhodia · Software engineer"
+            <section>
+                <div class="grid grid-cols-1 xl:grid-cols-[minmax(0,1.6fr)_minmax(280px,0.4fr)] gap-6 xl:gap-10 w-full items-end">
+                    <div class="space-y-3 max-w-4xl">
+                        <div class="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.1em] font-semibold text-zinc-500">
+                            <span class="w-1.5 h-1.5 rounded-full" style="background: var(--accent);"></span>
+                            "Kehinde Jonathan Irhodia"
                         </div>
-                        <h1 class="text-4xl md:text-6xl xl:text-7xl 2xl:text-8xl font-semibold text-zinc-950 leading-[0.92] tracking-[-0.05em]">
-                            "I build useful"
-                            <br />
-                            "things."
+                        <h1 class="text-3xl md:text-5xl xl:text-6xl 2xl:text-7xl font-semibold text-zinc-950 leading-[0.94] tracking-[-0.045em]">
+                            "I build software that holds up."
                         </h1>
-                        <p class="text-zinc-600 max-w-2xl leading-relaxed text-sm md:text-lg">
-                            "Software engineer with a passion for building things. I work on Rust systems, write essays, and publish around biodiagnostics, AI, and microfluidics."
+                        <p class="text-zinc-600 max-w-2xl leading-relaxed text-sm md:text-base">
+                            "Software and systems engineer working across Rust, Python, AI, and biodiagnostics."
                         </p>
                         <div class="flex flex-wrap gap-2">
-                            <a href="/projects" class="btn-accent px-4 py-2.5 text-sm font-semibold rounded-lg">
+                            <a href="/projects" class="btn-accent px-3 py-2 text-xs font-semibold rounded-md">
                                 <i class="fas fa-cubes"></i>
                                 "Explore projects"
                             </a>
-                            <a href="/connect" class="btn-ghost px-4 py-2.5 text-sm font-semibold rounded-lg">
+                            <a href="/connect" class="btn-ghost px-3 py-2 text-xs font-semibold rounded-md">
                                 <i class="far fa-message"></i>
-                                "Get in touch"
+                                "Let's talk"
                             </a>
                         </div>
                     </div>
 
-                    <div class="space-y-2.5">
-                        <div class="card-item rounded-xl p-4 space-y-3">
+                    <div class="space-y-2">
+                        <div class="card-item rounded-lg p-3 space-y-2">
                             <div class="flex items-center justify-between">
-                                <p class="text-xs uppercase tracking-[0.12em] font-semibold text-zinc-500">"Featured project"</p>
-                                <span class="inline-flex items-center justify-center w-7 h-7 rounded-lg" style="background: var(--accent-dim); color: var(--accent);">
-                                    <i class="fas fa-bolt text-xs"></i>
-                                </span>
+                                <p class="text-[10px] uppercase tracking-[0.12em] font-semibold text-zinc-500">"Featured project"</p>
+                                <i class="fas fa-bolt text-[10px]" style="color: var(--accent);"></i>
                             </div>
                             <div>
                                 <div class="flex items-start justify-between gap-3">
-                                    <p class="font-semibold text-zinc-950">{&featured.name}</p>
-                                    <div class="flex items-center gap-2 shrink-0">
+                                    <p class="text-sm font-semibold text-zinc-950">{&featured.name}</p>
+                                    <div class="flex items-center shrink-0">
                                         <a href={&featured.url} target="_blank" rel="noopener noreferrer" class="icon-button" aria_label="Source" title="View source">
                                             <i class="fab fa-github text-base"></i>
                                         </a>
@@ -81,21 +77,18 @@ pub fn HomePage() -> Node {
                                         }}
                                     </div>
                                 </div>
-                                <p class="mt-1.5 text-sm text-zinc-600 leading-relaxed">{&featured.description}</p>
+                                <p class="mt-1 text-xs text-zinc-600 leading-relaxed line-clamp-2">{&featured.description}</p>
                             </div>
-                            <div class="flex flex-wrap gap-2">
-                                {featured.tags.iter().map(|tag| {
-                                    <span class="text-xs px-2 py-0.5 rounded-full border border-zinc-200 text-zinc-600 bg-white">{tag}</span>
+                            <div class="flex flex-wrap gap-1">
+                                {featured.tags.iter().take(3).map(|tag| {
+                                    <span class="text-[10px] px-1.5 py-0.5 rounded-full border border-zinc-200 text-zinc-600 bg-white">{tag}</span>
                                 })}
                             </div>
                         </div>
-                        <a href="/newsletter" class="group flex items-center justify-between gap-3 rounded-xl border border-zinc-200 bg-white/70 p-4 hover:border-orange-200 transition-colors">
-                            <div>
-                                <p class="text-xs uppercase tracking-[0.12em] font-semibold text-zinc-500 mb-1">"Now"</p>
-                                <p class="text-sm text-zinc-700 leading-relaxed">"Building and writing in public. Get the weekly field note."</p>
-                            </div>
+                        <a href="/newsletter" class="group flex items-center justify-between gap-3 rounded-lg border border-zinc-200 bg-white/70 px-3 py-2 hover:border-orange-200 transition-colors">
+                            <p class="text-xs text-zinc-700">"Weekly field notes from the build."</p>
                             <span class="icon-button shrink-0 group-hover:text-orange-600">
-                                <i class="fas fa-arrow-right text-sm"></i>
+                                <i class="fas fa-arrow-right text-xs"></i>
                             </span>
                         </a>
                     </div>

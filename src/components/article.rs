@@ -17,11 +17,11 @@ pub fn Article(
     rsx! {
         <a
             href={format!("/essays/{}", post.slug)}
-            class="group flex flex-col h-full card-item rounded-xl p-4 transition-all"
+            class="group flex flex-col h-full card-item rounded-lg p-3 transition-all"
         >
-            <div class="flex flex-col gap-3 flex-1">
+            <div class="flex flex-col gap-2.5 flex-1">
                 <div class="flex items-center justify-between gap-2">
-                    <span class="inline-flex items-center px-2.5 py-1 text-[11px] uppercase tracking-[0.08em] font-semibold rounded-md" style="background: var(--accent-dim); border: 1px solid var(--accent-border); color: var(--accent);">
+                    <span class="inline-flex items-center px-2 py-0.5 text-[10px] uppercase tracking-[0.08em] font-semibold rounded" style="background: var(--accent-dim); border: 1px solid var(--accent-border); color: var(--accent);">
                         {category.map_or("general", |c| &c.name)}
                     </span>
                     {when!(let Some(published_at) = &post.published_at =>
@@ -36,7 +36,7 @@ pub fn Article(
                     )}
                 </div>
 
-                <h2 class="text-lg md:text-xl font-semibold text-zinc-900 group-hover:text-zinc-950 leading-tight">
+                <h2 class="text-base md:text-lg font-semibold text-zinc-900 group-hover:text-zinc-950 leading-tight">
                     {&post.title}
                 </h2>
 
@@ -65,9 +65,9 @@ pub fn ProjectArticle(project: &Project) -> Node {
         .then(|| &project.name)
         .unwrap_or(&project.description);
     rsx! {
-        <article class="group flex flex-col h-full card-item rounded-xl p-4 transition-all">
-            <div class="flex flex-col gap-3 flex-1">
-                <h2 class="text-lg md:text-xl font-semibold text-zinc-900 group-hover:text-zinc-950">
+        <article class="group flex flex-col h-full card-item rounded-lg p-3 transition-all">
+            <div class="flex flex-col gap-2.5 flex-1">
+                <h2 class="text-base md:text-lg font-semibold text-zinc-900 group-hover:text-zinc-950">
                     {&project.name}
                 </h2>
                 <p class="text-sm text-zinc-600 leading-relaxed">
@@ -75,9 +75,9 @@ pub fn ProjectArticle(project: &Project) -> Node {
                 </p>
                 {if !project.tags.is_empty() {
                     rsx! {
-                        <div class="flex flex-wrap gap-1.5">
+                        <div class="flex flex-wrap gap-1">
                             {project.tags.iter().take(4).map(|tag| rsx! {
-                                <span class="text-xs px-2 py-0.5 rounded-full border border-zinc-200 text-zinc-500">{tag.replace('-', " ")}</span>
+                                <span class="text-[10px] px-1.5 py-0.5 rounded-full border border-zinc-200 text-zinc-500">{tag.replace('-', " ")}</span>
                             })}
                         </div>
                     }

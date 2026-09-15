@@ -107,31 +107,31 @@ pub fn ProjectsPage(
 
     rsx! {
         <PageLayout title="Projects">
-            <div class="py-2 md:py-4 space-y-6" data_signals={format!("{{'cursor': '{}', 'has_next_page': {}}}", cursor.as_ref().map_or("1", |c| c), has_next_page.unwrap_or(false))}>
-                <section class="space-y-3">
-                    <h1 class="text-3xl md:text-4xl font-semibold text-zinc-950">"Projects"</h1>
+            <div class="py-0 md:py-2 space-y-4" data_signals={format!("{{'cursor': '{}', 'has_next_page': {}}}", cursor.as_ref().map_or("1", |c| c), has_next_page.unwrap_or(false))}>
+                <section class="space-y-2">
+                    <h1 class="text-2xl md:text-3xl font-semibold text-zinc-950">"Projects"</h1>
                     <div class="section-rule"></div>
                     <p class="text-sm md:text-base text-zinc-700 max-w-3xl">
                         "Open-source contributions and personal experiments across backend systems, tools, and product prototypes. "
                     </p>
                 </section>
 
-                <div class="space-y-3">
+                <div class="space-y-2">
                     <div class="relative">
                         <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-xs pointer-events-none"></i>
                         <input
                             id="search-input"
                             type="text"
                             placeholder="Search projects..."
-                            class="w-full bg-white border border-zinc-200 rounded-lg pl-9 pr-3 py-2.5 text-sm text-zinc-800 placeholder-zinc-500 focus:outline-none focus:border-orange-400 transition-colors"
+                            class="w-full bg-white border border-zinc-200 rounded-md pl-9 pr-3 py-2 text-sm text-zinc-800 placeholder-zinc-500 focus:outline-none focus:border-orange-400 transition-colors"
                         />
                     </div>
                     {if !all_tags.is_empty() {
                         rsx! {
-                            <div class="flex flex-wrap gap-1.5">
-                                <button data_tag_filter="" class="text-xs px-2.5 py-1 rounded-full border border-zinc-300 text-zinc-600 hover:border-zinc-500 cursor-pointer transition-colors">"All"</button>
+                            <div class="flex flex-wrap gap-1">
+                                <button data_tag_filter="" class="text-[11px] px-2 py-0.5 rounded-full border border-zinc-300 text-zinc-600 hover:border-zinc-500 cursor-pointer transition-colors">"All"</button>
                                 {all_tags.iter().map(|tag| {
-                                    <button data_tag_filter={tag.as_str()} class="text-xs px-2.5 py-1 rounded-full border border-zinc-300 text-zinc-500 hover:border-zinc-500 cursor-pointer transition-colors">{tag.replace('-', " ")}</button>
+                                    <button data_tag_filter={tag.as_str()} class="text-[11px] px-2 py-0.5 rounded-full border border-zinc-300 text-zinc-500 hover:border-zinc-500 cursor-pointer transition-colors">{tag.replace('-', " ")}</button>
                                 })}
                             </div>
                         }
@@ -140,7 +140,7 @@ pub fn ProjectsPage(
                     }}
                 </div>
 
-                <div id="click_to_load_rows" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3" data_fragment_merge_target="$has_next_page">
+                <div id="click_to_load_rows" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2.5" data_fragment_merge_target="$has_next_page">
                     {projects.into_iter().map(|project| {
                         let search_text = format!("{} {}", project.name, project.description);
                         let tags_str = project.tags.join(",");

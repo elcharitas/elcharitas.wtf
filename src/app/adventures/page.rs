@@ -154,33 +154,33 @@ pub fn AdventuresPage() -> Node {
 
     rsx! {
         <PageLayout title="Timeline">
-            <section class="space-y-3 mb-7">
-                <h1 class="text-3xl md:text-4xl font-semibold text-zinc-950">"Timeline"</h1>
+            <section class="space-y-2 mb-5">
+                <h1 class="text-2xl md:text-3xl font-semibold text-zinc-950">"Timeline"</h1>
                 <div class="section-rule"></div>
                 <p class="text-sm md:text-base text-zinc-700 max-w-3xl">
                     "A decade of engineering milestones, product pivots, and experiments — in chronological order."
                 </p>
             </section>
 
-            <div class="space-y-10">
+            <div class="space-y-7">
                 {years.iter().map(|year| {
                     let year_adventures: Vec<&Adventure> = adventures
                         .iter()
                         .filter(|a| &a.year == year)
                         .collect();
 
-                    <div class="grid grid-cols-1 md:grid-cols-[90px_1fr] gap-3 md:gap-5">
+                    <div class="grid grid-cols-1 md:grid-cols-[72px_1fr] gap-2 md:gap-4">
                         <div class="md:pt-1">
-                            <span class="text-3xl md:text-4xl font-bold text-zinc-950">{year.as_str()}</span>
+                            <span class="text-2xl md:text-3xl font-bold text-zinc-950">{year.as_str()}</span>
                         </div>
-                        <ul class="space-y-2.5">
+                        <ul class="space-y-2">
                             {year_adventures.iter().map(|adventure| {
                                 let is_major = adventure.title.len() > 60
                                     || adventure.title.contains("Framework")
                                     || adventure.title.contains("Joined")
                                     || adventure.title.contains("Started work");
 
-                                <li class="flex items-start gap-2.5 group">
+                                <li class="flex items-start gap-2 group">
                                     <i class={format!("{} mt-1 text-sm shrink-0 text-zinc-600 group-hover:text-zinc-800 transition-colors", adventure.icon)}></i>
                                     <div class="space-y-0.5">
                                         <div class={format!("text-sm leading-snug {}",

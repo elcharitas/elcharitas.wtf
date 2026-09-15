@@ -66,17 +66,17 @@ pub fn ResumePage() -> Node {
 
     rsx! {
         <PageLayout title="Resume">
-            <section class="py-2 md:py-4 space-y-8">
+            <section class="py-0 md:py-2 space-y-6">
 
                 // Header
-                <div class="space-y-3">
-                    <h1 class="text-3xl md:text-4xl font-semibold text-zinc-950">{&data.header.name}</h1>
+                <div class="space-y-2">
+                    <h1 class="text-2xl md:text-3xl font-semibold text-zinc-950">{&data.header.name}</h1>
                     <div class="section-rule"></div>
-                    <p class="text-zinc-700 text-base leading-relaxed">{&data.header.bio}</p>
+                    <p class="text-zinc-700 text-sm leading-relaxed">{&data.header.bio}</p>
                     <div class="flex flex-wrap gap-2 pt-1">
                         {data.header.links.iter().map(|link| {
                             let cls = format!(
-                                "px-3 py-1.5 text-sm font-semibold rounded-md {}",
+                                "px-2.5 py-1.5 text-xs font-semibold rounded-md {}",
                                 if link.style == "accent" { "btn-accent" } else { "btn-ghost" }
                             );
                             if link.external {
@@ -89,11 +89,11 @@ pub fn ResumePage() -> Node {
                 </div>
 
                 // Experience
-                <div class="space-y-4">
-                    <h2 class="text-lg font-semibold text-zinc-950 uppercase tracking-[0.1em]">"Experience"</h2>
-                    <div class="space-y-6">
+                <div class="space-y-3">
+                    <h2 class="text-base font-semibold text-zinc-950 uppercase tracking-[0.1em]">"Experience"</h2>
+                    <div class="space-y-4">
                         {data.experience.iter().map(|entry| {
-                            <div class="grid grid-cols-1 sm:grid-cols-[120px_1fr] gap-1.5 sm:gap-4">
+                            <div class="grid grid-cols-1 sm:grid-cols-[110px_1fr] gap-1 sm:gap-3">
                                 <p class="text-sm text-zinc-500 sm:pt-1">{&entry.period}</p>
                                 <div>
                                     <p class="font-semibold text-zinc-900">{&entry.title}</p>
@@ -107,10 +107,10 @@ pub fn ResumePage() -> Node {
 
                 // Skills
                 <div class="space-y-4">
-                    <h2 class="text-lg font-semibold text-zinc-950 uppercase tracking-[0.1em]">"Skills"</h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <h2 class="text-base font-semibold text-zinc-950 uppercase tracking-[0.1em]">"Skills"</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         {data.skills.iter().map(|skill| {
-                            <div class="card-item rounded-lg p-3 space-y-1.5">
+                            <div class="card-item rounded-md p-2.5 space-y-1">
                                 <p class="text-xs uppercase tracking-[0.1em]" style="color: var(--accent);">{&skill.category}</p>
                                 <p class="text-sm text-zinc-700">{&skill.items}</p>
                             </div>
@@ -119,10 +119,10 @@ pub fn ResumePage() -> Node {
                 </div>
 
                 <div class="space-y-4">
-                    <h2 class="text-lg font-semibold text-zinc-950 uppercase tracking-[0.1em]">"Research Interests"</h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <h2 class="text-base font-semibold text-zinc-950 uppercase tracking-[0.1em]">"Research Interests"</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
                         {data.interests.iter().map(|interest| {
-                            <div class="card-item rounded-lg p-3 space-y-1.5">
+                            <div class="card-item rounded-md p-2.5 space-y-1">
                                 <p class="text-xs uppercase tracking-[0.1em]" style="color: var(--accent);">"Publication focus"</p>
                                 <p class="text-sm text-zinc-700">{interest}</p>
                             </div>
@@ -132,10 +132,10 @@ pub fn ResumePage() -> Node {
 
                 // Education
                 <div class="space-y-4">
-                    <h2 class="text-lg font-semibold text-zinc-950 uppercase tracking-[0.1em]">"Education"</h2>
-                    <div class="space-y-4">
+                    <h2 class="text-base font-semibold text-zinc-950 uppercase tracking-[0.1em]">"Education"</h2>
+                    <div class="space-y-3">
                         {data.education.iter().map(|entry| {
-                            <div class="grid grid-cols-1 sm:grid-cols-[120px_1fr] gap-1.5 sm:gap-4">
+                            <div class="grid grid-cols-1 sm:grid-cols-[110px_1fr] gap-1 sm:gap-3">
                                 <p class="text-sm text-zinc-500">{&entry.period}</p>
                                 <div>
                                     <p class="font-semibold text-zinc-900">{&entry.degree}</p>

@@ -73,10 +73,10 @@ pub fn PublicationsPage(props: &PublicationsProps) -> Node {
 
     rsx! {
         <PageLayout title="Publications">
-            <section class="py-2 md:py-4 space-y-6">
-                <div class="space-y-3 max-w-4xl">
+            <section class="py-0 md:py-2 space-y-4">
+                <div class="space-y-2 max-w-4xl">
                     <div class="flex items-center gap-3 flex-wrap">
-                        <h1 class="text-3xl md:text-4xl font-semibold text-zinc-950">"Publications"</h1>
+                        <h1 class="text-2xl md:text-3xl font-semibold text-zinc-950">"Publications"</h1>
                     </div>
                     <div class="section-rule"></div>
                     <p class="text-sm md:text-base text-zinc-700 leading-relaxed max-w-3xl">
@@ -85,27 +85,27 @@ pub fn PublicationsPage(props: &PublicationsProps) -> Node {
                     </p>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_280px] 2xl:grid-cols-[minmax(0,1fr)_320px] gap-4 items-start">
-                    <div class="space-y-3">
+                <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_260px] 2xl:grid-cols-[minmax(0,1fr)_300px] gap-3 items-start">
+                    <div class="space-y-2">
                         <div class="relative">
                             <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-xs pointer-events-none"></i>
                             <input
                                 id="search-input"
                                 type="text"
                                 placeholder="Search publications..."
-                                class="w-full bg-white border border-zinc-200 rounded-lg pl-9 pr-3 py-2.5 text-sm text-zinc-800 placeholder-zinc-500 focus:outline-none focus:border-orange-400 transition-colors"
+                                class="w-full bg-white border border-zinc-200 rounded-md pl-9 pr-3 py-2 text-sm text-zinc-800 placeholder-zinc-500 focus:outline-none focus:border-orange-400 transition-colors"
                             />
                         </div>
                         {if props.publications.is_empty() {
                             rsx! {
-                                <div class="card-item rounded-xl p-4 space-y-2">
+                                <div class="card-item rounded-lg p-3 space-y-1.5">
                                     <p class="text-sm text-zinc-700">"No publications are synced yet."</p>
                                     <p class="text-sm text-zinc-500 leading-relaxed">{notice_text}</p>
                                 </div>
                             }
                         } else {
                             rsx! {
-                                <div class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-3">
+                                <div class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-2.5">
                                     {props.publications.iter().map(|publication| {
                                         let search_text = format!(
                                             "{} {} {}",
@@ -113,11 +113,11 @@ pub fn PublicationsPage(props: &PublicationsProps) -> Node {
                                             publication.venue.as_deref().unwrap_or(""),
                                             publication.work_type.as_deref().unwrap_or("")
                                         );
-                                        <article data_searchtext={search_text.as_str()} class="card-item rounded-xl p-4 space-y-3 soft-lift">
+                                        <article data_searchtext={search_text.as_str()} class="card-item rounded-lg p-3 space-y-2 soft-lift">
                                             <div class="flex items-start justify-between gap-3">
                                                 <div class="space-y-2">
                                                     <p class="text-xs uppercase tracking-[0.1em] text-zinc-500">{publication.work_type.as_deref().unwrap_or("Publication")}</p>
-                                                    <h2 class="text-lg font-semibold text-zinc-900 leading-snug">{&publication.title}</h2>
+                                                    <h2 class="text-base font-semibold text-zinc-900 leading-snug">{&publication.title}</h2>
                                                 </div>
                                                 {if let Some(url) = &publication.url {
                                                     rsx! {
@@ -160,8 +160,8 @@ pub fn PublicationsPage(props: &PublicationsProps) -> Node {
                         "#}</script>
                     </div>
 
-                    <aside class="space-y-3">
-                        <div class="card-item rounded-xl p-4 space-y-2">
+                    <aside class="space-y-2">
+                        <div class="card-item rounded-lg p-3 space-y-1.5">
                             <p class="text-xs uppercase tracking-[0.1em]" style="color: var(--accent);">"Focus areas"</p>
                             <div class="flex flex-wrap gap-1.5">
                                 <span class="text-xs px-2 py-0.5 rounded-full border border-zinc-300 text-zinc-600">"Biodiagnostics"</span>

@@ -20,8 +20,6 @@ pub struct Adventure {
     pub month_index: usize,
     pub quarter: String,
     pub title: String,
-    pub icon: String,
-    // pub location: String,
 }
 
 impl Adventure {
@@ -34,41 +32,9 @@ impl Adventure {
             _ => "Q1".to_string(),
         }
     }
-
-    fn get_icon(title: &str) -> String {
-        let title_lower = title.to_lowercase();
-        if title_lower.contains("chakra") || title_lower.contains("ui") {
-            "fas fa-palette".to_string()
-        } else if title_lower.contains("rust") || title_lower.contains("ngyn") {
-            "fas fa-gears".to_string()
-        } else if title_lower.contains("web3") || title_lower.contains("blockchain") {
-            "fas fa-globe".to_string()
-        } else if title_lower.contains("community") || title_lower.contains("hangout") {
-            "fas fa-people-group".to_string()
-        } else if title_lower.contains("bot") || title_lower.contains("telegram") {
-            "fas fa-robot".to_string()
-        } else if title_lower.contains("app") || title_lower.contains("mobile") {
-            "fas fa-mobile-screen-button".to_string()
-        } else if title_lower.contains("framework") || title_lower.contains("library") {
-            "fas fa-screwdriver-wrench".to_string()
-        } else if title_lower.contains("game") || title_lower.contains("engine") {
-            "fas fa-gamepad".to_string()
-        } else if title_lower.contains("php") || title_lower.contains("laravel") {
-            "fas fa-lightbulb".to_string()
-        } else if title_lower.contains("open source") || title_lower.contains("pull request") {
-            "fas fa-code-branch".to_string()
-        } else if title_lower.contains("business") || title_lower.contains("sold") {
-            "fas fa-sack-dollar".to_string()
-        } else if title_lower.contains("programming") || title_lower.contains("html") {
-            "fas fa-seedling".to_string()
-        } else {
-            "fas fa-bolt".to_string()
-        }
-    }
 }
 
 fn parse_adventures_from_json() -> Vec<Adventure> {
-    // This would normally read from a file, but for demo purposes, we'll use the embedded JSON
     let json_data = include_str!("./adventures.json");
 
     let data: AdventuresData = serde_json::from_str(json_data).unwrap_or_default();
@@ -83,7 +49,7 @@ fn parse_adventures_from_json() -> Vec<Adventure> {
                         "{} {}",
                         month
                             .chars()
-                            .nth(0)
+                            .next()
                             .unwrap()
                             .to_uppercase()
                             .collect::<String>()
@@ -94,8 +60,6 @@ fn parse_adventures_from_json() -> Vec<Adventure> {
                     year: year.clone(),
                     month_index,
                     quarter,
-                    icon: Adventure::get_icon(&activity),
-                    // location: String::new(),
                     title: activity,
                 });
             }
@@ -154,46 +118,48 @@ pub fn AdventuresPage() -> Node {
 
     rsx! {
         <PageLayout title="Timeline">
-            <section class="space-y-3 mb-10">
-                <h1 class="text-4xl md:text-5xl font-semibold text-zinc-950">"Timeline"</h1>
-                <div class="section-rule"></div>
-                <p class="text-base text-zinc-700 max-w-3xl">
-                    "A decade of engineering milestones, product pivots, and experiments — in chronological order."
-                </p>
-            </section>
+            <div class="py-10 md:py-14">
+                <section class="page-heading">
+                    <p class="eyebrow">"Archive"</p>
+                    <h1 class="mt-3 text-4xl md:text-5xl font-semibold text-zinc-950">"Timeline"</h1>
+                    <p class="mt-4 text-base text-zinc-600 max-w-3xl leading-relaxed">
+                        "A decade of engineering milestones, product pivots, and experiments — in chronological order."
+                    </p>
+                </section>
 
-            <div class="space-y-14">
-                {years.iter().map(|year| {
-                    let year_adventures: Vec<&Adventure> = adventures
-                        .iter()
-                        .filter(|a| &a.year == year)
-                        .collect();
+                <div class="mt-10 space-y-12">
+                    {years.iter().map(|year| {
+                        let year_adventures: Vec<&Adventure> = adventures
+                            .iter()
+                            .filter(|a| &a.year == year)
+                            .collect();
 
-                    <div class="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-4 md:gap-8">
-                        <div class="md:pt-1">
-                            <span class="text-4xl md:text-5xl font-bold text-zinc-950">{year.as_str()}</span>
-                        </div>
-                        <ul class="space-y-3">
-                            {year_adventures.iter().map(|adventure| {
-                                let is_major = adventure.title.len() > 60
-                                    || adventure.title.contains("Framework")
-                                    || adventure.title.contains("Joined")
-                                    || adventure.title.contains("Started work");
+                        <div class="grid grid-cols-1 md:grid-cols-[90px_1fr] gap-4 md:gap-8">
+                            <div class="md:pt-4">
+                                <span class="text-2xl font-semibold text-zinc-950">{year.as_str()}</span>
+                            </div>
+                            <ul class="border-t border-zinc-900/15">
+                                {year_adventures.iter().map(|adventure| {
+                                    let is_major = adventure.title.len() > 60
+                                        || adventure.title.contains("Framework")
+                                        || adventure.title.contains("Joined")
+                                        || adventure.title.contains("Started work");
 
-                                <li class="flex items-start gap-3 group">
-                                    <i class={format!("{} mt-1 text-sm shrink-0 text-zinc-600 group-hover:text-zinc-800 transition-colors", adventure.icon)}></i>
-                                    <div class="space-y-0.5">
-                                        <div class={format!("text-sm md:text-base leading-snug {}",
-                                            if is_major { "text-zinc-900 font-medium" } else { "text-zinc-700" })}>
-                                            <div _dangerously_set_inner_html={markdown_to_html(&adventure.title, &Options::default())} />
+                                    <li class="grid grid-cols-[84px_1fr] gap-4 py-4 border-b border-zinc-900/10">
+                                        <p class="text-xs text-zinc-500">{adventure.date.as_str()}</p>
+                                        <div>
+                                            <div class={format!("text-sm leading-relaxed {}",
+                                                if is_major { "text-zinc-950 font-medium" } else { "text-zinc-700" })}>
+                                                <div _dangerously_set_inner_html={markdown_to_html(&adventure.title, &Options::default())} />
+                                            </div>
+                                            <p class="mt-1 text-[11px] uppercase tracking-[0.1em] text-zinc-400">{adventure.quarter.as_str()}</p>
                                         </div>
-                                        <p class="text-xs" style="color: var(--accent); opacity: 0.6;">{adventure.date.as_str()}" · "{adventure.quarter.as_str()}</p>
-                                    </div>
-                                </li>
-                            })}
-                        </ul>
-                    </div>
-                })}
+                                    </li>
+                                })}
+                            </ul>
+                        </div>
+                    })}
+                </div>
             </div>
         </PageLayout>
     }

@@ -37,35 +37,35 @@ pub fn BlogPage(BlogProps { posts }: &BlogProps) -> Node {
 
     rsx! {
         <PageLayout title="Essays">
-            <div class="py-4 md:py-8 space-y-8">
-                <section class="space-y-4">
-                    <h1 class="text-4xl md:text-5xl font-semibold text-zinc-950">"Essays"</h1>
-                    <div class="section-rule"></div>
-                    <p class="text-base text-zinc-700 max-w-3xl">
+            <div class="py-10 md:py-14 space-y-10">
+                <section class="page-heading">
+                    <p class="eyebrow">"Writing"</p>
+                    <h1 class="mt-3 text-4xl md:text-5xl font-semibold text-zinc-950">"Essays"</h1>
+                    <p class="mt-4 text-base text-zinc-600 max-w-3xl leading-relaxed">
                         "I write about software development, product decisions, productivity, and the realities of shipping. "
                     </p>
                 </section>
 
                 <div class="space-y-4">
-                    <div class="relative">
-                        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 text-sm pointer-events-none"></i>
+                    <div>
+                        <label for="search-input" class="eyebrow">"Search"</label>
                         <input
                             id="search-input"
                             type="text"
                             placeholder="Search essays..."
-                            class="w-full bg-white border border-zinc-200 rounded-xl pl-10 pr-4 py-3 text-sm text-zinc-800 placeholder-zinc-500 focus:outline-none focus:border-orange-400 transition-colors"
+                            class="minimal-input mt-2"
                         />
                     </div>
-                    <div class="flex flex-wrap gap-2">
-                        <button data_tag_filter="" class="text-xs px-3 py-1.5 rounded-full border border-zinc-300 text-zinc-600 hover:border-zinc-500 cursor-pointer transition-colors">"All"</button>
+                    <div class="flex flex-wrap gap-x-4 gap-y-2">
+                        <button data_tag_filter="" class="filter-chip">"All"</button>
                         {categories.iter().map(|cat| {
-                            <button data_tag_filter={cat.as_str()} class="text-xs px-3 py-1.5 rounded-full border border-zinc-300 text-zinc-500 hover:border-zinc-500 cursor-pointer transition-colors capitalize">{cat.replace('-', " ")}</button>
+                            <button data_tag_filter={cat.as_str()} class="filter-chip capitalize">{cat.replace('-', " ")}</button>
                         })}
                     </div>
                 </div>
 
-                <div id="click_to_load_rows" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
-                    {posts.into_iter().map(|post| {
+                <div id="click_to_load_rows" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-0">
+                    {posts.iter().map(|post| {
                         let tag_name = post.tags.first().map_or_else(String::new, |t| t.name.clone());
                         let search_text = format!("{} {}", post.title, post.brief);
                         <div data_searchtext={search_text.as_str()} data_tags={tag_name.as_str()}>
@@ -90,7 +90,7 @@ pub fn BlogPage(BlogProps { posts }: &BlogProps) -> Node {
                   if(s)s.addEventListener('input',function(){q=s.value.toLowerCase().trim();filter();});
                   function setPill(el){
                     document.querySelectorAll('[data-tag-filter]').forEach(function(p){p.removeAttribute('style');});
-                    if(el)el.style.cssText='background:var(--accent-dim);border-color:var(--accent-border);color:var(--accent);';
+                    if(el)el.style.cssText='border-color:var(--accent);color:var(--ink);';
                   }
                   document.querySelectorAll('[data-tag-filter]').forEach(function(pill){
                     pill.addEventListener('click',function(){

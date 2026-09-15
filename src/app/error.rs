@@ -17,19 +17,19 @@ pub async fn error_handler() -> impl IntoResponse {
 pub fn ErrorPage() -> Node {
     rsx! {
         <PageLayout title="Page Not Found - 404">
-            <div class="py-4 md:py-8 space-y-6">
-                <section class="space-y-3">
-                    <h1 class="text-4xl md:text-5xl font-semibold text-zinc-950">"Page Not Found"</h1>
-                    <div class="section-rule"></div>
-                    <p class="text-base text-zinc-600 max-w-2xl">
+            <div class="py-16 md:py-20">
+                <section class="max-w-2xl">
+                    <p class="eyebrow">"404"</p>
+                    <h1 class="mt-3 text-4xl md:text-5xl font-semibold text-zinc-950">"Page not found"</h1>
+                    <p class="mt-4 text-base text-zinc-600">
                         "This page doesn't exist or has moved. Try one of these instead."
                     </p>
                 </section>
 
-                <div class="flex gap-3 flex-wrap">
-                    <a href="/" class="btn-accent px-6 py-2.5 text-sm font-medium rounded-lg"><i class="fas fa-house"></i>"Go home"</a>
-                    <a href="/essays" class="btn-ghost px-6 py-2.5 text-sm font-medium rounded-lg"><i class="far fa-pen-to-square"></i>"Essays"</a>
-                    <a href="/projects" class="btn-ghost px-6 py-2.5 text-sm font-medium rounded-lg"><i class="fas fa-cubes"></i>"Projects"</a>
+                <div class="mt-7 flex gap-5 flex-wrap">
+                    <a href="/" class="primary-link">"Go home"</a>
+                    <a href="/essays" class="text-link">"Browse essays →"</a>
+                    <a href="/projects" class="text-link">"View projects →"</a>
                 </div>
             </div>
         </PageLayout>

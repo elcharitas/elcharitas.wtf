@@ -66,39 +66,36 @@ pub fn ResumePage() -> Node {
 
     rsx! {
         <PageLayout title="Resume">
-            <section class="py-4 md:py-8 space-y-12">
+            <section class="py-10 md:py-14 space-y-12">
 
                 // Header
-                <div class="space-y-3">
-                    <h1 class="text-4xl md:text-5xl font-semibold text-zinc-950">{&data.header.name}</h1>
-                    <div class="section-rule"></div>
-                    <p class="text-zinc-700 text-lg leading-relaxed">{&data.header.bio}</p>
-                    <div class="flex flex-wrap gap-3 pt-1">
+                <div class="page-heading">
+                    <p class="eyebrow">"Résumé"</p>
+                    <h1 class="mt-3 text-4xl md:text-5xl font-semibold text-zinc-950">{&data.header.name}</h1>
+                    <p class="mt-4 text-zinc-600 text-base leading-relaxed max-w-4xl">{&data.header.bio}</p>
+                    <div class="mt-6 flex flex-wrap gap-x-5 gap-y-2">
                         {data.header.links.iter().map(|link| {
-                            let cls = format!(
-                                "px-4 py-2 text-sm font-semibold rounded-md {}",
-                                if link.style == "accent" { "btn-accent" } else { "btn-ghost" }
-                            );
+                            let cls = if link.style == "accent" { "primary-link" } else { "text-link text-sm" };
                             if link.external {
-                                <a href={&link.href} class={&cls} target="_blank" rel="noopener noreferrer">{&link.label}</a>
+                                <a href={&link.href} class={cls} target="_blank" rel="noopener noreferrer">{&link.label}</a>
                             } else {
-                                <a href={&link.href} class={&cls}>{&link.label}</a>
+                                <a href={&link.href} class={cls}>{&link.label}</a>
                             }
                         })}
                     </div>
                 </div>
 
                 // Experience
-                <div class="space-y-6">
-                    <h2 class="text-xl font-semibold text-zinc-950 uppercase tracking-[0.1em]">"Experience"</h2>
-                    <div class="space-y-8">
+                <div>
+                    <h2 class="eyebrow">"Experience"</h2>
+                    <div class="mt-4 border-t border-zinc-900/15">
                         {data.experience.iter().map(|entry| {
-                            <div class="grid grid-cols-1 sm:grid-cols-[140px_1fr] gap-2 sm:gap-6">
-                                <p class="text-sm text-zinc-500 sm:pt-1">{&entry.period}</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-[140px_1fr] gap-2 sm:gap-8 py-5 border-b border-zinc-900/10">
+                                <p class="text-xs text-zinc-500 sm:pt-1">{&entry.period}</p>
                                 <div>
                                     <p class="font-semibold text-zinc-900">{&entry.title}</p>
-                                    <p class="text-sm" style="color: var(--accent);">{&entry.entry_type}</p>
-                                    <p class="mt-2 text-sm text-zinc-600 leading-relaxed">{&entry.description}</p>
+                                    <p class="mt-1 text-xs text-zinc-500">{&entry.entry_type}</p>
+                                    <p class="mt-3 text-sm text-zinc-600 leading-relaxed max-w-4xl">{&entry.description}</p>
                                 </div>
                             </div>
                         })}
@@ -106,24 +103,23 @@ pub fn ResumePage() -> Node {
                 </div>
 
                 // Skills
-                <div class="space-y-4">
-                    <h2 class="text-xl font-semibold text-zinc-950 uppercase tracking-[0.1em]">"Skills"</h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <h2 class="eyebrow">"Skills"</h2>
+                    <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                         {data.skills.iter().map(|skill| {
-                            <div class="card-item rounded-xl p-4 space-y-2">
-                                <p class="text-xs uppercase tracking-[0.1em]" style="color: var(--accent);">{&skill.category}</p>
-                                <p class="text-sm text-zinc-700">{&skill.items}</p>
+                            <div class="border-t border-zinc-900/15 py-4">
+                                <p class="text-sm font-medium text-zinc-900">{&skill.category}</p>
+                                <p class="mt-2 text-sm text-zinc-600 leading-relaxed">{&skill.items}</p>
                             </div>
                         })}
                     </div>
                 </div>
 
-                <div class="space-y-4">
-                    <h2 class="text-xl font-semibold text-zinc-950 uppercase tracking-[0.1em]">"Research Interests"</h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                    <h2 class="eyebrow">"Research interests"</h2>
+                    <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-x-8">
                         {data.interests.iter().map(|interest| {
-                            <div class="card-item rounded-xl p-4 space-y-2">
-                                <p class="text-xs uppercase tracking-[0.1em]" style="color: var(--accent);">"Publication focus"</p>
+                            <div class="border-t border-zinc-900/15 py-4">
                                 <p class="text-sm text-zinc-700">{interest}</p>
                             </div>
                         })}
@@ -131,12 +127,12 @@ pub fn ResumePage() -> Node {
                 </div>
 
                 // Education
-                <div class="space-y-4">
-                    <h2 class="text-xl font-semibold text-zinc-950 uppercase tracking-[0.1em]">"Education"</h2>
-                    <div class="space-y-6">
+                <div>
+                    <h2 class="eyebrow">"Education"</h2>
+                    <div class="mt-4 border-t border-zinc-900/15">
                         {data.education.iter().map(|entry| {
-                            <div class="grid grid-cols-1 sm:grid-cols-[140px_1fr] gap-2 sm:gap-6">
-                                <p class="text-sm text-zinc-500">{&entry.period}</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-[140px_1fr] gap-2 sm:gap-8 py-5 border-b border-zinc-900/10">
+                                <p class="text-xs text-zinc-500">{&entry.period}</p>
                                 <div>
                                     <p class="font-semibold text-zinc-900">{&entry.degree}</p>
                                     <p class="text-sm text-zinc-600">{&entry.school}</p>

@@ -73,39 +73,37 @@ pub fn PublicationsPage(props: &PublicationsProps) -> Node {
 
     rsx! {
         <PageLayout title="Publications">
-            <section class="py-4 md:py-8 space-y-8">
-                <div class="space-y-4 max-w-4xl">
-                    <div class="flex items-center gap-3 flex-wrap">
-                        <h1 class="text-4xl md:text-5xl font-semibold text-zinc-950">"Publications"</h1>
-                    </div>
-                    <div class="section-rule"></div>
-                    <p class="text-base md:text-lg text-zinc-700 leading-relaxed max-w-3xl">
+            <section class="py-10 md:py-14 space-y-10">
+                <div class="page-heading max-w-4xl">
+                    <p class="eyebrow">"Research"</p>
+                    <h1 class="mt-3 text-4xl md:text-5xl font-semibold text-zinc-950">"Publications"</h1>
+                    <p class="mt-4 text-base text-zinc-600 leading-relaxed max-w-3xl">
                         "Selected writing and research notes across biodiagnostics, AI, and microfluidics. "
-                        <span class="text-sm" style="color: var(--accent); opacity: 0.7;">{sync_status.as_str()}</span>
+                        <span class="text-sm text-zinc-500">{sync_status.as_str()}</span>
                     </p>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] 2xl:grid-cols-[minmax(0,1fr)_360px] gap-6 items-start">
-                    <div class="space-y-4">
-                        <div class="relative">
-                            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 text-sm pointer-events-none"></i>
+                <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_240px] gap-10 lg:gap-12 items-start">
+                    <div class="space-y-8">
+                        <div>
+                            <label for="search-input" class="eyebrow">"Search"</label>
                             <input
                                 id="search-input"
                                 type="text"
                                 placeholder="Search publications..."
-                                class="w-full bg-white border border-zinc-200 rounded-xl pl-10 pr-4 py-3 text-sm text-zinc-800 placeholder-zinc-500 focus:outline-none focus:border-orange-400 transition-colors"
+                                class="minimal-input mt-2"
                             />
                         </div>
                         {if props.publications.is_empty() {
                             rsx! {
-                                <div class="card-item rounded-2xl p-6 space-y-3">
+                                <div class="border-t border-zinc-900/15 py-5 space-y-2">
                                     <p class="text-sm text-zinc-700">"No publications are synced yet."</p>
                                     <p class="text-sm text-zinc-500 leading-relaxed">{notice_text}</p>
                                 </div>
                             }
                         } else {
                             rsx! {
-                                <div class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-0">
                                     {props.publications.iter().map(|publication| {
                                         let search_text = format!(
                                             "{} {} {}",
@@ -113,17 +111,15 @@ pub fn PublicationsPage(props: &PublicationsProps) -> Node {
                                             publication.venue.as_deref().unwrap_or(""),
                                             publication.work_type.as_deref().unwrap_or("")
                                         );
-                                        <article data_searchtext={search_text.as_str()} class="card-item rounded-2xl p-5 space-y-4 soft-lift">
+                                        <article data_searchtext={search_text.as_str()} class="border-t border-zinc-900/15 py-5 space-y-3">
                                             <div class="flex items-start justify-between gap-3">
                                                 <div class="space-y-2">
-                                                    <p class="text-xs uppercase tracking-[0.1em] text-zinc-500">{publication.work_type.as_deref().unwrap_or("Publication")}</p>
-                                                    <h2 class="text-xl font-semibold text-zinc-900 leading-snug">{&publication.title}</h2>
+                                                    <p class="eyebrow">{publication.work_type.as_deref().unwrap_or("Publication")}</p>
+                                                    <h2 class="text-lg font-semibold text-zinc-900 leading-snug">{&publication.title}</h2>
                                                 </div>
                                                 {if let Some(url) = &publication.url {
                                                     rsx! {
-                                                        <a href={url} target="_blank" rel="noopener noreferrer" class="social-link shrink-0" aria_label="Open publication">
-                                                            <i class="fas fa-arrow-up-right-from-square text-sm"></i>
-                                                        </a>
+                                                        <a href={url} target="_blank" rel="noopener noreferrer" class="text-link text-xs shrink-0">"Open ↗"</a>
                                                     }
                                                 } else {
                                                     rsx! { <></> }
@@ -160,13 +156,13 @@ pub fn PublicationsPage(props: &PublicationsProps) -> Node {
                         "#}</script>
                     </div>
 
-                    <aside class="space-y-4">
-                        <div class="card-item rounded-2xl p-5 space-y-3">
-                            <p class="text-xs uppercase tracking-[0.1em]" style="color: var(--accent);">"Focus areas"</p>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="text-xs px-2.5 py-1 rounded-full border border-zinc-300 text-zinc-600">"Biodiagnostics"</span>
-                                <span class="text-xs px-2.5 py-1 rounded-full border border-zinc-300 text-zinc-600">"AI"</span>
-                                <span class="text-xs px-2.5 py-1 rounded-full border border-zinc-300 text-zinc-600">"Microfluidics"</span>
+                    <aside class="border-t lg:border-t-0 lg:border-l border-zinc-900/15 pt-5 lg:pt-0 lg:pl-6">
+                        <div>
+                            <p class="eyebrow">"Focus areas"</p>
+                            <div class="mt-4 flex flex-col gap-3">
+                                <span class="text-sm text-zinc-700">"Biodiagnostics"</span>
+                                <span class="text-sm text-zinc-700">"Artificial intelligence"</span>
+                                <span class="text-sm text-zinc-700">"Microfluidics"</span>
                             </div>
                         </div>
                     </aside>
@@ -223,7 +219,7 @@ async fn fetch_publications(orcid_id: &str) -> Result<Vec<PublicationEntry>, Str
 
     let publications: Vec<PublicationEntry> = groups
         .iter()
-        .filter_map(|group| extract_publication_entry(group))
+        .filter_map(extract_publication_entry)
         .collect();
 
     if let Ok(mut guard) = ORCID_CACHE.lock() {

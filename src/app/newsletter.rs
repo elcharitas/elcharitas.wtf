@@ -12,6 +12,10 @@ const CSRF_COOKIE_NAME: &str = "__Host-newsletter_csrf";
 const CSRF_TOKEN_TTL_SECS: i64 = 15 * 60;
 type HmacSha256 = Hmac<Sha256>;
 
+fn is_active_subscription(status: Option<&str>) -> bool {
+    status == Some("1")
+}
+
 #[derive(Debug, Default, Serialize, Deserialize)]
 pub struct NewsletterSubscription {
     pub email: String,
@@ -334,6 +338,8 @@ async fn send_welcome_email(email: &str, api_key: &str) {
 
 #[cfg(target_arch = "wasm32")]
 pub async fn send_newsletter() {
+    use futures::stream::{self, StreamExt};
+
     let Some(kv) = crate::shared::get_newsletter_kv() else {
         return;
     };
@@ -342,16 +348,43 @@ pub async fn send_newsletter() {
         return;
     }
 
-    let list = match kv.list().prefix("subscriber:".to_string()).execute().await {
-        Ok(l) => l,
-        Err(_) => return,
-    };
+    let mut keys = Vec::new();
+    let mut cursor = None;
+    loop {
+        let mut list = kv.list().prefix("subscriber:".to_string()).limit(1000);
+        if let Some(cursor) = cursor.take() {
+            list = list.cursor(cursor);
+        }
+        let response = match list.execute().await {
+            Ok(response) => response,
+            Err(_) => return,
+        };
+        keys.extend(response.keys.into_iter().map(|key| key.name));
+        if response.list_complete {
+            break;
+        }
+        let Some(next_cursor) = response.cursor else {
+            return;
+        };
+        cursor = Some(next_cursor);
+    }
 
-    let emails: Vec<String> = list
-        .keys
-        .iter()
-        .map(|k| k.name.trim_start_matches("subscriber:").to_string())
-        .collect();
+    let emails: Vec<String> = stream::iter(keys)
+        .map(|key| {
+            let kv = kv.clone();
+            async move {
+                match kv.get(&key).text().await {
+                    Ok(status) if is_active_subscription(status.as_deref()) => {
+                        Some(key.trim_start_matches("subscriber:").to_string())
+                    }
+                    _ => None,
+                }
+            }
+        })
+        .buffer_unordered(16)
+        .filter_map(|email| async move { email })
+        .collect()
+        .await;
 
     if emails.is_empty() {
         return;
@@ -542,5 +575,12 @@ mod tests {
             &headers(nonce),
             &props
         ));
+    }
+
+    #[test]
+    fn sends_only_active_subscriptions() {
+        assert!(is_active_subscription(Some("1")));
+        assert!(!is_active_subscription(Some("0")));
+        assert!(!is_active_subscription(None));
     }
 }

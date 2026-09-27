@@ -34,10 +34,24 @@ pub fn BlogPage(BlogProps { posts }: &BlogProps) -> Node {
         .filter_map(|p| p.tags.first().map(|t| t.name.clone()))
         .filter(|c| seen_cats.insert(c.clone()))
         .collect();
+    let mut posts_by_year: Vec<(String, Vec<&Post>)> = Vec::new();
+    for post in posts {
+        let year = post
+            .published_at
+            .as_deref()
+            .and_then(|date| date.get(..4))
+            .unwrap_or("Undated")
+            .to_string();
+        if let Some((_, year_posts)) = posts_by_year.iter_mut().find(|(value, _)| *value == year) {
+            year_posts.push(post);
+        } else {
+            posts_by_year.push((year, vec![post]));
+        }
+    }
 
     rsx! {
         <PageLayout title="Essays">
-            <div class="py-10 md:py-14 space-y-10">
+            <div class="py-8 md:py-10 space-y-7">
                 <section class="page-heading">
                     <p class="eyebrow">"Writing"</p>
                     <h1 class="mt-3 text-4xl md:text-5xl font-semibold text-zinc-950">"Essays"</h1>
@@ -64,13 +78,20 @@ pub fn BlogPage(BlogProps { posts }: &BlogProps) -> Node {
                     </div>
                 </div>
 
-                <div id="click_to_load_rows" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-0">
-                    {posts.iter().map(|post| {
-                        let tag_name = post.tags.first().map_or_else(String::new, |t| t.name.clone());
-                        let search_text = format!("{} {}", post.title, post.brief);
-                        <div data_searchtext={search_text.as_str()} data_tags={tag_name.as_str()}>
-                            <Article post={post.clone()} show_read_more />
-                        </div>
+                <div id="click_to_load_rows" class="garden-year-list">
+                    {posts_by_year.iter().map(|(year, year_posts)| {
+                        <section class="garden-year-group" data_year_group>
+                            <h2>{year}</h2>
+                            <div>
+                                {year_posts.iter().map(|post| {
+                                    let tag_name = post.tags.first().map_or_else(String::new, |t| t.name.clone());
+                                    let search_text = format!("{} {}", post.title, post.brief);
+                                    <div data_searchtext={search_text.as_str()} data_tags={tag_name.as_str()}>
+                                        <Article post={(*post).clone()} show_read_more />
+                                    </div>
+                                })}
+                            </div>
+                        </section>
                     })}
                 </div>
 
@@ -84,6 +105,9 @@ pub fn BlogPage(BlogProps { posts }: &BlogProps) -> Node {
                       var ms=!q||text.includes(q);
                       var mt=!activeTag||tags.split(',').some(function(t){return t.trim()===activeTag;});
                       el.style.display=ms?(mt?'':'none'):'none';
+                    });
+                    document.querySelectorAll('[data-year-group]').forEach(function(group){
+                      group.style.display=Array.from(group.querySelectorAll('[data-searchtext]')).some(function(el){return el.style.display!=='none';})?'':'none';
                     });
                   }
                   var s=document.getElementById('search-input');

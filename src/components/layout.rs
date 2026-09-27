@@ -123,7 +123,7 @@ pub struct LayoutProps {
 pub fn AppLayout(props: &LayoutProps) -> Node {
     let page_title = METADATA.title.template.replace("%s", &props.title);
     rsx! {
-        <html lang="en-US" class="scroll-smooth" style="font-family: 'DM Sans', sans-serif;">
+        <html lang="en-US" class="scroll-smooth">
             <head>
                 <title>{&page_title}</title>
                 <meta charset="utf-8" />
@@ -159,14 +159,15 @@ pub fn AppLayout(props: &LayoutProps) -> Node {
                 <link rel="stylesheet" href="/styles.css" />
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-                <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+                <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.css"/>
             </head>
-            <body class="bg-[#f8f7f3] overflow-x-hidden text-zinc-950 scheme-light">
+            <body class="garden-site overflow-x-hidden scheme-light">
                 {&props.children}
 
                 <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0-beta.11/bundles/datastar.js"></script>
                 <script>{r#"(function(){var p=location.pathname;['data-nav-href','data-mobile-nav-href'].forEach(function(attr){document.querySelectorAll('['+attr+']').forEach(function(a){var h=a.getAttribute(attr);if(p===h||p.startsWith(h+'/')){a.classList.add('active');}});});})();"#}</script>
+                <script>{r#"(function(){var toggle=document.querySelector('[data-garden-menu-toggle]');var panel=document.querySelector('[data-garden-menu-panel]');if(!toggle||!panel)return;toggle.addEventListener('click',function(){var open=panel.classList.toggle('is-open');toggle.setAttribute('aria-expanded',String(open));});panel.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){panel.classList.remove('is-open');toggle.setAttribute('aria-expanded','false');});});})();"#}</script>
                 <script src="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.js.iife.js">
                     {r#"
                     const driver = window.driver.js.driver;
@@ -201,35 +202,56 @@ pub fn AppLayout(props: &LayoutProps) -> Node {
 pub fn Navigation() -> Node {
     rsx! {
         <>
-        <header class="sticky top-0 z-40 nav-blur bg-[#f8f7f3]/92 border-b border-zinc-900/10">
-            <div class="max-w-[1440px] mx-auto px-5 md:px-8 lg:px-12 h-14 flex items-center justify-between gap-6">
-                <a href="/" class="flex items-baseline gap-2 text-zinc-950" aria_label="Home">
-                    <span class="text-base font-semibold tracking-[-0.04em]">"KJI."</span>
-                    <span class="hidden sm:inline text-xs text-zinc-500">"Kehinde Jonathan Irhodia"</span>
-                </a>
-
-                <div class="flex items-center gap-5">
-                    <nav class="hidden lg:flex items-center gap-5" aria_label="Primary navigation">
-                        <a href="/" class="site-nav-link" data_nav_href="/">"Home"</a>
+            <header class="garden-mobile-header">
+                <a href="/" class="garden-brand" aria_label="Home">"elcharitas.wtf"</a>
+                <nav class="garden-tablet-nav" aria_label="Primary navigation">
+                    <a href="/" data_nav_href="/">"Home"</a>
+                    <a href="/essays" data_nav_href="/essays">"Essays"</a>
+                    <a href="/projects" data_nav_href="/projects">"Projects"</a>
+                    <a href="/publications" data_nav_href="/publications">"Research"</a>
+                    <a href="/resume" data_nav_href="/resume">"About"</a>
+                </nav>
+                <div class="mobile-menu">
+                    <button type="button" aria_label="Open navigation" aria_expanded={false} data_garden_menu_toggle>"Menu"</button>
+                    <nav class="mobile-menu-panel" aria_label="Primary navigation" data_garden_menu_panel>
+                        <a href="/" data_mobile_nav_href="/">"Home"</a>
                         {NAVIGATION.iter().map(|nav| {
-                            <a href={nav.href} class="site-nav-link" data_nav_href={nav.href}>{nav.name}</a>
+                            <a href={nav.href} data_mobile_nav_href={nav.href}>{nav.name}</a>
                         })}
-                        <a href="/newsletter" class="site-nav-link" data_nav_href="/newsletter">"Newsletter"</a>
+                        <a href="/newsletter" data_mobile_nav_href="/newsletter">"Newsletter"</a>
                     </nav>
-                    <a href="/connect" class="contact-link">"Let's talk ↗"</a>
-                    <div class="mobile-menu lg:hidden">
-                        <button type="button">"Menu"</button>
-                        <nav class="mobile-menu-panel" aria_label="Mobile navigation">
-                            <a href="/" data_mobile_nav_href="/">"Home"</a>
-                            {NAVIGATION.iter().map(|nav| {
-                                <a href={nav.href} data_mobile_nav_href={nav.href}>{nav.name}</a>
-                            })}
-                            <a href="/newsletter" data_mobile_nav_href="/newsletter">"Newsletter"</a>
-                        </nav>
-                    </div>
                 </div>
-            </div>
-        </header>
+            </header>
+
+            <aside class="garden-sidebar" aria_label="Site navigation">
+                <div>
+                    <a href="/" class="garden-sidebar-brand">
+                        <img
+                            src="/icon.png"
+                            class="garden-mark"
+                            alt="Kehinde J. Irhodia"
+                        />
+                        <span>
+                            <strong>"Kehinde J. Irhodia"</strong>
+                        </span>
+                    </a>
+                    <p class="garden-sidebar-intro">
+                        "Software engineer and researcher. This is my digital garden for systems, diagnostics, and notes from the work."
+                    </p>
+                    <nav class="garden-nav" aria_label="Primary navigation">
+                        <a href="/" data_nav_href="/">"Home"</a>
+                        {NAVIGATION.iter().map(|nav| {
+                            <a href={nav.href} data_nav_href={nav.href}>{nav.name}</a>
+                        })}
+                        <a href="/newsletter" data_nav_href="/newsletter">"Newsletter"</a>
+                    </nav>
+                </div>
+                <div class="garden-sidebar-bottom">
+                    <a href="https://github.com/elcharitas" target="_blank" rel="noopener noreferrer">"GitHub ↗"</a>
+                    <a href="https://linkedin.com/in/elcharitas" target="_blank" rel="noopener noreferrer">"LinkedIn ↗"</a>
+                    <a href="/rss.xml">"RSS feed"</a>
+                </div>
+            </aside>
         </>
     }
 }
@@ -238,27 +260,24 @@ pub fn Navigation() -> Node {
 pub fn PageLayout(props: &LayoutProps) -> Node {
     rsx! {
         <AppLayout title={&props.title}>
-            <div class="relative min-h-screen bg-[#f8f7f3]">
-                <div class="relative min-h-screen flex flex-col">
-                    <Navigation />
+            <div class="garden-layout min-h-screen">
+                <Navigation />
+                <div class="garden-wrapper min-h-screen flex flex-col">
 
-                    <main class="w-full flex-1 px-5 md:px-8 lg:px-12 max-w-[1440px] mx-auto">
-                        <section class="relative entrance-delayed">
+                    <main class="garden-main flex-1">
+                        <section class="relative">
                             {&props.children}
                         </section>
                     </main>
 
-                    <footer class="relative border-t border-zinc-900/10">
-                        <div class="max-w-[1440px] mx-auto px-5 md:px-8 lg:px-12 py-5">
-                            <div class="flex items-center justify-between gap-4 text-xs text-zinc-500">
-                                <p class="whitespace-nowrap">"K. Jonathan Irhodia"</p>
-                                <div class="flex items-center gap-4">
-                                    <a href="https://github.com/elcharitas" class="footer-link">"GitHub"</a>
-                                    <a href="https://linkedin.com/in/elcharitas" class="footer-link">"LinkedIn"</a>
-                                    <a href="https://twitter.com/iamelcharitas" class="footer-link">"X"</a>
-                                </div>
-                            </div>
+                    <footer class="garden-footer">
+                        <div class="garden-footer-links">
+                            <a href="/newsletter">"Email signup"</a>
+                            <a href="/rss.xml">"RSS feed"</a>
+                            <a href="https://linkedin.com/in/elcharitas" target="_blank" rel="noopener noreferrer">"LinkedIn"</a>
+                            <a href="https://github.com/elcharitas" target="_blank" rel="noopener noreferrer">"GitHub"</a>
                         </div>
+                        <p>"Made by Kehinde Jonathan Irhodia"</p>
                     </footer>
                 </div>
             </div>

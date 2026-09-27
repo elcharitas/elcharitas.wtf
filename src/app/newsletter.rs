@@ -1,21 +1,157 @@
 use crate::components::PageLayout;
-use axum::response::{Html, IntoResponse};
+use axum::{
+    http::{HeaderMap, HeaderValue, StatusCode, header},
+    response::{Html, IntoResponse, Response},
+};
+use hmac::{Hmac, Mac};
 use momenta::prelude::*;
 use serde::{Deserialize, Serialize};
+use sha2::Sha256;
+
+const CSRF_COOKIE_NAME: &str = "__Host-newsletter_csrf";
+const CSRF_TOKEN_TTL_SECS: i64 = 15 * 60;
+type HmacSha256 = Hmac<Sha256>;
+
+fn is_active_subscription(status: Option<&str>) -> bool {
+    status == Some("1")
+}
 
 #[derive(Debug, Default, Serialize, Deserialize)]
 pub struct NewsletterSubscription {
     pub email: String,
+    pub csrf_token: String,
+    pub csrf_expires: String,
 }
 
 impl NewsletterSubscription {
     fn from_body(body: &str) -> Self {
-        let email = url::form_urlencoded::parse(body.as_bytes())
-            .find(|(k, _)| k == "email")
-            .map(|(_, v)| v.to_string())
-            .unwrap_or_default();
-        NewsletterSubscription { email }
+        let mut subscription = Self::default();
+        for (key, value) in url::form_urlencoded::parse(body.as_bytes()) {
+            match key.as_ref() {
+                "email" => subscription.email = value.to_string(),
+                "csrf_token" => subscription.csrf_token = value.to_string(),
+                "csrf_expires" => subscription.csrf_expires = value.to_string(),
+                _ => {}
+            }
+        }
+        subscription
     }
+}
+
+fn csrf_token(secret: &str, nonce: &str, expires: i64) -> Option<String> {
+    let mut mac = HmacSha256::new_from_slice(secret.as_bytes()).ok()?;
+    mac.update(format!("newsletter:{nonce}:{expires}").as_bytes());
+    Some(
+        mac.finalize()
+            .into_bytes()
+            .iter()
+            .map(|byte| format!("{byte:02x}"))
+            .collect(),
+    )
+}
+
+fn csrf_cookie(headers: &HeaderMap) -> Option<&str> {
+    headers
+        .get(header::COOKIE)
+        .and_then(|value| value.to_str().ok())
+        .and_then(|cookies| {
+            cookies.split(';').find_map(|cookie| {
+                let (name, value) = cookie.trim().split_once('=')?;
+                (name == CSRF_COOKIE_NAME).then_some(value)
+            })
+        })
+}
+
+fn decode_hex(input: &str) -> Option<Vec<u8>> {
+    if input.len() != 64 {
+        return None;
+    }
+
+    input
+        .as_bytes()
+        .chunks_exact(2)
+        .map(|pair| {
+            let high = (pair[0] as char).to_digit(16)? as u8;
+            let low = (pair[1] as char).to_digit(16)? as u8;
+            Some((high << 4) | low)
+        })
+        .collect()
+}
+
+fn valid_csrf_token_with_secret(
+    secret: &str,
+    headers: &HeaderMap,
+    subscription: &NewsletterSubscription,
+) -> bool {
+    let Some(nonce) = csrf_cookie(headers) else {
+        return false;
+    };
+    let Ok(expires) = subscription.csrf_expires.parse::<i64>() else {
+        return false;
+    };
+    let now = chrono::Utc::now().timestamp();
+    if secret.is_empty() || expires < now || expires > now + CSRF_TOKEN_TTL_SECS {
+        return false;
+    }
+    let Some(signature) = decode_hex(&subscription.csrf_token) else {
+        return false;
+    };
+    let Ok(mut mac) = HmacSha256::new_from_slice(secret.as_bytes()) else {
+        return false;
+    };
+    mac.update(format!("newsletter:{nonce}:{expires}").as_bytes());
+    mac.verify_slice(&signature).is_ok()
+}
+
+fn valid_csrf_token(headers: &HeaderMap, subscription: &NewsletterSubscription) -> bool {
+    valid_csrf_token_with_secret(
+        &crate::shared::get_env("CSRF_SECRET"),
+        headers,
+        subscription,
+    )
+}
+
+fn newsletter_form_response() -> Response {
+    let secret = crate::shared::get_env("CSRF_SECRET");
+    if secret.is_empty() {
+        return (
+            StatusCode::SERVICE_UNAVAILABLE,
+            "Newsletter protection is temporarily unavailable. Please try again shortly.",
+        )
+            .into_response();
+    }
+
+    let nonce = uuid::Uuid::new_v4().to_string();
+    let expires = chrono::Utc::now().timestamp() + CSRF_TOKEN_TTL_SECS;
+    let Some(token) = csrf_token(&secret, &nonce, expires) else {
+        return (
+            StatusCode::SERVICE_UNAVAILABLE,
+            "Newsletter protection is temporarily unavailable. Please try again shortly.",
+        )
+            .into_response();
+    };
+    let props = NewsletterSubscription {
+        csrf_token: token,
+        csrf_expires: expires.to_string(),
+        ..Default::default()
+    };
+    let mut response = Html(NewsletterPage::render(&props).to_string()).into_response();
+    let cookie = format!(
+        "{CSRF_COOKIE_NAME}={nonce}; Path=/; Max-Age={CSRF_TOKEN_TTL_SECS}; HttpOnly; SameSite=Strict; Secure"
+    );
+    if let Ok(cookie) = HeaderValue::from_str(&cookie) {
+        response.headers_mut().append(header::SET_COOKIE, cookie);
+    } else {
+        return (
+            StatusCode::SERVICE_UNAVAILABLE,
+            "Newsletter protection is temporarily unavailable. Please try again shortly.",
+        )
+            .into_response();
+    }
+    response
+        .headers_mut()
+        .insert(header::CACHE_CONTROL, HeaderValue::from_static("no-store"));
+    response
 }
 
 pub async fn newsletter_send_handler(
@@ -34,13 +170,19 @@ pub async fn newsletter_send_handler(
     axum::http::StatusCode::OK.into_response()
 }
 
-pub async fn newsletter_get_handler() -> impl IntoResponse {
-    let props = NewsletterSubscription::default();
-    Html(NewsletterPage::render(&props).to_string())
+pub async fn newsletter_get_handler() -> Response {
+    newsletter_form_response()
 }
 
-pub async fn newsletter_post_handler(body: String) -> impl IntoResponse {
+pub async fn newsletter_post_handler(headers: HeaderMap, body: String) -> Response {
     let props = NewsletterSubscription::from_body(&body);
+    if !valid_csrf_token(&headers, &props) {
+        return (
+            StatusCode::FORBIDDEN,
+            "Invalid or expired newsletter form. Refresh the page and try again.",
+        )
+            .into_response();
+    }
 
     #[cfg(target_arch = "wasm32")]
     if !props.email.is_empty() {
@@ -63,7 +205,7 @@ pub async fn newsletter_post_handler(body: String) -> impl IntoResponse {
         }
     }
 
-    Html(NewsletterPage::render(&props).to_string())
+    Html(NewsletterPage::render(&props).to_string()).into_response()
 }
 
 #[cfg(target_arch = "wasm32")]
@@ -196,6 +338,8 @@ async fn send_welcome_email(email: &str, api_key: &str) {
 
 #[cfg(target_arch = "wasm32")]
 pub async fn send_newsletter() {
+    use futures::stream::{self, StreamExt};
+
     let Some(kv) = crate::shared::get_newsletter_kv() else {
         return;
     };
@@ -204,16 +348,43 @@ pub async fn send_newsletter() {
         return;
     }
 
-    let list = match kv.list().prefix("subscriber:".to_string()).execute().await {
-        Ok(l) => l,
-        Err(_) => return,
-    };
+    let mut keys = Vec::new();
+    let mut cursor = None;
+    loop {
+        let mut list = kv.list().prefix("subscriber:".to_string()).limit(1000);
+        if let Some(cursor) = cursor.take() {
+            list = list.cursor(cursor);
+        }
+        let response = match list.execute().await {
+            Ok(response) => response,
+            Err(_) => return,
+        };
+        keys.extend(response.keys.into_iter().map(|key| key.name));
+        if response.list_complete {
+            break;
+        }
+        let Some(next_cursor) = response.cursor else {
+            return;
+        };
+        cursor = Some(next_cursor);
+    }
 
-    let emails: Vec<String> = list
-        .keys
-        .iter()
-        .map(|k| k.name.trim_start_matches("subscriber:").to_string())
-        .collect();
+    let emails: Vec<String> = stream::iter(keys)
+        .map(|key| {
+            let kv = kv.clone();
+            async move {
+                match kv.get(&key).text().await {
+                    Ok(status) if is_active_subscription(status.as_deref()) => {
+                        Some(key.trim_start_matches("subscriber:").to_string())
+                    }
+                    _ => None,
+                }
+            }
+        })
+        .buffer_unordered(16)
+        .filter_map(|email| async move { email })
+        .collect()
+        .await;
 
     if emails.is_empty() {
         return;
@@ -313,6 +484,8 @@ pub fn NewsletterPage(props: &NewsletterSubscription) -> Node {
                         </section>
 
                         <form action="/newsletter" method="POST" class="max-w-2xl">
+                            <input type="hidden" name="csrf_token" value={props.csrf_token.as_str()} />
+                            <input type="hidden" name="csrf_expires" value={props.csrf_expires.as_str()} />
                             <label class="sr-only" for="email">"Email Address"</label>
                             <div class="flex flex-col sm:flex-row gap-3">
                                 <input
@@ -343,5 +516,71 @@ pub fn NewsletterPage(props: &NewsletterSubscription) -> Node {
                 )}
             </div>
         </PageLayout>
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn headers(nonce: &str) -> HeaderMap {
+        let mut headers = HeaderMap::new();
+        headers.insert(
+            header::COOKIE,
+            HeaderValue::from_str(&format!("{CSRF_COOKIE_NAME}={nonce}")).unwrap(),
+        );
+        headers
+    }
+
+    #[test]
+    fn accepts_a_valid_signed_newsletter_token() {
+        let secret = "test-secret";
+        let nonce = "newsletter-nonce";
+        let expires = chrono::Utc::now().timestamp() + 60;
+        let props = NewsletterSubscription {
+            csrf_token: csrf_token(secret, nonce, expires).unwrap(),
+            csrf_expires: expires.to_string(),
+            ..Default::default()
+        };
+
+        assert!(valid_csrf_token_with_secret(
+            secret,
+            &headers(nonce),
+            &props
+        ));
+    }
+
+    #[test]
+    fn rejects_tampered_or_expired_newsletter_tokens() {
+        let secret = "test-secret";
+        let nonce = "newsletter-nonce";
+        let expires = chrono::Utc::now().timestamp() + 60;
+        let mut props = NewsletterSubscription {
+            csrf_token: csrf_token(secret, nonce, expires).unwrap(),
+            csrf_expires: expires.to_string(),
+            ..Default::default()
+        };
+
+        props.csrf_token.replace_range(..1, "z");
+        assert!(!valid_csrf_token_with_secret(
+            secret,
+            &headers(nonce),
+            &props
+        ));
+
+        props.csrf_token = csrf_token(secret, nonce, expires).unwrap();
+        props.csrf_expires = (chrono::Utc::now().timestamp() - 1).to_string();
+        assert!(!valid_csrf_token_with_secret(
+            secret,
+            &headers(nonce),
+            &props
+        ));
+    }
+
+    #[test]
+    fn sends_only_active_subscriptions() {
+        assert!(is_active_subscription(Some("1")));
+        assert!(!is_active_subscription(Some("0")));
+        assert!(!is_active_subscription(None));
     }
 }

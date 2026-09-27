@@ -75,7 +75,7 @@ pub fn ResumePage() -> Node {
                     <p class="mt-4 text-zinc-600 text-base leading-relaxed max-w-4xl">{&data.header.bio}</p>
                     <div class="mt-6 flex flex-wrap gap-x-5 gap-y-2">
                         {data.header.links.iter().map(|link| {
-                            let cls = if link.style == "accent" { "primary-link" } else { "text-link text-sm" };
+                            let cls = if link.style == "accent" { "call-link" } else { "text-link text-sm" };
                             if link.external {
                                 <a href={&link.href} class={cls} target="_blank" rel="noopener noreferrer">{&link.label}</a>
                             } else {

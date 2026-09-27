@@ -226,10 +226,13 @@ pub fn Navigation() -> Node {
             <aside class="garden-sidebar" aria_label="Site navigation">
                 <div>
                     <a href="/" class="garden-sidebar-brand">
-                        <span class="garden-mark">"KJ"</span>
+                        <img
+                            src="https://github.com/elcharitas.png?size=96"
+                            class="garden-mark"
+                            alt="Kehinde J. Irhodia"
+                        />
                         <span>
-                            <strong>"Kehinde Jonathan Irhodia"</strong>
-                            <small>"elcharitas.wtf"</small>
+                            <strong>"Kehinde J. Irhodia"</strong>
                         </span>
                     </a>
                     <p class="garden-sidebar-intro">

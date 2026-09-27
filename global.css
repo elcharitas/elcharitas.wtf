@@ -75,8 +75,7 @@
 	gap: 0.75rem;
 }
 
-.garden-sidebar-brand strong,
-.garden-sidebar-brand small {
+.garden-sidebar-brand strong {
 	display: block;
 }
 
@@ -86,24 +85,12 @@
 	line-height: 1.15;
 }
 
-.garden-sidebar-brand small {
-	color: #5a5a61;
-	font-family: Menlo, monospace;
-	font-size: 0.72rem;
-	margin-top: 0.15rem;
-}
-
 .garden-mark {
-	align-items: center;
 	background: #f1ead5;
 	border: 1px solid #ded4b2;
 	border-radius: 8px;
-	display: flex;
-	font-family: "Outfit", sans-serif;
-	font-size: 0.8rem;
-	font-weight: 700;
 	height: 2.35rem;
-	justify-content: center;
+	object-fit: cover;
 	width: 2.35rem;
 }
 

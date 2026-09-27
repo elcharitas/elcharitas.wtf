@@ -95,10 +95,10 @@
 	background: #f1ead5;
 	border: 1px solid #ded4b2;
 	border-radius: 8px;
-	height: 2.35rem;
+	height: 1.8rem;
 	object-fit: contain;
-	padding: 0.25rem;
-	width: 2.35rem;
+	padding: 0.18rem;
+	width: 1.8rem;
 }
 
 .garden-sidebar-intro {
@@ -606,10 +606,10 @@
 }
 
 .garden-avatar-wrap {
-	background: #b26a34;
+	background: transparent;
 	border-radius: 50%;
 	height: 7.5rem;
-	padding: 0.85rem;
+	padding: 0;
 	width: 7.5rem;
 }
 

@@ -13,6 +13,22 @@ vars = { ENVIRONMENT = "production", HASHNODE_PUBLICATION_HOST = "elcharitas.wtf
 binding = "NEWSLETTER_SUBSCRIBERS"
 id = "6eba1c9c02d44614ad60b5ac668aab87"
 
+[[ratelimits]]
+name = "READ_RATE_LIMITER"
+namespace_id = "768391427"
+
+[ratelimits.simple]
+limit = 120
+period = 60
+
+[[ratelimits]]
+name = "MUTATION_RATE_LIMITER"
+namespace_id = "768391428"
+
+[ratelimits.simple]
+limit = 3
+period = 60
+
 [triggers]
 crons = ["0 9 * * 5"]
 

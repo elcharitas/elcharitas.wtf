@@ -15,9 +15,92 @@ use tower::ServiceExt;
 use worker::*;
 
 #[cfg(target_arch = "wasm32")]
+const READ_RATE_LIMITER: &str = "READ_RATE_LIMITER";
+#[cfg(target_arch = "wasm32")]
+const MUTATION_RATE_LIMITER: &str = "MUTATION_RATE_LIMITER";
+#[cfg(target_arch = "wasm32")]
+const RATE_LIMIT_RETRY_AFTER_SECS: &str = "60";
+
+#[cfg(target_arch = "wasm32")]
+async fn enforce_rate_limit(req: &HttpRequest, env: &Env) -> Option<axum::response::Response> {
+    use axum::{
+        http::{HeaderValue, Method, StatusCode, header},
+        response::IntoResponse,
+    };
+
+    let is_mutation = !matches!(
+        req.method(),
+        &Method::GET | &Method::HEAD | &Method::OPTIONS
+    );
+    let binding = if is_mutation {
+        MUTATION_RATE_LIMITER
+    } else {
+        READ_RATE_LIMITER
+    };
+    let client = req
+        .headers()
+        .get("cf-connecting-ip")
+        .and_then(|value| value.to_str().ok())
+        .filter(|value| !value.is_empty())
+        .unwrap_or("unknown");
+    let key = if is_mutation {
+        format!("{client}:{}:{}", req.method(), req.uri().path())
+    } else {
+        format!("{client}:read")
+    };
+
+    let unavailable_response = || {
+        let mut response = (
+            StatusCode::SERVICE_UNAVAILABLE,
+            "Request protection is temporarily unavailable. Please try again shortly.",
+        )
+            .into_response();
+        response
+            .headers_mut()
+            .insert(header::CACHE_CONTROL, HeaderValue::from_static("no-store"));
+        response
+    };
+
+    let limiter = match env.get_binding::<RateLimiter>(binding) {
+        Ok(limiter) => limiter,
+        Err(error) => {
+            console_error!("rate limit binding unavailable: {error}");
+            return Some(unavailable_response());
+        }
+    };
+
+    match limiter.limit(key).await {
+        Ok(outcome) if outcome.success => None,
+        Ok(_) => {
+            let mut response = (
+                StatusCode::TOO_MANY_REQUESTS,
+                "Too many requests. Please try again in a minute.",
+            )
+                .into_response();
+            response.headers_mut().insert(
+                header::RETRY_AFTER,
+                HeaderValue::from_static(RATE_LIMIT_RETRY_AFTER_SECS),
+            );
+            response
+                .headers_mut()
+                .insert(header::CACHE_CONTROL, HeaderValue::from_static("no-store"));
+            Some(response)
+        }
+        Err(error) => {
+            console_error!("rate limit check failed: {error}");
+            Some(unavailable_response())
+        }
+    }
+}
+
+#[cfg(target_arch = "wasm32")]
 #[event(fetch)]
 async fn main(req: HttpRequest, env: Env, _ctx: Context) -> Result<axum::response::Response> {
     console_error_panic_hook::set_once();
+
+    if let Some(response) = enforce_rate_limit(&req, &env).await {
+        return Ok(response);
+    }
 
     shared::init_env(&env);
     shared::init_kv(&env);

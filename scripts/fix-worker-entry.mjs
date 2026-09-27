@@ -1,8 +1,13 @@
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, renameSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 const entryPath = resolve("build/elcharitas_new.js");
-const fixedEntry = `import wasm from "./elcharitas_new_bg.wasm";
+const wasmPath = resolve("build/elcharitas_new_bg.wasm");
+const versionedWasmPath = resolve("build/elcharitas_new_bg_garden.wasm");
+
+renameSync(wasmPath, versionedWasmPath);
+
+const fixedEntry = `import wasm from "./elcharitas_new_bg_garden.wasm";
 import * as __wbg from "./elcharitas_new_bg.js";
 import { __wbg_set_wasm } from "./elcharitas_new_bg.js";
 export * from "./elcharitas_new_bg.js";

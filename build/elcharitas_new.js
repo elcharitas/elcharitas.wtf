@@ -1,4 +1,4 @@
-import wasm from "./elcharitas_new_bg.wasm";
+import wasm from "./elcharitas_new_bg_garden.wasm";
 import * as __wbg from "./elcharitas_new_bg.js";
 import { __wbg_set_wasm } from "./elcharitas_new_bg.js";
 export * from "./elcharitas_new_bg.js";

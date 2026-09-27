@@ -117,7 +117,7 @@ async fn main(req: HttpRequest, env: Env, _ctx: Context) -> Result<axum::respons
 
     if req.method() == axum::http::Method::POST && req.uri().path() == "/newsletter" {
         use axum::response::IntoResponse;
-        let (_, body) = req.into_parts();
+        let (parts, body) = req.into_parts();
         use http_body_util::BodyExt;
         let bytes = body
             .collect()
@@ -129,9 +129,11 @@ async fn main(req: HttpRequest, env: Env, _ctx: Context) -> Result<axum::respons
             "newsletter: POST /newsletter — body length {}",
             body_str.len()
         );
-        return Ok(app::newsletter::newsletter_post_handler(body_str)
-            .await
-            .into_response());
+        return Ok(
+            app::newsletter::newsletter_post_handler(parts.headers, body_str)
+                .await
+                .into_response(),
+        );
     }
 
     if let Some(resp) = app::wasm_dynamic_response(&req).await {

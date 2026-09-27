@@ -793,11 +793,6 @@
 		display: flex;
 	}
 
-	.garden-mobile-header .mobile-menu:hover .mobile-menu-panel,
-	.garden-mobile-header .mobile-menu:focus-within .mobile-menu-panel {
-		display: none;
-	}
-
 	.garden-mobile-header .mobile-menu-panel a {
 		color: #28282e;
 		font-family: "Outfit", sans-serif;
@@ -981,11 +976,6 @@ textarea {
 	box-shadow: 0 16px 36px rgba(28, 28, 26, 0.08);
 	display: none;
 	padding: 0.4rem;
-}
-
-.mobile-menu:hover .mobile-menu-panel,
-.mobile-menu:focus-within .mobile-menu-panel {
-	display: block;
 }
 
 .mobile-menu-panel a {

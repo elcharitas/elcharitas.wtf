@@ -917,6 +917,39 @@ textarea {
 	border-color: var(--accent-strong);
 }
 
+.call-link {
+	align-items: center;
+	background: #b26a34;
+	border: 1px solid #8c4e27;
+	border-radius: 3px;
+	box-shadow: 2px 2px 0 #28282e;
+	color: #fff !important;
+	display: inline-flex;
+	font-size: 0.78rem;
+	font-weight: 650;
+	justify-content: center;
+	letter-spacing: 0.01em;
+	line-height: 1;
+	padding: 0.72rem 0.95rem;
+	text-decoration: none;
+	transition:
+		background-color 140ms ease,
+		box-shadow 140ms ease,
+		transform 140ms ease;
+}
+
+.call-link:hover {
+	background: #9f5428;
+	box-shadow: 1px 1px 0 #28282e;
+	color: #fff !important;
+	transform: translate(1px, 1px);
+}
+
+.call-link:active {
+	box-shadow: none;
+	transform: translate(2px, 2px);
+}
+
 .text-link {
 	display: inline-flex;
 	align-items: center;

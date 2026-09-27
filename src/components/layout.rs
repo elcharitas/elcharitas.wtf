@@ -227,7 +227,7 @@ pub fn Navigation() -> Node {
                 <div>
                     <a href="/" class="garden-sidebar-brand">
                         <img
-                            src="https://github.com/elcharitas.png?size=96"
+                            src="/icon.png"
                             class="garden-mark"
                             alt="Kehinde J. Irhodia"
                         />

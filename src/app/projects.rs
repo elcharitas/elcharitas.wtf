@@ -14,6 +14,28 @@ thread_local! {
     static PROJECTS: RefCell<Vec<Project>> = const { RefCell::new(Vec::new()) };
 }
 
+fn project_year(project: &Project) -> String {
+    project
+        .updated_at
+        .get(..4)
+        .filter(|year| year.chars().all(|character| character.is_ascii_digit()))
+        .unwrap_or("Undated")
+        .to_string()
+}
+
+fn group_projects_by_year(projects: &[Project]) -> Vec<(String, Vec<&Project>)> {
+    let mut groups: Vec<(String, Vec<&Project>)> = Vec::new();
+    for project in projects {
+        let year = project_year(project);
+        if let Some((_, year_projects)) = groups.iter_mut().find(|(value, _)| *value == year) {
+            year_projects.push(project);
+        } else {
+            groups.push((year, vec![project]));
+        }
+    }
+    groups
+}
+
 pub async fn infinite_scroll(Query(query): Query<serde_json::Value>) -> impl IntoResponse {
     let page_query = PageQuery::from_query(Query(query));
     let PageQuery {
@@ -30,19 +52,27 @@ pub async fn infinite_scroll(Query(query): Query<serde_json::Value>) -> impl Int
     let projects = get_all_projects(page as u32).await.unwrap_or_default();
     let has_next_page = !projects.is_empty();
 
+    let projects_by_year = group_projects_by_year(&projects);
     let fragment = rsx! {
         <>
-            {projects.into_iter().map(|project| {
-                let search_text = format!("{} {}", project.name, project.description);
-                let tags_str = project.tags.join(",");
+            {projects_by_year.iter().map(|(year, year_projects)| {
                 <>
                     "event: datastar-merge-fragments\n"
                     "data: selector #click_to_load_rows\n"
                     "data: mergeMode append\n"
                     "data: fragments "
-                    <div data_searchtext={search_text.as_str()} data_tags={tags_str.as_str()}>
-                        <ProjectArticle {..project} />
-                    </div>
+                    <section class="garden-year-group" data_year_group>
+                        <h2>{year}</h2>
+                        <div>
+                            {year_projects.iter().map(|project| {
+                                let search_text = format!("{} {}", project.name, project.description);
+                                let tags_str = project.tags.join(",");
+                                <div data_searchtext={search_text.as_str()} data_tags={tags_str.as_str()}>
+                                    <ProjectArticle {..(*project).clone()} />
+                                </div>
+                            })}
+                        </div>
+                    </section>
                     "\n\n"
                 </>
             })}
@@ -104,10 +134,11 @@ pub fn ProjectsPage(
         .filter(|t| !t.is_empty() && seen_tags.insert(t.clone()))
         .take(20)
         .collect();
+    let projects_by_year = group_projects_by_year(projects);
 
     rsx! {
         <PageLayout title="Projects">
-            <div class="py-10 md:py-14 space-y-10" data_signals={format!("{{'cursor': '{}', 'has_next_page': {}}}", cursor.as_ref().map_or("1", |c| c), has_next_page.unwrap_or(false))}>
+            <div class="py-8 md:py-10 space-y-7" data_signals={format!("{{'cursor': '{}', 'has_next_page': {}}}", cursor.as_ref().map_or("1", |c| c), has_next_page.unwrap_or(false))}>
                 <section class="page-heading">
                     <p class="eyebrow">"Selected work"</p>
                     <h1 class="mt-3 text-4xl md:text-5xl font-semibold text-zinc-950">"Projects"</h1>
@@ -140,13 +171,20 @@ pub fn ProjectsPage(
                     }}
                 </div>
 
-                <div id="click_to_load_rows" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-0" data_fragment_merge_target="$has_next_page">
-                    {projects.iter().map(|project| {
-                        let search_text = format!("{} {}", project.name, project.description);
-                        let tags_str = project.tags.join(",");
-                        <div class="h-full" data_searchtext={search_text.as_str()} data_tags={tags_str.as_str()}>
-                            <ProjectArticle {..project.clone()} />
-                        </div>
+                <div id="click_to_load_rows" class="garden-year-list" data_fragment_merge_target="$has_next_page">
+                    {projects_by_year.iter().map(|(year, year_projects)| {
+                        <section class="garden-year-group" data_year_group>
+                            <h2>{year}</h2>
+                            <div>
+                                {year_projects.iter().map(|project| {
+                                    let search_text = format!("{} {}", project.name, project.description);
+                                    let tags_str = project.tags.join(",");
+                                    <div data_searchtext={search_text.as_str()} data_tags={tags_str.as_str()}>
+                                        <ProjectArticle {..(*project).clone()} />
+                                    </div>
+                                })}
+                            </div>
+                        </section>
                     })}
                 </div>
                 <ScrollCard intersect="@get('/projects/infinite_scroll')" />
@@ -164,6 +202,9 @@ pub fn ProjectsPage(
                       var ms=!q||text.includes(q);
                       var mt=!activeTag||tags.split(',').some(function(t){return t.trim()===activeTag;});
                       el.style.display=ms?(mt?'':'none'):'none';
+                    });
+                    document.querySelectorAll('[data-year-group]').forEach(function(group){
+                      group.style.display=Array.from(group.querySelectorAll('[data-searchtext]')).some(function(el){return el.style.display!=='none';})?'':'none';
                     });
                   }
                   var s=document.getElementById('search-input');

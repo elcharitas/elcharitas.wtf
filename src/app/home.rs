@@ -45,7 +45,7 @@ pub fn HomePage() -> Node {
                             <p class="garden-hero-note">"I care about reliable tools, practical research, and sharing the path from an idea to something useful."</p>
                         </div>
                         <aside class="garden-hero-profile">
-                            <div class="garden-avatar-wrap"><img src="/icon.png" alt="Kehinde Jonathan Irhodia" /></div>
+                            <div class="garden-avatar-wrap"><img src="https://github.com/elcharitas.png?size=192" alt="Kehinde J. Irhodia" /></div>
                             <p>"A systems notebook, lab journal, and archive for work made in public."</p>
                         </aside>
                     </div>

@@ -23,40 +23,19 @@ pub fn Article(
     rsx! {
         <a
             href={format!("/essays/{}", post.slug)}
-            class="group flex flex-col h-full border-t border-zinc-900/15 py-5"
+            class="garden-index-row group"
         >
-            <div class="flex flex-col gap-3 flex-1">
-                <div class="flex items-center justify-between gap-2">
-                    <span class="eyebrow">
-                        {category.map_or("general", |c| &c.name)}
-                    </span>
-                    {when!(let Some(published_at) = &post.published_at =>
-                        <time
-                            datetime={published_at}
-                            class="text-xs text-zinc-500"
-                        >
-                            <span>
-                                {format_published_date(published_at)}
-                            </span>
-                        </time>
-                    )}
-                </div>
-
-                <h2 class="text-xl font-semibold text-zinc-900 group-hover:text-[var(--accent-strong)] leading-snug transition-colors">
-                    {&post.title}
-                </h2>
-
-                <p class="text-sm text-zinc-600 leading-relaxed line-clamp-3">
-                    {&post.brief[0..(post.brief.len().min(120))]}...
-                </p>
-
-                <div class="flex items-center justify-between mt-auto">
-                    <span class="text-xs text-zinc-500">{format!("{} views", post.views.unwrap_or(0))}</span>
-                    {when!(show_read_more =>
-                        <span class="text-link text-xs">"Read essay →"</span>
-                    )}
-                </div>
-            </div>
+            <span class="garden-index-meta">
+                {category.map_or("general", |c| &c.name)}
+                {when!(let Some(published_at) = &post.published_at =>
+                    <time datetime={published_at}>{format_published_date(published_at)}</time>
+                )}
+            </span>
+            <span class="garden-index-copy">
+                <strong>{&post.title}</strong>
+                <span>{&post.brief[0..(post.brief.len().min(140))]}</span>
+            </span>
+            {when!(show_read_more => <span class="garden-index-arrow">"→"</span>)}
         </a>
     }
 }
@@ -69,35 +48,16 @@ pub fn ProjectArticle(project: &Project) -> Node {
         &project.description
     };
     rsx! {
-        <article class="group flex flex-col h-full border-t border-zinc-900/15 py-5">
-            <div class="flex flex-col gap-3 flex-1">
-                <h2 class="text-xl font-semibold text-zinc-900">
-                    {&project.name}
-                </h2>
-                <p class="text-sm text-zinc-600 leading-relaxed">
-                    {&brief[0..(brief.len().min(120))]}...
-                </p>
-                {if !project.tags.is_empty() {
-                    rsx! {
-                        <div class="flex flex-wrap gap-x-4 gap-y-1">
-                            {project.tags.iter().take(4).map(|tag| rsx! {
-                                <span class="meta-label">{tag.replace('-', " ")}</span>
-                            })}
-                        </div>
-                    }
-                } else {
-                    rsx! { <></> }
-                }}
-                <div class="flex items-center justify-between flex-wrap gap-2 mt-auto">
-                    <span class="flex items-center gap-3 text-xs text-zinc-500">
-                        <span>{format!("{} stars", project.stargazers_count)}</span>
-                        {when!(let Some(lang) = &project.language =>
-                            <span>{lang}</span>
-                        )}
-                    </span>
-                    <a href={&project.url} class="text-link text-xs">"View project ↗"</a>
-                </div>
-            </div>
-        </article>
+        <a href={&project.url} class="garden-index-row group" target="_blank" rel="noopener noreferrer">
+            <span class="garden-index-meta">
+                {project.language.as_deref().unwrap_or("project")}
+                <span>{format!("{} stars", project.stargazers_count)}</span>
+            </span>
+            <span class="garden-index-copy">
+                <strong>{&project.name}</strong>
+                <span>{&brief[0..(brief.len().min(140))]}</span>
+            </span>
+            <span class="garden-index-arrow">"↗"</span>
+        </a>
     }
 }

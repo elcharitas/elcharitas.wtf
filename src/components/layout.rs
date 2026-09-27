@@ -203,7 +203,7 @@ pub fn Navigation() -> Node {
     rsx! {
         <>
             <header class="garden-mobile-header">
-                <a href="/" class="garden-brand" aria_label="Home">"elcharitas.wtf"</a>
+                <a href="/" class="garden-brand" aria_label="Home">"Kehinde J. Irhodia"</a>
                 <nav class="garden-tablet-nav" aria_label="Primary navigation">
                     <a href="/" data_nav_href="/">"Home"</a>
                     <a href="/essays" data_nav_href="/essays">"Essays"</a>

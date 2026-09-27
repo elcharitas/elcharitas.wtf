@@ -167,6 +167,7 @@ pub fn AppLayout(props: &LayoutProps) -> Node {
 
                 <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0-beta.11/bundles/datastar.js"></script>
                 <script>{r#"(function(){var p=location.pathname;['data-nav-href','data-mobile-nav-href'].forEach(function(attr){document.querySelectorAll('['+attr+']').forEach(function(a){var h=a.getAttribute(attr);if(p===h||p.startsWith(h+'/')){a.classList.add('active');}});});})();"#}</script>
+                <script>{r#"(function(){var toggle=document.querySelector('[data-garden-menu-toggle]');var panel=document.querySelector('[data-garden-menu-panel]');if(!toggle||!panel)return;toggle.addEventListener('click',function(){var open=panel.classList.toggle('is-open');toggle.setAttribute('aria-expanded',String(open));});panel.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){panel.classList.remove('is-open');toggle.setAttribute('aria-expanded','false');});});})();"#}</script>
                 <script src="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.js.iife.js">
                     {r#"
                     const driver = window.driver.js.driver;
@@ -203,9 +204,16 @@ pub fn Navigation() -> Node {
         <>
             <header class="garden-mobile-header">
                 <a href="/" class="garden-brand" aria_label="Home">"elcharitas.wtf"</a>
+                <nav class="garden-tablet-nav" aria_label="Primary navigation">
+                    <a href="/" data_nav_href="/">"Home"</a>
+                    <a href="/essays" data_nav_href="/essays">"Essays"</a>
+                    <a href="/projects" data_nav_href="/projects">"Projects"</a>
+                    <a href="/publications" data_nav_href="/publications">"Research"</a>
+                    <a href="/resume" data_nav_href="/resume">"About"</a>
+                </nav>
                 <div class="mobile-menu">
-                    <button type="button" aria_label="Open navigation">"Menu"</button>
-                    <nav class="mobile-menu-panel" aria_label="Primary navigation">
+                    <button type="button" aria_label="Open navigation" aria_expanded={false} data_garden_menu_toggle>"Menu"</button>
+                    <nav class="mobile-menu-panel" aria_label="Primary navigation" data_garden_menu_panel>
                         <a href="/" data_mobile_nav_href="/">"Home"</a>
                         {NAVIGATION.iter().map(|nav| {
                             <a href={nav.href} data_mobile_nav_href={nav.href}>{nav.name}</a>
@@ -250,8 +258,8 @@ pub fn PageLayout(props: &LayoutProps) -> Node {
     rsx! {
         <AppLayout title={&props.title}>
             <div class="garden-layout min-h-screen">
+                <Navigation />
                 <div class="garden-wrapper min-h-screen flex flex-col">
-                    <Navigation />
 
                     <main class="garden-main flex-1">
                         <section class="relative">

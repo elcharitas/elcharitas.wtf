@@ -30,17 +30,25 @@ pub fn HomePage() -> Node {
         <PageLayout title="Home">
             <div class="garden-home">
                 <section class="garden-hero">
-                    <h1>"Hey, I'm Jonathan!"</h1>
-                    <p class="garden-tagline">"Software engineer, biodiagnostics researcher, and open-source builder."</p>
-                    <div class="garden-eras">
-                        <h2>"A brief timeline"</h2>
-                        <ul>
-                            <li><span>"2018–2020"</span><p>"Started building web applications and developer tools while studying biotechnology."</p></li>
-                            <li><span>"2021–2024"</span><p>"Moved into professional software engineering, research internships, and the first generation of Rust open-source work."</p></li>
-                            <li><span>"2025–now"</span><p>"Building systems software and research tools while working on affordable diagnostics, microfluidics, and applied AI."</p></li>
-                        </ul>
+                    <div class="garden-hero-container">
+                        <div class="garden-hero-copy">
+                            <h1>"Hey, I'm Jonathan!"</h1>
+                            <p class="garden-tagline">"Software engineer, biodiagnostics researcher, and open-source builder."</p>
+                            <div class="garden-eras">
+                                <h2>"A brief timeline"</h2>
+                                <ul>
+                                    <li><span>"2018–2020"</span><p>"Started building web applications and developer tools while studying biotechnology."</p></li>
+                                    <li><span>"2021–2024"</span><p>"Moved into professional software engineering, research internships, and the first generation of Rust open-source work."</p></li>
+                                    <li><span>"2025–now"</span><p>"Building systems software and research tools while working on affordable diagnostics, microfluidics, and applied AI."</p></li>
+                                </ul>
+                            </div>
+                            <p class="garden-hero-note">"I care about reliable tools, practical research, and sharing the path from an idea to something useful."</p>
+                        </div>
+                        <aside class="garden-hero-profile">
+                            <div class="garden-avatar-wrap"><img src="/icon.png" alt="Kehinde Jonathan Irhodia" /></div>
+                            <p>"A systems notebook, lab journal, and archive for work made in public."</p>
+                        </aside>
                     </div>
-                    <p class="garden-hero-note">"I care about reliable tools, practical research, and sharing the path from an idea to something useful."</p>
                 </section>
 
                 <section class="garden-index-section">
